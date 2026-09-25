@@ -1,0 +1,8 @@
+feedparser
+requests
+trafilatura
+lxml_html_clean
+googlenewsdecoder
+pillow
+imageio-ffmpeg
+anthropic

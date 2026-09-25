@@ -1,0 +1,52 @@
+name: News bot
+
+on:
+  schedule:
+    # Каждые 30 минут (в :07 и :37 — в ровные :00 GitHub перегружен и опаздывает).
+    # Публичный репозиторий — минуты бесплатны без лимита, можно "*/10 * * * *".
+    - cron: "7,37 * * * *"
+  workflow_dispatch:          # кнопка ручного запуска
+
+permissions:
+  contents: write             # чтобы сохранять state.json в репозиторий
+
+concurrency:
+  group: news-bot             # никогда не запускать две копии одновременно
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Скачать код
+        uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Установить библиотеки
+        run: pip install -r requirements.txt
+
+      - name: Запустить бота
+        run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          MOD_CHAT_ID: ${{ secrets.MOD_CHAT_ID }}
+          ADMIN_IDS: ${{ secrets.ADMIN_IDS }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # нет секрета = режим чата
+
+      - name: Сохранить состояние
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          [ -f seen.json ] && git add seen.json
+          git diff --staged --quiet && exit 0
+          git commit -m "Обновил состояние бота [skip ci]"
+          git push || (git pull --rebase && git push)

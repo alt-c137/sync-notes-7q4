@@ -1,0 +1,1107 @@
+"""
+Бот «Новости исламского мира» для канала @ilm4_info.
+
+Две части, обе работают на серверах — компьютер не нужен:
+
+  А) ДЕЖУРНЫЙ — `python bot.py` (GitHub Actions, каждые 30 минут, без ИИ):
+     - забирает готовые черновики от редактора и шлёт их в группу модерации;
+     - обрабатывает кнопки ✅ ❌ 🕒 💧 и команды (/night, /auto, /gap …);
+     - публикует в канал: по одной, чередуя добрые и тяжёлые новости,
+       отложенные — точно ко времени, ночью — проверенные Claude (автопилот);
+     - ставит водяной знак на фото и видео.
+
+  Б) РЕДАКТОР — Claude находит новости, переводит и пишет посты:
+     1. Чат Claude в облаке (routine по подписке, без API) по заданию zadanie.md:
+          python bot.py fetch             -> свежие новости в candidates.json
+          python bot.py article 3 17 25   -> тексты выбранных статей
+          python bot.py send posts.json   -> черновики в ветку claude/inbox
+     2. Или API: если задан ANTHROPIC_API_KEY, дежурный делает всё это сам.
+"""
+
+import html
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+import time
+from datetime import datetime, timedelta, timezone
+from io import BytesIO
+from urllib.parse import quote
+
+import feedparser
+import requests
+import trafilatura
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))   # все файлы — рядом с bot.py
+
+# ================== НАСТРОЙКИ (меняй здесь) ==================
+
+
+def gnews(query, lang):
+    """RSS поиска Google News. lang: ru / en / ar / sa (арабский, Саудия)."""
+    loc = {"ru": ("ru", "RU", "RU:ru"), "en": ("en-US", "US", "US:en"),
+           "ar": ("ar", "EG", "EG:ar"), "sa": ("ar", "SA", "SA:ar")}[lang]
+    return (f"https://news.google.com/rss/search?q={quote(query + ' when:1d')}"
+            f"&hl={loc[0]}&gl={loc[1]}&ceid={loc[2]}")
+
+
+# Источники — только проверенные, по 1–2 на страну (по совету шейха).
+# Al Jazeera и подобные (антисаудовские) не берём.
+# Формат: (название, RSS-ссылка) или (название, "tg:имя_канала") для публичного Telegram-канала.
+FEEDS = [
+    # Саудовская Аравия
+    ("أخبار السعودية · SaudiNews50", "tg:SaudiNews50"),
+    ("SPA · Саудовское агентство", gnews("site:spa.gov.sa", "sa")),
+    # Сирия
+    ("SANA · Сирийское агентство", "tg:Sana_gov"),
+    # Ирак
+    ("INA · Иракское агентство", gnews("site:ina.iq", "sa")),
+    # Йемен (законное правительство, не хуситы)
+    ("Saba · Йеменское агентство", gnews("site:sabanew.net", "sa")),
+    ("Al-Masdar Online · Йемен", "tg:almasdaronline"),
+]
+
+CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
+WATERMARK_TEXT = "@ilm4_info"             # текст водяного знака
+# Свой логотип вместо текста: файл watermark.png рядом (лучше с прозрачным фоном).
+# Свой шрифт: файл watermark.ttf рядом.
+
+MAX_DRAFTS_PER_COLLECT = 3   # сколько черновиков за один сбор
+MAX_AGE_HOURS = 6            # новости старше этого не берём
+PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
+TZ = timezone(timedelta(hours=5))   # часовой пояс канала (Ташкент)
+
+# Начальные значения — потом меняются командами в группе модерации
+DEFAULT_SETTINGS = {
+    "night": [23, 7],   # ночь: модераторы спят. Обычная очередь ждёт утра,
+                        # выходят только отложенные и (если /auto on) проверенные
+    "gap": 30,          # минимум минут между постами днём
+    "night_gap": 60,    # и ночью
+    "wm": True,         # водяной знак по умолчанию
+    "auto": False,      # автопилот: ночью публиковать то, что Claude пометил «можно без проверки»
+    "paused": False,    # пауза всех публикаций
+}
+
+# Только для режима API
+MODEL = "claude-opus-5"      # дешевле: "claude-sonnet-5" или "claude-haiku-4-5"
+COLLECT_EVERY_MIN = 60
+
+INBOX_BRANCH = "claude/inbox"   # ветка, куда облачный Claude кладёт черновики
+INBOX_DIR = "inbox-branch"      # её копия у редактора
+
+# =============================================================
+
+
+def load_env():
+    """Читает секреты из файла .env (для запуска на своём компьютере)."""
+    if os.path.exists(".env"):
+        for line in open(".env", encoding="utf-8"):
+            key, sep, value = line.strip().partition("=")
+            if sep and not key.startswith("#"):
+                os.environ.setdefault(key.strip(), value.strip().strip('"'))
+
+
+load_env()
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
+CHANNEL_ID = os.environ.get("CHANNEL_ID", "")
+MOD_CHAT_ID = os.environ.get("MOD_CHAT_ID", "")
+ADMIN_IDS = {int(x) for x in os.environ.get("ADMIN_IDS", "").replace(" ", "").split(",") if x}
+DRY_RUN = os.environ.get("DRY_RUN") == "1"          # ничего не отправлять, только печатать
+INBOX_LOCAL = os.environ.get("INBOX_LOCAL") == "1"  # черновики в папке, без git (для проверки)
+
+API = f"https://api.telegram.org/bot{BOT_TOKEN}"
+UA = {"User-Agent": "Mozilla/5.0 (compatible; IslamNewsBot/1.0)"}
+NOW = time.time()
+
+
+# ---------------------- файлы и время ----------------------
+
+def read_json(path, default):
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    return default
+
+
+def write_json(path, data):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=1)
+
+
+def load_state():
+    state = read_json("state.json", {})
+    for key, default in (("offset", 0), ("drafts", {}), ("queue", {}), ("wm", {}),
+                         ("last_publish", 0), ("last_tone", ""), ("last_collect", 0),
+                         ("inbox_done", [])):
+        state.setdefault(key, default)
+    state["settings"] = {**DEFAULT_SETTINGS, **state.get("settings", {})}
+    return state
+
+
+def save_state(state):
+    state["wm"] = dict(list(state["wm"].items())[-300:])
+    state["inbox_done"] = state["inbox_done"][-500:]
+    write_json("state.json", state)
+
+
+def local_now():
+    return datetime.fromtimestamp(NOW, TZ)
+
+
+def fmt(ts):
+    return datetime.fromtimestamp(ts, TZ).strftime("%d.%m %H:%M")
+
+
+def next_time(hour, minute=0, days=0):
+    """Ближайшие hour:minute по Ташкенту (сегодня или завтра) + days дней."""
+    t = local_now().replace(hour=hour, minute=minute, second=0, microsecond=0) + timedelta(days=days)
+    if days == 0 and t.timestamp() <= NOW:
+        t += timedelta(days=1)
+    return t.timestamp()
+
+
+def is_night(settings):
+    n = settings.get("night")
+    if not n:
+        return False
+    start, end, h = n[0], n[1], local_now().hour
+    return start <= h < end if start < end else (h >= start or h < end)
+
+
+def git(*args, cwd=None):
+    return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8")
+
+
+# ---------------------- Telegram ----------------------
+
+_fake_id = [1000]
+
+
+def tg(method, files=None, quiet=False, **params):
+    """Вызов Telegram Bot API. Возвращает result или None при ошибке."""
+    if DRY_RUN:
+        if method.startswith("send") or method == "copyMessage":
+            text = params.get("text") or params.get("caption") or ""
+            media = params.get("photo") or params.get("video") or ""
+            print(f"\n----- [{method}] {media if isinstance(media, str) else '(файл)'}\n{text}\n-----")
+        _fake_id[0] += 1
+        return [] if method == "getUpdates" else {"message_id": _fake_id[0]}
+
+    data = {k: json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list)) else v
+            for k, v in params.items() if v is not None}
+    for _ in range(3):
+        try:
+            j = requests.post(f"{API}/{method}", data=data, files=files, timeout=120).json()
+        except Exception as e:
+            print(f"Telegram {method}: сеть — {e}")
+            return None
+        if j.get("ok"):
+            return j["result"]
+        retry = j.get("parameters", {}).get("retry_after")
+        if retry:
+            time.sleep(retry + 1)
+            continue
+        if not quiet:
+            print(f"Telegram {method}: {j.get('description')}")
+        return None
+    return None
+
+
+def download(url, limit_mb):
+    try:
+        with requests.get(url, headers=UA, timeout=90, stream=True) as r:
+            r.raise_for_status()
+            data = b""
+            for chunk in r.iter_content(65536):
+                data += chunk
+                if len(data) > limit_mb * 1024 * 1024:
+                    return None
+            return data
+    except Exception as e:
+        print("Не скачалось:", url[:100], e)
+        return None
+
+
+def say(text, reply_to=None):
+    tg("sendMessage", chat_id=MOD_CHAT_ID, text=text, parse_mode="HTML",
+       reply_parameters={"message_id": reply_to} if reply_to else None)
+
+
+# ---------------------- кнопки черновика ----------------------
+
+def keyboard(d, status, wm=False, at=None):
+    """d — запись черновика: tone, safe, note, url, media."""
+    tone = {"good": "🟢 добрая", "hard": "🔴 тяжёлая"}.get(d.get("tone"), "⚪")
+    rows = {
+        "pending": [[{"text": "✅ Опубликовать", "callback_data": "ok"},
+                     {"text": "❌ Отклонить", "callback_data": "no"}],
+                    [{"text": "🕒 Отложить", "callback_data": "later"}]],
+        "later": [[{"text": "🌙 Ночью в 02:00", "callback_data": "at:n"},
+                   {"text": "🌅 Утром в 08:00", "callback_data": "at:m"}],
+                  [{"text": "⏱ Через 3 часа", "callback_data": "at:3"},
+                   {"text": "📅 Завтра в 12:00", "callback_data": "at:t"}],
+                  [{"text": "✍️ Своё время: ответь /at 21:30", "callback_data": "-"}],
+                  [{"text": "↩️ Назад", "callback_data": "back"}]],
+        "queued": [[{"text": "⏳ В очереди на публикацию", "callback_data": "-"}],
+                   [{"text": "🕒 Отложить", "callback_data": "later"},
+                    {"text": "↩️ Отменить", "callback_data": "no"}]],
+        "auto": [[{"text": "🤖 Выйдет ночью автоматически", "callback_data": "-"}],
+                 [{"text": "↩️ Отменить", "callback_data": "no"}]],
+        "scheduled": [[{"text": f"🕒 Выйдет {fmt(at) if at else ''}", "callback_data": "-"}],
+                      [{"text": "🕒 Другое время", "callback_data": "later"},
+                       {"text": "↩️ Отменить", "callback_data": "no"}]],
+        "rejected": [[{"text": "❌ Отклонено · вернуть?", "callback_data": "ok"}]],
+        "expired": [[{"text": "⌛ Срок вышел · вернуть?", "callback_data": "ok"}]],
+        "published": [[{"text": "📢 Опубликовано", "callback_data": "-"}]],
+    }[status]
+    if d.get("media") and status in ("pending", "queued", "auto", "scheduled"):
+        rows.append([{"text": f"💧 Водяной знак: {'да' if wm else 'нет'}", "callback_data": "wm"}])
+    if status == "pending" and "safe" in d:
+        rows.append([{"text": "🤖 Проверено: можно без модерации" if d["safe"]
+                      else f"⚠️ {d.get('note') or 'Нужна проверка'}", "callback_data": "-"}])
+    if d.get("url"):
+        rows.append([{"text": f"🔗 Оригинал · {tone}", "url": d["url"]}])
+    return {"inline_keyboard": rows}
+
+
+def markup_url(msg):
+    for row in (msg.get("reply_markup") or {}).get("inline_keyboard", []):
+        for b in row:
+            if b.get("url"):
+                return b["url"]
+    return None
+
+
+def snapshot(msg):
+    """Всё, что нужно, чтобы потом опубликовать черновик (в т.ч. с водяным знаком)."""
+    snap = {"kind": "text", "text": msg.get("text") or msg.get("caption") or "",
+            "entities": msg.get("entities") or msg.get("caption_entities") or []}
+    if msg.get("video"):
+        v = msg["video"]
+        snap.update(kind="video", file_id=v["file_id"], width=v.get("width"), height=v.get("height"))
+    elif msg.get("photo"):
+        snap.update(kind="photo", file_id=msg["photo"][-1]["file_id"])
+    return snap
+
+
+def status_of(state, mid):
+    q = state["queue"].get(mid)
+    if q:
+        return "scheduled" if q.get("at") else "auto" if q.get("auto") else "queued"
+    return state["drafts"].get(mid, {}).get("status", "pending")
+
+
+def refresh(state, mid, status=None):
+    d = state["drafts"].get(mid, {})
+    status = status or status_of(state, mid)
+    wm = state["wm"].get(mid, state["settings"]["wm"])
+    at = state["queue"].get(mid, {}).get("at")
+    tg("editMessageReplyMarkup", chat_id=MOD_CHAT_ID, message_id=int(mid),
+       reply_markup=keyboard(d, status, wm, at), quiet=True)
+
+
+# ---------------------- дежурный: модерация ----------------------
+
+def process_updates(state):
+    updates = tg("getUpdates", offset=state["offset"], timeout=0,
+                 allowed_updates=["callback_query", "message"]) or []
+    for u in updates:
+        state["offset"] = u["update_id"] + 1
+        try:
+            if "callback_query" in u:
+                handle_button(state, u["callback_query"])
+            elif "message" in u:
+                handle_message(state, u["message"])
+        except Exception as e:
+            print("Не смог обработать обновление:", repr(e))
+
+
+def allowed(chat, user, sender_chat=None):
+    if str(chat.get("id")) != str(MOD_CHAT_ID):
+        return False
+    if sender_chat and str(sender_chat.get("id")) == str(MOD_CHAT_ID):
+        return True   # анонимный админ группы пишет от имени группы
+    return not ADMIN_IDS or user.get("id") in ADMIN_IDS
+
+
+def ensure_draft(state, msg):
+    """Запись о черновике (если бот её не знает — создаём по сообщению)."""
+    mid = str(msg["message_id"])
+    if mid not in state["drafts"]:
+        state["drafts"][mid] = {"tone": "", "url": markup_url(msg), "created": NOW,
+                                "media": bool(msg.get("photo") or msg.get("video")), "status": "pending"}
+    return mid
+
+
+def enqueue(state, mid, msg, **extra):
+    d = state["drafts"][mid]
+    state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "msg": snapshot(msg), **extra}
+    d["status"] = "queued"
+
+
+def handle_button(state, cq):
+    msg = cq.get("message") or {}
+    if not allowed(msg.get("chat", {}), cq.get("from", {})):
+        return
+    tg("answerCallbackQuery", callback_query_id=cq["id"], quiet=True)   # старое нажатие — не страшно
+    data = cq.get("data", "")
+    if data == "-" or "message_id" not in msg:
+        return
+    mid = ensure_draft(state, msg)
+    d = state["drafts"][mid]
+    if d.get("status") == "published":
+        return
+
+    if data == "ok":
+        enqueue(state, mid, msg)
+    elif data == "no":
+        state["queue"].pop(mid, None)
+        d["status"] = "rejected"
+    elif data == "wm":
+        state["wm"][mid] = not state["wm"].get(mid, state["settings"]["wm"])
+    elif data == "later":
+        return refresh(state, mid, "later")
+    elif data.startswith("at:"):
+        at = {"n": lambda: next_time(2), "m": lambda: next_time(8),
+              "3": lambda: NOW + 3 * 3600, "t": lambda: next_time(12, days=1)}[data[3:]]()
+        enqueue(state, mid, msg, at=at)
+    # "back" — просто вернуть кнопки
+    refresh(state, mid)
+
+
+def parse_at(args):
+    """«21:30», «21», «27.09 21:30» -> время (Ташкент) или None."""
+    text = " ".join(args)
+    m = re.fullmatch(r"(?:(\d{1,2})\.(\d{1,2})\s+)?(\d{1,2})(?::(\d{2}))?", text.strip())
+    if not m:
+        return None
+    day, month, hour, minute = m.group(1), m.group(2), int(m.group(3)), int(m.group(4) or 0)
+    if hour > 23 or minute > 59:
+        return None
+    if day:
+        now = local_now()
+        try:
+            t = now.replace(month=int(month), day=int(day), hour=hour, minute=minute, second=0, microsecond=0)
+        except ValueError:
+            return None
+        if t < now:
+            t = t.replace(year=t.year + 1)
+        return t.timestamp()
+    return next_time(hour, minute)
+
+
+def handle_message(state, msg):
+    if not allowed(msg.get("chat", {}), msg.get("from", {}), msg.get("sender_chat")):
+        return
+    text = msg.get("text") or ""
+    orig = msg.get("reply_to_message")
+    bot_draft = orig and orig.get("from", {}).get("is_bot")
+
+    first = text.split()[0].split("@")[0].lower() if text.strip() else ""
+    if bot_draft and first == "/at":
+        at = parse_at(text.split()[1:])
+        if not at:
+            return say("Пример: <code>/at 21:30</code> или <code>/at 27.09 21:30</code>", msg["message_id"])
+        mid = ensure_draft(state, orig)
+        enqueue(state, mid, orig, at=at)
+        refresh(state, mid)
+        return say(f"🕒 Выйдет {fmt(at)}", msg["message_id"])
+    if text.startswith("/"):
+        return handle_command(state, text)
+    if bot_draft and text:
+        handle_edit(state, msg, orig)
+
+
+def handle_edit(state, msg, orig):
+    """Ответ на черновик новым текстом = замена текста (форматирование сохраняется)."""
+    base = {"chat_id": MOD_CHAT_ID, "message_id": orig["message_id"],
+            "reply_markup": orig.get("reply_markup")}   # без этого кнопки пропадут
+    if orig.get("text") is not None:
+        res = tg("editMessageText", text=msg["text"], entities=msg.get("entities", []), **base)
+    else:
+        res = tg("editMessageCaption", caption=msg["text"],
+                 caption_entities=msg.get("entities", []), **base)
+    mid = str(orig["message_id"])
+    if res and mid in state["queue"]:
+        state["queue"][mid]["msg"] = snapshot(res)
+    if res and mid in state["drafts"]:
+        state["drafts"][mid]["snap"] = snapshot(res)
+    say("✏️ Текст черновика обновлён." if res else
+        "⚠️ Не получилось заменить текст (у поста с фото/видео лимит 1024 символа).", msg["message_id"])
+
+
+HELP = """<b>Команды бота</b>
+/status — очередь и настройки
+/night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
+/auto on — ночью публиковать то, что Claude проверил как безопасное · /auto off
+/gap 30 — минут между постами днём · /nightgap 60 — ночью
+/wm on · /wm off — водяной знак по умолчанию
+/pause · /resume — остановить / продолжить публикации
+
+<b>Под черновиком</b>: ✅ в очередь, ❌ отклонить, 🕒 отложить, 💧 водяной знак.
+Своё время: ответь на черновик <code>/at 21:30</code> или <code>/at 27.09 21:30</code>.
+Исправить текст: ответь на черновик своим текстом.
+
+Ночью обычная очередь ждёт утра; выходят только отложенные и (с /auto on) проверенные.
+Бот просыпается раз в ~30 минут, поэтому ответ приходит не сразу."""
+
+
+def handle_command(state, text):
+    parts = text.split()
+    cmd, args = parts[0].split("@")[0].lower(), parts[1:]
+    s = state["settings"]
+    arg = args[0].lower() if args else ""
+
+    if cmd in ("/start", "/help"):
+        return say(HELP)
+    if cmd in ("/night", "/quiet"):
+        if arg in ("off", "выкл"):
+            s["night"] = None
+        elif len(args) == 2 and all(a.isdigit() and 0 <= int(a) <= 23 for a in args):
+            s["night"] = [int(args[0]), int(args[1])]
+        else:
+            return say("Пример: <code>/night 23 7</code> или <code>/night off</code>")
+    elif cmd in ("/gap", "/nightgap"):
+        if not arg.isdigit():
+            return say(f"Пример: <code>{cmd} 30</code>")
+        s["gap" if cmd == "/gap" else "night_gap"] = int(arg)
+    elif cmd in ("/wm", "/auto"):
+        if arg not in ("on", "off"):
+            return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
+        s[cmd[1:]] = arg == "on"
+    elif cmd == "/pause":
+        s["paused"] = True
+    elif cmd == "/resume":
+        s["paused"] = False
+    elif cmd != "/status":
+        return
+    say(status_text(state))
+
+
+def status_text(state):
+    s = state["settings"]
+    q = state["queue"].values()
+    normal = [x for x in q if not x.get("at") and not x.get("auto")]
+    sched = sorted(x["at"] for x in q if x.get("at"))
+    pending = sum(d.get("status") == "pending" and m not in state["queue"]
+                  for m, d in state["drafts"].items())
+    night = f"{s['night'][0]}:00–{s['night'][1]}:00" if s.get("night") else "выключена"
+    return (f"⚙️ <b>Настройки</b>\n"
+            f"Публикации: {'⏸ на паузе' if s['paused'] else '▶️ идут'}\n"
+            f"Ночь: {night}\n"
+            f"Автопилот ночью: {'🤖 вкл' if s['auto'] else 'выкл'}\n"
+            f"Между постами: {s['gap']} мин днём, {s['night_gap']} ночью\n"
+            f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n\n"
+            f"📝 Ждут решения: {pending}\n"
+            f"📋 В очереди: {len(normal)} (🟢 {sum(x['tone'] == 'good' for x in normal)}, "
+            f"🔴 {sum(x['tone'] == 'hard' for x in normal)})\n"
+            f"🤖 Автопилот: {sum(bool(x.get('auto')) for x in q)}\n"
+            f"🕒 Отложено: {len(sched)}" + (f" (ближайшая {fmt(sched[0])})" if sched else "") + "\n"
+            f"Последний пост: {fmt(state['last_publish']) if state['last_publish'] else '—'}")
+
+
+def autopilot_and_cleanup(state):
+    s = state["settings"]
+    for mid, d in list(state["drafts"].items()):
+        if mid in state["queue"]:
+            continue
+        age_h = (NOW - d.get("created", NOW)) / 3600
+        if d.get("status") == "pending":
+            if s["auto"] and is_night(s) and d.get("safe"):
+                state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "auto": True,
+                                       "msg": d.get("snap") or {"kind": "text", "text": "", "entities": []}}
+                d["status"] = "queued"
+                refresh(state, mid)
+            elif age_h > PENDING_TTL_HOURS:
+                d["status"] = "expired"
+                refresh(state, mid)
+        if d.get("status") != "pending" and age_h > 24 * 7:
+            del state["drafts"][mid]
+
+
+# ---------------------- водяной знак ----------------------
+
+def find_font(size):
+    from PIL import ImageFont
+    for path in ("watermark.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+                 "C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf"):
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size)
+    return ImageFont.load_default(size=size)
+
+
+def make_mark(width):
+    """Водяной знак под картинку шириной width: логотип или «таблетка» с текстом."""
+    from PIL import Image, ImageDraw
+    if os.path.exists("watermark.png"):
+        logo = Image.open("watermark.png").convert("RGBA")
+        w = max(60, int(width * 0.18))
+        logo = logo.resize((w, int(logo.height * w / logo.width)))
+        logo.putalpha(logo.getchannel("A").point(lambda a: int(a * 0.85)))
+        return logo
+
+    font = find_font(max(14, int(width * 0.032)))
+    box = ImageDraw.Draw(Image.new("RGBA", (1, 1))).textbbox((0, 0), WATERMARK_TEXT, font=font)
+    tw, th = box[2] - box[0], box[3] - box[1]
+    px, py = int(th * 0.8), int(th * 0.45)
+    mark = Image.new("RGBA", (tw + 2 * px, th + 2 * py), (0, 0, 0, 0))
+    d = ImageDraw.Draw(mark)
+    d.rounded_rectangle((0, 0, mark.width - 1, mark.height - 1),
+                        radius=mark.height // 2, fill=(0, 0, 0, 95))
+    d.text((px - box[0], py - box[1]), WATERMARK_TEXT, font=font, fill=(255, 255, 255, 230))
+    return mark
+
+
+def watermark_photo(data):
+    from PIL import Image
+    img = Image.open(BytesIO(data)).convert("RGB")
+    mark = make_mark(img.width)
+    margin = int(img.width * 0.025)
+    img.paste(mark, (img.width - mark.width - margin, img.height - mark.height - margin), mark)
+    out = BytesIO()
+    img.save(out, "JPEG", quality=92)
+    return out.getvalue()
+
+
+def watermark_video(data, width):
+    import imageio_ffmpeg
+    width = width or 1280
+    with tempfile.TemporaryDirectory() as tmp:
+        src, png, dst = (os.path.join(tmp, n) for n in ("in.mp4", "mark.png", "out.mp4"))
+        open(src, "wb").write(data)
+        make_mark(width).save(png)
+        margin = int(width * 0.025)
+        cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-i", src, "-i", png,
+               "-filter_complex", f"overlay=W-w-{margin}:H-h-{margin}",
+               "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
+               "-c:a", "copy", "-movflags", "+faststart", dst]
+        try:
+            subprocess.run(cmd, check=True, timeout=420)
+        except Exception as e:
+            print("ffmpeg не справился:", e)
+            return None
+        out = open(dst, "rb").read()
+        return out if len(out) < 49 * 1024 * 1024 else None
+
+
+def telegram_file(file_id):
+    """Скачивает файл из Telegram (боту доступны файлы до 20 МБ)."""
+    info = tg("getFile", file_id=file_id, quiet=True)
+    if not info or not info.get("file_path"):
+        return None
+    return download(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{info['file_path']}", 20)
+
+
+def send_watermarked(snap):
+    data = telegram_file(snap["file_id"])
+    if not data:
+        return None
+    common = {"chat_id": CHANNEL_ID, "caption": snap["text"], "caption_entities": snap["entities"]}
+    if snap["kind"] == "photo":
+        return tg("sendPhoto", files={"photo": ("photo.jpg", watermark_photo(data))}, **common)
+    video = watermark_video(data, snap.get("width"))
+    if not video:
+        return None
+    return tg("sendVideo", files={"video": ("video.mp4", video)}, supports_streaming=True,
+              width=snap.get("width"), height=snap.get("height"), **common)
+
+
+# ---------------------- дежурный: публикация ----------------------
+
+def publish(state):
+    s = state["settings"]
+    if s["paused"]:
+        return
+    queue = sorted(state["queue"].items(), key=lambda kv: kv[1]["approved_at"])
+
+    # 1) Отложенные — точно ко времени, в любое время суток
+    due = sorted(((m, q) for m, q in queue if q.get("at") and q["at"] <= NOW), key=lambda kv: kv[1]["at"])
+    if due:
+        return publish_one(state, *due[0])
+
+    # 2) Обычная очередь с перерывом; ночью — только автопилот
+    night = is_night(s)
+    gap = s["night_gap"] if night else s["gap"]
+    if NOW - state["last_publish"] < gap * 60 - 90:
+        return
+    ready = [(m, q) for m, q in queue if not q.get("at") and (q.get("auto") or not night)]
+    if not ready:
+        return
+    # Чередование: сначала ищем новость с другим настроением, чем прошлая
+    mid, item = next(((m, q) for m, q in ready if q["tone"] and q["tone"] != state["last_tone"]), ready[0])
+    publish_one(state, mid, item)
+
+
+def publish_one(state, mid, item):
+    snap = item["msg"]
+    res = None
+    if state["wm"].get(mid, state["settings"]["wm"]) and snap["kind"] != "text":
+        try:
+            res = send_watermarked(snap)
+        except Exception as e:
+            print("Ошибка водяного знака:", repr(e))
+        if not res:
+            print("Водяной знак не получился — публикую без него")
+    if not res:
+        res = tg("copyMessage", chat_id=CHANNEL_ID, from_chat_id=MOD_CHAT_ID,
+                 message_id=int(mid), reply_markup={"inline_keyboard": []})
+    if not res:
+        return
+    del state["queue"][mid]
+    state["drafts"].setdefault(mid, {})["status"] = "published"
+    state["last_publish"] = NOW
+    state["last_tone"] = item["tone"]
+    refresh(state, mid, "published")
+    print("Опубликовано:", snap["text"][:80])
+
+
+# ---------------------- дежурный: приём черновиков ----------------------
+
+def send_draft(state, e):
+    """Отправляет черновик в группу модерации и запоминает его.
+    e: text, link, image, video, tone, safe, note."""
+    d = {"tone": e.get("tone", ""), "url": e["link"], "created": NOW, "status": "pending"}
+    if "safe" in e:
+        d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40])
+    wm = state["settings"]["wm"]
+    base = {"chat_id": MOD_CHAT_ID, "parse_mode": "HTML"}
+    text, image, video, msg = e["text"], e.get("image"), e.get("video"), None
+
+    if len(text) <= 1024:   # лимит подписи к фото/видео
+        kb = keyboard({**d, "media": True}, "pending", wm)
+        if video:
+            msg = tg("sendVideo", video=video, caption=text, supports_streaming=True, reply_markup=kb, **base)
+            if not msg and not DRY_RUN and (data := download(video, 49)):
+                msg = tg("sendVideo", files={"video": ("video.mp4", data)}, caption=text,
+                         supports_streaming=True, reply_markup=kb, **base)
+        if not msg and image:
+            msg = tg("sendPhoto", photo=image, caption=text, reply_markup=kb, **base)
+            if not msg and not DRY_RUN and (data := download(image, 9)):
+                # Некоторые сайты не отдают картинку серверам Telegram — качаем сами
+                msg = tg("sendPhoto", files={"photo": ("photo.jpg", data)}, caption=text,
+                         reply_markup=kb, **base)
+    if msg:
+        d["media"] = True
+    else:
+        preview = ({"url": image, "prefer_large_media": True, "show_above_text": True}
+                   if image else {"is_disabled": True})
+        msg = tg("sendMessage", text=text, link_preview_options=preview,
+                 reply_markup=keyboard(d, "pending", wm), **base)
+    if msg:
+        d["snap"] = snapshot(msg) if not DRY_RUN else {"kind": "text", "text": text, "entities": []}
+        state["drafts"][str(msg["message_id"])] = d
+    return msg
+
+
+def inbox_files():
+    """Файлы черновиков из ветки claude/inbox: [(имя, список черновиков)]."""
+    if INBOX_LOCAL or DRY_RUN:
+        folder = os.path.join(INBOX_DIR, "inbox")
+        names = sorted(os.listdir(folder)) if os.path.isdir(folder) else []
+        return [(n, read_json(os.path.join(folder, n), [])) for n in names]
+    if git("fetch", "-q", "--depth=1", "origin", INBOX_BRANCH).returncode != 0:
+        return []   # ветки ещё нет — редактор ничего не присылал
+    names = git("ls-tree", "--name-only", "FETCH_HEAD", "inbox/").stdout.split()
+    out = []
+    for path in sorted(names):
+        try:
+            out.append((os.path.basename(path), json.loads(git("show", f"FETCH_HEAD:{path}").stdout)))
+        except Exception as e:
+            print("Не прочитал", path, e)
+    return out
+
+
+def ingest_inbox(state):
+    sent = 0
+    for name, drafts in inbox_files():
+        if name in state["inbox_done"]:
+            continue
+        for e in drafts:
+            if send_draft(state, e):
+                sent += 1
+                time.sleep(2)
+        state["inbox_done"].append(name)
+    if sent:
+        print(f"Черновиков отправлено в модерацию: {sent}")
+
+
+# ---------------------- редактор: сбор новостей ----------------------
+
+def clean(raw):
+    text = re.sub(r"<br\s*/?>", "\n", raw or "")
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"[ \t\r\f\v]+", " ", html.unescape(text)).strip()
+
+
+def meta(page, prop):
+    """Достаёт <meta property="og:image" content="..."> и подобные."""
+    for tag in re.findall(r"<meta\b[^>]*>", page, re.I):
+        if re.search(rf'(?:property|name)\s*=\s*["\']{re.escape(prop)}["\']', tag, re.I):
+            m = re.search(r'content\s*=\s*["\']([^"\']+)', tag, re.I)
+            if m:
+                return html.unescape(m.group(1)).strip()
+    return None
+
+
+def is_mp4(url):
+    return bool(url and re.search(r"\.mp4(\?|$)", url, re.I))
+
+
+def rss_media(entry):
+    image = video = None
+    for m in entry.get("media_content", []) + [
+            {"url": l.get("href"), "type": l.get("type", "")}
+            for l in entry.get("links", []) if l.get("rel") == "enclosure"]:
+        url, typ = m.get("url"), m.get("type", "")
+        if not url:
+            continue
+        if not video and ("video" in typ or is_mp4(url)):
+            video = url
+        elif not image and ("image" in typ or m.get("medium") == "image"):
+            image = url
+    if not image:
+        for t in entry.get("media_thumbnail", []):
+            image = image or t.get("url")
+    return image, video
+
+
+def tg_channel(name, pages=2):
+    """Последние посты публичного Telegram-канала (через t.me/s/…)."""
+    blocks, before = [], ""
+    for _ in range(pages):
+        page = requests.get(f"https://t.me/s/{name}{before}", headers=UA, timeout=25).text
+        part = page.split('<div class="tgme_widget_message_wrap')[1:]
+        ids = [int(x) for x in re.findall(r'data-post="[^"/]+/(\d+)"', page)]
+        blocks = part + blocks
+        if not ids:
+            break
+        before = f"?before={min(ids)}"
+    posts = []
+    for block in blocks:
+        pid = re.search(r'data-post="([^"]+)"', block)
+        text = re.search(r'<div class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>', block, re.S)
+        if not pid or not text:
+            continue
+        when = re.search(r'<time[^>]+datetime="([^"]+)"', block)
+        photo = re.search(r"(?:message_photo_wrap|link_preview_right_image|link_preview_image)"
+                          r"[^>]+background-image:url\('([^']+)'\)", block)
+        video = re.search(r'<video[^>]+src="([^"]+)"', block)
+        body = clean(text.group(1))
+        posts.append({"link": f"https://t.me/{pid.group(1)}", "title": re.sub(r"\s+", " ", body)[:220],
+                      "text": body, "image": photo and photo.group(1), "video": video and video.group(1),
+                      "time": datetime.fromisoformat(when.group(1)) if when else None})
+    return posts
+
+
+def feed_entries(url):
+    """Записи ленты в едином виде: link, title, summary, image, video, time, source."""
+    if url.startswith("tg:"):
+        return [{**p, "summary": p["text"][:400], "source": None, "tg": True} for p in tg_channel(url[3:])]
+    feed = feedparser.parse(requests.get(url, headers=UA, timeout=25).content)
+    out = []
+    for e in feed.entries[:20]:
+        t = e.get("published_parsed") or e.get("updated_parsed")
+        image, video = rss_media(e)
+        out.append({"link": e.get("link"), "title": clean(e.get("title")), "summary": clean(e.get("summary")),
+                    "image": image, "video": video, "source": e.get("source", {}).get("title"),
+                    "time": datetime(*t[:6], tzinfo=timezone.utc) if t else None})
+    return out
+
+
+def gather(seen_path):
+    """Новые записи из всех лент (свежее MAX_AGE_HOURS). Отмечает их как увиденные."""
+    seen = read_json(seen_path, {"links": [], "titles": []})
+    known = set(seen["links"])
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
+    items = []
+    for name, url in FEEDS:
+        try:
+            entries = feed_entries(url)
+        except Exception as e:
+            print("Лента недоступна:", name, e)
+            continue
+        for e in entries:
+            link = e["link"]
+            if not link or link in known:
+                continue
+            known.add(link)
+            seen["links"].append(link)
+            if e["time"] and e["time"] < cutoff:
+                continue
+            title = e["title"]
+            if "news.google.com" in link:
+                title = re.sub(r"\s+-\s+[^-]+$", "", title)     # убираем « - Название сайта»
+            summary = e["summary"]
+            items.append({**e, "time": None, "source": e["source"] or name, "title": title,
+                          "summary": "" if summary.startswith(title[:40]) else summary[:400]})
+    seen["links"] = seen["links"][-8000:]
+    write_json(seen_path, seen)
+    items = items[:250]
+    for i, it in enumerate(items):
+        it["index"] = i
+    print(f"Новых записей в лентах: {len(items)}")
+    return items, seen["titles"][-40:]
+
+
+def real_link(link):
+    """Google News прячет настоящую ссылку — раскодируем."""
+    if "news.google.com" not in link:
+        return link
+    try:
+        from googlenewsdecoder import gnewsdecoder
+        res = gnewsdecoder(link, interval=1)
+        if res.get("status"):
+            return res["decoded_url"]
+    except Exception as e:
+        print("Google News ссылка не раскодировалась:", e)
+    return link
+
+
+def fetch_article(item):
+    """Дополняет новость: настоящая ссылка, текст статьи, картинка, видео."""
+    if item.get("fetched"):
+        return item
+    item["fetched"] = True
+    if item.get("tg"):          # пост из Telegram-канала — текст уже есть
+        return item
+    item["link"] = real_link(item["link"])
+    item.setdefault("text", "")
+    try:
+        page = requests.get(item["link"], headers=UA, timeout=25).text
+    except Exception as e:
+        print("Статья не открылась:", item["link"][:100], e)
+        return item
+    item["text"] = (trafilatura.extract(page) or "")[:8000]
+    item["image"] = item.get("image") or meta(page, "og:image") or meta(page, "twitter:image")
+    item["video"] = item.get("video") or next(
+        (v for v in (meta(page, "og:video:secure_url"), meta(page, "og:video:url"),
+                     meta(page, "og:video")) if is_mp4(v)), None)
+    return item
+
+
+def build_text(post, link):
+    tags = [re.sub(r"[^\w]", "", t) for t in post.get("hashtags", [])]
+    footer = f'<a href="{html.escape(link)}">Источник</a>'
+    if CHANNEL_LINK:
+        footer = f'<a href="{html.escape(CHANNEL_LINK)}">Подписаться</a> | ' + footer
+    parts = [f"{post.get('emoji') or '🕌'} <b>{html.escape(post['title'])}</b>",
+             html.escape(post["body"]), " ".join("#" + t for t in tags if t), footer]
+    return "\n\n".join(p for p in parts if p)
+
+
+def make_entry(item, post):
+    """Готовый черновик для дежурного."""
+    return {"text": build_text(post, item["link"]), "link": item["link"],
+            "image": item.get("image"), "video": item.get("video"),
+            "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
+            "note": post.get("check_note", "")}
+
+
+# ---------------------- редактор через чат Claude ----------------------
+
+def editor_store():
+    """Папка с веткой claude/inbox: seen.json + inbox/*.json."""
+    if INBOX_LOCAL or DRY_RUN:
+        os.makedirs(INBOX_DIR, exist_ok=True)
+        return
+    if os.path.isdir(os.path.join(INBOX_DIR, ".git")):
+        git("pull", "-q", "--rebase", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+        return
+    url = git("remote", "get-url", "origin").stdout.strip()
+    if not url:
+        raise SystemExit("Эта папка не git-репозиторий — редактор должен работать в клоне репозитория.")
+    r = git("clone", "-q", "--depth", "20", "--branch", INBOX_BRANCH, "--single-branch", url, INBOX_DIR)
+    if r.returncode != 0:   # ветки ещё нет — создаём
+        os.makedirs(INBOX_DIR, exist_ok=True)
+        git("init", "-q", cwd=INBOX_DIR)
+        git("remote", "add", "origin", url, cwd=INBOX_DIR)
+        git("checkout", "-q", "-b", INBOX_BRANCH, cwd=INBOX_DIR)
+
+
+def editor_push(message):
+    if INBOX_LOCAL or DRY_RUN:
+        return print("(DRY_RUN/INBOX_LOCAL: в git не отправляю)")
+    git("add", "-A", cwd=INBOX_DIR)
+    ident = [] if git("config", "user.name", cwd=INBOX_DIR).stdout.strip() else \
+        ["-c", "user.name=news-editor", "-c", "user.email=news-editor@users.noreply.github.com"]
+    git(*ident, "commit", "-q", "-m", message, cwd=INBOX_DIR)
+    r = git("push", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+    if r.returncode != 0:
+        git("pull", "-q", "--rebase", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+        r = git("push", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+    print("Отправлено в ветку", INBOX_BRANCH if r.returncode == 0 else f"— ОШИБКА: {r.stderr.strip()}")
+
+
+def cmd_fetch():
+    editor_store()
+    items, recent = gather(os.path.join(INBOX_DIR, "seen.json"))
+    editor_push("Отметил просмотренные новости")
+    write_json("candidates.json", items)
+    now = local_now()
+    print(f"\nСейчас в Ташкенте: {now:%d.%m %H:%M}")
+    print(f"\nНедавно уже брали ({len(recent)}):")
+    for t in recent:
+        print("-", t)
+    print(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
+    for it in items:
+        print(f"[{it['index']}] ({it['source']}) {it['title']}"
+              + (f" — {it['summary'][:200]}" if it["summary"] else ""))
+
+
+def cmd_article(indexes):
+    items = read_json("candidates.json", [])
+    out = []
+    for i in indexes:
+        if 0 <= i < len(items):
+            it = fetch_article(items[i])
+            out.append({"index": i, "source": it["source"], "title": it["title"], "link": it["link"],
+                        "summary": it["summary"], "text": (it.get("text") or "")[:6000],
+                        "has_photo": bool(it.get("image")), "has_video": bool(it.get("video"))})
+    write_json("candidates.json", items)   # запомнили раскодированные ссылки и картинки
+    print(json.dumps(out, ensure_ascii=False, indent=1))
+
+
+def cmd_send(path):
+    editor_store()
+    items = read_json("candidates.json", [])
+    entries = []
+    for post in read_json(path, []):
+        i = post.get("index", -1)
+        if not (0 <= i < len(items)) or not post.get("title") or not post.get("body"):
+            print("Пропускаю, нет нужных полей:", post)
+            continue
+        entries.append(make_entry(fetch_article(items[i]), post))
+    if not entries:
+        return print("Нечего отправлять.")
+
+    folder = os.path.join(INBOX_DIR, "inbox")
+    write_json(os.path.join(folder, datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S") + ".json"), entries)
+    for name in os.listdir(folder):   # старые файлы (старше 3 дней) убираем
+        if name[:8] < (datetime.now(timezone.utc) - timedelta(days=3)).strftime("%Y%m%d"):
+            os.remove(os.path.join(folder, name))
+    seen_path = os.path.join(INBOX_DIR, "seen.json")
+    seen = read_json(seen_path, {"links": [], "titles": []})
+    seen["titles"] = (seen["titles"] + [e["text"].split("</b>")[0].split("<b>")[-1] for e in entries])[-60:]
+    write_json(seen_path, seen)
+    editor_push(f"Черновики: {len(entries)}")
+    print(f"Черновиков подготовлено: {len(entries)}. Дежурный пришлёт их в группу модерации в течение ~30 минут.")
+
+
+# ---------------------- редактор через API ----------------------
+
+SELECT_SCHEMA = {
+    "type": "object",
+    "properties": {"picks": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"index": {"type": "integer"}, "tone": {"type": "string", "enum": ["good", "hard"]}},
+        "required": ["index", "tone"], "additionalProperties": False}}},
+    "required": ["picks"], "additionalProperties": False,
+}
+
+WRITE_SCHEMA = {
+    "type": "object",
+    "properties": {"skip": {"type": "boolean"}, "emoji": {"type": "string"}, "title": {"type": "string"},
+                   "body": {"type": "string"}, "hashtags": {"type": "array", "items": {"type": "string"}},
+                   "safe": {"type": "boolean"}, "check_note": {"type": "string"}},
+    "required": ["skip", "emoji", "title", "body", "hashtags", "safe", "check_note"],
+    "additionalProperties": False,
+}
+
+
+def ask_claude(client, prompt, schema, effort):
+    import anthropic
+    output_config = {"format": {"type": "json_schema", "schema": schema}}
+    if "haiku" not in MODEL:
+        output_config["effort"] = effort
+    kwargs = dict(model=MODEL, max_tokens=16000, system=open("rules.md", encoding="utf-8").read(),
+                  messages=[{"role": "user", "content": prompt}], output_config=output_config)
+    try:
+        if MODEL.startswith("claude-opus-5"):
+            # Если фильтры безопасности ошибочно откажут на новость о войне —
+            # запрос автоматически повторится на другой модели
+            resp = client.beta.messages.create(**kwargs, betas=["server-side-fallback-2026-06-01"],
+                                               fallbacks=[{"model": "claude-opus-4-8"}])
+        else:
+            resp = client.messages.create(**kwargs)
+    except anthropic.RateLimitError as e:
+        print("Claude: лимит запросов —", e)
+        return None
+    except anthropic.APIStatusError as e:
+        print(f"Claude: ошибка {e.status_code} —", e.message)
+        return None
+    except anthropic.APIConnectionError as e:
+        print("Claude: нет соединения —", e)
+        return None
+    if resp.stop_reason in ("refusal", "max_tokens"):
+        print("Claude не ответил:", resp.stop_reason)
+        return None
+    text = next((b.text for b in resp.content if b.type == "text"), None)
+    return json.loads(text) if text else None
+
+
+def collect_api(state):
+    if NOW - state["last_collect"] < COLLECT_EVERY_MIN * 60 - 120:
+        return
+    state["last_collect"] = NOW
+    import anthropic
+    client = anthropic.Anthropic()
+
+    items, recent = gather("seen.json")
+    if not items:
+        return
+    listing = "\n".join(f"[{it['index']}] ({it['source']}) {it['title']} — {it['summary'][:200]}"
+                        for it in items)
+    res = ask_claude(client, f"Выбери не больше {MAX_DRAFTS_PER_COLLECT} записей по правилам отбора. "
+                             f"Если подходящих нет — пустой список.\n\nНедавно уже брали:\n"
+                             + ("\n".join(recent) or "(ничего)") + f"\n\nНовые записи:\n{listing}",
+                     SELECT_SCHEMA, effort="low")
+    titles = []
+    for p in (res or {}).get("picks", [])[:MAX_DRAFTS_PER_COLLECT]:
+        if not 0 <= p["index"] < len(items):
+            continue
+        it = fetch_article(items[p["index"]])
+        post = ask_claude(client, "Напиши пост по правилам и сделай самопроверку. skip=true, если фактов "
+                                  f"мало или не по теме.\n\nИсточник: {it['source']}\nЗаголовок: {it['title']}\n"
+                                  f"Анонс: {it['summary']}\n\nТекст статьи:\n{it.get('text') or '(нет)'}",
+                          WRITE_SCHEMA, effort="medium")
+        if post and not post["skip"]:
+            post["tone"] = p["tone"]
+            if send_draft(state, make_entry(it, post)):
+                titles.append(post["title"])
+                time.sleep(2)
+    seen = read_json("seen.json", {"links": [], "titles": []})
+    seen["titles"] = (seen["titles"] + titles)[-60:]
+    write_json("seen.json", seen)
+
+
+# ---------------------- запуск ----------------------
+
+def main():
+    args = sys.argv[1:]
+    if args[:1] == ["fetch"]:
+        return cmd_fetch()
+    if args[:1] == ["article"]:
+        return cmd_article([int(a) for a in args[1:] if a.isdigit()])
+    if args[:1] == ["send"]:
+        return cmd_send(args[1] if len(args) > 1 else "posts.json")
+
+    # Без аргументов — дежурный
+    if not DRY_RUN and not (BOT_TOKEN and CHANNEL_ID and MOD_CHAT_ID):
+        raise SystemExit("Нужны BOT_TOKEN, CHANNEL_ID и MOD_CHAT_ID (секреты GitHub или файл .env)")
+    state = load_state()
+    try:
+        process_updates(state)
+        ingest_inbox(state)
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            collect_api(state)
+        autopilot_and_cleanup(state)
+        publish(state)
+    finally:
+        save_state(state)   # сохраняем даже если что-то упало посередине
+
+
+if __name__ == "__main__":
+    main()
