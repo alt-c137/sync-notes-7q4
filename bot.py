@@ -48,11 +48,12 @@ def gnews(query, lang):
 
 
 # Источники: сайт (RSS или поиск Google News по сайту) + Telegram-канал, где он есть.
-# Формат: (название, RSS-ссылка) или (название, "tg:имя_канала").
+# Формат: (название, RSS-ссылка), (название, "tg:имя_канала") или (название, "x:аккаунт_в_X").
 # Список собран по ссылкам «Источник» в @ilm4_info (22–25 сентября) и советам шейха.
 FEEDS = [
     # 🇸🇦 Саудовская Аравия
     ("SaudiNews50", "tg:SaudiNews50"),
+    ("SaudiNews50", "x:SaudiNews50"),
     ("SPA (агентство КСА)", gnews("site:spa.gov.sa", "sa")),
     ("Sabq", gnews("site:sabq.org", "sa")),
     ("Twasul", gnews("site:twaslnews.com", "sa")),
@@ -101,6 +102,7 @@ FEEDS = [
     ("Monte Carlo Doualiya", gnews("site:mc-doualiya.com", "sa")),
     ("Euronews Arabic", "https://arabic.euronews.com/rss"),
     ("InfoMigrants", gnews("site:infomigrants.net", "sa")),
+    ("Hormuz Report", "x:HormuzReport"),
 
     # НЕ берём (раскомментируй, если решите иначе):
     # ("Al Jazeera", ...)          — шейх: много лжи, антисаудовские
@@ -116,7 +118,7 @@ BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinh
            "islamtimes", "shiawaves", "almayadeen", "almanar", "alalam", "presstv", "almasirah",
            "arabi21", "noonpost", "middleeasteye", "alquds.co.uk", "palinfo", "felesteen", "shehabnews"]
 PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
-PER_FEED_OVERRIDE = {"SaudiNews50": 25}   # главным источникам — больше
+PER_FEED_OVERRIDE = {"SaudiNews50": 20}   # главным источникам — больше
 
 CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
 WATERMARK_TEXT = "@ilm4_info"             # текст водяного знака
@@ -851,8 +853,61 @@ def tg_channel(name, pages=2):
     return posts
 
 
+X_STATUS = re.compile(r"(?:x|twitter)\.com/(\w+)/status/(\d+)")
+
+
+def x_timeline(user):
+    """Последние твиты аккаунта X через страницу встраивания (бесплатно, без ключей).
+    X иногда отвечает «слишком много запросов» — тогда просто пропускаем."""
+    r = requests.get(f"https://syndication.twitter.com/srv/timeline-profile/screen-name/{user}",
+                     headers={"User-Agent": "Mozilla/5.0"}, timeout=25)
+    m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', r.text, re.S)
+    if r.status_code != 200 or not m:
+        print(f"X @{user}: лента недоступна (код {r.status_code}) — пропускаю")
+        return []
+    entries = json.loads(m.group(1))["props"]["pageProps"]["timeline"]["entries"]
+    posts = []
+    for e in entries:
+        t = (e.get("content") or {}).get("tweet")
+        if not t or t.get("retweeted_status"):
+            continue
+        text = re.sub(r"\s*https://t\.co/\w+$", "", t.get("full_text") or t.get("text") or "")
+        image, video = tweet_media(t)
+        posts.append({"link": f"https://x.com/{user}/status/{t['id_str']}", "title": re.sub(r"\s+", " ", text)[:220],
+                      "text": text, "summary": text[:400], "image": image, "video": video, "source": None,
+                      "tg": True, "time": datetime.strptime(t["created_at"], "%a %b %d %H:%M:%S %z %Y")})
+    return posts
+
+
+def tweet_media(t):
+    """Картинка и видео (mp4 лучшего качества) из твита в формате X API."""
+    image = video = None
+    for m in (t.get("extended_entities") or t.get("entities") or {}).get("media", []):
+        image = image or m.get("media_url_https")
+        mp4 = [v for v in (m.get("video_info") or {}).get("variants", []) if v.get("content_type") == "video/mp4"]
+        if mp4 and not video:
+            video = max(mp4, key=lambda v: v.get("bitrate", 0))["url"]
+    return image, video
+
+
+def fx_tweet(user, tweet_id):
+    """Один твит целиком через api.fxtwitter.com: текст, фото, видео."""
+    try:
+        t = requests.get(f"https://api.fxtwitter.com/{user}/status/{tweet_id}", headers=UA, timeout=20).json()["tweet"]
+    except Exception as e:
+        print("Твит не открылся:", tweet_id, e)
+        return None
+    media = t.get("media") or {}
+    photo = (media.get("photos") or [{}])[0].get("url")
+    video = (media.get("videos") or [{}])[0].get("url")
+    return {"text": t.get("text") or "", "image": photo or (media.get("videos") or [{}])[0].get("thumbnail_url"),
+            "video": video}
+
+
 def feed_entries(url):
     """Записи ленты в едином виде: link, title, summary, image, video, time, source."""
+    if url.startswith("x:"):
+        return sorted(x_timeline(url[2:]), key=lambda p: p["time"], reverse=True)
     if url.startswith("tg:"):
         return [{**p, "summary": p["text"][:400], "source": None, "tg": True}
                 for p in reversed(tg_channel(url[3:]))]   # сначала самые свежие
@@ -925,6 +980,12 @@ def fetch_article(item):
     if item.get("fetched"):
         return item
     item["fetched"] = True
+    m = X_STATUS.search(item["link"]) or X_STATUS.search(item.get("text") or "")
+    if m and (tw := fx_tweet(*m.groups())):     # твит: берём полный текст, фото и видео
+        item["text"] = tw["text"] or item.get("text", "")
+        item["image"] = item.get("image") or tw["image"]
+        item["video"] = item.get("video") or tw["video"]
+        return item
     if item.get("tg"):          # пост из Telegram-канала — текст уже есть
         return item
     item["link"] = real_link(item["link"])
