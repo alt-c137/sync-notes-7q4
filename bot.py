@@ -47,21 +47,76 @@ def gnews(query, lang):
             f"&hl={loc[0]}&gl={loc[1]}&ceid={loc[2]}")
 
 
-# Источники — только проверенные, по 1–2 на страну (по совету шейха).
-# Al Jazeera и подобные (антисаудовские) не берём.
-# Формат: (название, RSS-ссылка) или (название, "tg:имя_канала") для публичного Telegram-канала.
+# Источники: сайт (RSS или поиск Google News по сайту) + Telegram-канал, где он есть.
+# Формат: (название, RSS-ссылка) или (название, "tg:имя_канала").
+# Список собран по ссылкам «Источник» в @ilm4_info (22–25 сентября) и советам шейха.
 FEEDS = [
-    # Саудовская Аравия
-    ("أخبار السعودية · SaudiNews50", "tg:SaudiNews50"),
-    ("SPA · Саудовское агентство", gnews("site:spa.gov.sa", "sa")),
-    # Сирия
-    ("SANA · Сирийское агентство", "tg:Sana_gov"),
-    # Ирак
-    ("INA · Иракское агентство", gnews("site:ina.iq", "sa")),
-    # Йемен (законное правительство, не хуситы)
-    ("Saba · Йеменское агентство", gnews("site:sabanew.net", "sa")),
-    ("Al-Masdar Online · Йемен", "tg:almasdaronline"),
+    # 🇸🇦 Саудовская Аравия
+    ("SaudiNews50", "tg:SaudiNews50"),
+    ("SPA (агентство КСА)", gnews("site:spa.gov.sa", "sa")),
+    ("Sabq", gnews("site:sabq.org", "sa")),
+    ("Twasul", gnews("site:twaslnews.com", "sa")),
+    ("Okaz", "https://okaz.com.sa/rssFeed/1"),
+    ("Al Riyadh", gnews("site:alriyadh.com", "sa")),
+    ("Asharq Al-Awsat", "https://aawsat.com/feed"),
+    ("Asharq News", "https://asharq.com/rss.xml"),
+    ("Asharq News", "tg:AsharqNews"),
+    ("Al Arabiya", gnews("site:alarabiya.net", "sa")),
+    ("Al Arabiya", "tg:AlArabiya"),
+    ("Al-Eqtisad", "https://aleqtsad.org/rss"),
+    # 🇦🇪 🇰🇼 Залив
+    ("Sky News Arabia", "https://skynewsarabia.com/rss"),
+    ("Al Khaleej", gnews("site:alkhaleej.ae", "sa")),
+    ("Al Mashhad", gnews("site:almashhad.com", "sa")),
+    ("Al Rai (Кувейт)", "https://alraimedia.com/rssFeed/1"),
+    # 🇸🇾 Сирия
+    ("SANA (агентство Сирии)", "tg:Sana_gov"),
+    ("SANA (агентство Сирии)", "https://sana.sy/feed/"),
+    ("SOHR", gnews("site:syriahr.com", "sa")),
+    # 🇮🇶 Ирак
+    ("INA (агентство Ирака)", gnews("site:ina.iq", "sa")),
+    # 🇾🇪 Йемен (законное правительство)
+    ("Saba (правительство Йемена)", gnews("site:sabanew.net", "sa")),
+    ("Al-Masdar Online", "tg:almasdaronline"),
+    ("Al-Masdar Online", "https://almasdaronline.com/rss"),
+    # 🇱🇧 Ливан
+    ("Annahar", "https://annahar.com/rss"),
+    ("Lebanon Debate", "tg:lebanondebate"),
+    ("Lebanon Debate", gnews("site:lebanondebate.com", "sa")),
+    ("Al Markazia", "https://almarkazia.com/ar/rss"),
+    ("Sawt Beirut", "tg:sawtbeirut"),
+    ("Sawt Beirut", gnews("site:sawtbeirut.com", "sa")),
+    ("Voice of Lebanon", gnews("site:vdlnews.com", "sa")),
+    # 🇪🇬 🇯🇴 🇵🇸 🇩🇿 Египет, Иордания, Палестина, Алжир
+    ("Youm7", gnews("site:youm7.com", "sa")),
+    ("Shorouk", gnews("site:shorouknews.com", "sa")),
+    ("El Balad", "tg:elbaladnews"),
+    ("Akhbar El Yom", gnews("site:akhbaralyawm.com", "sa")),
+    ("El Aosboa", gnews("site:elaosboa.com", "sa")),
+    ("Egypt Telegraph", gnews("site:egypttelegraph.com", "sa")),
+    ("Jordan Zad", gnews("site:jordanzad.com", "sa")),
+    ("Madar News", "https://madar.news/rss"),
+    ("El Djazair El Djadida", gnews("site:eldjazaireldjadida.dz", "sa")),
+    # 🌍 Международные (арабские службы)
+    ("Monte Carlo Doualiya", gnews("site:mc-doualiya.com", "sa")),
+    ("Euronews Arabic", "https://arabic.euronews.com/rss"),
+    ("InfoMigrants", gnews("site:infomigrants.net", "sa")),
+
+    # НЕ берём (раскомментируй, если решите иначе):
+    # ("Al Jazeera", ...)          — шейх: много лжи, антисаудовские
+    # ("Al-Araby", ...)            — катарский, антисаудовский
+    # ("Saba.ye", ...)             — агентство хуситов
+    # ("Ad-Diyar", ...)            — близок к «Хизбалле»
+    # ("ANF", "JINHA", ...)        — СМИ РПК
+    # ("dailyislamist", "tg:dailyislamist")  — турецкий исламистский канал (ихвановский уклон)
 ]
+
+# Домены, которые отбрасываются всегда (в том числе в общих поисках Google News)
+BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinhaagency",
+           "islamtimes", "shiawaves", "almayadeen", "almanar", "alalam", "presstv", "almasirah",
+           "arabi21", "noonpost", "middleeasteye", "alquds.co.uk", "palinfo", "felesteen", "shehabnews"]
+PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
+PER_FEED_OVERRIDE = {"SaudiNews50": 25}   # главным источникам — больше
 
 CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
 WATERMARK_TEXT = "@ilm4_info"             # текст водяного знака
@@ -799,15 +854,18 @@ def tg_channel(name, pages=2):
 def feed_entries(url):
     """Записи ленты в едином виде: link, title, summary, image, video, time, source."""
     if url.startswith("tg:"):
-        return [{**p, "summary": p["text"][:400], "source": None, "tg": True} for p in tg_channel(url[3:])]
+        return [{**p, "summary": p["text"][:400], "source": None, "tg": True}
+                for p in reversed(tg_channel(url[3:]))]   # сначала самые свежие
     feed = feedparser.parse(requests.get(url, headers=UA, timeout=25).content)
     out = []
-    for e in feed.entries[:20]:
+    for e in feed.entries[:100]:
         t = e.get("published_parsed") or e.get("updated_parsed")
         image, video = rss_media(e)
         out.append({"link": e.get("link"), "title": clean(e.get("title")), "summary": clean(e.get("summary")),
                     "image": image, "video": video, "source": e.get("source", {}).get("title"),
+                    "href": e.get("source", {}).get("href", ""),
                     "time": datetime(*t[:6], tzinfo=timezone.utc) if t else None})
+    out.sort(key=lambda x: x["time"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
     return out
 
 
@@ -823,9 +881,11 @@ def gather(seen_path):
         except Exception as e:
             print("Лента недоступна:", name, e)
             continue
-        for e in entries:
+        for e in entries[:PER_FEED_OVERRIDE.get(name, PER_FEED)]:
             link = e["link"]
             if not link or link in known:
+                continue
+            if any(b in (e.get("href") or "") + link for b in BLOCKED):
                 continue
             known.add(link)
             seen["links"].append(link)
@@ -835,11 +895,11 @@ def gather(seen_path):
             if "news.google.com" in link:
                 title = re.sub(r"\s+-\s+[^-]+$", "", title)     # убираем « - Название сайта»
             summary = e["summary"]
-            items.append({**e, "time": None, "source": e["source"] or name, "title": title,
+            items.append({**e, "time": None, "href": None, "source": name, "title": title,
                           "summary": "" if summary.startswith(title[:40]) else summary[:400]})
     seen["links"] = seen["links"][-8000:]
     write_json(seen_path, seen)
-    items = items[:250]
+    items = items[:400]
     for i, it in enumerate(items):
         it["index"] = i
     print(f"Новых записей в лентах: {len(items)}")
