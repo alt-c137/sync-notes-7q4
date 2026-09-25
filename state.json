@@ -1,0 +1,21 @@
+{
+ "offset": 498374782,
+ "drafts": {},
+ "queue": {},
+ "wm": {},
+ "last_publish": 0,
+ "last_tone": "",
+ "last_collect": 0,
+ "inbox_done": [],
+ "settings": {
+  "night": [
+   23,
+   7
+  ],
+  "gap": 30,
+  "night_gap": 60,
+  "wm": true,
+  "auto": false,
+  "paused": false
+ }
+}
