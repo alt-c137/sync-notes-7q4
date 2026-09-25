@@ -967,9 +967,11 @@ def real_link(link):
         return link
     try:
         from googlenewsdecoder import gnewsdecoder
-        res = gnewsdecoder(link, interval=1)
-        if res.get("status"):
-            return res["decoded_url"]
+        for attempt in range(3):
+            res = gnewsdecoder(link, interval=1 + attempt)
+            if res.get("status"):
+                return res["decoded_url"]
+        print("Google News ссылка не раскодировалась:", res.get("message", res))
     except Exception as e:
         print("Google News ссылка не раскодировалась:", e)
     return link
