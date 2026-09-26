@@ -1,5 +1,5 @@
 {
- "offset": 498374789,
+ "offset": 498374792,
  "drafts": {
   "2": {
    "tone": "good",
@@ -536,6 +536,211 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMTareVDyrdIGuD8ZMkOOz7Pj1MbwADvA5rG3ubxFGKeGsOPEih2AEAAwIAA3cAAz0E"
    }
+  },
+  "21": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5Zc2VXRG4wS1Uxd3JvMjlVMnNpTkxnNUd6d3hPVGxfVXRuLVg5bHI1dXQ4MmhteEM2QTVlSnZGVElZQlJkdDFj?oc=5",
+   "created": 1790432495.7098966,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Мекка: метеослужба предупреждает о дожде и грозах\n\nМетеослужба Саудовской Аравии предупредила о дожде, ветре и грозах с молниями в Мекке и Эль-Джумуме.\n\n#Мекка #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 49,
+      "type": "bold"
+     },
+     {
+      "offset": 158,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 165,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 184,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 198,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5Zc2VXRG4wS1Uxd3JvMjlVMnNpTkxnNUd6d3hPVGxfVXRuLVg5bHI1dXQ4MmhteEM2QTVlSnZGVElZQlJkdDFj?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "22": {
+   "tone": "good",
+   "url": "https://sana.sy/locals/2590144/",
+   "created": 1790432495.7098966,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Сирия: началась жеребьёвка на хадж 1448 года хиджры\n\nМинистерство вакфов Сирии в субботу начало жеребьёвку среди желающих совершить хадж в сезон 1448 г. х. (2027 г.), сообщает агентство SANA. Жеребьёвка проходит в Университете Аль-Фурат в Дейр-эз-Зоре. Для совершения хаджа зарегистрировались 71 257 человек.\n\nПо данным агентства, квота Сирии в сезон 1447 г. х. (2026 г.) составляла 24 500 паломников.\n\n#Сирия #Хадж\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 51,
+      "type": "bold"
+     },
+     {
+      "offset": 408,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 415,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 422,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 436,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/locals/2590144/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMWarfU9Lxb29DzA1XDLcTtuNnXz4kAAgYPaxt9_cRR8gFWYeOLMF0BAAMCAAN3AAM9BA"
+   }
+  },
+  "23": {
+   "tone": "hard",
+   "url": "https://www.skynewsarabia.com/middle-east/1894555-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D9%8A%D9%86%D8%B3%D9%82-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%84%D9%84%D8%AA%D8%AD%D9%82%D9%82-%D9%85%D8%B5%D9%8A%D8%B1-%D9%85%D9%87%D8%A7%D8%AC%D8%B1%D9%8A%D9%87",
+   "created": 1790432495.7098966,
+   "status": "pending",
+   "safe": false,
+   "note": "возможные жертвы, не подтверждено",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇶 Ирак выясняет судьбу 18 мигрантов, которые могли утонуть у берегов Ливии\n\nПосольство Ирака в Ливии сообщило, что выясняет судьбу 18 иракских мигрантов: по поступившим данным, они могли утонуть в Средиземном море, пытаясь добраться до Европы. Официального подтверждения их гибели нет.\n\nКак заявил временный поверенный Ахмад ас-Саххаф, посольство работает с силовыми ведомствами, медицинскими службами и Ливийским Красным Полумесяцем, чтобы проверить информацию.\n\n#Ирак #Ливия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 72,
+      "type": "bold"
+     },
+     {
+      "offset": 467,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 473,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 481,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 495,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.skynewsarabia.com/middle-east/1894555-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D9%8A%D9%86%D8%B3%D9%82-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%84%D9%84%D8%AA%D8%AD%D9%82%D9%82-%D9%85%D8%B5%D9%8A%D8%B1-%D9%85%D9%87%D8%A7%D8%AC%D8%B1%D9%8A%D9%87"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMXarfU99SU27vFaY3olEEQ4wJHSyMAAqMOaxv3asRRYCKnKsmUEmkBAAMCAANtAAM9BA"
+   }
+  },
+  "24": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBVWHM1REJCd1RFbXg1M01IMTNqYUhqVkpOVEtBYWlvWFUzenI3TllfS09wNVo1TEZjcmhHQ2E0dkJNUW1yWllpVmdNc3huUjYw?oc=5",
+   "created": 1790432495.7098966,
+   "status": "pending",
+   "safe": false,
+   "note": "сомнение в транскрипции имени",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: МИД выразил соболезнования в связи с кончиной посла Али аль-Атафи\n\nМинистерство иностранных дел Йемена сообщило о кончине посла Али аль-Атафи, передаёт агентство Saba.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 72,
+      "type": "bold"
+     },
+     {
+      "offset": 181,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 189,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 203,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBVWHM1REJCd1RFbXg1M01IMTNqYUhqVkpOVEtBYWlvWFUzenI3TllfS09wNVo1TEZjcmhHQ2E0dkJNUW1yWllpVmdNc3huUjYw?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "25": {
+   "tone": "hard",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5idGwzWHpDVUZZR2NDWmZZM0x3ejZmSzJsUDh0TkViU3c4ODJzZmg3a0lFZXg4ZGV1NUVHVXNOVDNSU2llN283SGNNY29OXy1ZcnZB?oc=5",
+   "created": 1790432495.7098966,
+   "status": "pending",
+   "safe": false,
+   "note": "военные действия, текст только по заголо",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇱🇧 Ливан: израильские подрывы в Мадждаль-Зуне и Эт-Тири\n\nКак сообщает Twasul, израильские силы провели подрывы в населённых пунктах Мадждаль-Зун и Эт-Тири на юге Ливана. Также сообщается о передвижении израильского подразделения вблизи Дейр-Мимаса.\n\n#Ливан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 52,
+      "type": "bold"
+     },
+     {
+      "offset": 252,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 260,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 274,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5idGwzWHpDVUZZR2NDWmZZM0x3ejZmSzJsUDh0TkViU3c4ODJzZmg3a0lFZXg4ZGV1NUVHVXNOVDNSU2llN283SGNNY29OXy1ZcnZB?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
   }
  },
  "queue": {},
@@ -548,7 +753,9 @@
   "20260926-021900.json",
   "20260926-041832.json",
   "20260926-061957.json",
-  "20260926-081905.json"
+  "20260926-081905.json",
+  "20260926-102158.json",
+  "20260926-122040.json"
  ],
  "settings": {
   "night": [
