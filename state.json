@@ -1,5 +1,5 @@
 {
- "offset": 498374788,
+ "offset": 498374789,
  "drafts": {
   "2": {
    "tone": "good",
@@ -89,6 +89,257 @@
     "text": "Не знаю ты прочитаешь или нет но не отправляй эти новости я уже опубликовал.",
     "entities": []
    }
+  },
+  "9": {
+   "tone": "good",
+   "url": "https://t.me/ElbaladNews/37610",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Хатыб мечети Аль-Харам: цените отпущенную жизнь\n\nХатыб мечети Аль-Харам в Мекке в пятничной проповеди сказал: «Жизнь ограничена, а вдохи сочтены. Используйте же свои жизни с пользой и не позволяйте ложным надеждам растратить их».\n\n#Харамайн #Мекка\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 47,
+      "type": "bold"
+     },
+     {
+      "offset": 236,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 246,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 254,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 268,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/ElbaladNews/37610"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAMJardPEKW2GYUESanJUC5XWwLKjV4AAhQbaxu_6rlJhLT3FCGtJwABAQADAgADeAADPQQ"
+   }
+  },
+  "10": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE8yNUlOTjlnaElFNkJaa19JOG1wUGNqZmpQbmpHN01HNmNhWGpjUHpWWTBaWU42TXNrZ3I3RVJ0NXpKQVdvT0xrbm9B?oc=5",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: Центр короля Сальмана раздал 956 продуктовых корзин в Таизе\n\nЦентр гуманитарной помощи и работы по оказанию помощи имени короля Сальмана раздал 956 продуктовых корзин в районах Джабаль-Хабаши и Аль-Мисрах провинции Таиз, сообщает агентство SPA.\n\n#Йемен #Помощь\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 258,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 265,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 274,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 288,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE8yNUlOTjlnaElFNkJaa19JOG1wUGNqZmpQbmpHN01HNmNhWGpjUHpWWTBaWU42TXNrZ3I3RVJ0NXpKQVdvT0xrbm9B?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "11": {
+   "tone": "hard",
+   "url": "https://aawsat.com/node/5322714",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": false,
+   "note": "политика, упоминаются нападения на КСА",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇰 Премьер-министр Пакистана: безопасность двух святынь — «красная линия»\n\nПремьер-министр Пакистана Мухаммад Шахбаз Шариф, выступая в пятницу на 81-й сессии Генеральной ассамблеи ООН в Нью-Йорке, заявил, что безопасность двух святынь (Мекки и Медины) для его страны — «красная линия». Он вновь осудил нападения на Саудовскую Аравию.\n\nПо словам Шахбаза Шарифа, «Мекканское соглашение о совместной обороне» между Саудовской Аравией, Турцией и Пакистаном не направлено против какой-либо страны, а служит укреплению мира и стабильности в регионе.\n\n#Харамайн #Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 547,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 557,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 568,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 582,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://aawsat.com/node/5322714"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMLardPFsGTScS2LFgSiGJQskEfJb8AAkwOaxsp48RRkQ9N_-NS7O0BAAMCAAN4AAM9BA"
+   }
+  },
+  "12": {
+   "tone": "hard",
+   "url": "https://sana.sy/international/2590063/",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": false,
+   "note": "упоминаются хуситы, военные действия",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Коалиция: перехвачены две баллистические ракеты и два беспилотника хуситов\n\nКоалиция в поддержку законности в Йемене в субботу объявила о перехвате и уничтожении двух баллистических ракет и двух беспилотников, запущенных хуситами в сторону Саудовской Аравии.\n\nКак заявил в X официальный представитель коалиции генерал-майор Турки аль-Малики, средства ПВО перехватили и уничтожили две баллистические ракеты, выпущенные в сторону Хамис-Мушайта, и два беспилотника, запущенных в сторону Эр-Рияда. Накануне коалиция сообщила о военной операции против позиций хуситов в провинции Ходейда в ответ на их нападения на суда в Красном море.\n\n#СаудовскаяАравия #Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 637,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 655,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 663,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 677,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/international/2590063/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMMardPGHmLGpRUzPxsHGKMhJZ17iEAAikOaxtQgr1RuIT6TopTHP8BAAMCAAN4AAM9BA"
+   }
+  },
+  "13": {
+   "tone": "hard",
+   "url": "https://www.okaz.com.sa/local/na/2267878",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": false,
+   "note": "военная тема; название соглашения",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Министр обороны КСА и командующий армией Пакистана обсудили нападения на Мекку\n\nМинистр обороны Саудовской Аравии принц Халид бин Сальман бин Абдулазиз встретился в Эр-Рияде с командующим силами обороны и армией Пакистана фельдмаршалом Асимом Муниром.\n\nСтороны высоко оценили итоги встречи начальников штабов стран — участниц Мекканского соглашения о совместной обороне, обсудили нападения, направленные против Мекки, а также гражданских и экономических объектов Королевства, и подтвердили продолжение совместной работы по противодействию им в рамках соглашения.\n\n#СаудовскаяАравия #Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 78,
+      "type": "bold"
+     },
+     {
+      "offset": 569,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 587,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 598,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 612,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2267878"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMNardPGqAci4EhrpLVWoWhXBOBtkMAAg4PaxsMSr1RDajlzBNTWMcBAAMCAAN3AAM9BA"
+   }
+  },
+  "14": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMihAVBVV95cUxQXzNRZ2ROZDkyd0hWeHlyUlVBOTRHV0VSVmtmTnl5M28zUnVuS2VQWkhyZDlzUlVNLWFnVUpPY0hrYjEzOVZQNlhGS25Td0dNT050aTR3RkJBV3NNMXZZM0lGUDQ2T0lVaHVCTDFpcmFTZE01MmlBZlliSmNsMkdUaUVOSG1XcUN4bklwanEycmlMZm1HeUZHZU15dnpXMmFzMFMtYXVXWE5pUEFDN0Znek5hdjNMeWY2UGx2Umc5UjRpaUg5VHRRLWhUM2YyOUhpWmROVnhXX0JubjZtTk51Y2J2T1o1NDEwQ2pUdkVuYmtxRzB1NVlDSFY4LXJJeGg5TVNUSTBsU0lzMXlxVkxTYXFQRVh4b2t5NTBfemJpa3psLVd1WE52TDZSM20zTm1qeDhyS3NveDVZZ3BlNUpnLWctTWxxc0dadndVZE1OX3RCOEcxTWNadHhxblAzZllvQzNzbTZWaWw5NHJXY3hYUDEtb05VYTFDWnZUT0JBdXVpTGhtdmFqYWJoekJ3ZDhBMW1zWDhnMnM2ZTlQNmh0Sk92OWw3eU5qZmV1RDdoTmdOMnJtUzdVY3JYdFN3UUV2b054MFZRdzN2UHZHTXE1UExFZ1B0aVdJVURxTnZrUlhLUzlXWDJmby1tUUNnZG1JV1JleFhxeS1INjRMZzFVSktuZldfUnpSRFN4Vi1MUFhxeW5rcnBPSUU5MlNpdllDMHY1VVJ3TXFMd29rWl9WRlNhSnZ0RWFmalpsMXRwVEVndlBhQVBnUUlLMFdIdVJFMzhhLVlEOXBQbHlmZHk2Nl90bmFKbnJYYVdMYjN5TXVsLVBfMmlJQXZiVHlSLUFEazNxS9IBhAVBVV95cUxQXzNRZ2ROZDkyd0hWeHlyUlVBOTRHV0VSVmtmTnl5M28zUnVuS2VQWkhyZDlzUlVNLWFnVUpPY0hrYjEzOVZQNlhGS25Td0dNT050aTR3RkJBV3NNMXZZM0lGUDQ2T0lVaHVCTDFpcmFTZE01MmlBZlliSmNsMkdUaUVOSG1XcUN4bklwanEycmlMZm1HeUZHZU15dnpXMmFzMFMtYXVXWE5pUEFDN0Znek5hdjNMeWY2UGx2Umc5UjRpaUg5VHRRLWhUM2YyOUhpWmROVnhXX0JubjZtTk51Y2J2T1o1NDEwQ2pUdkVuYmtxRzB1NVlDSFY4LXJJeGg5TVNUSTBsU0lzMXlxVkxTYXFQRVh4b2t5NTBfemJpa3psLVd1WE52TDZSM20zTm1qeDhyS3NveDVZZ3BlNUpnLWctTWxxc0dadndVZE1OX3RCOEcxTWNadHhxblAzZllvQzNzbTZWaWw5NHJXY3hYUDEtb05VYTFDWnZUT0JBdXVpTGhtdmFqYWJoekJ3ZDhBMW1zWDhnMnM2ZTlQNmh0Sk92OWw3eU5qZmV1RDdoTmdOMnJtUzdVY3JYdFN3UUV2b054MFZRdzN2UHZHTXE1UExFZ1B0aVdJVURxTnZrUlhLUzlXWDJmby1tUUNnZG1JV1JleFhxeS1INjRMZzFVSktuZldfUnpSRFN4Vi1MUFhxeW5rcnBPSUU5MlNpdllDMHY1VVJ3TXFMd29rWl9WRlNhSnZ0RWFmalpsMXRwVEVndlBhQVBnUUlLMFdIdVJFMzhhLVlEOXBQbHlmZHk2Nl90bmFKbnJYYVdMYjN5TXVsLVBfMmlJQXZiVHlSLUFEazNxSw?oc=5",
+   "created": 1790398221.0957794,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇾 Сирия: в аэропортах Дамаска и Алеппо начали калибровку навигационных систем\n\nПо данным Al Arabiya, после нескольких месяцев простоя в Сирии начали калибровку современных навигационных систем в аэропортах Дамаска и Алеппо.\n\n#Сирия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 75,
+      "type": "bold"
+     },
+     {
+      "offset": 228,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 236,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 250,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMihAVBVV95cUxQXzNRZ2ROZDkyd0hWeHlyUlVBOTRHV0VSVmtmTnl5M28zUnVuS2VQWkhyZDlzUlVNLWFnVUpPY0hrYjEzOVZQNlhGS25Td0dNT050aTR3RkJBV3NNMXZZM0lGUDQ2T0lVaHVCTDFpcmFTZE01MmlBZlliSmNsMkdUaUVOSG1XcUN4bklwanEycmlMZm1HeUZHZU15dnpXMmFzMFMtYXVXWE5pUEFDN0Znek5hdjNMeWY2UGx2Umc5UjRpaUg5VHRRLWhUM2YyOUhpWmROVnhXX0JubjZtTk51Y2J2T1o1NDEwQ2pUdkVuYmtxRzB1NVlDSFY4LXJJeGg5TVNUSTBsU0lzMXlxVkxTYXFQRVh4b2t5NTBfemJpa3psLVd1WE52TDZSM20zTm1qeDhyS3NveDVZZ3BlNUpnLWctTWxxc0dadndVZE1OX3RCOEcxTWNadHhxblAzZllvQzNzbTZWaWw5NHJXY3hYUDEtb05VYTFDWnZUT0JBdXVpTGhtdmFqYWJoekJ3ZDhBMW1zWDhnMnM2ZTlQNmh0Sk92OWw3eU5qZmV1RDdoTmdOMnJtUzdVY3JYdFN3UUV2b054MFZRdzN2UHZHTXE1UExFZ1B0aVdJVURxTnZrUlhLUzlXWDJmby1tUUNnZG1JV1JleFhxeS1INjRMZzFVSktuZldfUnpSRFN4Vi1MUFhxeW5rcnBPSUU5MlNpdllDMHY1VVJ3TXFMd29rWl9WRlNhSnZ0RWFmalpsMXRwVEVndlBhQVBnUUlLMFdIdVJFMzhhLVlEOXBQbHlmZHk2Nl90bmFKbnJYYVdMYjN5TXVsLVBfMmlJQXZiVHlSLUFEazNxS9IBhAVBVV95cUxQXzNRZ2ROZDkyd0hWeHlyUlVBOTRHV0VSVmtmTnl5M28zUnVuS2VQWkhyZDlzUlVNLWFnVUpPY0hrYjEzOVZQNlhGS25Td0dNT050aTR3RkJBV3NNMXZZM0lGUDQ2T0lVaHVCTDFpcmFTZE01MmlBZlliSmNsMkdUaUVOSG1XcUN4bklwanEycmlMZm1HeUZHZU15dnpXMmFzMFMtYXVXWE5pUEFDN0Znek5hdjNMeWY2UGx2Umc5UjRpaUg5VHRRLWhUM2YyOUhpWmROVnhXX0JubjZtTk51Y2J2T1o1NDEwQ2pUdkVuYmtxRzB1NVlDSFY4LXJJeGg5TVNUSTBsU0lzMXlxVkxTYXFQRVh4b2t5NTBfemJpa3psLVd1WE52TDZSM20zTm1qeDhyS3NveDVZZ3BlNUpnLWctTWxxc0dadndVZE1OX3RCOEcxTWNadHhxblAzZllvQzNzbTZWaWw5NHJXY3hYUDEtb05VYTFDWnZUT0JBdXVpTGhtdmFqYWJoekJ3ZDhBMW1zWDhnMnM2ZTlQNmh0Sk92OWw3eU5qZmV1RDdoTmdOMnJtUzdVY3JYdFN3UUV2b054MFZRdzN2UHZHTXE1UExFZ1B0aVdJVURxTnZrUlhLUzlXWDJmby1tUUNnZG1JV1JleFhxeS1INjRMZzFVSktuZldfUnpSRFN4Vi1MUFhxeW5rcnBPSUU5MlNpdllDMHY1VVJ3TXFMd29rWl9WRlNhSnZ0RWFmalpsMXRwVEVndlBhQVBnUUlLMFdIdVJFMzhhLVlEOXBQbHlmZHk2Nl90bmFKbnJYYVdMYjN5TXVsLVBfMmlJQXZiVHlSLUFEazNxSw?oc=5"
+     }
+    ]
+   }
   }
  },
  "queue": {},
@@ -97,7 +348,9 @@
  "last_tone": "",
  "last_collect": 0,
  "inbox_done": [
-  "20260925-180701.json"
+  "20260925-180701.json",
+  "20260926-021900.json",
+  "20260926-041832.json"
  ],
  "settings": {
   "night": [
