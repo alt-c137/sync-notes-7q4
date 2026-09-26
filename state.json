@@ -741,6 +741,130 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
    }
+  },
+  "26": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTFBTYmVENUhKbndlWWotVG8tZEVPTnRHeXcwRzBjU1RpT1VHVmMwbXp2SXE3b0Zwc2JVc3dmRHBGM3pGRVZvN053?oc=5",
+   "created": 1790445452.9870245,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Саудовская Аравия восстановила 987 домов и раздала 10 768 зимних наборов сирийцам\n\nСаудовская Аравия восстановила 987 домов и раздала 10 768 зимних наборов, оказав поддержку 58 625 сирийцам, сообщает издание Sabq.\n\n#Сирия #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 81,
+      "type": "bold"
+     },
+     {
+      "offset": 220,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 227,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 246,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 260,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTFBTYmVENUhKbndlWWotVG8tZEVPTnRHeXcwRzBjU1RpT1VHVmMwbXp2SXE3b0Zwc2JVc3dmRHBGM3pGRVZvN053?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "27": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE0wbUluLU54U1c5NzZVdXJfdTkxRVhpazJ1Mi1DVEdYUGJjV29aTjJnNFgxOXpVMjZHVnBuMl9STVpiSVJ5TkE?oc=5",
+   "created": 1790445452.9870245,
+   "status": "pending",
+   "safe": false,
+   "note": "по заголовку; в источнике «завтра» — дат",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Медина: открывается международная конференция об усилиях Королевства против идейных отклонений\n\nПод патронажем эмира Мединского региона начинается международная конференция, посвящённая усилиям Королевства Саудовская Аравия в противостоянии идейным отклонениям, сообщает агентство SPA.\n\n#Медина #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 94,
+      "type": "bold"
+     },
+     {
+      "offset": 292,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 300,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 319,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 333,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE0wbUluLU54U1c5NzZVdXJfdTkxRVhpazJ1Mi1DVEdYUGJjV29aTjJnNFgxOXpVMjZHVnBuMl9STVpiSVJ5TkE?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "28": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5QV2hHeXF6X0dKcmM3aGwyTFdiSnlKd0FkMmxDYlNoM1BIZmtRQ3JKNzJic2VxcmstWmNWT2U1U3FKLXRCSk1EX0JpekRYcU1jRnRn?oc=5",
+   "created": 1790445452.9870245,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Глава Центра короля Сальмана встретился с Верховным комиссаром ООН по делам беженцев\n\nГенеральный руководитель Центра короля Сальмана по оказанию помощи и гуманитарным действиям (KSrelief) встретился с Верховным комиссаром ООН по делам беженцев, сообщает Twasul.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 84,
+      "type": "bold"
+     },
+     {
+      "offset": 269,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 288,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 302,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5QV2hHeXF6X0dKcmM3aGwyTFdiSnlKd0FkMmxDYlNoM1BIZmtRQ3JKNzJic2VxcmstWmNWT2U1U3FKLXRCSk1EX0JpekRYcU1jRnRn?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
   }
  },
  "queue": {},
@@ -755,7 +879,8 @@
   "20260926-061957.json",
   "20260926-081905.json",
   "20260926-102158.json",
-  "20260926-122040.json"
+  "20260926-122040.json",
+  "20260926-142204.json"
  ],
  "settings": {
   "night": [
