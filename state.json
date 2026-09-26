@@ -340,6 +340,202 @@
      }
     ]
    }
+  },
+  "15": {
+   "tone": "hard",
+   "url": "https://news.google.com/rss/articles/CBMijwVBVV95cUxQM0xxOXpFcHpDVzE2WFlIdEJWdkdzalpISmRBN1ViQlBhZVUyVlFPVU9JNjB1VkpuVkhmZGoxZmVJMXhGeHBtaks4bnFSOGI0SG5BSEcxSlBiRWN6RnI3WjhndE9EUkhDemF2eUYxSHZkZ0dqOUZCdmdEUzBBMG1tRXJvYUYtWU55c0w4dU5EVWFBOGRtbGljTGg1UlA3NV9xbDFqSWN2LU9yM2p6Zm1kYjRxb0RvUHRHTmdXWTRrT2VVbE9VSFR0ZFZoTUhpTC1PN0ZWTnBIQXdIREdUZ3g0RnJwZ1RlVUtMZERpU2swRXhfMXltZDBPbzZGdHFMbmNjbm9zMGRaOE13cG1RN0tQM0pjcmlVM0VjZ1p4YnEtWkhEeGQtZEdnV0t3UmdoeGJ3bmNfblpWaU9EZkc4b2lxSGFOOFpKem5LVmxoaTdaekRxWHd6RXJSX0YyaHhyN0ZWSjl5UllzZXpwZDEyWnF3SEl3NFY2aHYya3k5VzZlVGhqS3ZYRTA5a1dWWVlFaTJmV25nTUFneTVkTGV1MlgzUWMwaDc5ZWs4S1JjdUhkV2VmZFc3MWloTnpOeXZvVUhKS2xXbENJTzRGR2NhZDNfeDhocGFXWFA0anN5VnEwd09rb3A1SlZjXzdBZFc2REViV0FsS0dxZ1NUeEQ2M1dQRDJUVUFJNXJLcTRGMTdaT0U0OEV1ZG1TZ2FMNmpOUWRDdlM1ZFlFR19TcERPRGM2U1haLVp6ck5xaWk0cXVQRUEwUUdDRHgxaVp0ZWItWDVUcVE5T2ppczhKR2dockRuUlQxZDQxRWw4NDQ5dUczdFg3TVdXd2YyNE9jaV9SUE1VbzdHZ3VKenVWRlduYlhZ?oc=5",
+   "created": 1790416131.776174,
+   "status": "pending",
+   "safe": false,
+   "note": "удары Израиля; по заголовку, имена сёл",
+   "snap": {
+    "kind": "text",
+    "text": "🇱🇧 Ливан: израильские удары по сёлам на юге страны\n\nПо данным Национального информационного агентства Ливана, израильские удары были нанесены по Мансури, Мадждаль-Зуну и Вади-Хасану. Также агентство сообщило о взрывах в Бараашите и Хаддасе.\n\n#Ливан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 47,
+      "type": "bold"
+     },
+     {
+      "offset": 244,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 252,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 266,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMijwVBVV95cUxQM0xxOXpFcHpDVzE2WFlIdEJWdkdzalpISmRBN1ViQlBhZVUyVlFPVU9JNjB1VkpuVkhmZGoxZmVJMXhGeHBtaks4bnFSOGI0SG5BSEcxSlBiRWN6RnI3WjhndE9EUkhDemF2eUYxSHZkZ0dqOUZCdmdEUzBBMG1tRXJvYUYtWU55c0w4dU5EVWFBOGRtbGljTGg1UlA3NV9xbDFqSWN2LU9yM2p6Zm1kYjRxb0RvUHRHTmdXWTRrT2VVbE9VSFR0ZFZoTUhpTC1PN0ZWTnBIQXdIREdUZ3g0RnJwZ1RlVUtMZERpU2swRXhfMXltZDBPbzZGdHFMbmNjbm9zMGRaOE13cG1RN0tQM0pjcmlVM0VjZ1p4YnEtWkhEeGQtZEdnV0t3UmdoeGJ3bmNfblpWaU9EZkc4b2lxSGFOOFpKem5LVmxoaTdaekRxWHd6RXJSX0YyaHhyN0ZWSjl5UllzZXpwZDEyWnF3SEl3NFY2aHYya3k5VzZlVGhqS3ZYRTA5a1dWWVlFaTJmV25nTUFneTVkTGV1MlgzUWMwaDc5ZWs4S1JjdUhkV2VmZFc3MWloTnpOeXZvVUhKS2xXbENJTzRGR2NhZDNfeDhocGFXWFA0anN5VnEwd09rb3A1SlZjXzdBZFc2REViV0FsS0dxZ1NUeEQ2M1dQRDJUVUFJNXJLcTRGMTdaT0U0OEV1ZG1TZ2FMNmpOUWRDdlM1ZFlFR19TcERPRGM2U1haLVp6ck5xaWk0cXVQRUEwUUdDRHgxaVp0ZWItWDVUcVE5T2ppczhKR2dockRuUlQxZDQxRWw4NDQ5dUczdFg3TVdXd2YyNE9jaV9SUE1VbzdHZ3VKenVWRlduYlhZ?oc=5"
+     }
+    ]
+   }
+  },
+  "16": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOUldudUlFcC1hTlU3UGxYVFhJZUVMY005czJKLTJwSlVWZnB0SUhMVUNmY2RGMzgyZHRxd1IxbERmQU1heDFwaDBOWjBaWm1lMmdJWXVCVjY2V3NkQnJMWEtKMEZwYmc4LXB3eGVLc1JLWElCZmpQUURaX3JEVVhuTTdicFhtQ3lKTnR3U1Q2YkpzbXd4b1dRbnFsSEw0eHZRX1huT0g5SQ?oc=5",
+   "created": 1790416131.776174,
+   "status": "pending",
+   "safe": false,
+   "note": "политика; только по заголовку",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇫🇷 Франция готовит международную резолюцию по Ормузскому проливу\n\nКак сообщает египетская газета «Аш-Шурук», Франция работает над принятием международной резолюции по Ормузскому проливу.\n\n#Ормузский_пролив\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 61,
+      "type": "bold"
+     },
+     {
+      "offset": 190,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 209,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 223,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOUldudUlFcC1hTlU3UGxYVFhJZUVMY005czJKLTJwSlVWZnB0SUhMVUNmY2RGMzgyZHRxd1IxbERmQU1heDFwaDBOWjBaWm1lMmdJWXVCVjY2V3NkQnJMWEtKMEZwYmc4LXB3eGVLc1JLWElCZmpQUURaX3JEVVhuTTdicFhtQ3lKTnR3U1Q2YkpzbXd4b1dRbnFsSEw0eHZRX1huT0g5SQ?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "17": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5BZXVKc2VOeVE1SXRlWjIycGg4Wko0MXJPUXNKbDNKM2xGU0k2T0pyT1Y4TENSVmthNnFVeXlEVkFPbklXRW42ZGNTMnY0cTFKcXR3?oc=5",
+   "created": 1790416131.776174,
+   "status": "pending",
+   "safe": false,
+   "note": "текст не загрузился, только заголовок",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Открыт авиарейс Аден — Даммам\n\nНовый воздушный маршрут Аден — Даммам сокращает путь йеменцев в Восточную провинцию Саудовской Аравии, сообщает издание Twasul.\n\n#Йемен #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 29,
+      "type": "bold"
+     },
+     {
+      "offset": 165,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 172,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 191,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 205,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5BZXVKc2VOeVE1SXRlWjIycGg4Wko0MXJPUXNKbDNKM2xGU0k2T0pyT1Y4TENSVmthNnFVeXlEVkFPbklXRW42ZGNTMnY0cTFKcXR3?oc=5"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
+   }
+  },
+  "18": {
+   "tone": "good",
+   "url": "https://t.me/asharqnews/35921",
+   "created": 1790416131.776174,
+   "status": "pending",
+   "safe": false,
+   "note": "военная тема, название соглашения",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 В Эр-Рияде встретились начальники генштабов КСА, Пакистана и Турции\n\nВ Эр-Рияде прошла встреча начальников генеральных штабов Саудовской Аравии, Пакистана и Турции в рамках Мекканского соглашения о совместной обороне, сообщает Asharq News. Встреча проведена для укрепления оборонного сотрудничества.\n\n#СаудовскаяАравия #Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 306,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 324,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 335,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 349,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/asharqnews/35921"
+     }
+    ]
+   }
+  },
+  "19": {
+   "tone": "good",
+   "url": "https://asharq.com/politics/197566/%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D9%84%D8%AC%D9%86%D8%A9-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AA%D8%B9%D9%84%D9%86-%D9%81%D8%AA%D8%AD-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%AA%D8%B1%D8%B4%D8%AD-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9-%D9%88%D8%A7%D9%84%D8%B6%D9%81%D8%A9/",
+   "created": 1790416131.776174,
+   "status": "pending",
+   "safe": false,
+   "note": "политика, выборы, Газа",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Палестина: начался приём заявок на парламентские выборы в Газе и на Западном берегу\n\nЦентральная избирательная комиссия Палестины в субботу открыла приём заявок от списков кандидатов на выборы в Законодательный совет 2026 года — одновременно на Западном берегу и в секторе Газа. Приём продлится 12 дней, до среды, 7 октября, а голосование назначено на субботу, 28 ноября.\n\nПо данным комиссии, выдвигаться можно только списками, индивидуальные заявки не принимаются: в списке должно быть от 16 до 132 кандидатов с соблюдением минимальной квоты для женщин.\n\n#Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 83,
+      "type": "bold"
+     },
+     {
+      "offset": 561,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 573,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 587,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://asharq.com/politics/197566/%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D9%84%D8%AC%D9%86%D8%A9-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AA%D8%B9%D9%84%D9%86-%D9%81%D8%AA%D8%AD-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D8%AA%D8%B1%D8%B4%D8%AD-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9-%D9%88%D8%A7%D9%84%D8%B6%D9%81%D8%A9/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMTareVDyrdIGuD8ZMkOOz7Pj1MbwADvA5rG3ubxFGKeGsOPEih2AEAAwIAA3cAAz0E"
+   }
   }
  },
  "queue": {},
@@ -350,7 +546,9 @@
  "inbox_done": [
   "20260925-180701.json",
   "20260926-021900.json",
-  "20260926-041832.json"
+  "20260926-041832.json",
+  "20260926-061957.json",
+  "20260926-081905.json"
  ],
  "settings": {
   "night": [
