@@ -65,6 +65,11 @@ FEEDS = [
     ("Al Arabiya", gnews("site:alarabiya.net", "sa")),
     ("Al Arabiya", "tg:AlArabiya"),
     ("Al-Eqtisad", "https://aleqtsad.org/rss"),
+    # 🕌 Официальные религиозные источники КСА (проверенные, саляфитские)
+    ("Министерство исламских дел КСА", gnews("site:moia.gov.sa", "sa")),
+    ("Всемирная исламская лига", gnews("site:themwl.org", "sa")),
+    ("Харамайн", gnews('"رئاسة الشؤون الدينية" OR "إمام المسجد الحرام" OR "إمام المسجد النبوي" OR '
+                       '"خطيب المسجد الحرام" OR "خطيب المسجد النبوي"', "sa")),
     # 🇦🇪 🇰🇼 Залив
     ("Sky News Arabia", "https://skynewsarabia.com/rss"),
     ("Al Khaleej", gnews("site:alkhaleej.ae", "sa")),
@@ -451,36 +456,56 @@ def parse_at(args):
 
 
 def handle_message(state, msg):
+    """Обычные сообщения и ответы в группе — просто разговор, бот их не трогает.
+    Бот реагирует только на команды: /at и /edit (ответом на черновик) и /status, /night …"""
     if not allowed(msg.get("chat", {}), msg.get("from", {}), msg.get("sender_chat")):
         return
     text = msg.get("text") or ""
-    orig = msg.get("reply_to_message")
-    bot_draft = orig and orig.get("from", {}).get("is_bot")
+    if not text.startswith("/"):
+        return
+    first = text.split()[0].split("@")[0].lower()
+    orig = msg.get("reply_to_message") or {}
+    mid = str(orig.get("message_id", ""))
+    is_draft = mid in state["drafts"] and status_of(state, mid) not in ("published",)
 
-    first = text.split()[0].split("@")[0].lower() if text.strip() else ""
-    if bot_draft and first == "/at":
+    if first in ("/at", "/edit"):
+        if not is_draft:
+            return say(f"Команду {first} нужно отправить <b>ответом на черновик</b> новости.", msg["message_id"])
+        if first == "/edit":
+            return handle_edit(state, msg, orig)
         at = parse_at(text.split()[1:])
         if not at:
             return say("Пример: <code>/at 21:30</code> или <code>/at 27.09 21:30</code>", msg["message_id"])
-        mid = ensure_draft(state, orig)
         enqueue(state, mid, orig, at=at)
         refresh(state, mid)
         return say(f"🕒 Выйдет {fmt(at)}", msg["message_id"])
-    if text.startswith("/"):
-        return handle_command(state, text)
-    if bot_draft and text:
-        handle_edit(state, msg, orig)
+    handle_command(state, text)
+
+
+def utf16_len(text):
+    return len(text.encode("utf-16-le")) // 2
 
 
 def handle_edit(state, msg, orig):
-    """Ответ на черновик новым текстом = замена текста (форматирование сохраняется)."""
+    """«/edit новый текст» ответом на черновик = замена текста (форматирование сохраняется)."""
+    text = msg["text"]
+    m = re.match(r"/edit(?:@\w+)?\s*", text)
+    body = text[m.end():]
+    if not body.strip():
+        return say("Напиши новый текст после команды: <code>/edit Новый текст…</code>", msg["message_id"])
+    shift = utf16_len(text[:m.end()])
+    entities = []
+    for e in msg.get("entities", []):   # сдвигаем жирный, ссылки и т.п. на длину «/edit »
+        start, end = max(e["offset"], shift), e["offset"] + e["length"]
+        if end > start and e.get("type") != "bot_command":
+            entities.append({**e, "offset": start - shift, "length": end - start})
+
     base = {"chat_id": MOD_CHAT_ID, "message_id": orig["message_id"],
             "reply_markup": orig.get("reply_markup")}   # без этого кнопки пропадут
     if orig.get("text") is not None:
-        res = tg("editMessageText", text=msg["text"], entities=msg.get("entities", []), **base)
+        res = tg("editMessageText", text=body, entities=entities, **base)
     else:
-        res = tg("editMessageCaption", caption=msg["text"],
-                 caption_entities=msg.get("entities", []), **base)
+        res = tg("editMessageCaption", caption=body, caption_entities=entities, **base)
     mid = str(orig["message_id"])
     if res and mid in state["queue"]:
         state["queue"][mid]["msg"] = snapshot(res)
@@ -500,7 +525,8 @@ HELP = """<b>Команды бота</b>
 
 <b>Под черновиком</b>: ✅ в очередь, ❌ отклонить, 🕒 отложить, 💧 водяной знак.
 Своё время: ответь на черновик <code>/at 21:30</code> или <code>/at 27.09 21:30</code>.
-Исправить текст: ответь на черновик своим текстом.
+Исправить текст: ответь на черновик <code>/edit Новый текст…</code>
+Обычные сообщения и ответы бот не трогает — можно спокойно переписываться.
 
 Ночью обычная очередь ждёт утра; выходят только отложенные и (с /auto on) проверенные.
 Бот просыпается раз в ~30 минут, поэтому ответ приходит не сразу."""
@@ -992,13 +1018,15 @@ def fetch_article(item):
         return item
     item["link"] = real_link(item["link"])
     item.setdefault("text", "")
+    if "news.google.com" in item["link"]:   # не раскодировалась — на странице Google только логотип
+        return item
     try:
         page = requests.get(item["link"], headers=UA, timeout=25).text
     except Exception as e:
         print("Статья не открылась:", item["link"][:100], e)
         return item
     item["text"] = (trafilatura.extract(page) or "")[:8000]
-    item["image"] = item.get("image") or meta(page, "og:image") or meta(page, "twitter:image")
+    item["page_image"] = meta(page, "og:image") or meta(page, "twitter:image")
     item["video"] = item.get("video") or next(
         (v for v in (meta(page, "og:video:secure_url"), meta(page, "og:video:url"),
                      meta(page, "og:video")) if is_mp4(v)), None)
@@ -1015,10 +1043,33 @@ def build_text(post, link):
     return "\n\n".join(p for p in parts if p)
 
 
+BAD_IMAGE = re.compile(r"news\.google|gstatic|googleusercontent|logo|placeholder|default|favicon|"
+                       r"avatar|icon|blank|spacer", re.I)
+MIN_IMAGE_WIDTH = 600   # картинки меньше — размытые, не берём
+
+
+def best_image(*urls):
+    """Самая крупная нормальная картинка из кандидатов (не меньше MIN_IMAGE_WIDTH).
+    Нет хорошей — None: тогда новость уйдёт без фото."""
+    from PIL import Image
+    best, best_w = None, 0
+    for url in dict.fromkeys(u for u in urls if u):
+        if BAD_IMAGE.search(url):
+            continue
+        data = download(url, 9)
+        try:
+            w, h = Image.open(BytesIO(data)).size if data else (0, 0)
+        except Exception:
+            continue
+        if w >= MIN_IMAGE_WIDTH and h >= 300 and w <= 6 * h and w > best_w:
+            best, best_w = url, w
+    return best
+
+
 def make_entry(item, post):
     """Готовый черновик для дежурного."""
     return {"text": build_text(post, item["link"]), "link": item["link"],
-            "image": item.get("image"), "video": item.get("video"),
+            "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
             "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
             "note": post.get("check_note", "")}
 
@@ -1082,7 +1133,7 @@ def cmd_article(indexes):
             it = fetch_article(items[i])
             out.append({"index": i, "source": it["source"], "title": it["title"], "link": it["link"],
                         "summary": it["summary"], "text": (it.get("text") or "")[:6000],
-                        "has_photo": bool(it.get("image")), "has_video": bool(it.get("video"))})
+                        "has_photo": bool(it.get("image") or it.get("page_image")), "has_video": bool(it.get("video"))})
     write_json("candidates.json", items)   # запомнили раскодированные ссылки и картинки
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
