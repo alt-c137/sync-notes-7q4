@@ -103,6 +103,30 @@ FEEDS = [
     ("Jordan Zad", gnews("site:jordanzad.com", "sa")),
     ("Madar News", "https://madar.news/rss"),
     ("El Djazair El Djadida", gnews("site:eldjazaireldjadida.dz", "sa")),
+    # 🇺🇿 Узбекистан
+    ("Muslim.uz (Управление мусульман)", "tg:muslimuzportal"),
+    ("Kun.uz", "tg:kunuzofficial"),
+    ("Kun.uz", "https://kun.uz/news/rss"),
+    ("Gazeta.uz", "tg:gazetauz"),
+    ("Gazeta.uz", "https://www.gazeta.uz/ru/rss/"),
+    ("Daryo", "tg:daryo"),
+    ("UzA (агентство Узбекистана)", "https://uza.uz/ru/rss"),
+    # 🇹🇯 Таджикистан
+    ("Азия-Плюс", "tg:asiaplustj"),
+    ("Sputnik Таджикистан", "tg:sputniktj"),
+    ("Ховар (агентство Таджикистана)", "https://khovar.tj/rus/feed/"),
+    # 🇰🇿 🇰🇬 Казахстан, Кыргызстан
+    ("Муфтият Казахстана", "tg:muftyat_kz"),
+    ("Tengrinews", "https://tengrinews.kz/news.rss"),
+    ("24.kg", "https://24.kg/rss/"),
+    ("Kaktus Media", "tg:kaktus_media"),
+    # 🇷🇺 🇹🇷 Мусульмане России, Турция
+    ("Ислам сегодня", "https://islam-today.ru/rss/"),
+    ("Анадолу", "https://www.aa.com.tr/ru/rss/default?cat=guncel"),
+    # 🇵🇰 🇮🇩 🇲🇾 Пакистан, Индонезия, Малайзия
+    ("Dawn (Пакистан)", "https://www.dawn.com/feeds/home"),
+    ("Antara (Индонезия)", "https://en.antaranews.com/rss/news.xml"),
+    ("Bernama (Малайзия)", "https://www.bernama.com/en/rssfeed.php"),
     # 🌍 Международные (арабские службы)
     ("Monte Carlo Doualiya", gnews("site:mc-doualiya.com", "sa")),
     ("Euronews Arabic", "https://arabic.euronews.com/rss"),
