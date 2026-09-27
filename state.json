@@ -1417,6 +1417,130 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMuarknYdIwNYV3rPJYo5mqSyOycS8AAgkPaxsZftRRgtxruHbMGYIBAAMCAAN5AAM9BA"
    }
+  },
+  "47": {
+   "tone": "hard",
+   "url": "https://x.com/SaudiNews50/status/2104220952376627294",
+   "created": 1790526330.4955525,
+   "status": "pending",
+   "safe": false,
+   "note": "упоминаются хуситы, нападения",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇲🇦 Король Марокко осудил нападения хуситов на Саудовскую Аравию\n\nКороль Марокко Мухаммад VI направил телеграммы Хранителю двух святынь королю Сальману и наследному принцу Мухаммаду бин Сальману, в которых осудил повторяющиеся нападения хуситов на гражданские и экономические объекты, города и жилые районы Королевства.\n\nКак заявил король, возмущение усиливает то, что нападения перешли к «отчаянным и греховным попыткам» нанести удар по самым чистым и святым для каждого мусульманина местам — Мекке и Медине. По его словам, это «вопиющее посягательство на чувства более миллиарда восьмисот миллионов мусульман».\n\n#Марокко #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 615,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 624,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 643,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 657,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://x.com/SaudiNews50/status/2104220952376627294"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMvarlDe-qswfdlA59cY3D3VGgwY_kAAiAPaxs96dVRvYZ0Yutc4F8BAAMCAAN5AAM9BA"
+   }
+  },
+  "48": {
+   "tone": "hard",
+   "url": "https://x.com/SaudiNews50/status/2104215240137113845",
+   "created": 1790526330.4955525,
+   "status": "pending",
+   "safe": false,
+   "note": "обвинения в убийствах, транслитерация",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Сирия: задержан бригадный генерал прежнего режима Джабер Мухриз\n\nВ Сирии задержан Джабер Мухриз Ибрахим, который при прежнем режиме имел звание бригадного генерала и командовал 138-й бригадой ПВО в Сайде. По данным источника, он ответственен за массовое убийство в Масакин Сайда в провинции Дараа, а его имя связывают с арестами и пытками многих сирийцев, в том числе ребёнка Хамзы аль-Хатыба.\n\n#Сирия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 400,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 408,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 422,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://x.com/SaudiNews50/status/2104215240137113845"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMwarlDfqTEF4HZEFcLpqCS1lhe9GoAAlAPaxtI1s1RoNOFjiYRfgwBAAMCAAN5AAM9BA"
+   }
+  },
+  "49": {
+   "tone": "good",
+   "url": "https://x.com/SaudiNews50/status/2104222435402825952",
+   "created": 1790526330.4955525,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Министры обороны Саудовской Аравии и Малайзии провели телефонный разговор\n\nМинистр обороны Саудовской Аравии принц Халид бин Сальман провёл телефонный разговор с министром обороны Малайзии Мохамедом Халедом Нордином. Стороны обсудили братские саудовско-малайзийские отношения, перспективы двустороннего сотрудничества в оборонной сфере, усилия в связи с текущими событиями в регионе и ряд вопросов, представляющих взаимный интерес.\n\n#СаудовскаяАравия #Малайзия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 73,
+      "type": "bold"
+     },
+     {
+      "offset": 438,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 456,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 467,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 481,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://x.com/SaudiNews50/status/2104222435402825952"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMxarlDgZLwtllgl0eK8M75MZ4X24sAAlUPaxuRXc1R9zlEG4Scp6gBAAMCAAN5AAM9BA"
+   }
   }
  },
  "queue": {},
@@ -1438,7 +1562,8 @@
   "20260927-062322.json",
   "20260927-082027.json",
   "20260927-102102.json",
-  "20260927-142048.json"
+  "20260927-142048.json",
+  "20260927-162223.json"
  ],
  "settings": {
   "night": [
