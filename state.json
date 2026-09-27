@@ -1047,6 +1047,129 @@
      }
     ]
    }
+  },
+  "38": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTFBqc05ZR0VLOUdnZTJsVGJfb0JiNDVqWXl4dDNaYUdYcjBWMHB0REJ3MVp1azhfVDJDbThsOWY5YmNZUGZQakcwNw?oc=5",
+   "created": 1790490333.109138,
+   "status": "pending",
+   "safe": false,
+   "note": "только заголовок, источник El Aosboa",
+   "snap": {
+    "kind": "text",
+    "text": "🇪🇬 Египет: министерство вакфов раздаст имамам 8000 комплектов азхарской одежды\n\nМинистерство вакфов Египта завтра начнёт раздачу 8000 полных комплектов азхарской одежды для имамов.\n\n#Египет #Мечети\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 75,
+      "type": "bold"
+     },
+     {
+      "offset": 184,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 192,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 201,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 215,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTFBqc05ZR0VLOUdnZTJsVGJfb0JiNDVqWXl4dDNaYUdYcjBWMHB0REJ3MVp1azhfVDJDbThsOWY5YmNZUGZQakcwNw?oc=5"
+     }
+    ]
+   }
+  },
+  "39": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBpbUV3dFZfZWV2ZWNwaHc4X3BmcUJpVTd5eUV1TURGUW9odmdVbktwY2dZXzNWLTJ1WVBUVENTbks3RlBDckZ1UE5R?oc=5",
+   "created": 1790490333.109138,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Министр иностранных дел Саудовской Аравии встретился с министром иностранных дел Алжира\n\nМинистр иностранных дел Саудовской Аравии встретился с министром иностранных дел Алжира, сообщает агентство SPA.\n\n#СаудовскаяАравия #Алжир\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 87,
+      "type": "bold"
+     },
+     {
+      "offset": 208,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 226,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 234,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 248,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFBpbUV3dFZfZWV2ZWNwaHc4X3BmcUJpVTd5eUV1TURGUW9odmdVbktwY2dZXzNWLTJ1WVBUVENTbks3RlBDckZ1UE5R?oc=5"
+     }
+    ]
+   }
+  },
+  "40": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5BbHBKNlV4LWFVYTY0YUpqdUwtV28xNnkycXpKUlN4NEpUZHNQLU50RDk3d010b0diSUZBMURZOE9IQURUWjhPaHpSV1dNNlRp?oc=5",
+   "created": 1790490333.109138,
+   "status": "pending",
+   "safe": false,
+   "note": "политика; только заголовок",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Саудовская Аравия призвала поддержать усилия по урегулированию в Йемене\n\nСаудовская Аравия подчеркнула важность поддержки усилий по урегулированию в Йемене и обеспечения защиты свободы судоходства в Ормузском проливе, Баб-эль-Мандебском проливе, Красном море и Аденском заливе, сообщает агентство Saba.\n\n#СаудовскаяАравия #Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 309,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 327,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 335,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 349,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5BbHBKNlV4LWFVYTY0YUpqdUwtV28xNnkycXpKUlN4NEpUZHNQLU50RDk3d010b0diSUZBMURZOE9IQURUWjhPaHpSV1dNNlRp?oc=5"
+     }
+    ]
+   }
   }
  },
  "queue": {
@@ -1177,7 +1300,8 @@
   "20260926-122040.json",
   "20260926-142204.json",
   "20260927-021926.json",
-  "20260927-041909.json"
+  "20260927-041909.json",
+  "20260927-062322.json"
  ],
  "settings": {
   "night": [
