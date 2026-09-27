@@ -5,90 +5,27 @@
    "tone": "good",
    "url": "https://www.annahar.com/economy/351338/أول-شحنة-قمح-فرنسي-لليمن-منذ-4-سنوات",
    "created": 1790359721.5511644,
-   "status": "pending",
+   "status": "rejected",
    "safe": true,
    "note": "",
-   "media": true,
-   "snap": {
-    "kind": "photo",
-    "text": "🇾🇪 Йемен: первая за 4 года партия французской пшеницы\n\nПо данным Группы Лондонской фондовой биржи (LSEG), опубликованным в пятницу, во Франции идёт погрузка около 60 тысяч тонн пшеницы на судно для отправки в Йемен. Сухогруз должен загрузить 20 тысяч тонн в порту Дюнкерк, уже приняв 40 тысяч тонн в Руане.\n\nСогласно данным Европейской комиссии, это будет первая партия французской пшеницы в Йемен с сентября 2022 года. Поставка происходит в то время, когда импортёры ищут замену затруднённым поставкам из Черноморского региона.\n\n#Йемен\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 50,
-      "type": "bold"
-     },
-     {
-      "offset": 532,
-      "length": 6,
-      "type": "hashtag"
-     },
-     {
-      "offset": 540,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 554,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://www.annahar.com/economy/351338/أول-شحنة-قمح-فرنسي-لليمن-منذ-4-سنوات"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAMCara4q_gQSLoCLjJzo00cGUxN1FQAAvYOaxvWUL1R3yRcNZjFY7cBAAMCAAN3AAM9BA"
-   }
+   "media": true
   },
   "3": {
    "tone": "good",
    "url": "https://www.okaz.com.sa/local/na/2267801",
    "created": 1790359721.5511644,
-   "status": "pending",
+   "status": "rejected",
    "safe": true,
    "note": "",
-   "media": true,
-   "snap": {
-    "kind": "photo",
-    "text": "🇸🇦 Саудовская Аравия: гостевую визу можно продлить через «Абшир»\n\nГлавное управление паспортов Саудовской Аравии объявило о доступности услуги продления однократной и многократной гостевой визы для физических лиц — граждан и резидентов — через платформу «Абшир».\n\nКак пояснили в управлении на своей странице в соцсети X, для этого нужно войти в «Абшир» и выбрать разделы «Мои услуги», «Паспорта», затем «Услуги для посетителей», соблюдая условия и правила.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 61,
-      "type": "bold"
-     },
-     {
-      "offset": 460,
-      "length": 17,
-      "type": "hashtag"
-     },
-     {
-      "offset": 479,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 493,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://www.okaz.com.sa/local/na/2267801"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAMDara4rXzrmoyicQxli5T0wRv_OlEAAt8Oaxuz67RRD1IKInvwZ4EBAAMCAAN5AAM9BA"
-   }
+   "media": true
   },
   "4": {
    "tone": "hard",
    "url": "https://asharq.com/politics/197515/%D8%A3%D8%B9%D8%B6%D8%A7%D8%A1-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D9%8A%D8%AF%D9%8A%D9%86%D9%88%D9%86-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D8%B6%D8%AF-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9/",
    "created": 1790359721.5511644,
-   "status": "pending",
+   "status": "rejected",
    "safe": false,
-   "note": "упоминаются хуситы, цифры жертв",
-   "snap": {
-    "kind": "text",
-    "text": "Не знаю ты прочитаешь или нет но не отправляй эти новости я уже опубликовал.",
-    "entities": []
-   }
+   "note": "упоминаются хуситы, цифры жертв"
   },
   "9": {
    "tone": "good",
