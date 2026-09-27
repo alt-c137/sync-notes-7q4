@@ -1,5 +1,5 @@
 {
- "offset": 498374795,
+ "offset": 498374800,
  "drafts": {
   "2": {
    "tone": "good",
@@ -884,7 +884,7 @@
    "tone": "hard",
    "url": "https://www.okaz.com.sa/local/na/2267979",
    "created": 1790488525.5622659,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "Иран, политика; перевод «غاشمة»",
    "media": true,
@@ -927,7 +927,7 @@
    "tone": "good",
    "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5",
    "created": 1790488525.5622659,
-   "status": "pending",
+   "status": "queued",
    "safe": true,
    "note": "",
    "snap": {
@@ -968,7 +968,7 @@
    "tone": "hard",
    "url": "https://sana.sy/international/2590662/",
    "created": 1790488525.5622659,
-   "status": "pending",
+   "status": "queued",
    "safe": false,
    "note": "цифры жертв",
    "media": true,
@@ -1011,7 +1011,7 @@
    "tone": "hard",
    "url": "https://www.skynewsarabia.com/middle-east/1894621-%D8%AC%D9%8A%D8%A8%D9%88%D8%AA%D9%8A-%D9%86%D8%B3%D8%AA%D8%B7%D9%8A%D8%B9-%D8%A8%D9%85%D9%81%D8%B1%D8%AF%D9%86%D8%A7-%D8%AA%D9%84%D8%A8%D9%8A%D8%A9-%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%81%D8%A7%D8%B1%D9%8A%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86",
    "created": 1790488525.5622659,
-   "status": "pending",
+   "status": "queued",
    "safe": false,
    "note": "упоминаются хуситы",
    "snap": {
@@ -1049,10 +1049,123 @@
    }
   }
  },
- "queue": {},
+ "queue": {
+  "35": {
+   "tone": "good",
+   "approved_at": 1790488855.6902807,
+   "msg": {
+    "kind": "text",
+    "text": "🇸🇦 Министр иностранных дел КСА встретился с генсекретарём ООН\n\nМинистр иностранных дел Саудовской Аравии принц Фейсал бин Фархан встретился с Генеральным секретарём ООН Антониу Гутерришем, сообщает агентство SPA.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 58,
+      "type": "bold"
+     },
+     {
+      "offset": 216,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 234,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 240,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 254,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5"
+     }
+    ]
+   }
+  },
+  "36": {
+   "tone": "hard",
+   "approved_at": 1790488855.6902807,
+   "msg": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: пять палестинцев ранены при авиаударе по палатке с переселенцами\n\nУтром в воскресенье израильский беспилотник нанёс удар по палатке с переселенцами у рынка в квартале Шейх-Радван на севере города Газа, ранены пять человек, сообщает агентство WAFA (по данным SANA).\n\nПо тем же данным, с начала прекращения огня в октябре прошлого года в секторе погибли 1408 человек, ранены более 4890. На Западном берегу израильские военные заняли дом в деревне Аль-Мугайир к северо-востоку от Рамаллаха, выселив семью, а накануне задержали четырёх фермеров из Кафр-эль-Лабада во время сбора оливок.\n\n#Палестина #Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 595,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 606,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 613,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 627,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/international/2590662/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMkariv2CknTmQjGTH8vXrh7cVH9pwAAosOaxsTfcxRVt_O9OkbtJsBAAMCAAN4AAM9BA"
+   }
+  },
+  "37": {
+   "tone": "hard",
+   "approved_at": 1790488855.6902807,
+   "msg": {
+    "kind": "text",
+    "text": "🇾🇪 Джибути: мы не можем в одиночку помочь бегущим из Йемена\n\nМинистр иностранных дел Джибути Абдулкадир Омар заявил на Генеральной Ассамблее ООН, что страна испытывает растущее гуманитарное давление из-за конфликта в Йемене: по оценкам ООН, число прибывших из Йемена может достичь 10 тысяч человек. По его словам, беженцы создают большую нагрузку на принимающие общины в районе Обок и на лагерь Маркази.\n\nМинистр призвал мировое сообщество усилить поддержку Джибути, а также к деэскалации и политическому урегулированию в Йемене, где, по данным Sky News Arabia, идут бои между хуситами и правительственными силами.\n\n#Йемен #Джибути\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 56,
+      "type": "bold"
+     },
+     {
+      "offset": 618,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 625,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 635,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 649,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.skynewsarabia.com/middle-east/1894621-%D8%AC%D9%8A%D8%A8%D9%88%D8%AA%D9%8A-%D9%86%D8%B3%D8%AA%D8%B7%D9%8A%D8%B9-%D8%A8%D9%85%D9%81%D8%B1%D8%AF%D9%86%D8%A7-%D8%AA%D9%84%D8%A8%D9%8A%D8%A9-%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%81%D8%A7%D8%B1%D9%8A%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86"
+     }
+    ]
+   }
+  }
+ },
  "wm": {},
- "last_publish": 0,
- "last_tone": "",
+ "last_publish": 1790488855.6902807,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
