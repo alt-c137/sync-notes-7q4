@@ -1293,6 +1293,92 @@
      }
     ]
    }
+  },
+  "44": {
+   "tone": "good",
+   "url": "https://x.com/SaudiNews50/status/2104084727011356824",
+   "created": 1790504768.5456917,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Джидда: аэропорт начал поэтапно открывать терминал № 4\n\nС сегодняшнего дня аэропорты Джидды начинают поэтапный ввод в эксплуатацию терминала № 4 площадью 97 тысяч квадратных метров и пропускной способностью до 15 миллионов пассажиров в год.\n\n#СаудовскаяАравия #Джидда\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 247,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 265,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 274,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 288,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://x.com/SaudiNews50/status/2104084727011356824"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMsarjvQVyjNTLZgG0YYtey5XUYozgAAmIOaxvSvsxR9Bry03mPIicBAAMCAAN4AAM9BA"
+   }
+  },
+  "45": {
+   "tone": "good",
+   "url": "https://x.com/SaudiNews50/status/2104106201453596717",
+   "created": 1790504768.5456917,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇩 Судан: запущен саудовский конвой с гуманитарной помощью\n\nВ Судане запущен саудовский гуманитарный конвой с различной помощью. SaudiNews50 опубликовал кадры его отправки.\n\n#Судан #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 176,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 183,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 202,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 216,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://x.com/SaudiNews50/status/2104106201453596717"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMtarjvRGu6onXpHDPU8OYj3IgINMAAAkMPaxukOMVRR1qa3qGosIgBAAMCAAN5AAM9BA"
+   }
   }
  },
  "queue": {},
@@ -1312,7 +1398,8 @@
   "20260927-021926.json",
   "20260927-041909.json",
   "20260927-062322.json",
-  "20260927-082027.json"
+  "20260927-082027.json",
+  "20260927-102102.json"
  ],
  "settings": {
   "night": [
