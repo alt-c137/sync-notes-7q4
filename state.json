@@ -802,6 +802,251 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMKardPE_W-LTCanr5atcq2_zcSW44AAoIPaxv-TbxTySoVj9YsE2ABAAMCAANtAAM9BA"
    }
+  },
+  "32": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMinAVBVV95cUxOd3FjZ1pYSHdqX3VUMEZuQk95YUx1SWNmX2IyS052YURvdjZKTnBpWlVRRl9hNGVxZmlvd2tDUnpFOF91LVhiVHpfSWpkQkRFckNCNmFjVkNqd0x5QTVvSENmMnZCOTlHZEhiSlAwQXEwLUVvRjh4ejdXRWQxbVJWSDZTaXd1RkZCa3o5TFRlVVNiRFBVeGhWT3VGWTNtTmpVUzFrMjFBWE92OWMxWERTS21FRmhOVUd6ZXdNeGtucWkxdDgzMUd3WVBKTGprd1JaYWpYWEdwMG1aTFdXOVdCcFc4eU5adWJBcExtZnJIR2FnQWx0YnZPSUN4Z3V2V0tSUXVzb21Qa1BEejczUFVjWmFRVEUtZWdZR1plMF9tZFFCbURPblhlaXdWREZhZVJlc1VPdFpmc2JHN0t6dnBWY0RpcXpnaU9LX2w0Q0pnZHJiSmgzdEN6MElYZEM5Z0ZubWExQjFqcWw1VHhKb0N3ZzZHdjZvSjNnZVBhS29XbjA0UldUbmczVGpLWXlHQjc5MXBMRTE1a1ZOaW1SeFYyVy1hLWhDVmxya0d5SzZDUEhhbFZLcG9KQXdRSUxJdnpvZ1VZcXI5a1l5NmNRN1J0MFc4QjQtaVl5bjZ4SVUxZm9jWm90dG1hY0I3Vi1fU3NhV2pkZVVpZ096bU9KajluTVl4dUwyMTRHNlBCMUhhdDdZdzdGY0NPTjZRZHRYM0RYazZ0VEZydjY5VGw5ajZRTHlkVFAwQTB1cGFkOGU0RW95MkZVbUdrVGswV055c3B2WVl5aVdZUXZsODJGT0FlaUVxZXE5TFBBRFNqa0FsQWN5TEtaMXhsekxfRkZXU3dJdnBYVEdRMXR3UnY1NW5laXdDLVpIaURBeVBWVtIBU0FVX3lxTE1uWGpxTmR5TW1rdmw5aEZDbTNVVG1Kam9ZZDkzRGN6Y2ZRMHQ0YUEyMUNLdXNfWEsyc1BWTUl1UTZwdGp5RWFaZkIyVWxFZWxqVk9N?oc=5",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Харамайн: объявлен график имамов двух святынь до 22 раби аль-ахира\n\nПрезидентство по делам религии в мечети Аль-Харам и мечети Пророка ﷺ объявило график имамов двух благородных святынь на период до 22 раби аль-ахира.\n\n#Харамайн\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 223,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 234,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 248,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMinAVBVV95cUxOd3FjZ1pYSHdqX3VUMEZuQk95YUx1SWNmX2IyS052YURvdjZKTnBpWlVRRl9hNGVxZmlvd2tDUnpFOF91LVhiVHpfSWpkQkRFckNCNmFjVkNqd0x5QTVvSENmMnZCOTlHZEhiSlAwQXEwLUVvRjh4ejdXRWQxbVJWSDZTaXd1RkZCa3o5TFRlVVNiRFBVeGhWT3VGWTNtTmpVUzFrMjFBWE92OWMxWERTS21FRmhOVUd6ZXdNeGtucWkxdDgzMUd3WVBKTGprd1JaYWpYWEdwMG1aTFdXOVdCcFc4eU5adWJBcExtZnJIR2FnQWx0YnZPSUN4Z3V2V0tSUXVzb21Qa1BEejczUFVjWmFRVEUtZWdZR1plMF9tZFFCbURPblhlaXdWREZhZVJlc1VPdFpmc2JHN0t6dnBWY0RpcXpnaU9LX2w0Q0pnZHJiSmgzdEN6MElYZEM5Z0ZubWExQjFqcWw1VHhKb0N3ZzZHdjZvSjNnZVBhS29XbjA0UldUbmczVGpLWXlHQjc5MXBMRTE1a1ZOaW1SeFYyVy1hLWhDVmxya0d5SzZDUEhhbFZLcG9KQXdRSUxJdnpvZ1VZcXI5a1l5NmNRN1J0MFc4QjQtaVl5bjZ4SVUxZm9jWm90dG1hY0I3Vi1fU3NhV2pkZVVpZ096bU9KajluTVl4dUwyMTRHNlBCMUhhdDdZdzdGY0NPTjZRZHRYM0RYazZ0VEZydjY5VGw5ajZRTHlkVFAwQTB1cGFkOGU0RW95MkZVbUdrVGswV055c3B2WVl5aVdZUXZsODJGT0FlaUVxZXE5TFBBRFNqa0FsQWN5TEtaMXhsekxfRkZXU3dJdnBYVEdRMXR3UnY1NW5laXdDLVpIaURBeVBWVtIBU0FVX3lxTE1uWGpxTmR5TW1rdmw5aEZDbTNVVG1Kam9ZZDkzRGN6Y2ZRMHQ0YUEyMUNLdXNfWEsyc1BWTUl1UTZwdGp5RWFaZkIyVWxFZWxqVk9N?oc=5"
+     }
+    ]
+   }
+  },
+  "33": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiwARBVV95cUxPX2tyMFVuYVl0ZzJjQmI1c1VHd25RRHZTRE5mbEt2Ry1KelAtdFZDN09raUw2VEJCMU1kYi1jX2h2ZHRsai1IMXpWenFCa1oteENza1p6SHFwSkVILW83LWFrT19TbHdNYUwzUGIzNzlla3hCLW1vS2IzcGFBTVB0bXpFNDE2aVhkNUN3VXNCZXFiSE9YZU9HRUJFOGhjdHJoWVVGdFA0R0duRXJFa1BRd1FNZ0FSMkN1LVpNZWdxeXhvT0lrWmF5V3JTMFBSYzFraG1WTDd6MkFhbzZ0cDhucWFCUzQxUjdRSEM0c0ZBMFhvMHBMM3RETTNNTWhDOHdZb082R2xNX1ZnMy1ZQl9sRTdwX1R0bWJfTkQzeVJNeUdDYkNxMEdieldFeWR5dGhHdGNPcmplVmtJSUM3bE5OTDJPZ3RhTldHdjY5M2ZfLUdCOTgwb3hPdGN3aGxEdmd4aVQxdDloSF9VXzhHclJvYkk4ZTl6b2NtNDNvQXlQZzk1ZlNPa09ZM1hnMTBnam1GTlMwdFRnanRnWjBncW52WE9OQklGM2I3M0I1Y290dE0yeTRLOFZMZlRDUHZkbG8tMVQtemhNaEpoN05TYTBiVTRRWG5mZTVUNlJaamYydkVuM2pjckpsUGt2Qml2am9PR3ZFZWJBRVltUXd4cXJUa1Y1akVvWk9rMS1YMVQtVUp0Y3ZUeDYyNVF2cjd4dGxQMEFzUlA3RjJrb1NFbGVvak1mNFE0aGxNcEJQQi1KQXU?oc=5",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": false,
+   "note": "только заголовок; проверить название",
+   "snap": {
+    "kind": "text",
+    "text": "🇦🇪 ОАЭ: «Гуманитарный мост Ахмада бин Рашида» готовит 10 млн порций еды для Газы\n\nКак сообщает газета Al Khaleej, в рамках инициативы «Гуманитарный мост Ахмада бин Рашида» готовятся 10 миллионов порций еды для жителей Газы.\n\n#Палестина #Помощь\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 77,
+      "type": "bold"
+     },
+     {
+      "offset": 227,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 238,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 247,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 261,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiwARBVV95cUxPX2tyMFVuYVl0ZzJjQmI1c1VHd25RRHZTRE5mbEt2Ry1KelAtdFZDN09raUw2VEJCMU1kYi1jX2h2ZHRsai1IMXpWenFCa1oteENza1p6SHFwSkVILW83LWFrT19TbHdNYUwzUGIzNzlla3hCLW1vS2IzcGFBTVB0bXpFNDE2aVhkNUN3VXNCZXFiSE9YZU9HRUJFOGhjdHJoWVVGdFA0R0duRXJFa1BRd1FNZ0FSMkN1LVpNZWdxeXhvT0lrWmF5V3JTMFBSYzFraG1WTDd6MkFhbzZ0cDhucWFCUzQxUjdRSEM0c0ZBMFhvMHBMM3RETTNNTWhDOHdZb082R2xNX1ZnMy1ZQl9sRTdwX1R0bWJfTkQzeVJNeUdDYkNxMEdieldFeWR5dGhHdGNPcmplVmtJSUM3bE5OTDJPZ3RhTldHdjY5M2ZfLUdCOTgwb3hPdGN3aGxEdmd4aVQxdDloSF9VXzhHclJvYkk4ZTl6b2NtNDNvQXlQZzk1ZlNPa09ZM1hnMTBnam1GTlMwdFRnanRnWjBncW52WE9OQklGM2I3M0I1Y290dE0yeTRLOFZMZlRDUHZkbG8tMVQtemhNaEpoN05TYTBiVTRRWG5mZTVUNlJaamYydkVuM2pjckpsUGt2Qml2am9PR3ZFZWJBRVltUXd4cXJUa1Y1akVvWk9rMS1YMVQtVUp0Y3ZUeDYyNVF2cjd4dGxQMEFzUlA3RjJrb1NFbGVvak1mNFE0aGxNcEJQQi1KQXU?oc=5"
+     }
+    ]
+   }
+  },
+  "34": {
+   "tone": "hard",
+   "url": "https://www.okaz.com.sa/local/na/2267979",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": false,
+   "note": "Иран, политика; перевод «غاشمة»",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Министр иностранных дел КСА в ООН: Королевство вправе защищать свою безопасность\n\nМинистр иностранных дел Саудовской Аравии принц Фейсал бин Фархан бин Абдуллах выступил в субботу в Нью-Йорке на 81-й сессии Генеральной Ассамблеи ООН. Он заявил, что Королевство и страны региона подверглись жестоким иранским нападениям, и Королевство подтверждает своё полное право защищать свою безопасность, суверенитет, граждан и проживающих на его земле.\n\nМинистр также призвал обеспечить свободу судоходства в Ормузском проливе, Баб-эль-Мандебе, Красном море и Аденском заливе и сообщил, что помощь Королевства Йемену превысила 29 млрд долларов.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 80,
+      "type": "bold"
+     },
+     {
+      "offset": 640,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 658,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 664,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 678,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2267979"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMiariv1CZZjEUg_ydRbWzVnCJYY_kAAlIOaxvBP8xR_irogewFZsoBAAMCAAN5AAM9BA"
+   }
+  },
+  "35": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Министр иностранных дел КСА встретился с генсекретарём ООН\n\nМинистр иностранных дел Саудовской Аравии принц Фейсал бин Фархан встретился с Генеральным секретарём ООН Антониу Гутерришем, сообщает агентство SPA.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 58,
+      "type": "bold"
+     },
+     {
+      "offset": 216,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 234,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 240,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 254,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5"
+     }
+    ]
+   }
+  },
+  "36": {
+   "tone": "hard",
+   "url": "https://sana.sy/international/2590662/",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": false,
+   "note": "цифры жертв",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: пять палестинцев ранены при авиаударе по палатке с переселенцами\n\nУтром в воскресенье израильский беспилотник нанёс удар по палатке с переселенцами у рынка в квартале Шейх-Радван на севере города Газа, ранены пять человек, сообщает агентство WAFA (по данным SANA).\n\nПо тем же данным, с начала прекращения огня в октябре прошлого года в секторе погибли 1408 человек, ранены более 4890. На Западном берегу израильские военные заняли дом в деревне Аль-Мугайир к северо-востоку от Рамаллаха, выселив семью, а накануне задержали четырёх фермеров из Кафр-эль-Лабада во время сбора оливок.\n\n#Палестина #Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 595,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 606,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 613,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 627,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/international/2590662/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMkariv2CknTmQjGTH8vXrh7cVH9pwAAosOaxsTfcxRVt_O9OkbtJsBAAMCAAN4AAM9BA"
+   }
+  },
+  "37": {
+   "tone": "hard",
+   "url": "https://www.skynewsarabia.com/middle-east/1894621-%D8%AC%D9%8A%D8%A8%D9%88%D8%AA%D9%8A-%D9%86%D8%B3%D8%AA%D8%B7%D9%8A%D8%B9-%D8%A8%D9%85%D9%81%D8%B1%D8%AF%D9%86%D8%A7-%D8%AA%D9%84%D8%A8%D9%8A%D8%A9-%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%81%D8%A7%D8%B1%D9%8A%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86",
+   "created": 1790488525.5622659,
+   "status": "pending",
+   "safe": false,
+   "note": "упоминаются хуситы",
+   "snap": {
+    "kind": "text",
+    "text": "🇾🇪 Джибути: мы не можем в одиночку помочь бегущим из Йемена\n\nМинистр иностранных дел Джибути Абдулкадир Омар заявил на Генеральной Ассамблее ООН, что страна испытывает растущее гуманитарное давление из-за конфликта в Йемене: по оценкам ООН, число прибывших из Йемена может достичь 10 тысяч человек. По его словам, беженцы создают большую нагрузку на принимающие общины в районе Обок и на лагерь Маркази.\n\nМинистр призвал мировое сообщество усилить поддержку Джибути, а также к деэскалации и политическому урегулированию в Йемене, где, по данным Sky News Arabia, идут бои между хуситами и правительственными силами.\n\n#Йемен #Джибути\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 56,
+      "type": "bold"
+     },
+     {
+      "offset": 618,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 625,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 635,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 649,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.skynewsarabia.com/middle-east/1894621-%D8%AC%D9%8A%D8%A8%D9%88%D8%AA%D9%8A-%D9%86%D8%B3%D8%AA%D8%B7%D9%8A%D8%B9-%D8%A8%D9%85%D9%81%D8%B1%D8%AF%D9%86%D8%A7-%D8%AA%D9%84%D8%A8%D9%8A%D8%A9-%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%81%D8%A7%D8%B1%D9%8A%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86"
+     }
+    ]
+   }
   }
  },
  "queue": {},
@@ -817,7 +1062,9 @@
   "20260926-081905.json",
   "20260926-102158.json",
   "20260926-122040.json",
-  "20260926-142204.json"
+  "20260926-142204.json",
+  "20260927-021926.json",
+  "20260927-041909.json"
  ],
  "settings": {
   "night": [
