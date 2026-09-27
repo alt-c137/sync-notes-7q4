@@ -1541,6 +1541,129 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMxarlDgZLwtllgl0eK8M75MZ4X24sAAlUPaxuRXc1R9zlEG4Scp6gBAAMCAAN5AAM9BA"
    }
+  },
+  "50": {
+   "tone": "good",
+   "url": "https://kun.uz/news/2026/09/27/samarqandda-jahon-vaqf-forumi-otkaziladi",
+   "created": 1790533241.4654489,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇺🇿 Узбекистан: Всемирный форум вакфов пройдёт в Самарканде\n\nДелегация во главе с заместителем председателя Управления мусульман Узбекистана, председателем общественного благотворительного фонда «Вакф» Зайниддином Эшонкуловым приняла участие в Неделе исламской экономики и Всемирном форуме вакфов в Малайзии. Достигнута договорённость провести Всемирный форум вакфов в ноябре этого года в Самарканде. На него планируется пригласить около 300 государственных чиновников и экспертов из мусульманских стран.\n\nМалайзийское издательство «Нашрул Куран» через фонд «Вакф» подарило народу Узбекистана 20 тысяч экземпляров книги «Священный Коран и перевод смыслов на узбекский язык».\n\n#Узбекистан #Вакф\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 677,
+      "length": 11,
+      "type": "hashtag"
+     },
+     {
+      "offset": 689,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 696,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 710,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://kun.uz/news/2026/09/27/samarqandda-jahon-vaqf-forumi-otkaziladi"
+     }
+    ]
+   }
+  },
+  "51": {
+   "tone": "good",
+   "url": "https://t.me/sana_gov/185828",
+   "created": 1790533241.4654489,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇾 Сирия: при поддержке Центра короля Сальмана восстановлены 10 школ\n\nВ сельских районах Дамаска и в Хомсе завершено восстановление 10 школ при поддержке Центра короля Сальмана по оказанию помощи и гуманитарным операциям, сообщает агентство SANA.\n\n#Сирия #ЦентрКороляСальмана\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 65,
+      "type": "bold"
+     },
+     {
+      "offset": 250,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 257,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 279,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 293,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/sana_gov/185828"
+     }
+    ]
+   }
+  },
+  "52": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE4zdUVtdjRjN0ZNTWMzMGpXYW5pU0RWWE1vUzVLTnlCZlV2OHpzV1Y0ZUNlM29CaGQ3TTVCblBSME92XzB6aHVZMFNZZ2dHa1hs?oc=5",
+   "created": 1790533241.4654489,
+   "status": "pending",
+   "safe": false,
+   "note": "только по заголовку, нет деталей",
+   "snap": {
+    "kind": "text",
+    "text": "🇾🇪 Йемен: министерство вакфов подписало соглашение об обслуживании паломников\n\nМинистерство вакфов Йемена подписало соглашение об оказании услуг йеменским паломникам в сезон хаджа 1448 года хиджры, сообщает агентство Saba.\n\n#Йемен #Хадж\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 226,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 233,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 240,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 254,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE4zdUVtdjRjN0ZNTWMzMGpXYW5pU0RWWE1vUzVLTnlCZlV2OHpzV1Y0ZUNlM29CaGQ3TTVCblBSME92XzB6aHVZMFNZZ2dHa1hs?oc=5"
+     }
+    ]
+   }
   }
  },
  "queue": {},
@@ -1563,7 +1686,8 @@
   "20260927-082027.json",
   "20260927-102102.json",
   "20260927-142048.json",
-  "20260927-162223.json"
+  "20260927-162223.json",
+  "20260927-182001.json"
  ],
  "settings": {
   "night": [
