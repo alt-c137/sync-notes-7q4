@@ -1170,6 +1170,129 @@
      }
     ]
    }
+  },
+  "41": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5vbWJXLXF4NjlZR2xXZl8yOHdZbTdIbTNiLWpZMmdrbThmeXpKNnY2RTUtMDFtblhJVzNNNTVGMHlrMU84cENJ?oc=5",
+   "created": 1790497237.4244208,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Центр короля Сальмана запустил третий этап инициативы «Мадад» в Судане\n\nЦентр короля Сальмана запустил третий этап инициативы «Мадад» в Судане, сообщает издание Sabq.\n\n#СаудовскаяАравия #Судан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 173,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 191,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 199,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 213,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5vbWJXLXF4NjlZR2xXZl8yOHdZbTdIbTNiLWpZMmdrbThmeXpKNnY2RTUtMDFtblhJVzNNNTVGMHlrMU84cENJ?oc=5"
+     }
+    ]
+   }
+  },
+  "42": {
+   "tone": "good",
+   "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1hWHQxaUZnUXY1WnNoRzAwWEQzMmNaYkdzTlo1TnNpNldRd1Q5SjBkQ2dZSmdUUTZUODZPb0NhcTkwRkoxQVZTb1BCTGI?oc=5",
+   "created": 1790497237.4244208,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇶 Ирак: жеребьёвка на хадж в этом году — для пожилых\n\nКак заявил глава управления по делам хаджа Ирака, жеребьёвка этого года будет предназначена для пожилых людей. По данным агентства INA, сегодня управление проводит электронную жеребьёвку на хадж.\n\n#Хадж #Ирак\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 50,
+      "type": "bold"
+     },
+     {
+      "offset": 254,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 260,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 267,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 281,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1hWHQxaUZnUXY1WnNoRzAwWEQzMmNaYkdzTlo1TnNpNldRd1Q5SjBkQ2dZSmdUUTZUODZPb0NhcTkwRkoxQVZTb1BCTGI?oc=5"
+     }
+    ]
+   }
+  },
+  "43": {
+   "tone": "hard",
+   "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5IdlphdTg1RjZqTmhyV1QzWGRzMTZYSEJIVDcxblVGMVhoRE96Y3djZU5uZ1ZReHYzbjNYS00xTGFGeEIwRlE?oc=5",
+   "created": 1790497237.4244208,
+   "status": "pending",
+   "safe": false,
+   "note": "политическая тема, Аль-Акса",
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Сотни поселенцев ворвались в мечеть Аль-Акса\n\nСотни поселенцев ворвались в мечеть Аль-Акса, сообщает Саудовское агентство печати (SPA).\n\n#АльАкса #Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 44,
+      "type": "bold"
+     },
+     {
+      "offset": 142,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 151,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 163,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 177,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5IdlphdTg1RjZqTmhyV1QzWGRzMTZYSEJIVDcxblVGMVhoRE96Y3djZU5uZ1ZReHYzbjNYS00xTGFGeEIwRlE?oc=5"
+     }
+    ]
+   }
   }
  },
  "queue": {},
@@ -1188,7 +1311,8 @@
   "20260926-142204.json",
   "20260927-021926.json",
   "20260927-041909.json",
-  "20260927-062322.json"
+  "20260927-062322.json",
+  "20260927-082027.json"
  ],
  "settings": {
   "night": [
