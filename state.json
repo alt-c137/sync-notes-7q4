@@ -927,7 +927,7 @@
    "tone": "good",
    "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5",
    "created": 1790488525.5622659,
-   "status": "queued",
+   "status": "published",
    "safe": true,
    "note": "",
    "snap": {
@@ -1173,43 +1173,6 @@
   }
  },
  "queue": {
-  "35": {
-   "tone": "good",
-   "approved_at": 1790488855.6902807,
-   "msg": {
-    "kind": "text",
-    "text": "🇸🇦 Министр иностранных дел КСА встретился с генсекретарём ООН\n\nМинистр иностранных дел Саудовской Аравии принц Фейсал бин Фархан встретился с Генеральным секретарём ООН Антониу Гутерришем, сообщает агентство SPA.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 58,
-      "type": "bold"
-     },
-     {
-      "offset": 216,
-      "length": 17,
-      "type": "hashtag"
-     },
-     {
-      "offset": 234,
-      "length": 4,
-      "type": "hashtag"
-     },
-     {
-      "offset": 240,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 254,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5xS2dlOTNoaWhvQW9OdTUwQk9QMG4zNlRURUR5RUNSVVpZazlOTWkxT0RHN041UmFRaDlta0REY2NNZTg1OXc?oc=5"
-     }
-    ]
-   }
-  },
   "36": {
    "tone": "hard",
    "approved_at": 1790488855.6902807,
@@ -1287,8 +1250,8 @@
   }
  },
  "wm": {},
- "last_publish": 1790488855.6902807,
- "last_tone": "hard",
+ "last_publish": 1790490647.4279685,
+ "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
