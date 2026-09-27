@@ -968,7 +968,7 @@
    "tone": "hard",
    "url": "https://sana.sy/international/2590662/",
    "created": 1790488525.5622659,
-   "status": "queued",
+   "status": "published",
    "safe": false,
    "note": "цифры жертв",
    "media": true,
@@ -1173,44 +1173,6 @@
   }
  },
  "queue": {
-  "36": {
-   "tone": "hard",
-   "approved_at": 1790488855.6902807,
-   "msg": {
-    "kind": "photo",
-    "text": "🇵🇸 Газа: пять палестинцев ранены при авиаударе по палатке с переселенцами\n\nУтром в воскресенье израильский беспилотник нанёс удар по палатке с переселенцами у рынка в квартале Шейх-Радван на севере города Газа, ранены пять человек, сообщает агентство WAFA (по данным SANA).\n\nПо тем же данным, с начала прекращения огня в октябре прошлого года в секторе погибли 1408 человек, ранены более 4890. На Западном берегу израильские военные заняли дом в деревне Аль-Мугайир к северо-востоку от Рамаллаха, выселив семью, а накануне задержали четырёх фермеров из Кафр-эль-Лабада во время сбора оливок.\n\n#Палестина #Газа\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 70,
-      "type": "bold"
-     },
-     {
-      "offset": 595,
-      "length": 10,
-      "type": "hashtag"
-     },
-     {
-      "offset": 606,
-      "length": 5,
-      "type": "hashtag"
-     },
-     {
-      "offset": 613,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 627,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://sana.sy/international/2590662/"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAMkariv2CknTmQjGTH8vXrh7cVH9pwAAosOaxsTfcxRVt_O9OkbtJsBAAMCAAN4AAM9BA"
-   }
-  },
   "37": {
    "tone": "hard",
    "approved_at": 1790488855.6902807,
@@ -1250,8 +1212,8 @@
   }
  },
  "wm": {},
- "last_publish": 1790490647.4279685,
- "last_tone": "good",
+ "last_publish": 1790492458.2253664,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
