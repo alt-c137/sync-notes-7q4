@@ -1379,6 +1379,44 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAMtarjvRGu6onXpHDPU8OYj3IgINMAAAkMPaxukOMVRR1qa3qGosIgBAAMCAAN5AAM9BA"
    }
+  },
+  "46": {
+   "tone": "hard",
+   "url": "https://aawsat.com/node/5323157",
+   "created": 1790519135.9337876,
+   "status": "pending",
+   "safe": false,
+   "note": "политика, поселения, выборы в Израиле",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Западный берег: Израиль отложил тендер по поселенческому проекту E1 до окончания выборов\n\nГенеральный прокурор Израиля в воскресенье отложила на месяц, до окончания выборов 27 октября, срок подачи заявок на строительство в рамках поселенческого проекта E1, который отделит север Западного берега от юга. Как заявила её представительница, это снизит опасения, что тендер используют в предвыборной агитации.\n\nТендер предусматривает более 1200 жилых единиц; всего проект — около 3400 единиц между Иерусалимом и поселением Маале-Адумим. По данным правозащитных организаций, E1 приведёт к выселению сотен палестинцев из их домов.\n\n#Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 88,
+      "type": "bold"
+     },
+     {
+      "offset": 631,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 643,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 657,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://aawsat.com/node/5323157"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAMuarknYdIwNYV3rPJYo5mqSyOycS8AAgkPaxsZftRRgtxruHbMGYIBAAMCAAN5AAM9BA"
+   }
   }
  },
  "queue": {},
@@ -1399,7 +1437,8 @@
   "20260927-041909.json",
   "20260927-062322.json",
   "20260927-082027.json",
-  "20260927-102102.json"
+  "20260927-102102.json",
+  "20260927-142048.json"
  ],
  "settings": {
   "night": [
