@@ -3837,11 +3837,521 @@
     ]
    },
    "n": 109
+  },
+  "110": {
+   "tone": "hard",
+   "url": "https://www.syriahr.com/%D9%82%D9%88%D9%89-%D8%A7%D9%84%D8%A3%D9%85%D9%80%D9%80%D9%86-%D8%AA%D9%86%D8%B4%D8%B1-%D8%B5%D9%88%D8%B1%D8%A7%D9%8B-%D9%84%D8%A3%D8%B4%D8%AE%D8%A7%D8%B5-%D9%88%D8%AA%D8%B9%D9%84%D9%86-%D8%AA%D9%88/",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": true,
+   "note": "подтверждено: Al Arabiya, SANA, Independ",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇾 Сирия: раскрыта ячейка ИГИЛ в четырёх провинциях\n\nСилы безопасности Сирии сообщили о ликвидации ячейки, действовавшей от имени группировки ИГИЛ сразу в четырёх провинциях страны. По данным СМИ, задержанные причастны к похищениям людей и покушениям на убийства; их фотографии обнародованы, по делу начато следствие.\n\n#Сирия #ИГИЛ\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 48,
+      "type": "bold"
+     },
+     {
+      "offset": 321,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 328,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 335,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 349,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.syriahr.com/%D9%82%D9%88%D9%89-%D8%A7%D9%84%D8%A3%D9%85%D9%80%D9%80%D9%86-%D8%AA%D9%86%D8%B4%D8%B1-%D8%B5%D9%88%D8%B1%D8%A7%D9%8B-%D9%84%D8%A3%D8%B4%D8%AE%D8%A7%D8%B5-%D9%88%D8%AA%D8%B9%D9%84%D9%86-%D8%AA%D9%88/"
+     }
+    ]
+   },
+   "n": 110
+  },
+  "111": {
+   "tone": "hard",
+   "url": "https://t.me/Alarabiya/166238",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "заявление КСИР, Вашингтон отрицает",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇷 Иран назвал Ормузский пролив местом для охоты на подлодки США\n\nКорпус стражей исламской революции Ирана заявил, что Ормузский пролив стал местом для «охоты» на американские подводные лодки. По иранским данным, КСИР также задержал в проливе вторую американскую подводную беспилотную субмарину; Вашингтон эту информацию отрицает.\n\n#Иран #Ормуз\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 61,
+      "type": "bold"
+     },
+     {
+      "offset": 334,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 340,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 348,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 362,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/Alarabiya/166238"
+     }
+    ]
+   },
+   "n": 111
+  },
+  "112": {
+   "tone": "hard",
+   "url": "https://t.me/almasdaronline/32715",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "цифры жертв не подтверждены официально",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: удары по хуситам в Таизе — десятки погибших и раненых\n\nПо данным медицинских источников в провинции Таиз, авиаудары правительственных сил по позициям хуситов привели к гибели и ранению десятков боевиков; пострадавшие поступают в больницы города Ибб и района Эль-Хубан. По сообщениям других СМИ, в последние дни удары по хуситам в Таизе расширились, среди погибших называют и иностранных военных советников.\n\n#Йемен #хуситы\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 420,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 427,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 436,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 450,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/almasdaronline/32715"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAANwaroWec0XxRig3OhtHlCzfyYFqBEAAjoiaxs1othJqiNmK0h1jo4BAAMCAAN4AAM9BA"
+   },
+   "n": 112
+  },
+  "113": {
+   "tone": "hard",
+   "url": "https://twaslnews1.twaslnews.com/5346152/",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "детали от одного источника",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Западный берег: поселенцы напали на два города, подожгли автомобили\n\nПо сообщениям палестинских СМИ, группы поселенцев атаковали два города на Западном берегу и подожгли автомобили жителей. Нападения происходят на фоне продолжающейся эскалации Израиля у Аль-Аксы и на Западном берегу, которую ранее осудила Лига арабских государств.\n\n#Палестина #ЗападныйБерег\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 339,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 350,
+      "length": 14,
+      "type": "hashtag"
+     },
+     {
+      "offset": 366,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 380,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://twaslnews1.twaslnews.com/5346152/"
+     }
+    ]
+   },
+   "n": 113
+  },
+  "114": {
+   "tone": "hard",
+   "url": "http://en.ammonnews.net/article/95652",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "похожая тема бралась недавно",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Иерусалим: десятки поселенцев вновь вошли в Аль-Аксу\n\nУтром в понедельник десятки поселенцев вошли на территорию мечети Аль-Акса через ворота Муграби под усиленной охраной израильской полиции. Днём ранее мечеть посетили около 1500 поселенцев и раввинов, совершавших талмудические ритуалы. По данным управления Иерусалима, с начала года по конец августа мечеть посетили 40 661 поселенец, палестинцам выдано около 800 запретов на вход.\n\n#Палестина #АльАкса\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 52,
+      "type": "bold"
+     },
+     {
+      "offset": 438,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 449,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 459,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 473,
+      "length": 8,
+      "type": "text_link",
+      "url": "http://en.ammonnews.net/article/95652"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANyaroWgI2ak-7VBNn5cSdzSnR8CCkAAvIOaxvFXtVReuGmk-fnlHABAAMCAAN5AAM9BA"
+   },
+   "n": 114
+  },
+  "115": {
+   "tone": "hard",
+   "url": "https://www.aa.com.tr/ar/%D8%A7%D9%84%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D8%AD%D8%AA%D9%89-%D8%A7%D9%84%D8%A3%D8%B1%D8%A8%D8%B9%D8%A7%D8%A1-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D8%AA%D8%BA%D9%84%D9%82-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A-%D8%A8%D8%B3%D8%A8%D8%A8-%D8%A3%D8%B9%D9%8A%D8%A7%D8%AF-%D8%A7%D9%84%D9%8A%D9%87%D9%88%D8%AF-/4071169",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "чувствительная тема Израиль/Палестина",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Хеврон: Израиль закрыл мечеть Ибрагими для мусульман до среды\n\nВласти Израиля закрыли мечеть Ибрагими в Хевроне для мусульманских молящихся с понедельника до среды на время иудейских праздников. Как заявило палестинское министерство вакуфов, закрытие включает запрет на намаз и азан в мечети; ведомство назвало это посягательством на исламскую святыню и попыткой навязать временное и территориальное разделение мечети.\n\n#Палестина #Хеврон\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 61,
+      "type": "bold"
+     },
+     {
+      "offset": 423,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 434,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 443,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 457,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.aa.com.tr/ar/%D8%A7%D9%84%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D8%AD%D8%AA%D9%89-%D8%A7%D9%84%D8%A3%D8%B1%D8%A8%D8%B9%D8%A7%D8%A1-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D8%AA%D8%BA%D9%84%D9%82-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A5%D8%A8%D8%B1%D8%A7%D9%87%D9%8A%D9%85%D9%8A-%D8%A8%D8%B3%D8%A8%D8%A8-%D8%A3%D8%B9%D9%8A%D8%A7%D8%AF-%D8%A7%D9%84%D9%8A%D9%87%D9%88%D8%AF-/4071169"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANzaroWgwn6GxRe6l6nw-6IWefH470AAhUPaxvVzNRR0TPwEUbt9QgBAAMCAAN5AAM9BA"
+   },
+   "n": 115
+  },
+  "116": {
+   "tone": "hard",
+   "url": "https://saudigazette.com.sa/article/664922/world/drone-strikes-hit-sudan-cities-as-army-chief-defies-pressure-for-ceasefire",
+   "created": 1790580335.2370377,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇩 Судан: удары дронов по городам на фоне отказа армии от перемирия\n\nВ воскресенье удары беспилотников поразили два суданских города: топливный склад у Вад-Мадани и объекты в Ньяле, столице Южного Дарфура. Атаки произошли на следующий день после того, как глава армии Абдель Фаттах аль-Бурхан заявил о продолжении войны против «Сил быстрого реагирования», отказавшись от визы в США, увязанной с требованием трёхмесячного перемирия. «Наша цель — уничтожить эту группировку, сколько бы времени это ни заняло», — заявил аль-Бурхан.\n\n#Судан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 532,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 540,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 554,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://saudigazette.com.sa/article/664922/world/drone-strikes-hit-sudan-cities-as-army-chief-defies-pressure-for-ceasefire"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN0aroWhs_GmkC0UMD2gMvWGScG7lYAAnAOaxv689RRklJJUgkJEx0BAAMCAAN5AAM9BA"
+   },
+   "n": 116
+  },
+  "117": {
+   "tone": "good",
+   "url": "https://lifepvl.kz/2026/09/28/novym-glavnym-imamom-pavlodarskoj-oblasti-stal-zhumanazar-sadyrhanov/",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇰🇿 Казахстан: новым имамом Павлодарской области назначен Жуманазар Садырханов\n\nПриказом верховного муфтия Казахстана Наурызбая кажы Таганулы главным имамом Павлодарской области назначен Жуманазар Садырханов, ранее занимавший должность наиб имама мечети «Хазрет Султан» в Астане. Он является хафизом Корана и магистром религиоведения университета «Нур-Мубарак». Прежнему имаму области Жолдасу Коспакулы в ДУМК выразили благодарность за вклад в развитие религиозной деятельности региона.\n\n#Казахстан #ДУМК\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 489,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 500,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 507,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 521,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://lifepvl.kz/2026/09/28/novym-glavnym-imamom-pavlodarskoj-oblasti-stal-zhumanazar-sadyrhanov/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN1aroWiR3-BkHgzNwNkbZD2dqcFf0AAtoPaxtWYtRRdHssv2gHr5YBAAMCAAN5AAM9BA"
+   },
+   "n": 117
+  },
+  "118": {
+   "tone": "good",
+   "url": "https://dumrf.ru/common/event/26849",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 В Медине открылась международная конференция против религиозных крайностей\n\nВ Медине под патронажем губернатора региона принца Салмана бин Султана открылась международная конференция «Усилия Саудовской Аравии по противодействию интеллектуальным отклонениям», организованная Исламским университетом Медины. В ней участвуют гости из более чем 100 стран, включая имам-хатыба мечети Аль-Харам Абдуррахмана ас-Судейса. Россию представляет первый заместитель председателя ДУМ РФ Дамир Мухетдинов. Конференция продлится два дня.\n\n#Харамайн #Медина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 528,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 538,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 547,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 561,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://dumrf.ru/common/event/26849"
+     }
+    ]
+   },
+   "n": 118
+  },
+  "119": {
+   "tone": "hard",
+   "url": "https://sabq.org/article/%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D8%A7%D9%84%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A-%D9%8A%D8%B9%D9%84%D9%86-%D8%A7%D9%84%D9%82%D8%B6%D8%A7%D8%A1-%D8%B9%D9%84%D9%89-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-71-%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A%D9%8B%D8%A7-%D9%81%D9%8A-%D8%A8%D9%84%D9%88%D8%B4%D8%B3%D8%AA%D8%A7%D9%86",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "заявление армии, не подтверждено независ",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇰 Пакистан: армия заявила об уничтожении более 71 боевика в Белуджистане\n\nПакистанская армия сообщила об уничтожении более 71 боевика в ходе операций в провинции Белуджистан. Независимого подтверждения числа пока нет.\n\n#Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 222,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 233,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 247,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sabq.org/article/%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D8%A7%D9%84%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A-%D9%8A%D8%B9%D9%84%D9%86-%D8%A7%D9%84%D9%82%D8%B6%D8%A7%D8%A1-%D8%B9%D9%84%D9%89-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-71-%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A%D9%8B%D8%A7-%D9%81%D9%8A-%D8%A8%D9%84%D9%88%D8%B4%D8%B3%D8%AA%D8%A7%D9%86"
+     }
+    ]
+   },
+   "n": 119
+  },
+  "120": {
+   "tone": "good",
+   "url": "https://sana.sy/video/2591657/",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная - решите сами",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Сирия: завершён второй этап проекта поддержки животноводов на северо-востоке\n\nНа северо-востоке Сирии завершился второй этап проекта поддержки животноводов, в рамках которого в окрестностях Ракки создан пастбищный заповедник.\n\n#Сирия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 76,
+      "type": "bold"
+     },
+     {
+      "offset": 232,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 240,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 254,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/video/2591657/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN4aroWsW4AAS68m3XL0ef946wWMnDyAALMDmsbHZfVUcZYIWJHVpJZAQADAgADeQADPQQ"
+   },
+   "n": 120
+  },
+  "121": {
+   "tone": "good",
+   "url": "https://ina.iq/ar/interviews/274726-f-16-100.html",
+   "created": 1790580335.2370377,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная - решите сами",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇶 Ирак: командующий ВВС рассказал о независимости от коалиции и ремонте F-16\n\nКомандующий военно-воздушными силами Ирака генерал-лейтенант Халед ат-Тамими заявил, что все задачи ВВС внутри страны выполняются независимо от международной коалиции, а обслуживание истребителей F-16 полностью проводится иракскими специалистами. По его словам, Ирак ведёт переговоры о закупке 14 французских истребителей Rafale.\n\n#Ирак\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 412,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 419,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 433,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://ina.iq/ar/interviews/274726-f-16-100.html"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN5aroWtMV7pVCFC7pnaPgB_ZGkbHQAAngOaxtndNVR9vAVm-ioSx0BAAMCAAN5AAM9BA"
+   },
+   "n": 121
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790578603.2200809,
+ "last_publish": 1790580335.2370377,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -3868,7 +4378,8 @@
   "20260928-044950.json",
   "20260928-052106.json",
   "20260928-062703.json",
-  "20260928-064954.json"
+  "20260928-064954.json",
+  "20260928-072349.json"
  ],
  "settings": {
   "night": [
