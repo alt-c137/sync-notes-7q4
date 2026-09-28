@@ -1,0 +1,51 @@
+name: Уборка
+
+# Раз в сутки: удаляет старые запуски и логи Actions и сжимает историю ветки черновиков.
+# Код, секреты и опубликованные новости не трогает.
+on:
+  schedule:
+    - cron: "40 22 * * *"     # 03:40 по Ташкенту
+  workflow_dispatch:
+
+permissions:
+  actions: write              # удалять старые запуски
+  contents: write             # сжимать ветку claude/inbox
+
+concurrency:
+  group: cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Удалить запуски Actions старше 3 дней
+        run: |
+          before=$(date -u -d '3 days ago' +%Y-%m-%d)
+          gh api --paginate "repos/$REPO/actions/runs?per_page=100&created=<$before" --jq '.workflow_runs[].id' \
+            | head -n 2000 > old.txt || true
+          echo "Старых запусков: $(wc -l < old.txt)"
+          while read -r id; do gh api -X DELETE "repos/$REPO/actions/runs/$id" >/dev/null 2>&1 || true; done < old.txt
+
+      - name: Удалить кэши, которыми не пользовались 3 дня
+        run: |
+          before=$(date -u -d '3 days ago' +%Y-%m-%dT%H:%M:%S)   # даты ISO сравниваются как строки
+          gh api --paginate "repos/$REPO/actions/caches?per_page=100" \
+            --jq ".actions_caches[] | select(.last_accessed_at < \"$before\") | .id" \
+            | while read -r id; do gh api -X DELETE "repos/$REPO/actions/caches/$id" >/dev/null 2>&1 || true; done
+
+      - name: Сжать историю ветки черновиков (claude/inbox)
+        run: |
+          git init -q work && cd work
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          git fetch -q --depth=1 origin claude/inbox || { echo "Ветки нет"; exit 0; }
+          tip=$(git rev-parse FETCH_HEAD)
+          commit=$(git -c user.name=cleanup -c user.email=cleanup@users.noreply.github.com \
+                   commit-tree "$tip^{tree}" -m "Черновики (история сжата уборкой)")
+          # --force-with-lease: если редактор как раз что-то прислал — не затираем, сожмём завтра
+          git push -q --force-with-lease=refs/heads/claude/inbox:$tip origin "$commit:refs/heads/claude/inbox" \
+            && echo "История claude/inbox сжата" || echo "Редактор как раз работал — пропускаю до завтра"

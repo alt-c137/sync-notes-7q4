@@ -77,15 +77,10 @@ def lease(beat):
 
 
 def push_state():
-    """Сохраняет состояние бота на GitHub, чтобы после выключения ПК GitHub продолжил с того же места."""
-    git("add", "state.json", *[f for f in ("triage_seen.json", "shortlist.json", "pool.json") if os.path.exists(f)])
-    if git("diff", "--staged", "--quiet").returncode == 0:
-        return
-    git("commit", "-q", "-m", "Состояние (бот на ПК) [skip ci]")
-    if git("push", "-q").returncode != 0:
-        git("pull", "-q", "--rebase", "-X", "theirs")   # при споре оставляем версию с ПК
-        if git("push", "-q").returncode != 0:
-            log("⚠️ Состояние не отправилось на GitHub, попробую позже")
+    """Сохраняет состояние бота на GitHub (ветка bot-state, без истории), чтобы GitHub продолжил с того же места."""
+    live["pushed"] = time.time()
+    if not bot.state_push("Состояние (бот на ПК)"):
+        log("⚠️ Состояние не отправилось на GitHub, попробую позже")
 
 
 triage_busy = threading.Event()
@@ -114,6 +109,7 @@ def live_loop():
             break
         time.sleep(1)
     git("pull", "-q")
+    bot.state_pull()
     state = bot.load_state()
     live["state"] = state          # панель меняет режимы прямо в работающем боте
     live.update(status="работает — кнопки срабатывают сразу", since=time.time())
@@ -135,6 +131,9 @@ def live_loop():
             bot.publish(state)
             if json.dumps(state, sort_keys=True) != before or live.pop("dirty", False):
                 bot.save_state(state)
+                live["unpushed"] = True
+            if live.get("unpushed") and time.time() - live.get("pushed", 0) > 60:   # на GitHub — не чаще раза в минуту
+                live["unpushed"] = False
                 push_state()
             if time.time() - last_beat > 60:
                 lease(time.time())
@@ -165,6 +164,7 @@ def bot_command(cmd):
         live["dirty"] = True                    # цикл бота сохранит и отправит на GitHub
     else:                                       # бот на GitHub — меняем файл состояния и отправляем
         git("pull", "-q")
+        bot.state_pull()
         state = bot.load_state()
         bot.handle_command(state, cmd, quiet=True)
         bot.save_state(state)
@@ -706,6 +706,9 @@ refresh();setInterval(refresh,2000);
 
 if __name__ == "__main__":
     bot.print = lambda *a, **k: log(" ".join(str(x) for x in a))   # сообщения бота — в журнал панели
+    import repo_doctor                                   # проверка и починка копии после резкого выключения ПК
+    for line in repo_doctor.check_and_repair():
+        log(line)
     threading.Thread(target=auto_loop, daemon=True).start()
     live_start()   # бот на ПК включается сразу при запуске панели
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)

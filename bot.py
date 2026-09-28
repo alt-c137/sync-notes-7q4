@@ -22,6 +22,7 @@ import html
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -287,15 +288,68 @@ NOW = time.time()
 
 def read_json(path, default):
     if os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        except ValueError:   # файл испорчен (например, выключили ПК) — откладываем в сторону, не падаем
+            os.replace(path, path + ".broken")
+            print(f"⚠️ Файл {path} был испорчен — отложил в {path}.broken, беру данные заново")
     return default
 
 
 def write_json(path, data):
+    """Запись «всё или ничего»: сначала во временный файл, потом мгновенная замена.
+    Если ПК выключат посередине — останется старый целый файл, а не обрывок."""
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+# ---------- рабочие файлы бота — в отдельной ветке без истории ----------
+# Раньше состояние коммитилось в main каждые 5–15 минут, и репозиторий рос на 3–4 МБ в день.
+# Теперь оно лежит в ветке bot-state одним коммитом, который каждый раз перезаписывается.
+STATE_BRANCH = "bot-state"
+STATE_FILES = ["state.json", "triage_seen.json", "shortlist.json", "pool.json"]
+STATE_REF = f"refs/remotes/origin/{STATE_BRANCH}"
+
+
+def state_pull():
+    """Скачивает рабочие файлы из ветки bot-state. Ветки ещё нет — остаются файлы из main."""
+    if DRY_RUN or INBOX_LOCAL:
+        return False
+    if git("fetch", "-q", "--depth=1", "origin", f"+{STATE_BRANCH}:{STATE_REF}").returncode != 0:
+        return False
+    for name in STATE_FILES:
+        r = subprocess.run(["git", "show", f"{STATE_REF}:{name}"], capture_output=True)
+        if r.returncode == 0:
+            try:
+                write_json(name, json.loads(r.stdout.decode("utf-8")))
+            except ValueError:
+                print("⚠️ В ветке bot-state испорчен", name)
+    return True
+
+
+def state_push(message="Состояние бота"):
+    """Отправляет рабочие файлы в bot-state одним коммитом без истории (перезаписью)."""
+    if DRY_RUN or INBOX_LOCAL:
+        return True
+    rows = []
+    for name in STATE_FILES:
+        if os.path.exists(name):
+            blob = git("hash-object", "-w", name).stdout.strip()
+            rows.append(f"100644 blob {blob}\t{name}\0")
+    tree = subprocess.run(["git", "mktree", "-z"], input="".join(rows), capture_output=True,
+                          text=True).stdout.strip()
+    commit = git("-c", "user.name=news-bot", "-c", "user.email=news-bot@users.noreply.github.com",
+                 "commit-tree", tree, "-m", message).stdout.strip()
+    ok = bool(commit) and git("push", "-q", "-f", "origin", f"{commit}:refs/heads/{STATE_BRANCH}").returncode == 0
+    if not ok:
+        print("⚠️ Состояние не отправилось на GitHub (нет интернета?) — попробую в следующий раз")
+    return ok
 
 
 def load_state():
@@ -1951,8 +2005,11 @@ def editor_store():
         os.makedirs(INBOX_DIR, exist_ok=True)
         return
     if os.path.isdir(os.path.join(INBOX_DIR, ".git")):
-        git("pull", "-q", "--rebase", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
-        return
+        # не pull, а «встать ровно как на GitHub»: историю ветки раз в сутки сжимает уборка
+        if git("fetch", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR).returncode == 0:
+            git("reset", "-q", "--hard", "FETCH_HEAD", cwd=INBOX_DIR)
+            return
+        shutil.rmtree(INBOX_DIR, ignore_errors=True)   # папка испорчена — скачаем заново
     url = git("remote", "get-url", "origin").stdout.strip()
     if not url:
         raise SystemExit("Эта папка не git-репозиторий — редактор должен работать в клоне репозитория.")
@@ -1975,10 +2032,28 @@ def editor_push(message):
     if r.returncode != 0:
         git("pull", "-q", "--rebase", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
         r = git("push", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+    if r.returncode != 0:   # ветку как раз сжимали — берём новую и кладём наши файлы сверху
+        keep = {n: open(os.path.join(INBOX_DIR, "inbox", n), encoding="utf-8").read()
+                for n in os.listdir(os.path.join(INBOX_DIR, "inbox"))}
+        seen = read_json(os.path.join(INBOX_DIR, "seen.json"), {})
+        git("fetch", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
+        git("reset", "-q", "--hard", "FETCH_HEAD", cwd=INBOX_DIR)
+        for n, body in keep.items():
+            with open(os.path.join(INBOX_DIR, "inbox", n), "w", encoding="utf-8") as f:
+                f.write(body)
+        fresh = read_json(os.path.join(INBOX_DIR, "seen.json"), {})
+        for k, v in seen.items():
+            if isinstance(v, list):
+                fresh[k] = list(dict.fromkeys(fresh.get(k, []) + v))[-8000:]
+        write_json(os.path.join(INBOX_DIR, "seen.json"), fresh)
+        git("add", "-A", cwd=INBOX_DIR)
+        git(*ident, "commit", "-q", "-m", message, cwd=INBOX_DIR)
+        r = git("push", "-q", "origin", INBOX_BRANCH, cwd=INBOX_DIR)
     print("Отправлено в ветку", INBOX_BRANCH if r.returncode == 0 else f"— ОШИБКА: {r.stderr.strip()}")
 
 
 def cmd_fetch():
+    state_pull()
     editor_store()
     seen_path = os.path.join(INBOX_DIR, "seen.json")
     triage_ok = read_json("state.json", {}).get("triage_ok", 0)
@@ -2024,6 +2099,7 @@ def cmd_fetch():
 
 
 def cmd_search(words):
+    state_pull()
     """Поиск подтверждения: та же новость в других источниках за последние часы."""
     words = [w.lower() for w in words if len(w) > 2]
     pool = read_json("pool.json", []) + read_json("candidates.json", [])
@@ -2248,6 +2324,7 @@ def main():
         raise SystemExit("Нужны BOT_TOKEN, CHANNEL_ID и MOD_CHAT_ID (секреты GitHub или файл .env)")
     if not DRY_RUN and pc_is_running():
         return print("Бот сейчас работает на ПК — GitHub в этот раз ничего не делает.")
+    state_pull()
     state = load_state()
     try:
         process_updates(state)
@@ -2259,6 +2336,7 @@ def main():
         publish(state)
     finally:
         save_state(state)   # сохраняем даже если что-то упало посередине
+        state_push()
 
 
 if __name__ == "__main__":
