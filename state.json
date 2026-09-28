@@ -2062,6 +2062,47 @@
     ],
     "file_id": "AgACAgIAAyEGAATuSoRvAAM-arnXPr4AAXLphO6QV_eVGsHfUaFtAAImJmsbNaLQSXDxNkDuzbUAAQEAAwIAA3kAAz0E"
    }
+  },
+  "63": {
+   "tone": "good",
+   "url": "https://www.alriyadh.com/2208428",
+   "created": 1790567441.303264,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная — решите сами",
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Саудовская Аравия — на встрече G20 по Эболе\n\nЗаместитель министра здравоохранения Саудовской Аравии по международному сотрудничеству, представляя главу МИД Королевства, принял участие во встрече министров иностранных дел стран Группы двадцати (G20), посвящённой ускорению совместных действий по ликвидации лихорадки Эбола.\n\n#СаудовскаяАравия #Эбола\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 43,
+      "type": "bold"
+     },
+     {
+      "offset": 329,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 347,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 355,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 369,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.alriyadh.com/2208428"
+     }
+    ]
+   }
   }
  },
  "queue": {},
@@ -2087,7 +2128,8 @@
   "20260927-162223.json",
   "20260927-182001.json",
   "20260928-022228.json",
-  "20260928-025105.json"
+  "20260928-025105.json",
+  "20260928-034735.json"
  ],
  "settings": {
   "night": [
