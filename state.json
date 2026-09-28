@@ -4347,11 +4347,250 @@
     "file_id": "AgACAgQAAyEGAATuSoRvAAN5aroWtMV7pVCFC7pnaPgB_ZGkbHQAAngOaxtndNVR9vAVm-ioSx0BAAMCAAN5AAM9BA"
    },
    "n": 121
+  },
+  "122": {
+   "tone": "hard",
+   "url": "https://www.arabnews.com/middle-east/king-mohammed-vi-saudi-security-is-an-integral-part-of-moroccos-security-3003522",
+   "created": 1790581841.730586,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇲🇦 Король Марокко: безопасность Королевства — часть безопасности Марокко\n\nКороль Марокко Мухаммед VI от своего имени и от имени народа Марокко осудил повторяющиеся атаки хуситов на Саудовскую Аравию, в том числе попытки ударить по Мекке и Медине. В телеграммах королю Сальману и наследному принцу Мухаммаду бин Сальману он назвал безопасность Королевства и других стран Совета сотрудничества стран Залива неотъемлемой частью безопасности Марокко: «Любая атака на Саудовскую Аравию — это атака на Марокко».\n\nОтветственность за атаки король возложил на хуситов и тех, кто их финансирует и вооружает, назвав это нарушением резолюций Совбеза ООН №2216 и №2722 и призвав привлечь виновных к ответственности.\n\n#СаудовскаяАравия #Марокко\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 69,
+      "type": "bold"
+     },
+     {
+      "offset": 706,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 724,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 734,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 748,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.arabnews.com/middle-east/king-mohammed-vi-saudi-security-is-an-integral-part-of-moroccos-security-3003522"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN6arocVCzkPKRGmymMeqDg7Etm6AUAAsIOaxu53NRRpyrNpJtcdDkBAAMCAAN3AAM9BA"
+   },
+   "n": 122
+  },
+  "123": {
+   "tone": "hard",
+   "url": "https://www.skynewsarabia.com/middle-east/1894780-%D9%85%D8%B2%D8%A7%D8%B1%D8%B9-%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%D9%8A%D8%A9-%D8%AA%D9%88%D8%A7%D8%AC%D9%87-%D8%A7%D9%84%D8%B9%D8%B7%D8%B4-%D9%88%D9%85%D8%B3%D8%AA%D9%88%D8%B7%D9%86%D9%88%D9%86-%D9%8A%D8%B3%D8%A8%D8%AD%D9%88%D9%86-%D9%85%D9%8A%D8%A7%D9%87%D9%87%D8%A7",
+   "created": 1790581841.730586,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Западный берег: поселенцы купаются в воде, отнятой у палестинских фермеров\n\nРасследование New York Times: воду, которая шла на орошение палестинских ферм в Иорданской долине на Западном берегу, перенаправили в древний водоём, ставший местом купания для израильских поселенцев. Фермер Саад Намр, которому принадлежит земля с источником, пытался вернуть воду через израильскую гражданскую администрацию; армия Израиля подтвердила, что перенаправление произошло без разрешения, и восстановила подачу лишь на один день, после чего труба вновь была повреждена.\n\nРанее, в августе, агентство Reuters сообщало, что с начала года поселенцы атаковали не менее 160 объектов водоснабжения на палестинских территориях.\n\n#Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 712,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 724,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 738,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.skynewsarabia.com/middle-east/1894780-%D9%85%D8%B2%D8%A7%D8%B1%D8%B9-%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%D9%8A%D8%A9-%D8%AA%D9%88%D8%A7%D8%AC%D9%87-%D8%A7%D9%84%D8%B9%D8%B7%D8%B4-%D9%88%D9%85%D8%B3%D8%AA%D9%88%D8%B7%D9%86%D9%88%D9%86-%D9%8A%D8%B3%D8%A8%D8%AD%D9%88%D9%86-%D9%85%D9%8A%D8%A7%D9%87%D9%87%D8%A7"
+     }
+    ]
+   },
+   "n": 123
+  },
+  "124": {
+   "tone": "hard",
+   "url": "https://theprint.in/india/road-widening-project-stone-pelting-against-mosque-demolition-in-mps-ujjain/3055375/",
+   "created": 1790581841.730586,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇳 Индия: протесты и слезоточивый газ у мечети Шахи в Уджайне\n\nВ городе Уджайн (штат Мадхья-Прадеш) вспыхнули протесты против сноса части старинной мечети Шахи ради расширения дороги к празднику Симхастха Кумбха 2028 года. Протестующие бросали камни в полицию, которая применила слезоточивый газ и разогнала толпу. Снос затронет часть молитвенного зала, минарет и другие постройки мечети возрастом около 600 лет; всего под снос в городе попадают 272 строения.\n\nРанее суд штата отклонил иски против сноса, апелляция мечети рассматривалась в тот же день.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 58,
+      "type": "bold"
+     },
+     {
+      "offset": 556,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 564,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 578,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://theprint.in/india/road-widening-project-stone-pelting-against-mosque-demolition-in-mps-ujjain/3055375/"
+     }
+    ]
+   },
+   "n": 124
+  },
+  "125": {
+   "tone": "hard",
+   "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=7c7da5dd-9e16-446e-9c50-d70ab66445c7",
+   "created": 1790581841.730586,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник (Anadolu)",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: палестинец ранен в голову при обстреле у Джабалии\n\nНа севере сектора Газа, по данным медицинских источников агентства Anadolu, палестинец ранен израильской пулей в голову у площади «Шести мучеников» к западу от лагеря Джабалия; его состояние оценивается как тяжёлое. В тот же день, по словам очевидцев, израильская артиллерия обстреляла восточные районы города Газа, а катера открывали огонь у побережья Газы, Дейр-эль-Балаха и Хан-Юниса — о жертвах там не сообщается.\n\nПо данным минздрава сектора, с начала перемирия 10 октября 2025 года в результате нарушений Израилем погибли 1417 и ранены 4964 палестинца.\n\n#Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 622,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 629,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 643,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=7c7da5dd-9e16-446e-9c50-d70ab66445c7"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAN9arocXSw-kN2Q_vDZh0Rv0zGx72kAAsAOaxvP8dRR1m2iKwffNq4BAAMCAAN4AAM9BA"
+   },
+   "n": 125
+  },
+  "126": {
+   "tone": "hard",
+   "url": "https://www.ukr.net/ru/news/details/lviv/119699079.html",
+   "created": 1790581841.730586,
+   "status": "pending",
+   "safe": false,
+   "note": "не подтверждено, один источник",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇺🇦 Львов: на мечети нарисовали свастику, неизвестный пытался проникнуть внутрь\n\nВо Львове на фасаде мечети мусульманской общины «Хидаят» появилась нацистская символика — свастику нарисовал неизвестный в маске, который также пытался проникнуть внутрь здания. Для этой мечети это уже второй подобный инцидент за последние пять месяцев.\n\n#Украина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 75,
+      "type": "bold"
+     },
+     {
+      "offset": 337,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 347,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 361,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.ukr.net/ru/news/details/lviv/119699079.html"
+     }
+    ]
+   },
+   "n": 126
+  },
+  "127": {
+   "tone": "good",
+   "url": "https://elabuga-rt.ru/news/novosti/v-elabuge-remontiruiut-centralnye-vorota-sobornoi-meceti",
+   "created": 1790581841.730586,
+   "status": "pending",
+   "safe": false,
+   "note": "один местный источник",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Елабуга: в Соборной мечети ремонтируют ворота и ограду\n\nВ Соборной мечети Елабуги (Татарстан) продолжается ремонт центральных ворот и ограды — работы начались в августе и выполнены примерно наполовину. По словам имам-мухтасиба Елабуги Халим-хазрата Шамсутдинова, ранее уже обновили фасад мечети, а теперь приводят к единому стилю ворота и кирпичную кладку основания ограды.\n\nОбщая стоимость работ — 4,2 млн рублей, средства собирают при поддержке мусульман и неравнодушных жителей.\n\n#Татарстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 486,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 498,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 512,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://elabuga-rt.ru/news/novosti/v-elabuge-remontiruiut-centralnye-vorota-sobornoi-meceti"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAN_arocamvVcwI8X_sMJJI6YG1c5uUAAoUiaxs1othJ6VvtEohDVdYBAAMCAAN4AAM9BA"
+   },
+   "n": 127
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790580335.2370377,
+ "last_publish": 1790581841.730586,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -4379,7 +4618,8 @@
   "20260928-052106.json",
   "20260928-062703.json",
   "20260928-064954.json",
-  "20260928-072349.json"
+  "20260928-072349.json",
+  "20260928-074953.json"
  ],
  "settings": {
   "night": [
