@@ -1,5 +1,5 @@
 {
- "offset": 498374812,
+ "offset": 498374813,
  "drafts": {
   "2": {
    "tone": "good",
@@ -2686,7 +2686,7 @@
    "tone": "hard",
    "url": "https://kun.uz/news/2026/09/28/tramp-eronga-zarbalarni-qayta-boshlash-ehtimolini-istisno-qilmadi",
    "created": 1790572877.85503,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "подтв. Al Arabiya, тема Иран",
    "trusted": false,
@@ -2725,8 +2725,8 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790571865.5065637,
- "last_tone": "good",
+ "last_publish": 1790573184.9122791,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
