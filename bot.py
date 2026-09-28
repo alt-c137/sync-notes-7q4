@@ -237,6 +237,8 @@ DEFAULT_SETTINGS = {
     "wm": True,         # водяной знак по умолчанию
     "auto": True,       # автопилот: сразу публиковать то, что Claude пометил «проверено, сомнений нет»
     "auto_hard": True,  # автопилот и для тяжёлых (False — тяжёлые всегда ждут ✅ модератора)
+    "auto_top": False,  # режим «самое важное»: сам выпускает только важность 4–5, не больше per_hour в час
+    "per_hour": 3,      # сколько самых важных в час в режиме «самое важное»
     "paused": False,    # пауза всех публикаций
 }
 
@@ -643,6 +645,7 @@ HELP = """<b>Команды бота</b>
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
 /auto on — проверенное Claude публикуется сразу (и добрые, и тяжёлые)
 /auto good — сразу только добрые, тяжёлые ждут твоей ✅ · /auto off — сам ничего не публикует
+/auto top 3 — сам выпускает только САМОЕ ВАЖНОЕ, до 3 в час; остальное приходит тебе, как обычно
 /pause — остановить вообще все публикации (и очередь, и отложенные) · /resume
 /интервал 0 — всё проверенное и одобренное ✅ выходит сразу (по умолчанию)
 /интервал 15 — выходит по одной раз в 15 минут (тоже /gap 15)
@@ -692,13 +695,17 @@ def handle_command(state, text, quiet=False):
                        "<code>/пачка 10 все</code> — все черновики, что ждут решения")
         return say(spread(state, int(arg), args[1:]))
     elif cmd in ("/auto", "/автопилот"):
-        modes = {"on": (True, True), "вкл": (True, True), "off": (False, False), "выкл": (False, False),
-                 "good": (True, False), "добрые": (True, False)}
+        modes = {"on": (True, True, False), "вкл": (True, True, False), "off": (False, False, False),
+                 "выкл": (False, False, False), "good": (True, False, False), "добрые": (True, False, False),
+                 "top": (True, True, True), "важное": (True, True, True)}
         if arg not in modes:
             return say("Пример: <code>/auto on</code> — все проверенные сразу; "
                        "<code>/auto good</code> — сразу только добрые, тяжёлые ждут ✅; "
+                       "<code>/auto top 3</code> — сам выпускает только самое важное, до 3 в час; "
                        "<code>/auto off</code> — ничего сам не публикует")
-        s["auto"], s["auto_hard"] = modes[arg]
+        s["auto"], s["auto_hard"], s["auto_top"] = modes[arg]
+        if s["auto_top"] and args[1:2] and args[1].isdigit():
+            s["per_hour"] = max(1, min(12, int(args[1])))
         note = stop_auto(state)
         if not quiet or note.startswith("↩️"):
             say(note)
@@ -758,12 +765,18 @@ def menu_markup(state, ask=None):
             [{"text": f"Выпустить все {n} ждущих черновиков, раз в {mins} мин?", "callback_data": "-"}],
             [{"text": "✅ Да, выпускай", "callback_data": "m:" + ask},
              {"text": "↩️ Нет", "callback_data": "m:refresh"}]]}
-    auto = "off" if not s["auto"] else "on" if s.get("auto_hard", True) else "good"
+    auto = "off" if not s["auto"] else "top" if s.get("auto_top") else "on" if s.get("auto_hard", True) else "good"
+    per = s.get("per_hour", 3)
+    top_row = [[{"text": "Самое важное — сколько в час:", "callback_data": "-"}],
+               [{"text": mark(per == n, str(n)), "callback_data": f"m:/auto top {n}"} for n in (1, 2, 3, 4, 6)]] \
+        if auto == "top" else []
     return {"inline_keyboard": [
         [{"text": "🤖 Автопубликация проверенных:", "callback_data": "-"}],
         [{"text": mark(auto == "on", "Все"), "callback_data": "m:/auto on"},
-         {"text": mark(auto == "good", "Только добрые"), "callback_data": "m:/auto good"},
+         {"text": mark(auto == "good", "Только добрые"), "callback_data": "m:/auto good"}],
+        [{"text": mark(auto == "top", "Самое важное"), "callback_data": f"m:/auto top {per}"},
          {"text": mark(auto == "off", "Выкл"), "callback_data": "m:/auto off"}],
+        *top_row,
         [{"text": "⏱ Интервал между постами:", "callback_data": "-"}],
         [{"text": mark(s["gap"] == g, "сразу" if not g else f"{g} мин"), "callback_data": f"m:/gap {g}"}
          for g in (0, 15, 30, 60)],
@@ -818,12 +831,33 @@ def stop_auto(state):
     """После выключения автопилота (или «только добрые») снимаем из очереди то, что он уже поставил."""
     s, back = state["settings"], []
     for mid, q in list(state["queue"].items()):
-        if q.get("auto") and (not s["auto"] or (q.get("tone") == "hard" and not s.get("auto_hard", True))):
+        if q.get("auto") and not auto_allowed(s, {**state["drafts"].get(mid, {}), **q, "safe": True, "trusted": True}):
             state["queue"].pop(mid)
             state["drafts"][mid]["status"] = "pending"
             refresh(state, mid)
             back.append(mid)
     return f"↩️ Вернул на решение модератору: {len(back)}" if back else "Очередь автопилота в порядке."
+
+
+def auto_mode_name(s):
+    if not s["auto"]:
+        return "выкл"
+    if s.get("auto_top"):
+        return f"🤖 только самое важное, до {s.get('per_hour', 3)} в час"
+    return "🤖 вкл, все" if s.get("auto_hard", True) else "🤖 вкл, только добрые"
+
+
+def status_data(state):
+    """Настройки и цифры для панели на ПК."""
+    s = state["settings"]
+    return {"settings": s,
+            "pending": sum(status_of(state, m) == "pending" and d.get("status") != "expired"
+                           for m, d in state["drafts"].items()),
+            "queue": len(state["queue"]),
+            "auto_queue": sum(bool(q.get("auto")) for q in state["queue"].values()),
+            "published_hour": sum(d.get("status") == "published" and NOW - d.get("published_at", 0) < 3600
+                                  for d in state["drafts"].values()),
+            "last_publish": state.get("last_publish", 0)}
 
 
 def status_text(state):
@@ -838,7 +872,7 @@ def status_text(state):
             f"Публикации: {'⏸ на паузе' if s['paused'] else '▶️ идут'}\n"
             f"Ночь: {night}\n"
             f"Автопилот (проверенные — сразу): "
-            f"{('🤖 вкл, все' if s.get('auto_hard', True) else '🤖 вкл, только добрые') if s['auto'] else 'выкл'}\n"
+            f"{auto_mode_name(s)}\n"
             f"Между постами: {s['gap']} мин днём, {s['night_gap']} ночью\n"
             f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n\n"
             f"📝 Ждут решения: {pending}\n"
@@ -849,19 +883,31 @@ def status_text(state):
             f"Последний пост: {fmt(state['last_publish']) if state['last_publish'] else '—'}")
 
 
+def auto_allowed(s, d):
+    """Может ли автопилот сам выпустить этот черновик при текущем режиме."""
+    return (s["auto"] and d.get("safe") and d.get("trusted")                 # только доверенные источники
+            and (s.get("auto_hard", True) or d.get("tone") != "hard")
+            and (not s.get("auto_top") or d.get("importance", 3) >= 4))      # «самое важное»: 4–5 из 5
+
+
 def autopilot_and_cleanup(state):
     s = state["settings"]
-    for mid, d in list(state["drafts"].items()):
+    top = s["auto"] and s.get("auto_top")
+    waiting = sum(bool(q.get("auto")) for q in state["queue"].values())
+    # в режиме «самое важное» сначала самые важные, и в очереди держим не больше одного — остальные ждут слота
+    drafts = sorted(state["drafts"].items(), key=lambda kv: -kv[1].get("importance", 3)) if top \
+        else list(state["drafts"].items())
+    for mid, d in drafts:
         if mid in state["queue"]:
             continue
         age_h = (NOW - d.get("created", NOW)) / 3600
         if d.get("status") == "pending":
-            if (s["auto"] and d.get("safe") and d.get("trusted")                  # только доверенные источники
-                    and age_h < AUTO_MAX_AGE_HOURS                                  # и только свежие
-                    and (s.get("auto_hard", True) or d.get("tone") != "hard")):
+            if auto_allowed(s, d) and age_h < AUTO_MAX_AGE_HOURS and not (top and waiting >= 1):
                 state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "auto": True,
+                                       "importance": d.get("importance", 3),
                                        "msg": d.get("snap") or {"kind": "text", "text": "", "entities": []}}
                 d["status"] = "queued"
+                waiting += 1
                 refresh(state, mid)
             elif age_h > PENDING_TTL_HOURS:
                 d["status"] = "expired"
@@ -1139,6 +1185,8 @@ ASSISTANT_TOOLS = [
          "night_start": {"type": "integer"}, "night_end": {"type": "integer"},
          "night_off": {"type": "boolean"}, "auto": {"type": "boolean", "description": "автопубликация проверенных"},
          "auto_hard": {"type": "boolean", "description": "автопубликация и для тяжёлых новостей (false — тяжёлые ждут модератора)"},
+         "auto_top": {"type": "boolean", "description": "режим «самое важное»: сам публикует только самые важные"},
+         "per_hour": {"type": "integer", "description": "сколько самых важных в час в режиме auto_top"},
          "watermark": {"type": "boolean"}, "paused": {"type": "boolean"}}}}},
 ]
 
@@ -1153,7 +1201,8 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
 - «Выложи 53, 55, 58 раз в 10 минут», «очередь по одной каждые 15 минут» — spread (разово для этих новостей).
 - «Теперь всегда публикуй раз в 30 минут» — settings gap=30; «публикуй сразу» — settings gap=0.
 - «Отключи автопубликацию» — settings auto=false; «тяжёлые сам не публикуй» — auto=true, auto_hard=false;
-  «включи всё обратно» — auto=true, auto_hard=true; «стоп, ничего не публикуй» — paused=true.
+  «включи всё обратно» — auto=true, auto_hard=true, auto_top=false; «стоп, ничего не публикуй» — paused=true.
+- «Публикуй только самое важное, 2–3 в час» — auto=true, auto_hard=true, auto_top=true, per_hour=3.
 - «Найди новости», «что нового» — find_news; покажи список как есть (номер Н, источник, заголовок, метка).
 - «Сделай черновики из Н2 и Н5», «переведи эти» — request_drafts. Перевод и перепроверку делает Claude,
   сам новости не переводи и не пиши — черновики придут в группу после ближайшего запуска Claude.
@@ -1297,8 +1346,10 @@ def run_tool(state, name, a):
         for k, v in a.items():
             if k in ("gap", "night_gap") and isinstance(v, int) and v >= 0:
                 s[k] = v
-            elif k in ("auto", "auto_hard"):
+            elif k in ("auto", "auto_hard", "auto_top"):
                 s[k] = bool(v)
+            elif k == "per_hour" and isinstance(v, int) and v > 0:
+                s["per_hour"] = min(12, v)
             elif k == "watermark":
                 s["wm"] = bool(v)
             elif k == "paused":
@@ -1344,6 +1395,14 @@ def publish(state):
     night = is_night(s)
     gap = s["night_gap"] if night else s["gap"]
     ready = [(m, q) for m, q in queue if not q.get("at") and m in state["queue"] and (q.get("auto") or not night)]
+    if s["auto"] and s.get("auto_top"):
+        autos = [x for x in ready if x[1].get("auto")]
+        ready = [x for x in ready if not x[1].get("auto")]
+        slot = 3600 / max(1, s.get("per_hour", 3))
+        if autos and NOW - state.get("last_auto_publish", 0) >= slot - 90:
+            mid, item = max(autos, key=lambda kv: kv[1].get("importance", 3))
+            publish_one(state, mid, item)
+            state["last_auto_publish"] = NOW
     for mid, item in alternate(ready, state["last_tone"]):
         if gap and NOW - state["last_publish"] < gap * 60 - 90:
             break
@@ -1369,7 +1428,7 @@ def publish_one(state, mid, item):
     if not res:
         return
     del state["queue"][mid]
-    state["drafts"].setdefault(mid, {})["status"] = "published"
+    state["drafts"].setdefault(mid, {}).update(status="published", published_at=NOW)
     state["last_publish"] = NOW
     state["last_tone"] = item["tone"]
     refresh(state, mid, "published")
@@ -1383,7 +1442,8 @@ def send_draft(state, e):
     e: text, link, image, video, tone, safe, note."""
     d = {"tone": e.get("tone", ""), "url": e["link"], "created": NOW, "status": "pending"}
     if "safe" in e:
-        d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40], trusted=bool(e.get("trusted")))
+        d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40], trusted=bool(e.get("trusted")),
+                 importance=e.get("importance", 3))
     wm = state["settings"]["wm"]
     base = {"chat_id": MOD_CHAT_ID, "parse_mode": "HTML"}
     text, image, video, msg = e["text"], e.get("image"), e.get("video"), None
@@ -1713,7 +1773,15 @@ def make_entry(item, post):
     return {"text": build_text(post, item["link"]), "link": item["link"],
             "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
             "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
-            "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES}
+            "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES,
+            "importance": importance_of(post)}
+
+
+def importance_of(post):
+    try:
+        return max(1, min(5, int(post.get("importance") or 3)))
+    except (TypeError, ValueError):
+        return 3
 
 
 # ---------------------- редактор через чат Claude ----------------------

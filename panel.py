@@ -13,6 +13,7 @@ Claude здесь — это Claude Code на этом компьютере (п�
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -114,6 +115,7 @@ def live_loop():
         time.sleep(1)
     git("pull", "-q")
     state = bot.load_state()
+    live["state"] = state          # панель меняет режимы прямо в работающем боте
     live.update(status="работает — кнопки срабатывают сразу", since=time.time())
     log("✅ Бот работает на ПК. GitHub на паузе, пока панель открыта.")
     last_slow = last_beat = 0
@@ -131,7 +133,7 @@ def live_loop():
                 bot.autopilot_and_cleanup(state)
                 last_slow = bot.NOW
             bot.publish(state)
-            if json.dumps(state, sort_keys=True) != before:
+            if json.dumps(state, sort_keys=True) != before or live.pop("dirty", False):
                 bot.save_state(state)
                 push_state()
             if time.time() - last_beat > 60:
@@ -140,6 +142,7 @@ def live_loop():
         except Exception as e:
             log(f"⚠️ Ошибка в работе бота: {e!r}")
             time.sleep(5)
+    live.pop("state", None)
     bot.save_state(state)
     push_state()
     lease(0)
@@ -151,6 +154,28 @@ def live_start():
     if not live["on"]:
         live["on"] = True
         threading.Thread(target=live_loop, daemon=True).start()
+
+
+def bot_command(cmd):
+    """Режимы из панели: та же команда, что /auto top 3 в Telegram."""
+    bot.NOW = time.time()
+    state = live.get("state")
+    if state is not None:                       # бот работает на ПК — меняем сразу
+        bot.handle_command(state, cmd, quiet=True)
+        live["dirty"] = True                    # цикл бота сохранит и отправит на GitHub
+    else:                                       # бот на GitHub — меняем файл состояния и отправляем
+        git("pull", "-q")
+        state = bot.load_state()
+        bot.handle_command(state, cmd, quiet=True)
+        bot.save_state(state)
+        push_state()
+    log(f"Режим: {cmd}")
+
+
+def bot_status():
+    bot.NOW = time.time()
+    state = live.get("state") or bot.load_state()
+    return bot.status_data(state)
 
 
 # ---------------------- задания ----------------------
@@ -302,7 +327,9 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/api/state":
             items = read_json("candidates.json", [])
             return self.send(200, {
-                "live": {**live, "for": int(time.time() - live["since"]) if live["since"] and live["on"] else 0},
+                "live": {**{k: v for k, v in live.items() if k in ("on", "status", "since")},
+                         "for": int(time.time() - live["since"]) if live["since"] and live["on"] else 0},
+                "bot": bot_status(),
                 "job": job["name"], "job_for": int(time.time() - job["started"]) if job["name"] else 0,
                 "auto": {**auto, "in": max(0, int(auto["next"] - time.time()))},
                 "log": log_lines[-300:], "has_custom": os.path.exists("custom.json"),
@@ -334,6 +361,12 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200, {"ok": True} if start("Проверка новости", lambda: do_check(text)) else busy)
         if self.path == "/api/send-custom":
             return self.send(200, {"ok": True} if start("Отправка в модерацию", do_send_custom) else busy)
+        if self.path == "/api/mode":
+            cmd = str(data.get("cmd", ""))
+            if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7))", cmd):
+                return self.send(200, {"ok": False, "error": "Неизвестная команда"})
+            bot_command(cmd)
+            return self.send(200, {"ok": True})
         if self.path == "/api/live":
             if data.get("on"):
                 live_start()
@@ -354,109 +387,270 @@ PAGE = r"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Панель ilm4</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--text:#1d2330;--muted:#6b7385;--line:#e3e6ec;--accent:#1f7a55;--accent2:#e8f4ee;--warn:#b25c00}
-@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--text:#e8eaef;--muted:#9aa2b1;--line:#2c323c;--accent:#3fb783;--accent2:#1c3329;--warn:#f0a44b}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,Segoe UI,sans-serif}
-header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-h1{font-size:18px;margin:0 12px 0 0}.pill{padding:4px 10px;border-radius:99px;background:var(--accent2);color:var(--accent);font-size:13px}
-.pill.busy{background:#fff3e0;color:var(--warn)}
-main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);gap:16px;padding:16px 20px}
-@media (max-width:900px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-h2{font-size:15px;margin:0 0 10px}
-button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--text);padding:7px 12px;border-radius:8px;cursor:pointer}
-button.main{background:var(--accent);border-color:var(--accent);color:#fff}button:disabled{opacity:.5;cursor:default}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-input[type=search],select,textarea{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text)}
-input[type=search]{flex:1;min-width:160px}textarea{width:100%;min-height:90px;resize:vertical}
-.list{max-height:62vh;overflow:auto;border-top:1px solid var(--line)}
-.item{display:grid;grid-template-columns:24px 1fr;gap:8px;padding:8px 2px;border-bottom:1px solid var(--line)}
-.item .t{font-weight:500}.item .o{color:var(--muted);font-size:13px;direction:auto}.meta{color:var(--muted);font-size:12px}
-a{color:var(--accent)}.log{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;height:36vh;overflow:auto;font:12.5px/1.45 ui-monospace,Consolas,monospace;white-space:pre-wrap}
-.recent{font-size:13px;color:var(--muted);max-height:18vh;overflow:auto;margin:0;padding-left:18px}
-.custom{border:1px dashed var(--accent);border-radius:8px;padding:10px;margin-top:10px}
-.muted{color:var(--muted);font-size:13px}
+:root{
+  --bg:#f3f2ed;--card:#fff;--card2:#faf9f5;--text:#16201b;--muted:#6b7269;--line:#e3e1d8;
+  --accent:#0e6a4e;--accent-ink:#fff;--soft:#e2efe8;--gold:#a97c22;--gold-soft:#f6ecd6;--danger:#b1402d;--danger-soft:#f7e3de;
+  --shadow:0 1px 2px rgba(20,30,25,.05),0 8px 24px -12px rgba(20,30,25,.12);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1311;--card:#151c19;--card2:#111815;--text:#e5ebe7;--muted:#8f9c95;--line:#243029;
+  --accent:#3dbf8c;--accent-ink:#06120d;--soft:#16302a;--gold:#d8ae57;--gold-soft:#2c2513;--danger:#ef7a64;--danger-soft:#33201b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+}}
+*{box-sizing:border-box}
+html,body{overflow-x:hidden}body{margin:0;background:var(--bg);color:var(--text);font:14.5px/1.5 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+svg.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 24px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;margin-right:6px}
+.brand .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink)}
+.brand .mark svg{width:22px;height:22px;stroke-width:1.6}
+.brand b{font-size:16px;letter-spacing:.2px}.brand small{display:block;color:var(--muted);font-size:12px;margin-top:-2px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;background:var(--soft);color:var(--accent);font-size:12.5px;font-weight:600}
+.pill.busy{background:var(--gold-soft);color:var(--gold)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.busy .dot{animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.25}}
+.hint{color:var(--muted);font-size:12.5px;margin-left:auto}
+main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,1fr);gap:18px;padding:20px 24px;max-width:1500px;margin:0 auto}
+@media (max-width:980px){main{grid-template-columns:1fr;padding:14px 16px}.hint{display:none}}
+.col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.card h2{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:14px;font-weight:650;margin:0 0 14px;letter-spacing:.2px}
+.card h2 svg{color:var(--accent)}
+.card h2 .sub{margin-left:auto;font-weight:500;color:var(--muted);font-size:12px}
+button{font:inherit;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);color:var(--text);
+  padding:8px 13px;border-radius:10px;cursor:pointer;transition:background .15s,border-color .15s,transform .05s}
+button:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}button:active{transform:translateY(1px)}
+button.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+input[type=search],select,textarea{font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);outline:none}
+input[type=search]:focus,select:focus,textarea:focus{border-color:var(--accent)}
+input[type=search]{flex:1;min-width:170px}textarea{width:100%;min-height:96px;resize:vertical}
+.muted{color:var(--muted);font-size:12.5px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* режим публикации */
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.mode{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;
+  padding:12px;border:1.5px solid var(--line);border-radius:13px;background:var(--card2);transition:border-color .15s,background .15s}
+.mode:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.mode .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.mode b{display:block;font-size:13.5px}.mode span{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px}
+.mode.on{border-color:var(--accent);background:var(--soft)}
+.mode.on .ic{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mode.off.on{border-color:var(--danger);background:var(--danger-soft)}.mode.off.on .ic{background:var(--danger);border-color:var(--danger)}
+.sub-block{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.label{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.seg{display:inline-flex;padding:3px;border-radius:11px;background:var(--card2);border:1px solid var(--line);gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:13px;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--text);font-weight:650;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.toggles{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px}
+.tg{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:9px;min-width:0;white-space:nowrap;padding:10px 11px;border:1px solid var(--line);border-radius:11px;font-size:13px;background:var(--card2)}
+.tg .sw{margin-left:auto;width:32px;height:18px;border-radius:99px;background:var(--line);position:relative;transition:background .15s}
+.tg .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.tg.on .sw{background:var(--accent)}.tg.on .sw::after{left:16px}
+.tg.warn.on{border-color:var(--gold);background:var(--gold-soft)}.tg.warn.on .sw{background:var(--gold)}
+.tg svg{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat{padding:10px 12px;border-radius:11px;background:var(--card2);border:1px solid var(--line)}
+.stat b{display:block;font-size:20px;font-variant-numeric:tabular-nums;line-height:1.2}.stat span{font-size:11.5px;color:var(--muted)}
+.banner{display:none;margin-top:12px;padding:9px 12px;border-radius:10px;background:var(--gold-soft);color:var(--gold);font-size:12.5px;font-weight:600}
+
+/* новости */
+.list{max-height:66vh;overflow:auto;margin:0 -6px;padding:0 6px}
+.item{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:11px 8px;border-radius:10px;cursor:pointer}
+.item:hover{background:var(--card2)}.item+.item{border-top:1px solid var(--line)}
+.item input{margin-top:3px;accent-color:var(--accent)}
+.item .t{font-weight:600}.item .o{color:var(--muted);font-size:12.5px}
+.meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:3px}
+.meta svg{width:14px;height:14px}
+.tag{padding:1px 8px;border-radius:99px;background:var(--soft);color:var(--accent);font-weight:600;font-size:11.5px}
+.empty{display:grid;place-items:center;text-align:center;padding:40px 16px;color:var(--muted)}
+.empty svg{width:34px;height:34px;margin-bottom:10px;color:var(--accent)}
+
+/* бот на ПК */
+.live{display:flex;align-items:center;gap:12px}
+.beacon{width:12px;height:12px;border-radius:50%;background:var(--line);flex:none}
+.beacon.on{background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 22%,transparent)}
+.log{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:10px;height:34vh;overflow:auto;
+  font:12px/1.5 "Cascadia Mono",ui-monospace,Consolas,monospace;white-space:pre-wrap;color:var(--muted)}
+.recent{font-size:12.5px;color:var(--muted);max-height:18vh;overflow:auto;margin:0;padding-left:18px}
+.custom{border:1.5px dashed var(--accent);border-radius:12px;padding:12px;margin-top:12px}
+.custom p{margin:6px 0}
 </style></head><body>
-<header><h1>🕌 Панель редактора @ilm4_info</h1><span id="status" class="pill">готов</span>
-<span class="muted">Пока панель открыта, бот работает здесь: кнопки в «Модер» срабатывают сразу.</span></header>
+
+<svg width="0" height="0" style="position:absolute">
+ <symbol id="i-logo" viewBox="0 0 24 24"><rect x="5.5" y="5.5" width="13" height="13" rx="1.5"/><rect x="5.5" y="5.5" width="13" height="13" rx="1.5" transform="rotate(45 12 12)"/><circle cx="12" cy="12" r="2.4"/></symbol>
+ <symbol id="i-all" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.48M7.76 16.24a6 6 0 0 1 0-8.48M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></symbol>
+ <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+ <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.84 5.76 6.36.92-4.6 4.49 1.09 6.33L12 17.3l-5.69 2.99 1.09-6.33-4.6-4.49 6.36-.92z"/></symbol>
+ <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></symbol>
+ <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></symbol>
+ <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+ <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+ <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+ <symbol id="i-term" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></symbol>
+ <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+ <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+ <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7l5.66 5.66a8 8 0 1 1-11.32 0z"/></symbol>
+ <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+ <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+ <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
+ <symbol id="i-link" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+</svg>
+
+<header>
+  <div class="brand"><div class="mark"><svg class="i"><use href="#i-logo"/></svg></div>
+    <div><b>ilm4 · редакция</b><small>панель управления каналом @ilm4_info</small></div></div>
+  <span id="status" class="pill"><span class="dot"></span><span id="statustext">готов</span></span>
+  <span class="hint">Пока панель открыта, бот работает на этом компьютере — кнопки в «Модер» срабатывают сразу.</span>
+</header>
+
 <main>
-<section class="card">
-  <div class="row">
-    <button class="main" onclick="post('/api/peek')">🔍 Посмотреть актуальное</button>
-    <button onclick="makeSelected()">✍️ Сделать черновики из отмеченных</button>
-    <button onclick="post('/api/auto-now')">🤖 Подобрать самому и сделать</button>
-  </div>
-  <div class="row">
-    <input type="search" id="q" placeholder="Поиск по заголовкам и источникам…" oninput="render()">
-    <select id="src" onchange="render()"><option value="">Все источники</option></select>
-    <span class="muted" id="count"></span>
-  </div>
-  <div class="list" id="list"><p class="muted">Нажми «Посмотреть актуальное» — бот соберёт свежие новости из всех источников и переведёт заголовки (машинный перевод, для ориентира).</p></div>
-</section>
-<section>
+<section class="col">
   <div class="card">
-    <h2>⚡ Бот на ПК</h2>
-    <div id="live" class="muted"></div>
-    <div class="row" style="margin-top:8px">
-      <button class="main" id="liveon" onclick="post('/api/live',{on:true})">Включить</button>
-      <button id="liveoff" onclick="post('/api/live',{on:false})">Выключить (перед закрытием)</button>
+    <h2><svg class="i"><use href="#i-inbox"/></svg>Свежие новости<span class="sub" id="count"></span></h2>
+    <div class="row">
+      <button class="main" onclick="post('/api/peek')"><svg class="i"><use href="#i-search"/></svg>Посмотреть актуальное</button>
+      <button onclick="makeSelected()"><svg class="i"><use href="#i-pen"/></svg>Черновики из отмеченных</button>
+      <button onclick="post('/api/auto-now')"><svg class="i"><use href="#i-spark"/></svg>Подобрать самому</button>
+    </div>
+    <div class="row">
+      <input type="search" id="q" placeholder="Поиск по заголовкам и источникам" oninput="render()">
+      <select id="src" onchange="render()"><option value="">Все источники</option></select>
+    </div>
+    <div class="list" id="list"><div class="empty"><div><svg class="i"><use href="#i-search"/></svg><br>
+      Нажмите «Посмотреть актуальное» — бот соберёт свежие новости из всех источников<br>и переведёт заголовки (машинный перевод, для ориентира).</div></div></div>
+  </div>
+</section>
+
+<section class="col">
+  <div class="card">
+    <h2><svg class="i"><use href="#i-sliders"/></svg>Режим публикации<span class="sub">то же, что /menu в Telegram</span></h2>
+    <div class="modes">
+      <button class="mode" id="m-on" onclick="mode('/auto on')"><div class="ic"><svg class="i"><use href="#i-all"/></svg></div>
+        <div><b>Все проверенные</b><span>Новости из доверенных источников выходят сразу</span></div></button>
+      <button class="mode" id="m-good" onclick="mode('/auto good')"><div class="ic"><svg class="i"><use href="#i-sun"/></svg></div>
+        <div><b>Только добрые</b><span>Тяжёлые ждут вашего решения</span></div></button>
+      <button class="mode" id="m-top" onclick="mode('/auto top '+(B.settings.per_hour||3))"><div class="ic"><svg class="i"><use href="#i-star"/></svg></div>
+        <div><b>Самое важное</b><span id="toptext">Только главное, несколько в час</span></div></button>
+      <button class="mode off" id="m-off" onclick="mode('/auto off')"><div class="ic"><svg class="i"><use href="#i-inbox"/></svg></div>
+        <div><b>Выключено</b><span>Всё приходит на модерацию</span></div></button>
+    </div>
+    <div class="sub-block" id="perhour" style="display:none">
+      <div class="label"><svg class="i"><use href="#i-star"/></svg>Самое важное — сколько новостей в час</div>
+      <div class="seg" id="seg-top"></div>
+    </div>
+    <div class="sub-block">
+      <div class="label"><svg class="i"><use href="#i-clock"/></svg>Одобренные вами — интервал между постами</div>
+      <div class="seg" id="seg-gap"></div>
+    </div>
+    <div class="sub-block">
+      <div class="toggles">
+        <button class="tg warn" id="t-pause" onclick="mode(B.settings.paused?'/resume':'/pause')"><svg class="i"><use href="#i-pause"/></svg>Пауза<span class="sw"></span></button>
+        <button class="tg" id="t-wm" onclick="mode('/wm '+(B.settings.wm?'off':'on'))"><svg class="i"><use href="#i-drop"/></svg>Водяной знак<span class="sw"></span></button>
+        <button class="tg" id="t-night" onclick="mode('/night '+(B.settings.night?'off':'23 7'))"><svg class="i"><use href="#i-moon"/></svg>Ночь 23–7<span class="sw"></span></button>
+      </div>
+      <div class="banner" id="pausebanner">Пауза: бот ничего не публикует, даже отложенное.</div>
+      <div class="stats">
+        <div class="stat"><b id="st-pending">–</b><span>ждут решения</span></div>
+        <div class="stat"><b id="st-queue">–</b><span>в очереди</span></div>
+        <div class="stat"><b id="st-hour">–</b><span>вышло за час</span></div>
+      </div>
     </div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <h2>⏱ Подбирать черновики на ПК</h2>
+
+  <div class="card">
+    <h2><svg class="i"><use href="#i-bolt"/></svg>Бот на этом компьютере</h2>
+    <div class="live"><span class="beacon" id="beacon"></span><div id="live" class="muted"></div></div>
+    <div class="row" style="margin:12px 0 0">
+      <button class="main" id="liveon" onclick="post('/api/live',{on:true})">Включить</button>
+      <button id="liveoff" onclick="post('/api/live',{on:false})">Выключить перед закрытием</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="i"><use href="#i-clock"/></svg>Подбор черновиков на ПК</h2>
     <div class="row">
-      <label><input type="checkbox" id="timer" onchange="setTimer()"> подбирать черновики каждые</label>
-      <select id="minutes" onchange="setTimer()"><option>30</option><option>45</option><option>60</option></select> мин
+      <label class="muted" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="timer" onchange="setTimer()" style="accent-color:var(--accent)"> подбирать каждые</label>
+      <select id="minutes" onchange="setTimer()"><option>30</option><option>45</option><option>60</option></select><span class="muted">мин</span>
     </div>
     <div class="muted" id="timerinfo"></div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <h2>🔎 Проверить новость</h2>
-    <textarea id="checktext" placeholder="Вставь ссылку или текст новости — Claude найдёт первоисточник и подтверждение в надёжных источниках"></textarea>
-    <div class="row" style="margin-top:8px"><button class="main" onclick="check()">Проверить</button></div>
+
+  <div class="card">
+    <h2><svg class="i"><use href="#i-shield"/></svg>Проверить новость</h2>
+    <textarea id="checktext" placeholder="Вставьте ссылку или текст новости — Claude найдёт первоисточник и подтверждение в надёжных источниках"></textarea>
+    <div class="row" style="margin:10px 0 0"><button class="main" onclick="check()"><svg class="i"><use href="#i-shield"/></svg>Проверить</button></div>
     <div id="custom"></div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <h2>📜 Журнал</h2><div class="log" id="log"></div>
+
+  <div class="card">
+    <h2><svg class="i"><use href="#i-term"/></svg>Журнал</h2><div class="log" id="log"></div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <h2>Уже брали недавно</h2><ol class="recent" id="recent"></ol>
+  <div class="card">
+    <h2><svg class="i"><use href="#i-history"/></svg>Уже брали недавно</h2><ol class="recent" id="recent"></ol>
   </div>
 </section>
 </main>
+
 <script>
-let S={items:[]}, itemsTime=0, checked=new Set();
+let S={items:[]}, B={settings:{}}, itemsTime=0, checked=new Set();
+const $=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const icon=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
 async function post(url,body){const r=await fetch(url,{method:'POST',body:JSON.stringify(body||{})});const j=await r.json();if(!j.ok&&j.error)alert(j.error);refresh();}
+function mode(cmd){post('/api/mode',{cmd});}
 function makeSelected(){post('/api/make',{indexes:[...checked]});checked.clear();render();}
-function check(){post('/api/check',{text:document.getElementById('checktext').value});}
-function setTimer(){post('/api/timer',{on:document.getElementById('timer').checked,minutes:+document.getElementById('minutes').value});}
+function check(){post('/api/check',{text:$('checktext').value});}
+function setTimer(){post('/api/timer',{on:$('timer').checked,minutes:+$('minutes').value});}
 function ago(m){if(m==null)return'';if(m<60)return m+' мин назад';return Math.floor(m/60)+' ч '+(m%60)+' мин назад';}
 function render(){
-  const q=document.getElementById('q').value.toLowerCase(), src=document.getElementById('src').value;
+  const q=$('q').value.toLowerCase(), src=$('src').value;
   const items=S.items.filter(i=>(!src||i.source===src)&&(!q||((i.title_ru||'')+i.title+i.source).toLowerCase().includes(q)));
-  document.getElementById('count').textContent=items.length+' из '+S.items.length+(checked.size?' · отмечено '+checked.size:'');
+  $('count').textContent=S.items.length?(items.length+' из '+S.items.length+(checked.size?' · отмечено '+checked.size:'')):'';
   if(!S.items.length)return;
-  document.getElementById('list').innerHTML=items.map(i=>`<label class="item"><input type="checkbox" ${checked.has(i.index)?'checked':''} onchange="this.checked?checked.add(${i.index}):checked.delete(${i.index});render()">
+  $('list').innerHTML=items.map(i=>`<label class="item"><input type="checkbox" ${checked.has(i.index)?'checked':''} onchange="this.checked?checked.add(${i.index}):checked.delete(${i.index});render()">
    <div><div class="t">${esc(i.title_ru||i.title)}</div>${i.title_ru&&i.title_ru!==i.title?`<div class="o" dir="auto">${esc(i.title)}</div>`:''}
-   <div class="meta">${esc(i.source)} · ${ago(i.ago)} · <a href="${esc(i.link)}" target="_blank" rel="noopener">открыть</a>${i.image?' · 🖼':''}</div></div></label>`).join('');
+   <div class="meta"><span class="tag">${esc(i.source)}</span>${ago(i.ago)}${i.image?' '+icon('image'):''}
+   <a href="${esc(i.link)}" target="_blank" rel="noopener">${icon('link')}</a></div></div></label>`).join('');
+}
+function seg(el,opts,cur,cmd){el.innerHTML=opts.map(([v,t])=>`<button class="${v===cur?'on':''}" onclick="mode('${cmd(v)}')">${t}</button>`).join('');}
+function renderMode(){
+  const s=B.settings||{}; if(!('auto' in s))return;
+  const m=!s.auto?'off':s.auto_top?'top':(s.auto_hard!==false?'on':'good');
+  for(const k of ['on','good','top','off'])$('m-'+k).classList.toggle('on',k===m);
+  const per=s.per_hour||3;
+  $('toptext').textContent=m==='top'?('Сам выпускает только главное — до '+per+' в час, остальное вам'):'Только главное, несколько в час';
+  $('perhour').style.display=m==='top'?'':'none';
+  seg($('seg-top'),[1,2,3,4,6].map(n=>[n,n+' в час']),per,v=>'/auto top '+v);
+  seg($('seg-gap'),[[0,'сразу'],[15,'15 мин'],[30,'30 мин'],[60,'60 мин']],s.gap,v=>'/gap '+v);
+  $('t-pause').classList.toggle('on',!!s.paused); $('pausebanner').style.display=s.paused?'block':'none';
+  $('t-wm').classList.toggle('on',!!s.wm); $('t-night').classList.toggle('on',!!s.night);
+  $('st-pending').textContent=B.pending; $('st-queue').textContent=B.queue; $('st-hour').textContent=B.published_hour;
 }
 async function refresh(){
   const s=await (await fetch('/api/state')).json();
-  const st=document.getElementById('status'); st.textContent=s.job?('⏳ '+s.job+' · '+s.job_for+' с'):'готов'; st.className='pill'+(s.job?' busy':'');
-  const lg=document.getElementById('log'), bottom=lg.scrollTop+lg.clientHeight>=lg.scrollHeight-20;
+  $('statustext').textContent=s.job?(s.job+' · '+s.job_for+' с'):'готов'; $('status').className='pill'+(s.job?' busy':'');
+  const lg=$('log'), bottom=lg.scrollTop+lg.clientHeight>=lg.scrollHeight-20;
   lg.textContent=s.log.join('\n'); if(bottom)lg.scrollTop=lg.scrollHeight;
-  const L=document.getElementById('live');
-  L.innerHTML=(s.live.on?'🟢 ':'⚪ ')+esc(s.live.status)+(s.live.on&&s.live.for?(' · '+Math.floor(s.live.for/60)+' мин'):'')
-    +'<br>'+(s.live.on?'Кнопки ✅ ❌ 🕒 и команды срабатывают мгновенно. GitHub на паузе.':'Сейчас бота ведёт GitHub (просыпается каждые 5 минут).');
-  document.getElementById('liveon').disabled=s.live.on; document.getElementById('liveoff').disabled=!s.live.on;
-  document.getElementById('timer').checked=s.auto.on; document.getElementById('minutes').value=s.auto.minutes;
-  document.getElementById('timerinfo').textContent=s.auto.on?('Следующий подбор через '+Math.ceil(s.auto.in/60)+' мин. Облачный редактор тоже работает — дублей не будет.'):'Выключено — это нормально: облачный редактор и так подбирает новости каждые 30 минут круглосуточно.';
-  document.getElementById('recent').innerHTML=s.recent.slice().reverse().map(t=>`<li>${esc(t)}</li>`).join('');
-  document.getElementById('custom').innerHTML=s.has_custom?s.custom.map(c=>`<div class="custom"><b>${esc(c.emoji)} ${esc(c.title)}</b><p>${esc(c.body)}</p><div class="muted">${esc(c.check_note)} · <a href="${esc(c.link)}" target="_blank">источник</a></div>
-     <div class="row" style="margin-top:8px"><button class="main" onclick="post('/api/send-custom')">📤 Отправить в модерацию</button></div></div>`).join(''):'';
+  $('beacon').className='beacon'+(s.live.on?' on':'');
+  $('live').innerHTML='<b style="color:var(--text)">'+esc(s.live.status)+'</b>'+(s.live.on&&s.live.for?(' · '+Math.floor(s.live.for/60)+' мин'):'')
+    +'<br>'+(s.live.on?'Кнопки и команды в «Модер» срабатывают мгновенно. GitHub на паузе.':'Сейчас бота ведёт GitHub (просыпается каждые 5 минут).');
+  $('liveon').disabled=s.live.on; $('liveoff').disabled=!s.live.on;
+  $('timer').checked=s.auto.on; $('minutes').value=s.auto.minutes;
+  $('timerinfo').textContent=s.auto.on?('Следующий подбор через '+Math.ceil(s.auto.in/60)+' мин. Облачный редактор тоже работает — дублей не будет.'):'Выключено — это нормально: облачный редактор и так подбирает новости каждые 30 минут круглосуточно.';
+  $('recent').innerHTML=s.recent.slice().reverse().map(t=>`<li>${esc(t)}</li>`).join('');
+  $('custom').innerHTML=s.has_custom?s.custom.map(c=>`<div class="custom"><b>${esc(c.title)}</b><p>${esc(c.body)}</p><div class="muted">${esc(c.check_note)} · <a href="${esc(c.link)}" target="_blank">источник</a></div>
+     <div class="row" style="margin:10px 0 0"><button class="main" onclick="post('/api/send-custom')">${icon('send')}Отправить в модерацию</button></div></div>`).join(''):'';
+  if(s.bot){B=s.bot;renderMode();}
   if(s.items_time!==itemsTime){itemsTime=s.items_time;S.items=s.items;
-    const sel=document.getElementById('src'),cur=sel.value;
+    const sel=$('src'),cur=sel.value;
     sel.innerHTML='<option value="">Все источники</option>'+[...new Set(S.items.map(i=>i.source))].sort().map(x=>`<option ${x===cur?'selected':''}>${esc(x)}</option>`).join('');
     render();}
 }
