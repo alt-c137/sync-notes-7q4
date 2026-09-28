@@ -1,5 +1,5 @@
 {
- "offset": 498374822,
+ "offset": 498374823,
  "drafts": {
   "2": {
    "tone": "good",
@@ -3553,7 +3553,7 @@
    "tone": "hard",
    "url": "https://dailytrust.com/niger-mosque-attacks-14-members-of-my-family-in-captivity-student/",
    "created": 1790576837.489496,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "цифры жертв разнятся",
    "trusted": false,
@@ -3592,8 +3592,8 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790577401.1262658,
- "last_tone": "good",
+ "last_publish": 1790577414.057342,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
