@@ -1,5 +1,5 @@
 {
- "offset": 498374810,
+ "offset": 498374811,
  "drafts": {
   "2": {
    "tone": "good",
@@ -2067,7 +2067,7 @@
    "tone": "good",
    "url": "https://www.alriyadh.com/2208428",
    "created": 1790567441.303264,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "малоценная — решите сами",
    "snap": {
@@ -2290,8 +2290,8 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790569891.7751122,
- "last_tone": "",
+ "last_publish": 1790569907.9763513,
+ "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
