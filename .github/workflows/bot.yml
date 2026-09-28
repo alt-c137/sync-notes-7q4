@@ -39,6 +39,8 @@ jobs:
           MOD_CHAT_ID: ${{ secrets.MOD_CHAT_ID }}
           ADMIN_IDS: ${{ secrets.ADMIN_IDS }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # нет секрета = режим чата
+          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}               # GLM: отбор новостей и помощник
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }} # GLM запасной
 
       - name: Сохранить состояние
         if: always()
@@ -46,7 +48,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add state.json
-          [ -f seen.json ] && git add seen.json
+          for f in seen.json triage_seen.json shortlist.json pool.json; do [ -f $f ] && git add $f; done
           git diff --staged --quiet && exit 0
           git commit -m "Обновил состояние бота [skip ci]"
           git push || (git pull --rebase && git push)

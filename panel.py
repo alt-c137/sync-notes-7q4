@@ -77,7 +77,7 @@ def lease(beat):
 
 def push_state():
     """Сохраняет состояние бота на GitHub, чтобы после выключения ПК GitHub продолжил с того же места."""
-    git("add", "state.json")
+    git("add", "state.json", *[f for f in ("triage_seen.json", "shortlist.json", "pool.json") if os.path.exists(f)])
     if git("diff", "--staged", "--quiet").returncode == 0:
         return
     git("commit", "-q", "-m", "Состояние (бот на ПК) [skip ci]")
@@ -85,6 +85,18 @@ def push_state():
         git("pull", "-q", "--rebase", "-X", "theirs")   # при споре оставляем версию с ПК
         if git("push", "-q").returncode != 0:
             log("⚠️ Состояние не отправилось на GitHub, попробую позже")
+
+
+triage_busy = threading.Event()
+
+
+def triage_bg(state):
+    try:
+        bot.triage(state)
+    except Exception as e:
+        log(f"⚠️ GLM-отбор: {e!r}")
+    finally:
+        triage_busy.clear()
 
 
 def live_loop():
@@ -112,6 +124,9 @@ def live_loop():
             bot.process_updates(state, wait=20)          # ждёт нажатий до 20 с — ответ мгновенный
             bot.NOW = time.time()
             if bot.NOW - last_slow > 30:                  # раз в 30 с: новые черновики, автопилот
+                if not triage_busy.is_set():              # GLM-отбор идёт фоном (1–2 мин), кнопки не ждут
+                    triage_busy.set()
+                    threading.Thread(target=triage_bg, args=(state,), daemon=True).start()
                 bot.ingest_inbox(state)
                 bot.autopilot_and_cleanup(state)
                 last_slow = bot.NOW

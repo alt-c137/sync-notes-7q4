@@ -129,7 +129,6 @@ FEEDS = [
     ("Bernama (Малайзия)", "https://www.bernama.com/en/rssfeed.php"),
     # Ещё из источников учителя (надёжные)
     ("Independent Arabia", gnews("site:independentarabia.com", "sa")),
-    ("Afghanistan International", gnews("site:afintl.com", "sa")),
     ("Enab Baladi (Сирия)", gnews("site:enabbaladi.net", "sa")),
     ("Al-Ahram", gnews("site:ahram.org.eg", "sa")),
     ("Erem News", gnews("site:eremnews.com", "sa")),
@@ -147,6 +146,16 @@ FEEDS = [
     # ("ANF", "JINHA", ...)        — СМИ РПК
     # ("dailyislamist", "tg:dailyislamist")  — турецкий исламистский канал (ихвановский уклон)
 ]
+
+# Надёжные источники (по совету шейха: саудовские, официальные агентства Сирии, Ирака, Йемена,
+# официальные религиозные органы КСА). Нейтральную новость отсюда Claude только переводит,
+# новость из остальных источников — сначала перепроверяет.
+TRUSTED_SOURCES = {
+    "SaudiNews50", "SPA (агентство КСА)", "Sabq", "Twasul", "Okaz", "Al Riyadh", "Asharq Al-Awsat",
+    "Asharq News", "Al Arabiya", "Al-Eqtisad", "Independent Arabia",
+    "Министерство исламских дел КСА", "Всемирная исламская лига", "Харамайн",
+    "SANA (агентство Сирии)", "INA (агентство Ирака)", "Saba (правительство Йемена)", "Al-Masdar Online",
+}
 
 # Домены, которые отбрасываются всегда (в том числе в общих поисках Google News)
 BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinhaagency",
@@ -508,6 +517,8 @@ def handle_message(state, msg):
     if not allowed(msg.get("chat", {}), msg.get("from", {}), msg.get("sender_chat")):
         return
     text = msg.get("text") or ""
+    if BOT_CALL.search(text):
+        return assistant(state, msg)
     if not text.startswith("/"):
         return
     first = text.split()[0].split("@")[0].lower()
@@ -737,6 +748,295 @@ def send_watermarked(snap):
         return None
     return tg("sendVideo", files={"video": ("video.mp4", video)}, supports_streaming=True,
               width=snap.get("width"), height=snap.get("height"), **common)
+
+
+# ---------------------- GLM: дешёвый отбор новостей и помощник в группе ----------------------
+
+ZAI_KEY = os.environ.get("ZAI_API_KEY", "")
+OPENROUTER_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "isa_news_bot")
+# По очереди, пока кто-то не ответит: бесплатный z.ai → OpenRouter (с баланса)
+GLM_CHAIN = [
+    ("z.ai", "https://api.z.ai/api/paas/v4/chat/completions", "zai", "glm-4.7-flash"),
+    ("z.ai", "https://api.z.ai/api/paas/v4/chat/completions", "zai", "glm-4.5-flash"),
+    ("OpenRouter", "https://openrouter.ai/api/v1/chat/completions", "or", "z-ai/glm-5.3-flash"),
+]
+TRIAGE_EVERY_MIN = 30        # как часто GLM отбирает свежие новости
+
+
+class GLMUnavailable(Exception):
+    pass
+
+
+def glm(messages, tools=None, max_tokens=6000):
+    """Запрос к GLM. Возвращает (сообщение, кто ответил) или бросает GLMUnavailable."""
+    errors = []
+    for name, url, which, model in GLM_CHAIN:
+        key = ZAI_KEY if which == "zai" else OPENROUTER_KEY
+        if not key:
+            continue
+        body = {"model": model, "messages": messages, "max_tokens": max_tokens}
+        if tools:
+            body["tools"] = tools
+        if which == "zai":
+            body["thinking"] = {"type": "disabled"}
+        try:
+            r = requests.post(url, headers={"Authorization": f"Bearer {key}"}, json=body, timeout=150)
+            j = r.json()
+            if r.ok and j.get("choices"):
+                return j["choices"][0]["message"], f"{name} {model}"
+            errors.append(f"{name} {model}: {str(j.get('error', j))[:100]}")
+        except Exception as e:
+            errors.append(f"{name} {model}: {str(e)[:100]}")
+    raise GLMUnavailable("; ".join(errors) or "нет ключей GLM")
+
+
+def parse_json(text):
+    m = re.search(r"\{.*\}", text or "", re.S)
+    return json.loads(m.group(0)) if m else {}
+
+
+TRIAGE_PROMPT = """Ты отбираешь новости для канала @ilm4_info. Правила канала — в системном сообщении.
+Ниже свежие записи из лент (заголовки на разных языках). Выбери ВСЕ, что подходит каналу по темам
+и позиции (число не ограничено), остальное пропусти.
+- Темы канала: ислам и мусульмане, Харамайн, хадж и умра, мечети, религиозные органы и учёные,
+  положение мусульман (Палестина, Сирия, Йемен, Судан и др.), помощь КСА мусульманам, важные решения
+  исламских стран. НЕ бери: спорт, погоду (кроме Мекки и Медины), науку, бизнес, туризм, культуру,
+  криминал, светскую политику и дипломатию без связи с исламом и мусульманами.
+- Повторы: одну историю бери один раз — лучше из источника с пометкой ✓.
+- label "clear" — только если источник помечен ✓ И новость нейтральная и однозначная
+  (без войн, жертв, группировок, обвинений, политических споров). Во всех остальных случаях — "verify".
+- tone: "good" — добрая или нейтральная, "hard" — тяжёлая.
+Ответь ТОЛЬКО JSON без пояснений:
+{{"picks": [{{"index": 12, "label": "clear", "tone": "good", "why": "коротко по-русски"}}]}}
+
+Записи:
+{items}"""
+
+
+def glm_warn(state, reason):
+    """Раз в 6 часов предупреждаем в группе, что GLM не работает и отбор делает Claude."""
+    if NOW - state.get("glm_warned", 0) > 6 * 3600:
+        say("⚠️ <b>GLM сейчас недоступен</b> — отбор новостей делает Claude (это больше расходует подписку).\n"
+            f"<i>{html.escape(reason[:300])}</i>")
+        state["glm_warned"] = NOW
+
+
+def triage(state):
+    """GLM раз в 30 минут читает все свежие новости и отбирает подходящие в shortlist.json.
+    Облачный Claude потом берёт только их: переводит, а сомнительные — перепроверяет."""
+    if not (ZAI_KEY or OPENROUTER_KEY) or NOW - state.get("last_triage", 0) < TRIAGE_EVERY_MIN * 60 - 120:
+        return
+    state["last_triage"] = NOW
+    items, _ = gather("triage_seen.json")
+
+    pool = [x for x in read_json("pool.json", []) if NOW - x["t"] < 8 * 3600]   # для перепроверки
+    pool += [{"title": it["title"], "source": it["source"], "link": it["link"], "t": NOW} for it in items]
+    write_json("pool.json", pool[-2000:])
+    if not items:
+        state["triage_ok"] = NOW
+        return
+
+    rules = open("rules.md", encoding="utf-8").read()
+    picks, who = [], ""
+    try:
+        for start in range(0, len(items), 120):   # порциями, чтобы модель не запуталась
+            part = items[start:start + 120]
+            listing = "\n".join(f"[{it['index']}] ({it['source']}{' ✓' if it['source'] in TRUSTED_SOURCES else ''}) "
+                                 f"{it['title']}" + (f" — {it['summary'][:150]}" if it["summary"] else "") for it in part)
+            msg, who = glm([{"role": "system", "content": rules},
+                            {"role": "user", "content": TRIAGE_PROMPT.format(items=listing)}])
+            picks += parse_json(msg.get("content")).get("picks", [])
+    except GLMUnavailable as e:
+        print("GLM недоступен:", e)
+        state["last_triage"] = 0   # попробуем в следующий раз
+        return glm_warn(state, str(e))
+    except (ValueError, AttributeError) as e:
+        print("GLM ответил не по формату:", e)
+        return
+
+    short = [x for x in read_json("shortlist.json", []) if NOW - x["t"] < 12 * 3600]
+    have = {x["id_link"] for x in short}
+    added = 0
+    for p in picks:
+        i = p.get("index")
+        if not isinstance(i, int) or not 0 <= i < len(items) or items[i]["id_link"] in have:
+            continue
+        it = items[i]
+        trusted = it["source"] in TRUSTED_SOURCES
+        # «только перевод» разрешаем лишь надёжным источникам — это проверяет код, а не GLM
+        label = "clear" if p.get("label") == "clear" and trusted else "verify"
+        short.append({**it, "label": label, "tone": p.get("tone", ""), "why": str(p.get("why", ""))[:200], "t": NOW})
+        have.add(it["id_link"])
+        added += 1
+    write_json("shortlist.json", short)
+    state["triage_ok"] = NOW
+    print(f"GLM ({who}) отобрал {added} из {len(items)} свежих новостей")
+
+
+# ---------- помощник: команды словами в группе модерации ----------
+
+BOT_CALL = re.compile(r"^\s*бот\b|@" + re.escape(BOT_USERNAME), re.I)
+
+ASSISTANT_TOOLS = [
+    {"type": "function", "function": {"name": "publish_now", "description": "Сразу опубликовать черновики в канал",
+     "parameters": {"type": "object", "properties": {"ids": {"type": "array", "items": {"type": "integer"}}}, "required": ["ids"]}}},
+    {"type": "function", "function": {"name": "approve", "description": "Поставить черновики в обычную очередь (выйдут по одному с интервалом)",
+     "parameters": {"type": "object", "properties": {"ids": {"type": "array", "items": {"type": "integer"}}}, "required": ["ids"]}}},
+    {"type": "function", "function": {"name": "reject", "description": "Отклонить черновики (или снять из очереди)",
+     "parameters": {"type": "object", "properties": {"ids": {"type": "array", "items": {"type": "integer"}}}, "required": ["ids"]}}},
+    {"type": "function", "function": {"name": "schedule", "description": "Отложить черновик на время (Ташкент)",
+     "parameters": {"type": "object", "properties": {"id": {"type": "integer"}, "when": {"type": "string", "description": "«21:30» или «27.09 21:30»"}}, "required": ["id", "when"]}}},
+    {"type": "function", "function": {"name": "edit_text", "description": "Заменить текст черновика (HTML: <b>, <i>, <a href>). Смысл и факты не менять.",
+     "parameters": {"type": "object", "properties": {"id": {"type": "integer"}, "text": {"type": "string"}}, "required": ["id", "text"]}}},
+    {"type": "function", "function": {"name": "settings", "description": "Изменить настройки публикации",
+     "parameters": {"type": "object", "properties": {
+         "gap": {"type": "integer", "description": "минут между постами днём"},
+         "night_gap": {"type": "integer", "description": "минут между постами ночью"},
+         "night_start": {"type": "integer"}, "night_end": {"type": "integer"},
+         "night_off": {"type": "boolean"}, "auto": {"type": "boolean", "description": "автопубликация проверенных"},
+         "watermark": {"type": "boolean"}, "paused": {"type": "boolean"}}}}},
+]
+
+ASSISTANT_SYSTEM = """Ты — помощник модератора русскоязычного канала @ilm4_info (новости исламского мира,
+саляфитский манхадж, поддержка Королевства Саудовская Аравия). Ты управляешь ботом по просьбам модератора
+через функции. Отвечай по-русски, коротко и по делу.
+- Черновики называй по номеру и заголовку. Если модератор ответил на черновик — речь о нём.
+- «Опубликуй», «публикуй», «выложи», «кидай» — это publish_now (СРАЗУ в канал, не в очередь);
+  «в очередь», «потом» — approve; «не надо», «убери» — reject; «на 21:00» — schedule.
+- «Сделай оформление / поправь текст» — edit_text: меняй только форму (разметку, порядок, эмодзи, хэштеги),
+  НЕ меняй смысл, цифры, имена и факты; сохраняй строку «Подписаться | Источник» со ссылками.
+- «Каждые 30 минут / час» — settings gap.
+- Если непонятно, о каком черновике речь, — переспроси. Ничего не выдумывай.
+Сейчас в Ташкенте: {now}. Настройки: {settings}
+Черновики (номер · статус · тон · проверка · заголовок):
+{drafts}"""
+
+
+def draft_title(d):
+    text = (d.get("snap") or {}).get("text") or ""
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", text.split("\n")[0]))[:90] or "(без текста)"
+
+
+def assistant(state, msg):
+    """Модератор пишет «Бот, …» — GLM понимает и выполняет."""
+    lines = []
+    for mid, d in sorted(state["drafts"].items(), key=lambda kv: -kv[1].get("created", 0)):
+        st = status_of(state, mid)
+        if st in ("pending", "queued", "auto", "scheduled") and NOW - d.get("created", NOW) < 48 * 3600:
+            lines.append(f"{mid} · {st} · {d.get('tone') or '-'} · {'safe' if d.get('safe') else 'проверить'} · {draft_title(d)}")
+    s = state["settings"]
+    system = ASSISTANT_SYSTEM.format(now=fmt(NOW), settings=json.dumps(s, ensure_ascii=False),
+                                     drafts="\n".join(lines[:60]) or "(нет)")
+    text = msg.get("text") or ""
+    orig = msg.get("reply_to_message") or {}
+    if str(orig.get("message_id")) in state["drafts"]:
+        text += f"\n(модератор ответил на черновик {orig['message_id']})"
+    history = state.setdefault("chat", [])[-8:]
+    messages = [{"role": "system", "content": system}, *history, {"role": "user", "content": text}]
+    try:
+        for _ in range(6):
+            reply, who = glm(messages, ASSISTANT_TOOLS, max_tokens=3000)
+            calls = reply.get("tool_calls") or []
+            if not calls:
+                break
+            messages.append({"role": "assistant", "content": reply.get("content") or "", "tool_calls": calls})
+            for c in calls:
+                try:
+                    args = json.loads(c["function"].get("arguments") or "{}")
+                    result = run_tool(state, c["function"]["name"], args)
+                except Exception as e:
+                    result = f"ошибка: {e}"
+                messages.append({"role": "tool", "tool_call_id": c.get("id"), "content": result})
+        answer = (reply.get("content") or "Готово.").strip()
+    except GLMUnavailable as e:
+        return say("⚠️ GLM сейчас недоступен, команды словами не работают. Пользуйся кнопками и /help.\n"
+                   f"<i>{html.escape(str(e)[:200])}</i>", msg["message_id"])
+    tg("sendMessage", chat_id=MOD_CHAT_ID, text=answer[:4000], reply_parameters={"message_id": msg["message_id"]})
+    state["chat"] = (history + [{"role": "user", "content": text}, {"role": "assistant", "content": answer}])[-10:]
+
+
+def run_tool(state, name, a):
+    """Выполняет действие, о котором попросил модератор. Возвращает отчёт для GLM."""
+    def draft(i):
+        mid = str(i)
+        if mid not in state["drafts"]:
+            raise ValueError(f"нет черновика {i}")
+        return mid, state["drafts"][mid]
+
+    def item_for(mid, d, **extra):
+        snap = (state["queue"].get(mid) or {}).get("msg") or d.get("snap")
+        if not snap:
+            raise ValueError(f"черновик {mid} нельзя опубликовать: нет его копии")
+        return {"tone": d.get("tone", ""), "approved_at": NOW, "msg": snap, **extra}
+
+    out = []
+    if name in ("publish_now", "approve", "reject"):
+        for i in a.get("ids", []):
+            try:
+                mid, d = draft(i)
+                if d.get("status") == "published":
+                    out.append(f"{i}: уже опубликован")
+                elif name == "reject":
+                    state["queue"].pop(mid, None)
+                    d["status"] = "rejected"
+                    refresh(state, mid)
+                    out.append(f"{i}: отклонён")
+                else:
+                    state["queue"][mid] = item_for(mid, d)
+                    d["status"] = "queued"
+                    if name == "publish_now":
+                        publish_one(state, mid, state["queue"][mid])
+                        out.append(f"{i}: {'опубликован' if d.get('status') == 'published' else 'не удалось опубликовать'}")
+                    else:
+                        refresh(state, mid)
+                        out.append(f"{i}: в очереди")
+            except ValueError as e:
+                out.append(str(e))
+    elif name == "schedule":
+        mid, d = draft(a["id"])
+        at = parse_at(str(a.get("when", "")).split())
+        if not at:
+            return "не понял время — нужно «21:30» или «27.09 21:30»"
+        state["queue"][mid] = item_for(mid, d, at=at)
+        d["status"] = "queued"
+        refresh(state, mid)
+        out.append(f"{a['id']}: выйдет {fmt(at)}")
+    elif name == "edit_text":
+        mid, d = draft(a["id"])
+        snap = d.get("snap") or {}
+        base = {"chat_id": MOD_CHAT_ID, "message_id": int(mid), "parse_mode": "HTML",
+                "reply_markup": keyboard(d, status_of(state, mid), state["wm"].get(mid, state["settings"]["wm"]),
+                                         (state["queue"].get(mid) or {}).get("at"))}
+        if snap.get("kind", "text") == "text":
+            res = tg("editMessageText", text=a["text"], **base)
+        else:
+            res = tg("editMessageCaption", caption=a["text"][:1024], **base)
+        if not res:
+            return "не получилось изменить текст (проверь HTML-разметку и длину: у фото/видео до 1024 символов)"
+        d["snap"] = snapshot(res)
+        if mid in state["queue"]:
+            state["queue"][mid]["msg"] = d["snap"]
+        out.append(f"{a['id']}: текст изменён")
+    elif name == "settings":
+        s = state["settings"]
+        for k, v in a.items():
+            if k in ("gap", "night_gap") and isinstance(v, int) and v > 0:
+                s[k] = v
+            elif k == "auto":
+                s["auto"] = bool(v)
+            elif k == "watermark":
+                s["wm"] = bool(v)
+            elif k == "paused":
+                s["paused"] = bool(v)
+            elif k == "night_off" and v:
+                s["night"] = None
+        if isinstance(a.get("night_start"), int) and isinstance(a.get("night_end"), int):
+            s["night"] = [a["night_start"] % 24, a["night_end"] % 24]
+        out.append("настройки: " + json.dumps(s, ensure_ascii=False))
+    else:
+        return f"нет такого действия: {name}"
+    return "; ".join(out)
 
 
 # ---------------------- дежурный: публикация ----------------------
@@ -1161,18 +1461,59 @@ def editor_push(message):
 
 def cmd_fetch():
     editor_store()
-    items, recent = gather(os.path.join(INBOX_DIR, "seen.json"))
+    seen_path = os.path.join(INBOX_DIR, "seen.json")
+    triage_ok = read_json("state.json", {}).get("triage_ok", 0)
+    if NOW - triage_ok < 90 * 60:   # GLM работает — берём только отобранное им
+        seen = read_json(seen_path, {"links": [], "titles": []})
+        done = set(seen["links"])
+        items = [x for x in read_json("shortlist.json", []) if x["id_link"] not in done and NOW - x["t"] < 6 * 3600]
+        seen["links"] = (seen["links"] + [x["id_link"] for x in items])[-8000:]
+        write_json(seen_path, seen)
+        recent = seen["titles"][-40:]
+        for i, it in enumerate(items):
+            it["index"] = i
+        mode = "glm"
+    else:
+        items, recent = gather(seen_path)
+        mode = "self"
     editor_push("Отметил просмотренные новости")
     write_json("candidates.json", items)
     now = local_now()
     print(f"\nСейчас в Ташкенте: {now:%d.%m %H:%M}")
+    if mode == "glm":
+        print("\nОтбор уже сделал GLM. Метки:\n"
+              "  ✅ — надёжный источник, нейтрально: нужен только точный перевод и оформление;\n"
+              "  🔎 — нужна перепроверка: найди подтверждение командой `python bot.py search слова`\n"
+              "       (ищет по всем свежим новостям всех источников). Нет подтверждения — пропусти или safe: false.")
+    else:
+        print("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
     print(f"\nНедавно уже брали ({len(recent)}):")
     for t in recent:
         print("-", t)
     print(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
     for it in items:
-        print(f"[{it['index']}] ({it['source']}) {it['title']}"
-              + (f" — {it['summary'][:200]}" if it["summary"] else ""))
+        mark = {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
+        print(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
+              + (f" — {it['summary'][:200]}" if it["summary"] else "")
+              + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
+
+
+def cmd_search(words):
+    """Поиск подтверждения: та же новость в других источниках за последние часы."""
+    words = [w.lower() for w in words if len(w) > 2]
+    pool = read_json("pool.json", []) + read_json("candidates.json", [])
+    hits, seen = [], set()
+    for x in pool:
+        t = (x.get("title") or "").lower()
+        score = sum(w in t for w in words)
+        if score and x["link"] not in seen:
+            seen.add(x["link"])
+            hits.append((score, x))
+    hits.sort(key=lambda h: -h[0])
+    for score, x in hits[:25]:
+        print(f"({x['source']}{' ✓' if x['source'] in TRUSTED_SOURCES else ''}) {x['title']}  {x['link']}")
+    if not hits:
+        print("Ничего похожего не нашлось.")
 
 
 def cmd_article(indexes):
@@ -1374,6 +1715,8 @@ def main():
         return cmd_send_custom(args[1] if len(args) > 1 else "custom.json")
     if args[:1] == ["peek"]:
         return cmd_peek()
+    if args[:1] == ["search"]:
+        return cmd_search(args[1:])
 
     # Без аргументов — дежурный
     if not DRY_RUN and not (BOT_TOKEN and CHANNEL_ID and MOD_CHAT_ID):
@@ -1383,6 +1726,7 @@ def main():
     state = load_state()
     try:
         process_updates(state)
+        triage(state)
         ingest_inbox(state)
         if os.environ.get("ANTHROPIC_API_KEY"):
             collect_api(state)
