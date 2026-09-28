@@ -4586,11 +4586,545 @@
     "file_id": "AgACAgIAAyEGAATuSoRvAAN_arocamvVcwI8X_sMJJI6YG1c5uUAAoUiaxs1othJ6VvtEohDVdYBAAMCAAN4AAM9BA"
    },
    "n": 127
+  },
+  "128": {
+   "tone": "good",
+   "url": "https://twaslnews1.twaslnews.com/5347693/",
+   "created": 1790583936.3148334,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Глава МИД Саудовской Аравии прибыл в Вашингтон\n\nМинистр иностранных дел Саудовской Аравии прибыл в Вашингтон для переговоров со своим американским коллегой.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 46,
+      "type": "bold"
+     },
+     {
+      "offset": 163,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 182,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 196,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://twaslnews1.twaslnews.com/5347693/"
+     }
+    ]
+   },
+   "n": 128
+  },
+  "129": {
+   "tone": "good",
+   "url": "https://twaslnews1.twaslnews.com/5347584/",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная - решите сами",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Наследный принц встретился в Нью-Йорке с главой американской корпорации финансирования развития\n\nНаследный принц Саудовской Аравии Мухаммад бин Сальман провёл в Нью-Йорке встречу с исполнительным директором Международной корпорации финансирования развития США (DFC).\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 95,
+      "type": "bold"
+     },
+     {
+      "offset": 273,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 292,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 306,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://twaslnews1.twaslnews.com/5347584/"
+     }
+    ]
+   },
+   "n": 129
+  },
+  "130": {
+   "tone": "hard",
+   "url": "https://aawsat.com/node/5323381",
+   "created": 1790583936.3148334,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇩 Судан отверг обвинения Эфиопии в поддержке повстанцев Тыграя\n\nНачальник штаба армии Эфиопии обвинил Судан и Эритрею в поддержке Народного фронта освобождения Тыграя. Вооружённые силы Судана назвали обвинения безосновательными, заявив, что не вмешиваются во внутренние дела Эфиопии, но будут защищать свой суверенитет.\n\nВ столице Тыграя Мэкэле беспилотник повредил здание местного телевидения. Боевики фронта заняли аэропорт Мэкэле и вошли в соседние регионы Афар и Амхара, из-за чего дома покинули десятки тысяч человек. Стороны опасаются новой войны спустя менее четырёх лет после соглашения, завершившего конфликт 2020-2022 годов, в котором погибли не менее 600 тысяч человек.\n\n#Судан #Эфиопия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 685,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 692,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 702,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 716,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://aawsat.com/node/5323381"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOCarokiBDT7aL9C_qbggaUaDYpjpYAAsAOaxtipdRRIMdsS_zpsK8BAAMCAAN5AAM9BA"
+   },
+   "n": 130
+  },
+  "131": {
+   "tone": "hard",
+   "url": "https://www.vdlnews.com/news/630790",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Израиль вызвал временного поверенного Испании\n\nМИД Израиля вызвал временного поверенного в делах посольства Испании после того, как министр по делам молодёжи Испании заявила о поддержке палестинского государства «от реки до моря».\n\n#Палестина #Испания\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 45,
+      "type": "bold"
+     },
+     {
+      "offset": 237,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 248,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 258,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 272,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.vdlnews.com/news/630790"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAODaroki_CYWVSr1n_uzynOEuZih4kAAq-qMRs3kjRQhEAMampL_FkBAAMCAAN5AAM9BA"
+   },
+   "n": 131
+  },
+  "132": {
+   "tone": "hard",
+   "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=a5d58273-40c6-4069-ad0f-b8d56cbd3a94",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Западный берег: поселенцы вырубают оливы в Наалине\n\nПалестинские жители Наалина сообщают, что уже неделю израильские бульдозеры — их число выросло с трёх до 7-8 — прокладывают дорогу через сельхозземли посёлка, вырубая оливы, некоторым из которых тысячи лет. По словам главы муниципалитета Имада аль-Хавaджи, срублены десятки деревьев на площади около 70 дунамов; всего в зоне работ растёт около 5 тысяч олив.\n\nОн отмечает, что исторические 58 тысяч дунамов земель Наалина сократились примерно до 10 тысяч после 1948, 1967 годов и строительства разделительной стены.\n\n#Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 50,
+      "type": "bold"
+     },
+     {
+      "offset": 573,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 585,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 599,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=a5d58273-40c6-4069-ad0f-b8d56cbd3a94"
+     }
+    ]
+   },
+   "n": 132
+  },
+  "133": {
+   "tone": "hard",
+   "url": "https://www.egypttelegraph.com/article/282320/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%8A%D9%84%D9%88%D8%AD-%D8%A8%D8%A7%D9%84%D8%B9%D8%B5%D8%A7-%D9%88%D9%8A%D9%84%D9%82%D9%8A-%D8%A7%D9%84%D8%AC%D8%B2%D8%B1%D8%A9-%D8%A3%D9%85%D8%A7%D9%85-%D8%B7%D9%87%D8%B1%D8%A7%D9%86",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "острая тема Иран-США",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇷 Трамп отклонил предложение Ирана по Ормузскому проливу, ждёт новых переговоров\n\nПрезидент США Дональд Трамп заявил, что Вашингтон близок к «очень скорой победе» в противостоянии с Тегераном и не допустит появления у Ирана ядерного оружия, ожидая на этой неделе новый раунд переговоров.\n\nПостпред США при ООН Майк Уолтц пояснил, что Вашингтон отклонил последнее иранское предложение из-за предварительных условий Тегерана — снятия санкций, разморозки активов и прекращения морской блокады до начала более широких переговоров. Катар и другие посредники продолжают контакты сторон.\n\n#Иран #США\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 78,
+      "type": "bold"
+     },
+     {
+      "offset": 585,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 591,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 597,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 611,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.egypttelegraph.com/article/282320/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%8A%D9%84%D9%88%D8%AD-%D8%A8%D8%A7%D9%84%D8%B9%D8%B5%D8%A7-%D9%88%D9%8A%D9%84%D9%82%D9%8A-%D8%A7%D9%84%D8%AC%D8%B2%D8%B1%D8%A9-%D8%A3%D9%85%D8%A7%D9%85-%D8%B7%D9%87%D8%B1%D8%A7%D9%86"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOFarokkmdLwzrwucKT7FRqQXD_72AAAtIOaxuTktxRzI-9hvXua1kBAAMCAAN5AAM9BA"
+   },
+   "n": 133
+  },
+  "134": {
+   "tone": "hard",
+   "url": "http://www.jordanzad.com/index.php?page=article&id=763550",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "острая тема, один источник",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇹🇷 Нетаньяху поручил подготовить судебный иск против Эрдогана\n\nПо данным телеканала i24NEWS, премьер-министр Израиля Биньямин Нетаньяху поручил юридической группе подготовить дело против президента Турции Реджепа Тайипа Эрдогана в Международном уголовном суде — после того, как Эрдоган обратился в Интерпол с просьбой о «красном уведомлении» в отношении Нетаньяху.\n\nИск, по данным канала, будет посвящён действиям Турции против курдского меньшинства и финансированию ХАМАС Анкарой. Ни Израиль, ни Турция не признают юрисдикцию МУС.\n\n#Израиль #Турция\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 58,
+      "type": "bold"
+     },
+     {
+      "offset": 535,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 544,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 553,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 567,
+      "length": 8,
+      "type": "text_link",
+      "url": "http://www.jordanzad.com/index.php?page=article&id=763550"
+     }
+    ]
+   },
+   "n": 134
+  },
+  "135": {
+   "tone": "hard",
+   "url": "https://www.jordanzad.com/index.php?page=article&id=763549",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "заявление воюющей стороны",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Газа: армия Израиля заявила об уничтожении снайпера ХАМАС\n\nАрмия Израиля сообщила о нанесении авиаудара на юге сектора Газа, в результате которого, по её данным, был уничтожен снайпер военного крыла ХАМАС Ади Адли Абдель-Аасер. По заявлению израильской армии, он планировал атаки на военных и мирных израильтян и участвовал в восстановлении военного потенциала движения, что израильская сторона расценила как нарушение соглашения о прекращении огня.\n\n#Газа #ХАМАС\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 57,
+      "type": "bold"
+     },
+     {
+      "offset": 456,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 462,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 470,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 484,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.jordanzad.com/index.php?page=article&id=763549"
+     }
+    ]
+   },
+   "n": 135
+  },
+  "136": {
+   "tone": "hard",
+   "url": "https://www.jordanzad.com/index.php?page=article&id=763548",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "мнение политика, острая тема",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇶🇦 Экс-глава МИД Катара: сделка по Ормузскому проливу должна учитывать Йемен, Ливан и Ирак\n\nБывший премьер-министр и глава МИД Катара Хамад бин Джасим заявил, что успешная договорённость об открытии судоходства через Ормузский пролив не должна ограничиваться только Ираном и США, а включать пункты по Йемену, Ливану и Ираку. По его словам, пролив должен открыться на постоянной основе без условий и пошлин, а соглашение — предусматривать снятие блокады, возврат иранских активов и постепенную отмену санкций.\n\n#Иран #Катар\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 87,
+      "type": "bold"
+     },
+     {
+      "offset": 512,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 518,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 526,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 540,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.jordanzad.com/index.php?page=article&id=763548"
+     }
+    ]
+   },
+   "n": 136
+  },
+  "137": {
+   "tone": "hard",
+   "url": "https://www.theguardian.com/world/2026/sep/28/yemen-fighting-houthis-families-flee-displacement",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: дети бросают школу ради работы из-за возобновившихся боёв\n\nThe Guardian сообщает: возобновление боёв между хуситами и правительственными силами в провинции Таиз с сентября вынудило покинуть дома более 130 тысяч человек. 13-летний Мунир Фарие бросил учёбу и вместе с братом теперь продаёт носки на рынке у лагеря для переселённых, куда бежала его семья.\n\nПо данным издания, с начала гражданской войны учёбу из-за конфликта прервали более 3,2 млн детей; в Таизе школа с 600 учениками закрылась после того, как рядом разорвалась ракета.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 547,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 555,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 569,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.theguardian.com/world/2026/sep/28/yemen-fighting-houthis-families-flee-displacement"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOJarokntZyKtoFPjI2eKIPCCRTafsAAo4Oaxtmw9VRbOX8tqE7VmwBAAMCAAN5AAM9BA"
+   },
+   "n": 137
+  },
+  "138": {
+   "tone": "good",
+   "url": "https://en.vneconomy.vn/vietnamese-firms-target-global-halal-expansion.htm",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Вьетнам нацелился на глобальный рынок халяль\n\nНа торговой конференции во Вьетнаме сообщили, что мировой рынок халяль-продукции достиг 2,3 трлн долларов в 2022 году и, по прогнозам, вырастет до 4 трлн к 2030 году — на него ориентируются свыше 2 млрд мусульман в 112 странах. По данным Центра HalalViet, более 80% растительной сельхозпродукции Вьетнама изначально соответствует базовым требованиям халяль.\n\nПри этом лишь 0,2% из почти 900 вьетнамских компаний, способных выйти на этот рынок, имеют халяль-сертификаты — мешает раздробленность стандартов между странами Залива, Индонезией и Малайзией.\n\n#Халяль\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 44,
+      "type": "bold"
+     },
+     {
+      "offset": 602,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 611,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 625,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://en.vneconomy.vn/vietnamese-firms-target-global-halal-expansion.htm"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOKarokv5g9muKTggABTAfM1mde_-0EAAIoD2sbQVrUUSluVyett78lAQADAgADeQADPQQ"
+   },
+   "n": 138
+  },
+  "139": {
+   "tone": "good",
+   "url": "https://www.newsmobile.in/nm-fact-checker/verified-bangladesh-video-falsely-shared-as-demolition-of-136-year-old-mosque-in-kolkata/",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🕌 Проверка: видео из Бангладеш выдают за снос мечети в Калькутте\n\nИндийский фактчекинговый портал News Mobile опроверг ролик, который распространяли как якобы снос 136-летней мечети в Калькутте: на самом деле видео снято в Бангладеш и не связано с этой мечетью.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 62,
+      "type": "bold"
+     },
+     {
+      "offset": 264,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 272,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 286,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.newsmobile.in/nm-fact-checker/verified-bangladesh-video-falsely-shared-as-demolition-of-136-year-old-mosque-in-kolkata/"
+     }
+    ]
+   },
+   "n": 139
+  },
+  "140": {
+   "tone": "hard",
+   "url": "https://gate.ahram.org.eg/News/5935092.aspx",
+   "created": 1790583936.3148334,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, мало деталей",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Газа: работа больницы Камаль Адван приостановлена\n\nПортал Al-Ahram Gate сообщил о приостановке работы больницы Камаль Адван в секторе Газа после продвижения израильской военной техники в районе вокруг неё.\n\n#Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 49,
+      "type": "bold"
+     },
+     {
+      "offset": 212,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 219,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 233,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://gate.ahram.org.eg/News/5935092.aspx"
+     }
+    ]
+   },
+   "n": 140
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790581841.730586,
+ "last_publish": 1790583936.3148334,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -4619,7 +5153,8 @@
   "20260928-062703.json",
   "20260928-064954.json",
   "20260928-072349.json",
-  "20260928-074953.json"
+  "20260928-074953.json",
+  "20260928-082256.json"
  ],
  "settings": {
   "night": [
