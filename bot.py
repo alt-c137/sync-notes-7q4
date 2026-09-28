@@ -179,7 +179,7 @@ DEFAULT_SETTINGS = {
     "night": [23, 7],   # ночь: модераторы спят. Обычная очередь ждёт утра,
                         # выходят только отложенные и (если /auto on) проверенные
     "gap": 0,           # минут между постами, одобренными вручную (0 — сразу)
-    "night_gap": 60,    # и ночью
+    "night_gap": 0,     # и ночью
     "wm": True,         # водяной знак по умолчанию
     "auto": True,       # автопилот: сразу публиковать то, что Claude пометил «нейтрально и проверено»
     "paused": False,    # пауза всех публикаций
@@ -376,8 +376,11 @@ def keyboard(d, status, wm=False, at=None):
     if status == "pending" and "safe" in d:
         rows.append([{"text": "🤖 Проверено: можно без модерации" if d["safe"]
                       else f"⚠️ {d.get('note') or 'Нужна проверка'}", "callback_data": "-"}])
+    num = f" · №{d['n']}" if d.get("n") else ""   # номер для /пачка и «Бот, выложи 53…»
     if d.get("url"):
-        rows.append([{"text": f"🔗 Оригинал · {tone}", "url": d["url"]}])
+        rows.append([{"text": f"🔗 Оригинал · {tone}{num}", "url": d["url"]}])
+    elif num:
+        rows.append([{"text": f"{tone}{num}", "callback_data": "-"}])
     return {"inline_keyboard": rows}
 
 
@@ -575,7 +578,11 @@ HELP = """<b>Команды бота</b>
 /status — очередь и настройки
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
 /auto on — сразу публиковать то, что Claude проверил как нейтральное и достоверное · /auto off
-/gap 0 — одобренные ✅ выходят сразу (или /gap 15 — с перерывом) · /nightgap 60 — ночью
+/интервал 0 — всё проверенное и одобренное ✅ выходит сразу (по умолчанию)
+/интервал 15 — выходит по одной раз в 15 минут (тоже /gap 15)
+/пачка 15 — то, что уже ждёт в очереди, выпустить по одной: первую сразу, дальше каждые 15 мин
+/пачка 10 53 55 58 — эти черновики выпустить по одному раз в 10 мин (№ — на кнопке «🔗 Оригинал»)
+/пачка 10 все — все черновики, что ждут решения, по одному раз в 10 мин
 /wm on · /wm off — водяной знак по умолчанию
 /pause · /resume — остановить / продолжить публикации
 
@@ -585,7 +592,8 @@ HELP = """<b>Команды бота</b>
 Обычные сообщения и ответы бот не трогает — можно спокойно переписываться.
 
 Ночью очередь, одобренная вручную, ждёт утра; выходят отложенные и (с /auto on) проверенные Claude.
-Бот просыпается раз в ~30 минут, поэтому ответ приходит не сразу."""
+Когда включён ПК — бот отвечает сразу; без ПК бот просыпается раз в ~5 минут.
+Можно и словами: «Бот, выложи 53, 55 и 58 раз в 10 минут»."""
 
 
 def handle_command(state, text):
@@ -603,10 +611,19 @@ def handle_command(state, text):
             s["night"] = [int(args[0]), int(args[1])]
         else:
             return say("Пример: <code>/night 23 7</code> или <code>/night off</code>")
-    elif cmd in ("/gap", "/nightgap"):
+    elif cmd in ("/gap", "/nightgap", "/интервал"):
         if not arg.isdigit():
-            return say(f"Пример: <code>{cmd} 30</code>")
-        s["gap" if cmd == "/gap" else "night_gap"] = int(arg)
+            return say(f"Пример: <code>{cmd} 15</code> (или <code>{cmd} 0</code> — сразу)")
+        s["night_gap" if cmd == "/nightgap" else "gap"] = int(arg)
+    elif cmd in ("/пачка", "/batch"):
+        if args[1:2] and args[1].lower() in ("все", "всё", "all"):
+            args = [arg] + [m for m, d in state["drafts"].items()
+                            if status_of(state, m) == "pending" and d.get("status") != "expired"]
+        if not arg.isdigit() or not all(a.isdigit() for a in args):
+            return say("Пример: <code>/пачка 15</code> — очередь по одной раз в 15 мин;\n"
+                       "<code>/пачка 10 53 55 58</code> — эти черновики раз в 10 мин (№ — на кнопке под черновиком);\n"
+                       "<code>/пачка 10 все</code> — все черновики, что ждут решения")
+        return say(spread(state, int(arg), args[1:]))
     elif cmd in ("/wm", "/auto"):
         if arg not in ("on", "off"):
             return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
@@ -618,6 +635,36 @@ def handle_command(state, text):
     elif cmd != "/status":
         return
     say(status_text(state))
+
+
+def spread(state, minutes, ids=()):
+    """Выпустить по одной с интервалом: первую сразу, дальше каждые `minutes` минут (с чередованием тона).
+    ids — номера черновиков (модератор сам их выбрал); без ids — всё, что уже ждёт в очереди."""
+    items, skipped = [], []
+    if ids:
+        for i in ids:
+            mid, d = str(i), state["drafts"].get(str(i))
+            snap = (state["queue"].get(mid) or {}).get("msg") or (d or {}).get("snap")
+            if not d or d.get("status") in ("published",) or not snap:
+                skipped.append(str(i))
+                continue
+            items.append((mid, {"tone": d.get("tone", ""), "approved_at": NOW, "msg": snap}))
+    else:
+        items = [(m, q) for m, q in sorted(state["queue"].items(), key=lambda kv: kv[1]["approved_at"])
+                 if not q.get("at")]
+    if not items:
+        return "Нечего распределять: очередь пуста" + (f" (не нашёл черновики {', '.join(skipped)})" if skipped else "") + \
+            ".\nЧтобы выпустить черновики из группы: <code>/пачка 10 53 55 58</code> (№ — на кнопке под черновиком)\nили <code>/пачка 10 все</code> — все, что ждут решения."
+    lines = []
+    for n, (mid, item) in enumerate(alternate(items, state["last_tone"])):
+        item = {**item, "at": NOW + n * minutes * 60}
+        item.pop("auto", None)
+        state["queue"][mid] = item
+        state["drafts"][mid]["status"] = "queued"
+        refresh(state, mid)
+        lines.append(f"{'🟢' if item['tone'] != 'hard' else '🔴'} {fmt(item['at'])} — {draft_title(state['drafts'][mid])[:60]}")
+    return (f"🕒 Выпущу по одной раз в {minutes} мин:\n" + "\n".join(lines) +
+            (f"\n\nНе нашёл: {', '.join(skipped)}" if skipped else ""))
 
 
 def status_text(state):
@@ -801,9 +848,13 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
   положение мусульман (Палестина, Сирия, Йемен, Судан и др.), помощь КСА мусульманам, важные решения
   исламских стран. НЕ бери: спорт, погоду (кроме Мекки и Медины), науку, бизнес, туризм, культуру,
   криминал, светскую политику и дипломатию без связи с исламом и мусульманами.
-- Политику высшего уровня (король, наследный принц, главы государств, министры иностранных дел,
-  верховные муфтии, имамы Харамайна: встречи, звонки, визиты, поздравления) — бери.
-- Мелкий протокол чиновников без содержания тоже можно взять, но в why напиши «малоценная».
+- Политику высшего уровня (король, наследный принц, главы государств, министры иностранных дел и обороны,
+  верховные муфтии, имамы Харамайна: встречи, звонки, визиты, поздравления, осуждения) — бери.
+- Сильные примеры: король Марокко осудил атаки хуситов на КСА; в Сирии задержан генерал прежнего режима,
+  виновный в массовом убийстве; министры обороны КСА и Малайзии провели переговоры; в Самарканде пройдёт
+  Всемирный форум вакфов.
+- Слабые («ну и что?»): школьники едут на олимпиаду, замминистра рассказал в ООН об опыте, премия по туризму,
+  мелкий протокол чиновников. Их тоже можно взять, но в why напиши «малоценная».
 - Повторы: одну историю бери один раз — лучше из источника с пометкой ✓.
 - label "clear" — только если источник помечен ✓ И новость нейтральная и однозначная
   (без войн, жертв, группировок, обвинений, политических споров). Во всех остальных случаях — "verify".
@@ -907,9 +958,11 @@ ASSISTANT_TOOLS = [
      "parameters": {"type": "object", "properties": {"hours": {"type": "integer", "description": "за сколько последних часов показать (по умолчанию 3)"}}}}},
     {"type": "function", "function": {"name": "request_drafts", "description": "Попросить Claude сделать черновики из найденных новостей (номера Н из find_news) — в первую очередь",
      "parameters": {"type": "object", "properties": {"news": {"type": "array", "items": {"type": "integer"}}}, "required": ["news"]}}},
+    {"type": "function", "function": {"name": "spread", "description": "Выпустить по одной с интервалом: первую сразу, дальше каждые N минут. ids — номера черновиков; без ids — всё, что уже в очереди",
+     "parameters": {"type": "object", "properties": {"minutes": {"type": "integer"}, "ids": {"type": "array", "items": {"type": "integer"}}}, "required": ["minutes"]}}},
     {"type": "function", "function": {"name": "settings", "description": "Изменить настройки публикации",
      "parameters": {"type": "object", "properties": {
-         "gap": {"type": "integer", "description": "минут между постами днём"},
+         "gap": {"type": "integer", "description": "минут между постами (0 — всё сразу)"},
          "night_gap": {"type": "integer", "description": "минут между постами ночью"},
          "night_start": {"type": "integer"}, "night_end": {"type": "integer"},
          "night_off": {"type": "boolean"}, "auto": {"type": "boolean", "description": "автопубликация проверенных"},
@@ -924,7 +977,8 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
   «в очередь», «потом» — approve; «не надо», «убери» — reject; «на 21:00» — schedule.
 - «Сделай оформление / поправь текст» — edit_text: меняй только форму (разметку, порядок, эмодзи, хэштеги),
   НЕ меняй смысл, цифры, имена и факты; сохраняй строку «Подписаться | Источник» со ссылками.
-- «Каждые 30 минут / час» — settings gap.
+- «Выложи 53, 55, 58 раз в 10 минут», «очередь по одной каждые 15 минут» — spread (разово для этих новостей).
+- «Теперь всегда публикуй раз в 30 минут» — settings gap=30; «публикуй сразу» — settings gap=0.
 - «Найди новости», «что нового» — find_news; покажи список как есть (номер Н, источник, заголовок, метка).
 - «Сделай черновики из Н2 и Н5», «переведи эти» — request_drafts. Перевод и перепроверку делает Claude,
   сам новости не переводи и не пиши — черновики придут в группу после ближайшего запуска Claude.
@@ -1061,10 +1115,12 @@ def run_tool(state, name, a):
         state["priority_since"] = NOW
         return (f"заказано черновиков: {len(hit)} (Н{', Н'.join(str(x['sid']) for x in hit)}). "
                 "Claude возьмёт их первыми при ближайшем запуске (в :15 или :45)") if hit else "таких номеров нет"
+    elif name == "spread":
+        return re.sub(r"<[^>]+>", "", spread(state, max(1, int(a.get("minutes") or 15)), a.get("ids") or []))
     elif name == "settings":
         s = state["settings"]
         for k, v in a.items():
-            if k in ("gap", "night_gap") and isinstance(v, int) and v > 0:
+            if k in ("gap", "night_gap") and isinstance(v, int) and v >= 0:
                 s[k] = v
             elif k == "auto":
                 s["auto"] = bool(v)
@@ -1106,22 +1162,19 @@ def publish(state):
     for mid, item in sorted(((m, q) for m, q in queue if q.get("at") and q["at"] <= NOW), key=lambda kv: kv[1]["at"]):
         publish_one(state, mid, item)
 
-    # 2) Проверенные Claude (автопилот) — сразу все, без ожидания: будем первыми.
-    #    Порядок чередуем: добрая — тяжёлая — добрая…
-    for mid, item in alternate([(m, q) for m, q in queue if q.get("auto") and not q.get("at")], state["last_tone"]):
-        publish_one(state, mid, item)
-        time.sleep(2)
-
-    # 3) Одобренные вручную — с перерывом (/gap, /nightgap; 0 — сразу все); ночью ждут утра
+    # 2) Проверенные Claude (автопилот) и одобренные ✅ — при /интервал 0 сразу все (будем первыми),
+    #    при /интервал 15 — по одной раз в 15 минут. Чередуем: добрая — тяжёлая — добрая…
+    #    Ночью одобренные вручную ждут утра, проверенные выходят.
     night = is_night(s)
     gap = s["night_gap"] if night else s["gap"]
-    manual = [(m, q) for m, q in queue if not q.get("at") and not q.get("auto") and not night and m in state["queue"]]
-    for mid, item in alternate(manual, state["last_tone"]):
+    ready = [(m, q) for m, q in queue if not q.get("at") and m in state["queue"] and (q.get("auto") or not night)]
+    for mid, item in alternate(ready, state["last_tone"]):
         if gap and NOW - state["last_publish"] < gap * 60 - 90:
             break
         publish_one(state, mid, item)
         if gap:
             break
+        time.sleep(2)
 
 
 def publish_one(state, mid, item):
@@ -1182,6 +1235,9 @@ def send_draft(state, e):
     if msg:
         d["snap"] = snapshot(msg) if not DRY_RUN else {"kind": "text", "text": text, "entities": []}
         state["drafts"][str(msg["message_id"])] = d
+        if not DRY_RUN:   # номер черновика = номер сообщения, узнаём только после отправки
+            d["n"] = msg["message_id"]
+            refresh(state, str(msg["message_id"]), "pending")
     return msg
 
 
