@@ -178,7 +178,7 @@ TZ = timezone(timedelta(hours=5))   # часовой пояс канала (Та
 DEFAULT_SETTINGS = {
     "night": [23, 7],   # ночь: модераторы спят. Обычная очередь ждёт утра,
                         # выходят только отложенные и (если /auto on) проверенные
-    "gap": 15,          # минимум минут между постами днём
+    "gap": 0,           # минут между постами, одобренными вручную (0 — сразу)
     "night_gap": 60,    # и ночью
     "wm": True,         # водяной знак по умолчанию
     "auto": True,       # автопилот: сразу публиковать то, что Claude пометил «нейтрально и проверено»
@@ -575,7 +575,7 @@ HELP = """<b>Команды бота</b>
 /status — очередь и настройки
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
 /auto on — сразу публиковать то, что Claude проверил как нейтральное и достоверное · /auto off
-/gap 30 — минут между постами днём · /nightgap 60 — ночью
+/gap 0 — одобренные ✅ выходят сразу (или /gap 15 — с перерывом) · /nightgap 60 — ночью
 /wm on · /wm off — водяной знак по умолчанию
 /pause · /resume — остановить / продолжить публикации
 
@@ -801,8 +801,9 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
   положение мусульман (Палестина, Сирия, Йемен, Судан и др.), помощь КСА мусульманам, важные решения
   исламских стран. НЕ бери: спорт, погоду (кроме Мекки и Медины), науку, бизнес, туризм, культуру,
   криминал, светскую политику и дипломатию без связи с исламом и мусульманами.
-- НЕ бери протокольные новости без содержания: «принял», «встретился», «обсудили», «рассказал об опыте»,
-  «принял участие», «поздравил» — если в заголовке нет конкретного события, решения или цифр.
+- Политику высшего уровня (король, наследный принц, главы государств, министры иностранных дел,
+  верховные муфтии, имамы Харамайна: встречи, звонки, визиты, поздравления) — бери.
+- Мелкий протокол чиновников без содержания тоже можно взять, но в why напиши «малоценная».
 - Повторы: одну историю бери один раз — лучше из источника с пометкой ✓.
 - label "clear" — только если источник помечен ✓ И новость нейтральная и однозначная
   (без войн, жертв, группировок, обвинений, политических споров). Во всех остальных случаях — "verify".
@@ -1083,28 +1084,44 @@ def run_tool(state, name, a):
 
 # ---------------------- дежурный: публикация ----------------------
 
+def alternate(items, last_tone):
+    """Порядок публикации: чередуем добрые и тяжёлые, начиная с противоположной прошлой."""
+    good = [x for x in items if x[1]["tone"] != "hard"]
+    hard = [x for x in items if x[1]["tone"] == "hard"]
+    out, take_hard = [], last_tone != "hard"
+    while good or hard:
+        src = hard if (take_hard and hard) or not good else good
+        out.append(src.pop(0))
+        take_hard = not take_hard
+    return out
+
+
 def publish(state):
     s = state["settings"]
     if s["paused"]:
         return
     queue = sorted(state["queue"].items(), key=lambda kv: kv[1]["approved_at"])
 
-    # 1) Отложенные — точно ко времени, в любое время суток
-    due = sorted(((m, q) for m, q in queue if q.get("at") and q["at"] <= NOW), key=lambda kv: kv[1]["at"])
-    if due:
-        return publish_one(state, *due[0])
+    # 1) Отложенные — точно ко времени, в любое время суток (все, что подошли)
+    for mid, item in sorted(((m, q) for m, q in queue if q.get("at") and q["at"] <= NOW), key=lambda kv: kv[1]["at"]):
+        publish_one(state, mid, item)
 
-    # 2) Обычная очередь с перерывом; ночью — только автопилот
+    # 2) Проверенные Claude (автопилот) — сразу все, без ожидания: будем первыми.
+    #    Порядок чередуем: добрая — тяжёлая — добрая…
+    for mid, item in alternate([(m, q) for m, q in queue if q.get("auto") and not q.get("at")], state["last_tone"]):
+        publish_one(state, mid, item)
+        time.sleep(2)
+
+    # 3) Одобренные вручную — с перерывом (/gap, /nightgap; 0 — сразу все); ночью ждут утра
     night = is_night(s)
     gap = s["night_gap"] if night else s["gap"]
-    if NOW - state["last_publish"] < gap * 60 - 90:
-        return
-    ready = [(m, q) for m, q in queue if not q.get("at") and (q.get("auto") or not night)]
-    if not ready:
-        return
-    # Чередование: сначала ищем новость с другим настроением, чем прошлая
-    mid, item = next(((m, q) for m, q in ready if q["tone"] and q["tone"] != state["last_tone"]), ready[0])
-    publish_one(state, mid, item)
+    manual = [(m, q) for m, q in queue if not q.get("at") and not q.get("auto") and not night and m in state["queue"]]
+    for mid, item in alternate(manual, state["last_tone"]):
+        if gap and NOW - state["last_publish"] < gap * 60 - 90:
+            break
+        publish_one(state, mid, item)
+        if gap:
+            break
 
 
 def publish_one(state, mid, item):
