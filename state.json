@@ -6183,10 +6183,16 @@
   "auto_hard": true,
   "auto_top": false,
   "per_hour": 3,
+  "access": "list",
+  "allow_ids": [],
+  "allow_names": [],
+  "private_on": false,
+  "drafts_to": "group",
+  "private_chat": null,
   "paused": false
  },
  "last_triage": 1790588129.9092493,
  "triage_ok": 1790588129.9092493,
  "sid": 506,
- "commands_v": 1
+ "commands_v": 2
 }
