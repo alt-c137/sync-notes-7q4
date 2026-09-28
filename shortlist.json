@@ -14,7 +14,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Новость о культурном наследии Джедды, официальный источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 3
  },
  {
   "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFB0ZXdXc0RkZ0RFLTRSTnprREFKaVRoMElfbFJWRGZhVXZINzJnaWlPOHdTZDZMcFNGazZrY0pPdjU2YWR3QTl0dWRB?oc=5",
@@ -31,7 +32,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Встреча в Медине, официальный источник, нейтральная новость.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 4
  },
  {
   "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5KR2ZTVjNNeG8wWFFCNHdwcFRUNUZBN1RnTGlMU0dxUkVSS29ZdHRPZVJDTy1sVGYtNDZYQjFKOHBOaElOMWc?oc=5",
@@ -48,7 +50,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Проверка проектов в Табуке, официальный источник, нейтральная новость.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 5
  },
  {
   "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTFBBT1BiZXRJRElleFJORTZ3SlJ6dGJKLTRtb2l2bEFLT2VzMVR2eDV5cFJ1eDRfQnctdjV1d1dqekt6bmh6QlJr?oc=5",
@@ -65,7 +68,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Университет КФР празднует День Независимости, культурные мероприятия.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 6
  },
  {
   "link": "https://www.okaz.com.sa/local/na/2268193",
@@ -82,7 +86,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Программа с ООН, тема гуманитарной помощи, но нужен источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 7
  },
  {
   "link": "https://www.okaz.com.sa/local/na/2268192",
@@ -99,7 +104,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Финансовая помощь ООН, тема помощи, но нужен источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 8
  },
  {
   "link": "https://www.okaz.com.sa/local/na/2268191",
@@ -116,7 +122,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Международная конференция о хадже, тема хаджа, но нужен источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 9
  },
  {
   "link": "https://www.okaz.com.sa/local/na/2268183",
@@ -133,7 +140,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Заседание Шуры, исламская тема, но нужна ссылка.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 10
  },
  {
   "link": "https://t.me/sana_gov/185885",
@@ -152,7 +160,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Сирийский футбол, но тема спорта, не подходит.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 11
  },
  {
   "link": "https://t.me/sana_gov/185884",
@@ -171,7 +180,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Открытие офиса туризма, официальный источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 12
  },
  {
   "link": "https://t.me/sana_gov/185882",
@@ -190,7 +200,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Сирийская конференция по кибербезопасности, официальный источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 13
  },
  {
   "link": "https://t.me/sana_gov/185880",
@@ -209,7 +220,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Запуск аэропорта Латакии, официальный источник, техническая новость.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 14
  },
  {
   "link": "https://t.me/sana_gov/185879",
@@ -228,7 +240,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Запуск аэропорта Латакии, официальный источник, техническая новость.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 15
  },
  {
   "link": "https://sana.sy/governorates/latakia/2591321/",
@@ -245,7 +258,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Гемодиализ в Латакии, официальный источник, тема медицины.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 16
  },
  {
   "link": "https://sana.sy/sport/2591513/",
@@ -262,7 +276,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Ирак в футболе, тема спорта, не подходит.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 17
  },
  {
   "link": "https://sana.sy/health/2591512/",
@@ -279,7 +294,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Поставки оборудования в Сирии, официальный источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 18
  },
  {
   "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE4zdUVtdjRjN0ZNTWMzMGpXYW5pU0RWWE1vUzVLTnlCZlV2OHpzV1Y0ZUNlM29CaGQ3TTVCblBSME92XzB6aHVZMFNZZ2dHa1hs?oc=5",
@@ -296,7 +312,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Йемен и хадж, соглашение об услугах.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 19
  },
  {
   "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNSUhURjlDRTQzczR1cW1fLUpLQ1ZiMjFVZDhnTXd5M0t2UFZwVzlmS0ZQYXJwcnF0V3F1NmNwcHlmN0pueGlVNkJZLXJBLUR3RE85VDVjS2hHaGgtcWlLeFZqbDg4MUo1TC1ROFhBSXV1RmJGN1hqSEtyaGt6RWZodnM5RUw2aWM5X1NSLUhKaXk0cnpTS2xhSGViS2l5T3VXOVZ6Mk5aZTg0UURKSEx4UWtDUXkxdGlzS210WFZR?oc=5",
@@ -313,7 +330,8 @@
   "label": "clear",
   "tone": "good",
   "why": "Сирия и борьба с коррупцией, официальный источник.",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 20
  },
  {
   "link": "https://news.google.com/rss/articles/CBMi1AJBVV95cUxNX0o1ak1zQXduWnpBNU8xRGR3QTBycUNnMWc5Z1lGd2xlajJEaFc3dmIzZmU2dXFtY3AxUHRWMFpXQS1jOE9taVd4YzBPaDVZUkdKR3pLaEFIc3B4cWxNRkdUcE1CT21XWDNiQmhWUXo2RlpaRjhGNVNveVNKVVpEdU0yVkxYWlM4Zzl2RUJNZ1BqUk9vWHV5NWItbFRhLWR2d1cxUUtsY1g1RWd4Wk5ZVkJTMktFT0xzbmhQY2tVTGFhZVh4NFZkV1h5ZXN0S293WWtWWWVpeG82elJkalhSLU5JZ0ZYOTJDOXFZalgzUzZOWi14OE1Sb3VtRHpaRVUwVnRvU3l2Z1o4WFFJZTM4cHZOMnlfZzRSSVBJbzlnNXlpNDYtT18yb3FXZ2swckpRM19xWkMtSkFWZDVIOEJPRXBJaHFXc0pteFZvN2hWeV83RllM?oc=5",
@@ -330,7 +348,8 @@
   "label": "verify",
   "tone": "good",
   "why": "Открытие тарофа (хаджа) по морю в Алжире, тема хаджа",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 21
  },
  {
   "link": "http://www.bernama.com/en/news.php?id=2612629",
@@ -347,7 +366,8 @@
   "label": "verify",
   "tone": "hard",
   "why": "Список жертв в Газе, тяжёлая новость, требуется перепроверка",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 22
  },
  {
   "link": "https://news.google.com/rss/articles/CBMilwRBVV95cUxNVFZyckpRZk1sbXRXRTRoV2FlT3lDRkJjX1RtZFByTDcwd1BobUExQ01oNDBFSDI3ZjQyOXZsWUFGaXBKLXhZQVVPWXpWRzNQcUQ5RGt4ZURaOHNtMTlUbHdweXMxRkNrZ3V2MEpEcFZ1eVI2TGxhNGpvMVozX01haDd0QUFhYmxZR1NGd005cDV0aDZVNF9ZXzkxbUlMWmk4T2dGeUVkbFpEWDlQVFVxX1FQdm9sQ3JyVjZJUFd2RnVBaGNaYkptM3N5WnhiX3RoX1BWYVNtVWdlUmFhNmhBOXdDWG0wSDhBZkNSc1hDcUFQWDdXRjdUVTJoSDRlenNlUnpkYjBtYWNFaWVQcFRyMC05V0dTYUZRd1Z5VVphTFVielpEWnBsVl9DcG1YV0JMX19rYlNpdTg4a0FBWDJkZTBKWFZUV0pCcjFiYXNsVDZHZ1pNMVkwbHV1c25IREliNWdPbUE2NGk3cHBObnpFU2lsSk03MGU0dWp5LU84eXlhanZlcmxxU082MXBSYVAzWm55aEJwZVBlZ2lQOVRZQU9xUkpLUTdESE5FOHhCek5ycVBFZi1BZWIzTGdGby1relk4LXhlYWJJUlJDOGhGSFNlazBrdUhxeWpmSkg1b1FZOFFGd1NYcUFWVmZPVHBRUFBMWWtnam40VTBRSXVOaEJXdndqTms2ZElTRnhieWZubHd6UEd3?oc=5",
@@ -364,6 +384,43 @@
   "label": "verify",
   "tone": "hard",
   "why": "Упоминание ДАИШ, тяжёлая новость, требуется перепроверка",
-  "t": 1790563541.3069673
+  "t": 1790563541.3069673,
+  "sid": 23
+ },
+ {
+  "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE1Kb0t1cGJodkd2OWN2R01JRzQ3T0lTRXlCRDhVdjNrRDJtcWZIMmM3YVFzV296SkxIa2FrT3MySDVITW5IV08w?oc=5",
+  "title": "نيابةً عن وزير الخارجية.. وكيل وزارة الصحة للتعاون الدولي تشارك في اجتماع وزراء خارجية دول مجموعة العشرين بشأن تسريع العمل الجماعي للقضاء على إيبولا",
+  "summary": "",
+  "image": null,
+  "video": null,
+  "source": "Al Riyadh",
+  "href": null,
+  "time": null,
+  "id_link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE1Kb0t1cGJodkd2OWN2R01JRzQ3T0lTRXlCRDhVdjNrRDJtcWZIMmM3YVFzV296SkxIa2FrT3MySDVITW5IV08w?oc=5",
+  "ago": 47,
+  "index": 8,
+  "label": "clear",
+  "tone": "good",
+  "why": "Международное сотрудничество стран Группы 20 по борьбе с болезнью Эболы, тема здорового мира.",
+  "t": 1790565337.452451,
+  "sid": 1
+ },
+ {
+  "link": "https://www.annahar.com/lebanon/whispers/351883/اعادة-صيانة-طريق-مشغرة---سحمر",
+  "title": "إعادة صيانة طريق مشغرة - سحمر",
+  "summary": "منحت لجنة الميكانيزم الإذن بإعادة صيانة طريق مشغرة – سحمر في البقاع الغربي المقابلة لسد القرعون بعد إقفال طويل بسبب تعرضها للقصف وتعريضها السدّ للخطر وسيتم بدء العمل بها.",
+  "image": null,
+  "video": null,
+  "source": "Annahar",
+  "href": null,
+  "time": null,
+  "id_link": "https://www.annahar.com/lebanon/whispers/351883/اعادة-صيانة-طريق-مشغرة---سحمر",
+  "ago": 1,
+  "index": 15,
+  "label": "verify",
+  "tone": "good",
+  "why": "Ремонт дороги в Ливане, связанный с безопасностью плотины (потенциально опасно).",
+  "t": 1790565337.452451,
+  "sid": 2
  }
 ]
