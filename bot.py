@@ -154,7 +154,7 @@ WATERMARK_TEXT = "@ilm4_info"             # текст водяного знак
 # Свой логотип вместо текста: файл watermark.png рядом (лучше с прозрачным фоном).
 # Свой шрифт: файл watermark.ttf рядом.
 
-MAX_DRAFTS_PER_COLLECT = 3   # сколько черновиков за один сбор
+MAX_DRAFTS_PER_COLLECT = 4   # сколько черновиков за один сбор
 MAX_AGE_HOURS = 6            # новости старше этого не берём
 PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
 TZ = timezone(timedelta(hours=5))   # часовой пояс канала (Ташкент)
@@ -1019,8 +1019,8 @@ def real_link(link):
         from googlenewsdecoder import gnewsdecoder
         for attempt in range(3):
             res = gnewsdecoder(link, interval=1 + attempt)
-            if res.get("status"):
-                return res["decoded_url"]
+            if (res.get("status") or res.get("success")) and res.get("decoded_url"):
+                return res["decoded_url"]   # разные версии библиотеки отвечают status или success
         print("Google News ссылка не раскодировалась:", res.get("message", res))
     except Exception as e:
         print("Google News ссылка не раскодировалась:", e)
