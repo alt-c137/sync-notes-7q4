@@ -1,5 +1,5 @@
 {
- "offset": 498374808,
+ "offset": 498374809,
  "drafts": {
   "2": {
    "tone": "good",
@@ -2272,12 +2272,19 @@
     ]
    },
    "n": 67
+  },
+  "68": {
+   "tone": "",
+   "url": "https://www.spa.gov.sa/N2687459",
+   "created": 1790569868.4292784,
+   "media": true,
+   "status": "published"
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790569682.8384051,
- "last_tone": "hard",
+ "last_publish": 1790569878.5811694,
+ "last_tone": "",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
