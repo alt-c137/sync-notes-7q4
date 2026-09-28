@@ -5520,6 +5520,241 @@
     ]
    },
    "n": 150
+  },
+  "151": {
+   "tone": "hard",
+   "url": "https://www.ndtvprofit.com/india/ujjain-tense-over-demolition-of-mosque-portion-protesters-clash-with-police-tear-gas-fired-12108369",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇳 Индия: снос части исторической мечети в Уджайне вызвал протесты\n\nВласти штата Мадхья-Прадеш начали снос части старинной мечети Шахи в городе Уджайн в рамках проекта расширения дороги. Ночью у мечети собрались сотни мусульман, произошли столкновения с полицией: протестующие бросали камни, полиция применила слезоточивый газ. По данным индийских СМИ, к месту стянули около 2500 полицейских, несколько человек задержаны. После переговоров стороны договорились приостановить снос до решения суда.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 500,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 508,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 522,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.ndtvprofit.com/india/ujjain-tense-over-demolition-of-mosque-portion-protesters-clash-with-police-tear-gas-fired-12108369"
+     }
+    ]
+   },
+   "n": 151
+  },
+  "152": {
+   "tone": "hard",
+   "url": "https://alquds.com/en/posts/259535-occupation-prevents-funeral-prayer-at-al-aqsa-and-secures-storming-by-1500",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": false,
+   "note": "остр. политика; деталь про джаназу — 1 и",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Иерусалим: тысячи поселенцев вошли в Аль-Аксу, палестинцам ограничили передвижение\n\nУправление по делам Иерусалима сообщило, что оккупационные власти в воскресенье, в дни иудейского праздника Суккот, перекрыли ряд улиц в Старом городе, ограничив передвижение палестинцев. Меры обеспечивали проход около 1500 поселенцев, которые под охраной полиции вошли во двор мечети Аль-Акса; в шествии участвовал министр нацбезопасности Израиля Итамар Бен-Гвир. Палестинская газета «Аль-Кудс» сообщила также, что оккупационные силы разрешили лишь четверым родственникам покойного внести тело в мечеть для похоронной молитвы, после чего потребовали немедленно покинуть территорию.\n\n#Палестина #АльАкса\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 82,
+      "type": "bold"
+     },
+     {
+      "offset": 673,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 684,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 694,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 708,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://alquds.com/en/posts/259535-occupation-prevents-funeral-prayer-at-al-aqsa-and-secures-storming-by-1500"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOYaroykp2JH56QqRDaJMmieWJqh24AAiQPaxvgcsxRp0zUsuPhcWABAAMCAAN5AAM9BA"
+   },
+   "n": 152
+  },
+  "153": {
+   "tone": "hard",
+   "url": "https://kath.net/news/91372",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇹 Италия: премьер Мелони анонсировала запрет никаба и буркы в школах\n\nПремьер-министр Италии Джорджа Мелони объявила о планах запретить ношение буркы и никаба в итальянских школах, а также ввести квоты на долю иностранных учеников в классах. «В Италии никто не вправе от имени традиции требовать, чтобы девушка пряталась», — заявила Мелони, добавив, что родителей детей-мигрантов, которым трудно даётся интеграция, обяжут изучать итальянский язык. Меры пока не приняты — их представят кабинету министров. Сейчас доля иностранных школьников в Италии — около 12%, при этом с 2010 года формально действует потолок в 30%, который на практике не соблюдается.\n\n#Италия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 658,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 667,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 681,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://kath.net/news/91372"
+     }
+    ]
+   },
+   "n": 153
+  },
+  "154": {
+   "tone": "good",
+   "url": "https://dumrf.ru/common/event/26850",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Муфтий Мухетдинов подарил губернатору Медины факсимиле первого печатного Корана 1787 года\n\nПервый зампредседателя ДУМ РФ, ректор Московского исламского института муфтий Дамир Мухетдинов передал губернатору провинции Медина принцу Салману бин Султану Аль Сауду факсимильное издание первого в мире печатного Корана — он был издан мусульманами по указу императрицы Екатерины II в 1787 году. Встреча прошла во дворце губернатора по случаю визита муфтия в Медину на международную конференцию Исламского университета Медины, посвящённую противодействию религиозным крайностям. Муфтий передал губернатору и ректору университета приветствия от главного муфтия России шейха Равиля Гайнутдина.\n\n#Харамайн\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 89,
+      "type": "bold"
+     },
+     {
+      "offset": 690,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 701,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 715,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://dumrf.ru/common/event/26850"
+     }
+    ]
+   },
+   "n": 154
+  },
+  "155": {
+   "tone": "good",
+   "url": "https://vesti095.ru/2026/09/1820-prepodavatelej-svyashhennogo-korana-proshli-attestatsiyu-v-chechenskoj-respublike/",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇷🇺 В Чечне аттестацию прошли 1820 преподавателей Корана\n\nВ Чеченской Республике аттестацию прошли 1820 преподавателей Священного Корана — об этом сообщает республиканское издание «Вести Чеченской Республики».\n\n#Чечня\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 52,
+      "type": "bold"
+     },
+     {
+      "offset": 212,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 220,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 234,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://vesti095.ru/2026/09/1820-prepodavatelej-svyashhennogo-korana-proshli-attestatsiyu-v-chechenskoj-respublike/"
+     }
+    ]
+   },
+   "n": 155
+  },
+  "156": {
+   "tone": "good",
+   "url": "https://www.evening-kazan.ru/obshhestvo/news/v-kazani-vozvodyat-mechet-100-letiya-prinyatiya-islama-volzhskoy-bulgariey",
+   "created": 1790587533.939306,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, коротко по заголовку",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇷🇺 В Казани строят мечеть в честь 100-летия принятия ислама Волжской Булгарией\n\nВ Казани возводят новую мечеть, посвящённую 100-летию принятия ислама Волжской Булгарией — об этом сообщает издание «Вечерняя Казань».\n\n#Татарстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 75,
+      "type": "bold"
+     },
+     {
+      "offset": 218,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 230,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 244,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.evening-kazan.ru/obshhestvo/news/v-kazani-vozvodyat-mechet-100-letiya-prinyatiya-islama-volzhskoy-bulgariey"
+     }
+    ]
+   },
+   "n": 156
   }
  },
  "queue": {},
@@ -5555,7 +5790,8 @@
   "20260928-072349.json",
   "20260928-074953.json",
   "20260928-082256.json",
-  "20260928-085329.json"
+  "20260928-085329.json",
+  "20260928-092221.json"
  ],
  "settings": {
   "night": [
