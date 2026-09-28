@@ -1664,12 +1664,177 @@
      }
     ]
    }
+  },
+  "53": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/ar/w2687027",
+   "created": 1790562332.566163,
+   "status": "pending",
+   "safe": false,
+   "note": "только заголовок SPA; перевод органа",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Медина: эмир региона принял главу Комитета по поощрению одобряемого и удержанию от порицаемого\n\nЭмир региона Медина принял генерального председателя Комитета по поощрению одобряемого и удержанию от порицаемого, сообщает агентство SPA.\n\n#Медина #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 94,
+      "type": "bold"
+     },
+     {
+      "offset": 241,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 249,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 268,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 282,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/ar/w2687027"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM1arnQH2UW2P5VmrqHXP9GoYbbxwADdg5rG_kAAdVRuKErLxxqg68BAAMCAAN5AAM9BA"
+   }
+  },
+  "54": {
+   "tone": "good",
+   "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=5262e826-fba6-4a40-8610-106a2822abce",
+   "created": 1790562332.566163,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "snap": {
+    "kind": "text",
+    "text": "🇪🇬 Египет: в Александрии начались вступительные испытания в центр подготовки учителей Корана\n\nУправление вакфов Александрии начало вступительные испытания для желающих поступить в Центр подготовки учителей заучивания Корана. Испытания проходят под патронажем министра вакфов доктора Усамы ас-Саййида аль-Азхари и под руководством главы управления шейха Мухаммада Саада аль-Ашша.\n\nКак говорится в заявлении управления, цель — подготовка специалистов, которые будут обучать заучиванию Корана, красивому и правильному чтению.\n\n#Египет #Коран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 89,
+      "type": "bold"
+     },
+     {
+      "offset": 526,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 534,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 542,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 556,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.shorouknews.com/mobile/news/view.aspx?cdate=28092026&id=5262e826-fba6-4a40-8610-106a2822abce"
+     }
+    ]
+   }
+  },
+  "55": {
+   "tone": "good",
+   "url": "https://www.eldjazaireldjadida.dz/%D9%86%D8%AD%D9%88-%D8%AA%D8%B9%D8%B2%D9%8A%D8%B2-%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%88%D9%86-%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1-%D9%88%D8%A7-2/",
+   "created": 1790562332.566163,
+   "status": "pending",
+   "safe": false,
+   "note": "проверить написание имён",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇩🇿 Алжир и Саудовская Аравия обсудили сотрудничество в здравоохранении\n\nМинистр здравоохранения Алжира профессор Мухаммад Саддик Аит Мессаудин принял посла Саудовской Аравии доктора Абдуллаха бин Насера аль-Бусайри. Стороны обсудили работу алжирской медицинской миссии в сезоны хаджа; министр выразил признательность саудовским властям за заботу о гостях Милостивого, их безопасности и удобстве.\n\nПосол передал приглашение министра здравоохранения КСА Фахда бин Абдуррахмана аль-Джаляджиля принять участие в Глобальном форуме здравоохранения в Королевстве.\n\n#Алжир #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 560,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 567,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 586,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 600,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.eldjazaireldjadida.dz/%D9%86%D8%AD%D9%88-%D8%AA%D8%B9%D8%B2%D9%8A%D8%B2-%D8%A7%D9%84%D8%AA%D8%B9%D8%A7%D9%88%D9%86-%D8%A7%D9%84%D8%B5%D8%AD%D9%8A-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1-%D9%88%D8%A7-2/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM3arnQJGs4M4N-mafNMjtBKRCDqVYAAjUQaxtohs1RyyVck0Bm0owBAAMCAAN5AAM9BA"
+   }
+  },
+  "56": {
+   "tone": "hard",
+   "url": "https://www.skynewsarabia.com/middle-east/1894718-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%AA%D8%B9%D9%84%D9%86-%D8%AA%D9%81%D9%83%D9%8A%D9%83-%D8%AE%D9%84%D9%8A%D8%A9-%D9%84-%D8%AF%D8%A7%D8%B9%D8%B4-%D8%AA%D9%86%D8%B4%D8%B7-4-%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A7%D8%AA",
+   "created": 1790562332.566163,
+   "status": "pending",
+   "safe": false,
+   "note": "подтверждено: Sky News, Independent Ar.",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Сирия: раскрыта ячейка ИГИЛ, действовавшая в четырёх провинциях\n\nКак сообщили силы внутренней безопасности Сирии, совместно со Службой общей разведки раскрыта ячейка ИГИЛ, причастная к похищениям, установке взрывных устройств и убийствам. Её деятельность началась в провинции Ракка и распространилась на Алеппо, Идлиб и Хомс.\n\nЗадержаны четверо главарей ячейки в Ракке и ряд её членов в других провинциях. По данным властей, у задержанных изъяты взрывчатые вещества, оружие и боеприпасы, а следствие установило их причастность к 5 похищениям. Расследование продолжается, задержанных передадут в суд.\n\n#Сирия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 606,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 614,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 628,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.skynewsarabia.com/middle-east/1894718-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%AA%D8%B9%D9%84%D9%86-%D8%AA%D9%81%D9%83%D9%8A%D9%83-%D8%AE%D9%84%D9%8A%D8%A9-%D9%84-%D8%AF%D8%A7%D8%B9%D8%B4-%D8%AA%D9%86%D8%B4%D8%B7-4-%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A7%D8%AA"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM4arnQJ0OhyXYP7MM1Q21lNV1-TQEAAg8Qaxtycs1RXP0W71-S9ZABAAMCAAN4AAM9BA"
+   }
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790494248.776525,
- "last_tone": "hard",
+ "last_publish": 1790562332.566163,
+ "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
@@ -1687,7 +1852,8 @@
   "20260927-102102.json",
   "20260927-142048.json",
   "20260927-162223.json",
-  "20260927-182001.json"
+  "20260927-182001.json",
+  "20260928-022228.json"
  ],
  "settings": {
   "night": [
