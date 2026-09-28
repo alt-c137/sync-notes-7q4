@@ -2286,11 +2286,326 @@
    "created": 1790569890.5774846,
    "media": true,
    "status": "published"
+  },
+  "72": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687461",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇪🇹 Эфиопия: центр короля Салмана начал кампанию против слепоты в Аддис-Абебе\n\nЦентр имени короля Салмана по оказанию помощи и гуманитарным операциям (KSrelief) запустил в Аддис-Абебе волонтёрский проект «Нур ас-Саудия» («Саудовский свет») по борьбе со слепотой и вызывающими её заболеваниями.\n\n#Эфиопия #Благотворительность\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 73,
+      "type": "bold"
+     },
+     {
+      "offset": 296,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 305,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 327,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 341,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687461"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANIarnx_8iR5z_9n2KUhdCacz-Qh7EAAnAOaxtwTNVRn6q0I6oP5qABAAMCAAN5AAM9BA"
+   },
+   "n": 72
+  },
+  "73": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687468",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇩 Судан: центр короля Салмана начал кампанию против слепоты в Порт-Судане\n\nЦентр имени короля Салмана по оказанию помощи и гуманитарным операциям (KSrelief) запустил в Порт-Судане волонтёрский проект «Нур ас-Саудия» по борьбе со слепотой и вызывающими её заболеваниями.\n\n#Судан #Благотворительность\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 274,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 281,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 303,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 317,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687468"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANJarnyBAxWL8niTMwqeOyz4zIIInUAAiUQaxug4s1RJhqX8p3VpB4BAAMCAAN5AAM9BA"
+   },
+   "n": 73
+  },
+  "74": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687464",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: центр короля Салмана раздал 550 продуктовых наборов в Хадрамауте\n\nЦентр имени короля Салмана по оказанию помощи и гуманитарным операциям (KSrelief) распределил 550 продуктовых корзин для нуждающихся семей в провинции Хадрамаут на юге Йемена.\n\n#Йемен #Благотворительность\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 255,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 262,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 284,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 298,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687464"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANKarnyCPfKsSQGeXqL8N7tw8H-4FAAAiUQaxsPvtVRfLMZ3aeZdGsBAAMCAAN5AAM9BA"
+   },
+   "n": 74
+  },
+  "75": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687466",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: центр короля Салмана оказал помощь с жильём в Марибе\n\nЦентр имени короля Салмана по оказанию помощи и гуманитарным операциям (KSrelief) распределил партию материалов для временного жилья нуждающимся семьям в округе Рагван провинции Мариб.\n\n#Йемен #Благотворительность\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 59,
+      "type": "bold"
+     },
+     {
+      "offset": 252,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 259,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 281,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 295,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687466"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANLarnyC6XjIs3UK5bWBHxClJlmR9wAAsQPaxusk9VR0AlgxOrcvxABAAMCAAN4AAM9BA"
+   },
+   "n": 75
+  },
+  "76": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687463",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: центр короля Салмана оказал помощь с жильём наиболее нуждающимся\n\nЦентр имени короля Салмана по оказанию помощи и гуманитарным операциям (KSrelief) распределил партию материалов для временного жилья среди наиболее нуждающихся семей в секторе Газа.\n\n#Газа #Благотворительность\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 260,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 266,
+      "length": 20,
+      "type": "hashtag"
+     },
+     {
+      "offset": 288,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 302,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687463"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANMarnyD-tTByBanKbLBinpRubzIqUAAloOaxtXltVRHrO6Jo4-F-0BAAMCAAN5AAM9BA"
+   },
+   "n": 76
+  },
+  "77": {
+   "tone": "good",
+   "url": "https://t.me/asharqnews/36037",
+   "created": 1790571006.5994685,
+   "status": "published",
+   "safe": true,
+   "note": "подтверждено: Sabq, Asharq",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Глава МИД Саудовской Аравии прибыл в Вашингтон с официальным визитом\n\nМинистр иностранных дел Саудовской Аравии принц Фейсал бин Фархан прибыл в Вашингтон с официальным визитом. Как сообщает МИД Королевства, в ходе визита он встретится с американским коллегой Марко Рубио — стороны обсудят двусторонние отношения, а также ключевые события в регионе и в мире.\n\n#СаудовскаяАравия #Дипломатия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 68,
+      "type": "bold"
+     },
+     {
+      "offset": 365,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 383,
+      "length": 11,
+      "type": "hashtag"
+     },
+     {
+      "offset": 396,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 410,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/asharqnews/36037"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAANNarnyEthcZKFH1hAeB7YuJmwwdKgAAmgmaxs1otBJYnOapnA-axoBAAMCAAN4AAM9BA"
+   },
+   "n": 77
+  },
+  "78": {
+   "tone": "good",
+   "url": "https://en.antaranews.com/news/433169/ri-minister-appointed-as-international-assembly-of-mosque-imams-leader",
+   "created": 1790571006.5994685,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇩 Индонезия: министр по делам религии возглавил международную ассамблею имамов мечетей\n\nМинистр по делам религии Индонезии Насаруддин Умар, также являющийся великим имамом мечети Истикляль, избран президентом новой Международной ассамблеи имамов мечетей (IAMI). Организация создана по итогам форума в Джакарте с участием представителей 46 стран. Насаруддин заявил, что мечети должны быть не только местом поклонения, но и центрами просвещения и поддержки общины.\n\n#Индонезия #Мечети\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 84,
+      "type": "bold"
+     },
+     {
+      "offset": 467,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 478,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 487,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 501,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://en.antaranews.com/news/433169/ri-minister-appointed-as-international-assembly-of-mosque-imams-leader"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANOarnyFaxb65lUbaR_bkKR6HoCZr4AAsAPaxsqv8xRWnREIGinNz0BAAMCAAN5AAM9BA"
+   },
+   "n": 78
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790569907.9763513,
+ "last_publish": 1790571006.5994685,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
@@ -2313,7 +2628,8 @@
   "20260928-022228.json",
   "20260928-025105.json",
   "20260928-034735.json",
-  "20260928-041936.json"
+  "20260928-041936.json",
+  "20260928-044950.json"
  ],
  "settings": {
   "night": [
