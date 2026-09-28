@@ -430,6 +430,7 @@ def refresh(state, mid, status=None):
 
 def process_updates(state, wait=0):
     """wait > 0 — ждать новых нажатий до wait секунд (бот на ПК отвечает мгновенно)."""
+    register_commands(state)
     updates = tg("getUpdates", offset=state["offset"], timeout=wait,
                  allowed_updates=["callback_query", "message"]) or []
     for u in updates:
@@ -474,6 +475,8 @@ def handle_button(state, cq):
     data = cq.get("data", "")
     if data == "-" or "message_id" not in msg:
         return
+    if data.startswith("m:"):
+        return menu_button(state, msg, data[2:])
     mid = ensure_draft(state, msg)
     d = state["drafts"][mid]
     if d.get("status") == "published":
@@ -581,6 +584,7 @@ def handle_edit(state, msg, orig):
 
 
 HELP = """<b>Команды бота</b>
+/menu — панель управления кнопками
 /status — очередь и настройки
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
 /auto on — проверенное Claude публикуется сразу (и добрые, и тяжёлые)
@@ -603,7 +607,7 @@ HELP = """<b>Команды бота</b>
 Можно и словами: «Бот, выложи 53, 55 и 58 раз в 10 минут»."""
 
 
-def handle_command(state, text):
+def handle_command(state, text, quiet=False):
     parts = text.split()
     cmd, args = parts[0].split("@")[0].lower(), parts[1:]
     s = state["settings"]
@@ -611,6 +615,8 @@ def handle_command(state, text):
 
     if cmd in ("/start", "/help"):
         return say(HELP)
+    if cmd in ("/menu", "/меню", "/panel"):
+        return send_menu(state)
     if cmd in ("/night", "/quiet"):
         if arg in ("off", "выкл"):
             s["night"] = None
@@ -618,7 +624,7 @@ def handle_command(state, text):
             s["night"] = [int(args[0]), int(args[1])]
         else:
             return say("Пример: <code>/night 23 7</code> или <code>/night off</code>")
-    elif cmd in ("/gap", "/nightgap", "/интервал"):
+    elif cmd in ("/gap", "/nightgap", "/интервал", "/interval"):
         if not arg.isdigit():
             return say(f"Пример: <code>{cmd} 15</code> (или <code>{cmd} 0</code> — сразу)")
         s["night_gap" if cmd == "/nightgap" else "gap"] = int(arg)
@@ -639,7 +645,9 @@ def handle_command(state, text):
                        "<code>/auto good</code> — сразу только добрые, тяжёлые ждут ✅; "
                        "<code>/auto off</code> — ничего сам не публикует")
         s["auto"], s["auto_hard"] = modes[arg]
-        say(stop_auto(state))
+        note = stop_auto(state)
+        if not quiet or note.startswith("↩️"):
+            say(note)
     elif cmd == "/wm":
         if arg not in ("on", "off"):
             return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
@@ -650,7 +658,8 @@ def handle_command(state, text):
         s["paused"] = False
     elif cmd != "/status":
         return
-    say(status_text(state))
+    if not quiet:
+        say(status_text(state))
 
 
 def spread(state, minutes, ids=()):
@@ -681,6 +690,74 @@ def spread(state, minutes, ids=()):
         lines.append(f"{'🟢' if item['tone'] != 'hard' else '🔴'} {fmt(item['at'])} — {draft_title(state['drafts'][mid])[:60]}")
     return (f"🕒 Выпущу по одной раз в {minutes} мин:\n" + "\n".join(lines) +
             (f"\n\nНе нашёл: {', '.join(skipped)}" if skipped else ""))
+
+
+def menu_markup(state, ask=None):
+    """Панель управления кнопками. ask — команда, которую надо подтвердить (выпуск черновиков)."""
+    s = state["settings"]
+    mark = lambda on, text: ("• " + text + " •") if on else text
+    if ask:
+        n = sum(status_of(state, m) == "pending" and d.get("status") != "expired"
+                for m, d in state["drafts"].items())
+        mins = ask.split()[1]
+        return {"inline_keyboard": [
+            [{"text": f"Выпустить все {n} ждущих черновиков, раз в {mins} мин?", "callback_data": "-"}],
+            [{"text": "✅ Да, выпускай", "callback_data": "m:" + ask},
+             {"text": "↩️ Нет", "callback_data": "m:refresh"}]]}
+    auto = "off" if not s["auto"] else "on" if s.get("auto_hard", True) else "good"
+    return {"inline_keyboard": [
+        [{"text": "🤖 Автопубликация проверенных:", "callback_data": "-"}],
+        [{"text": mark(auto == "on", "Все"), "callback_data": "m:/auto on"},
+         {"text": mark(auto == "good", "Только добрые"), "callback_data": "m:/auto good"},
+         {"text": mark(auto == "off", "Выкл"), "callback_data": "m:/auto off"}],
+        [{"text": "⏱ Интервал между постами:", "callback_data": "-"}],
+        [{"text": mark(s["gap"] == g, "сразу" if not g else f"{g} мин"), "callback_data": f"m:/gap {g}"}
+         for g in (0, 15, 30, 60)],
+        [{"text": "📦 Выпустить ждущие черновики по одной:", "callback_data": "-"}],
+        [{"text": f"раз в {g} мин", "callback_data": f"m:ask:/batch {g} all"} for g in (10, 15, 30)],
+        [{"text": "💧 Водяной знак: " + ("вкл" if s["wm"] else "выкл"),
+          "callback_data": "m:/wm " + ("off" if s["wm"] else "on")},
+         {"text": "🌙 Ночь: " + (f"{s['night'][0]}–{s['night'][1]}" if s.get("night") else "выкл"),
+          "callback_data": "m:/night " + ("off" if s.get("night") else "23 7")}],
+        [{"text": "▶️ Продолжить публикации" if s["paused"] else "⏸ Пауза: остановить всё",
+          "callback_data": "m:/resume" if s["paused"] else "m:/pause"}],
+        [{"text": "🔄 Обновить", "callback_data": "m:refresh"},
+         {"text": "📖 Все команды", "callback_data": "m:/help"}],
+    ]}
+
+
+def send_menu(state):
+    tg("sendMessage", chat_id=MOD_CHAT_ID, text=status_text(state), parse_mode="HTML",
+       reply_markup=menu_markup(state))
+
+
+def menu_button(state, msg, data):
+    """Нажатие на панели: выполняем команду и обновляем саму панель (без лишних сообщений)."""
+    print(f"Панель: «{data}»")
+    if data.startswith("ask:"):
+        return tg("editMessageReplyMarkup", chat_id=MOD_CHAT_ID, message_id=msg["message_id"],
+                  reply_markup=menu_markup(state, ask=data[4:]), quiet=True)
+    if data != "refresh":
+        handle_command(state, data, quiet=True)
+    tg("editMessageText", chat_id=MOD_CHAT_ID, message_id=msg["message_id"], text=status_text(state),
+       parse_mode="HTML", reply_markup=menu_markup(state), quiet=True)
+
+
+BOT_COMMANDS = [("menu", "Панель управления кнопками"), ("status", "Очередь и настройки"),
+                ("help", "Все команды"), ("auto", "Автопубликация: on / good / off"),
+                ("interval", "Интервал между постами, мин (0 — сразу)"),
+                ("batch", "Выпустить по одной: /batch 15 или /batch 10 all"),
+                ("pause", "Остановить все публикации"), ("resume", "Продолжить публикации"),
+                ("night", "Ночь: /night 23 7 или /night off"), ("wm", "Водяной знак: on / off")]
+
+
+def register_commands(state):
+    """Список команд в меню «/» в группе модерации (один раз на версию)."""
+    if state.get("commands_v") == 1 or not MOD_CHAT_ID:
+        return
+    if tg("setMyCommands", commands=[{"command": c, "description": d} for c, d in BOT_COMMANDS],
+          scope={"type": "chat", "chat_id": MOD_CHAT_ID}) is not None:
+        state["commands_v"] = 1
 
 
 def stop_auto(state):
