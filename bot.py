@@ -375,8 +375,13 @@ def keyboard(d, status, wm=False, at=None):
     if d.get("media") and status in ("pending", "queued", "auto", "scheduled"):
         rows.append([{"text": f"💧 Водяной знак: {'да' if wm else 'нет'}", "callback_data": "wm"}])
     if status == "pending" and "safe" in d:
-        rows.append([{"text": "🤖 Проверено: можно без модерации" if d["safe"]
-                      else f"⚠️ {d.get('note') or 'Нужна проверка'}", "callback_data": "-"}])
+        if d["safe"] and d.get("trusted"):
+            verdict = "🤖 Доверенный источник, проверено"
+        elif d["safe"]:
+            verdict = "🔎 Claude сверил, но источник не из доверенных"
+        else:
+            verdict = f"⚠️ {d.get('note') or 'Нужна проверка'}"
+        rows.append([{"text": verdict, "callback_data": "-"}])
     num = f" · №{d['n']}" if d.get("n") else ""   # номер для /пачка и «Бот, выложи 53…»
     if d.get("url"):
         rows.append([{"text": f"🔗 Оригинал · {tone}{num}", "url": d["url"]}])
@@ -720,7 +725,8 @@ def autopilot_and_cleanup(state):
             continue
         age_h = (NOW - d.get("created", NOW)) / 3600
         if d.get("status") == "pending":
-            if (s["auto"] and d.get("safe") and age_h < AUTO_MAX_AGE_HOURS        # только свежие
+            if (s["auto"] and d.get("safe") and d.get("trusted")                  # только доверенные источники
+                    and age_h < AUTO_MAX_AGE_HOURS                                  # и только свежие
                     and (s.get("auto_hard", True) or d.get("tone") != "hard")):
                 state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "auto": True,
                                        "msg": d.get("snap") or {"kind": "text", "text": "", "entities": []}}
@@ -1239,7 +1245,7 @@ def send_draft(state, e):
     e: text, link, image, video, tone, safe, note."""
     d = {"tone": e.get("tone", ""), "url": e["link"], "created": NOW, "status": "pending"}
     if "safe" in e:
-        d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40])
+        d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40], trusted=bool(e.get("trusted")))
     wm = state["settings"]["wm"]
     base = {"chat_id": MOD_CHAT_ID, "parse_mode": "HTML"}
     text, image, video, msg = e["text"], e.get("image"), e.get("video"), None
@@ -1568,7 +1574,7 @@ def make_entry(item, post):
     return {"text": build_text(post, item["link"]), "link": item["link"],
             "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
             "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
-            "note": post.get("check_note", "")}
+            "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES}
 
 
 # ---------------------- редактор через чат Claude ----------------------
