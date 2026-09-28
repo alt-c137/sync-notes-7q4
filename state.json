@@ -1953,7 +1953,7 @@
    "tone": "good",
    "url": "https://www.okaz.com.sa/local/na/2268191",
    "created": 1790564142.8445125,
-   "status": "queued",
+   "status": "published",
    "safe": true,
    "note": "",
    "media": true,
@@ -2065,40 +2065,6 @@
   }
  },
  "queue": {
-  "60": {
-   "tone": "good",
-   "approved_at": 1790564142.8445125,
-   "auto": true,
-   "msg": {
-    "kind": "photo",
-    "text": "🇸🇦 Замминистра здравоохранения КСА рассказал в ООН об опыте организации хаджа\n\nЗамминистра здравоохранения по планированию и развитию Абдулазиз аль-Румайх в составе делегации Королевства принял участие в неделе высокого уровня 81-й сессии Генассамблеи ООН в Нью-Йорке. Он представил опыт Саудовской Аравии в управлении хаджем и крупными скоплениями паломников, системами раннего предупреждения и быстрого реагирования, а также приветствовал принятие пандемийного соглашения ВОЗ и поправок к Международным медико-санитарным правилам.\n\n#Хадж\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 74,
-      "type": "bold"
-     },
-     {
-      "offset": 536,
-      "length": 5,
-      "type": "hashtag"
-     },
-     {
-      "offset": 543,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 557,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://www.okaz.com.sa/local/na/2268191"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAM8arnXOLEbCGwCmlgqdobsbXy72uEAAr8PaxvnudRRbTB-N-_x5WoBAAMCAAN5AAM9BA"
-   }
-  },
   "61": {
    "tone": "good",
    "approved_at": 1790564142.8445125,
@@ -2135,7 +2101,7 @@
   }
  },
  "wm": {},
- "last_publish": 1790565037.3609102,
+ "last_publish": 1790565933.7638445,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
