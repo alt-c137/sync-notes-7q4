@@ -1829,11 +1829,352 @@
     ],
     "file_id": "AgACAgQAAyEGAATuSoRvAAM4arnQJ0OhyXYP7MM1Q21lNV1-TQEAAg8Qaxtycs1RXP0W71-S9ZABAAMCAAN4AAM9BA"
    }
+  },
+  "57": {
+   "tone": "good",
+   "url": "https://www.okaz.com.sa/local/na/2268194",
+   "created": 1790564142.8445125,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Пять саудовских школьников выступят на Олимпиаде по астрономии во Вьетнаме\n\nСборная Саудовской Аравии из пяти учащихся примет участие в 19-й Международной олимпиаде по астрономии и астрофизике (IOAA 2026), которая пройдёт в Ханое с 25 сентября по 5 октября с участием школьников из более чем 60 стран. Команду — Фатима Дамлахан, Хишам Рафик, Омар Аш-Шахри, Эйлин Азхари и Марам Аль-Баррак — подготовили в фонде «Маухиба» совместно с Министерством образования. Саудовская Аравия участвует в олимпиаде с 2024 года и уже получила 6 международных наград: серебро, три бронзы и два похвальных отзыва.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 602,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 621,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 635,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268194"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM5arnXMXtUQpbByHOWhlt_LuX5YgsAAsUPaxvtD8xRrTkQsAX82wwBAAMCAAN3AAM9BA"
+   }
+  },
+  "58": {
+   "tone": "hard",
+   "url": "https://www.okaz.com.sa/local/na/2268193",
+   "created": 1790564142.8445125,
+   "status": "pending",
+   "safe": false,
+   "note": "упоминаются хуситы",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: Центр короля Сальмана и МОМ подписали программу помощи переселенцам\n\nЦентр короля Сальмана по оказанию помощи и гуманитарным операциям подписал совместную программу с гендиректором Международной организации по миграции (МОМ) Эми Поуп — документ подтверждает продолжение саудовской поддержки жителей Йемена. По данным Okaz, в последние недели из-за боевых действий с участием хуситских формирований на западном побережье, в Мохе и Таизе происходит новая волна перемещения людей в более безопасные районы.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 517,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 525,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 539,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268193"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM6arnXMwcYT-Hna5XcKAEMMXLLgcoAAsALaxsgY11QLnJPrLoIAs4BAAMCAAN4AAM9BA"
+   }
+  },
+  "59": {
+   "tone": "good",
+   "url": "https://www.okaz.com.sa/local/na/2268192",
+   "created": 1790564142.8445125,
+   "status": "queued",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Саудовская Аравия выделила $6 млн Центру ООН по борьбе с терроризмом\n\nГлава МИД Королевства принц Фейсал бин Фархан объявил о выделении $6 млн на программы Центра ООН по борьбе с терроризмом — во время встречи с генсекретарём ООН Антониу Гутеррешем на полях недели высокого уровня 81-й сессии Генассамблеи в Нью-Йорке. Средства будут распределены по годам начиная с 2027 финансового года. Принц Фейсал также встретился с главами МИД Алжира и Мексики — Ахмедом Аттафом и Роберто Веласко Альваресом — для обсуждения региональных и международных вопросов.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 68,
+      "type": "bold"
+     },
+     {
+      "offset": 559,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 577,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 583,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 597,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268192"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM7arnXNdwTfFhqfuJMtPLnRy8KWjEAAv4OaxtaaNVRGuWc6S1SmUMBAAMCAAN5AAM9BA"
+   }
+  },
+  "60": {
+   "tone": "good",
+   "url": "https://www.okaz.com.sa/local/na/2268191",
+   "created": 1790564142.8445125,
+   "status": "queued",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Замминистра здравоохранения КСА рассказал в ООН об опыте организации хаджа\n\nЗамминистра здравоохранения по планированию и развитию Абдулазиз аль-Румайх в составе делегации Королевства принял участие в неделе высокого уровня 81-й сессии Генассамблеи ООН в Нью-Йорке. Он представил опыт Саудовской Аравии в управлении хаджем и крупными скоплениями паломников, системами раннего предупреждения и быстрого реагирования, а также приветствовал принятие пандемийного соглашения ВОЗ и поправок к Международным медико-санитарным правилам.\n\n#Хадж\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 536,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 543,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 557,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268191"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM8arnXOLEbCGwCmlgqdobsbXy72uEAAr8PaxvnudRRbTB-N-_x5WoBAAMCAAN5AAM9BA"
+   }
+  },
+  "61": {
+   "tone": "good",
+   "url": "https://www.okaz.com.sa/local/na/2268182",
+   "created": 1790564142.8445125,
+   "status": "queued",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 АльУла получила золото международной премии за ответственный туризм\n\nК Всемирному дню туризма Международный центр ответственного туризма присудил АльУле золото в категории «Ответственный туризм с положительным влиянием на природу». Более половины территории АльУлы (около 22 561 км²) отведено под природные заповедники: высажено свыше 500 000 местных деревьев, в дикую природу выпущено более 1500 животных, восстановлено свыше 74 000 га в заповеднике Шарран. В АльУле расположен Хегра — первый объект Саудовской Аравии в списке Всемирного наследия ЮНЕСКО.\n\n#АльУла\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 562,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 571,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 585,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268182"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM9arnXOvOZpUJ2-UfIuElHswFVZj4AAsUOaxvzvtVRTCr8PhvVDFgBAAMCAAN5AAM9BA"
+   }
+  },
+  "62": {
+   "tone": "hard",
+   "url": "http://www.jordanzad.com/index.php?page=article&id=763486",
+   "created": 1790564142.8445125,
+   "status": "pending",
+   "safe": false,
+   "note": "жертва среди мирных",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇶 Ирак: в Киркуке уничтожены двое боевиков ИГИЛ\n\nИракская служба по борьбе с терроризмом сообщила об уничтожении двух боевиков ИГИЛ* в поясах смертников в районе Альтун-Купри провинции Киркук, передаёт агентство INA. По данным силовой информационной ячейки, вечером в субботу были замечены двое боевиков у деревни Аль-Малиха; после открытия миномётного огня погибла оказавшаяся поблизости мирная жительница, скончавшаяся в больнице.\n\n*террористическая организация, запрещена в РФ\n\n#Ирак\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 45,
+      "type": "bold"
+     },
+     {
+      "offset": 484,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 491,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 505,
+      "length": 8,
+      "type": "text_link",
+      "url": "http://www.jordanzad.com/index.php?page=article&id=763486"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAM-arnXPr4AAXLphO6QV_eVGsHfUaFtAAImJmsbNaLQSXDxNkDuzbUAAQEAAwIAA3kAAz0E"
+   }
   }
  },
- "queue": {},
+ "queue": {
+  "59": {
+   "tone": "good",
+   "approved_at": 1790564142.8445125,
+   "auto": true,
+   "msg": {
+    "kind": "photo",
+    "text": "🇸🇦 Саудовская Аравия выделила $6 млн Центру ООН по борьбе с терроризмом\n\nГлава МИД Королевства принц Фейсал бин Фархан объявил о выделении $6 млн на программы Центра ООН по борьбе с терроризмом — во время встречи с генсекретарём ООН Антониу Гутеррешем на полях недели высокого уровня 81-й сессии Генассамблеи в Нью-Йорке. Средства будут распределены по годам начиная с 2027 финансового года. Принц Фейсал также встретился с главами МИД Алжира и Мексики — Ахмедом Аттафом и Роберто Веласко Альваресом — для обсуждения региональных и международных вопросов.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 68,
+      "type": "bold"
+     },
+     {
+      "offset": 559,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 577,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 583,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 597,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268192"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM7arnXNdwTfFhqfuJMtPLnRy8KWjEAAv4OaxtaaNVRGuWc6S1SmUMBAAMCAAN5AAM9BA"
+   }
+  },
+  "60": {
+   "tone": "good",
+   "approved_at": 1790564142.8445125,
+   "auto": true,
+   "msg": {
+    "kind": "photo",
+    "text": "🇸🇦 Замминистра здравоохранения КСА рассказал в ООН об опыте организации хаджа\n\nЗамминистра здравоохранения по планированию и развитию Абдулазиз аль-Румайх в составе делегации Королевства принял участие в неделе высокого уровня 81-й сессии Генассамблеи ООН в Нью-Йорке. Он представил опыт Саудовской Аравии в управлении хаджем и крупными скоплениями паломников, системами раннего предупреждения и быстрого реагирования, а также приветствовал принятие пандемийного соглашения ВОЗ и поправок к Международным медико-санитарным правилам.\n\n#Хадж\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 536,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 543,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 557,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268191"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM8arnXOLEbCGwCmlgqdobsbXy72uEAAr8PaxvnudRRbTB-N-_x5WoBAAMCAAN5AAM9BA"
+   }
+  },
+  "61": {
+   "tone": "good",
+   "approved_at": 1790564142.8445125,
+   "auto": true,
+   "msg": {
+    "kind": "photo",
+    "text": "🇸🇦 АльУла получила золото международной премии за ответственный туризм\n\nК Всемирному дню туризма Международный центр ответственного туризма присудил АльУле золото в категории «Ответственный туризм с положительным влиянием на природу». Более половины территории АльУлы (около 22 561 км²) отведено под природные заповедники: высажено свыше 500 000 местных деревьев, в дикую природу выпущено более 1500 животных, восстановлено свыше 74 000 га в заповеднике Шарран. В АльУле расположен Хегра — первый объект Саудовской Аравии в списке Всемирного наследия ЮНЕСКО.\n\n#АльУла\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 562,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 571,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 585,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2268182"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAM9arnXOvOZpUJ2-UfIuElHswFVZj4AAsUOaxvzvtVRTCr8PhvVDFgBAAMCAAN5AAM9BA"
+   }
+  }
+ },
  "wm": {},
- "last_publish": 1790562332.566163,
+ "last_publish": 1790564142.8445125,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
@@ -1853,7 +2194,8 @@
   "20260927-142048.json",
   "20260927-162223.json",
   "20260927-182001.json",
-  "20260928-022228.json"
+  "20260928-022228.json",
+  "20260928-025105.json"
  ],
  "settings": {
   "night": [
