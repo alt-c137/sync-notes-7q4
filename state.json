@@ -1,5 +1,5 @@
 {
- "offset": 498374823,
+ "offset": 498374824,
  "drafts": {
   "2": {
    "tone": "good",
@@ -3638,7 +3638,7 @@
    "tone": "good",
    "url": "https://sabq.org/article/q14j70n",
    "created": 1790578199.3901222,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "малоценная — решите сами",
    "trusted": true,
@@ -3841,7 +3841,7 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790578199.3901222,
+ "last_publish": 1790578517.9679475,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
