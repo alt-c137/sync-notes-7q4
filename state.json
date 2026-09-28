@@ -5755,11 +5755,388 @@
     ]
    },
    "n": 156
+  },
+  "158": {
+   "tone": "hard",
+   "url": "https://qna.org.qa/ar-QA/News-Area/News/2026-9/28/900-%D9%85%D8%B3%D8%AA%D8%B9%D9%85%D8%B1-%D9%8A%D9%82%D8%AA%D8%AD%D9%85%D9%88%D9%86-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A7%D9%82%D8%B5%D9%89-%D8%A8%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D9%85%D9%86-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%A7%D8%B3%D8%B1%D8%A7%D9%8A%D9%8A%D9%84%D9%8A",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Иерусалим: около 900 поселенцев вошли в мечеть Аль-Акса\n\nОколо 900 поселенцев во главе с министром обороны Израиля Исраэлем Кацем и министром национальной безопасности Итамаром Бен-Гвиром вошли на территорию мечети Аль-Акса в Иерусалиме под усиленной охраной израильской полиции, сообщило губернаторство Иерусалима. Вход произошёл в дни еврейского праздника Суккот; накануне мечеть посетили около 1500 поселенцев и раввинов, совершавших там талмудические ритуалы. Иордания осудила проникновение Бен-Гвира и поселенцев на территорию мечети.\n\n#Палестина #АльАкса\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 546,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 557,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 567,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 581,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://qna.org.qa/ar-QA/News-Area/News/2026-9/28/900-%D9%85%D8%B3%D8%AA%D8%B9%D9%85%D8%B1-%D9%8A%D9%82%D8%AA%D8%AD%D9%85%D9%88%D9%86-%D8%A7%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A7%D9%82%D8%B5%D9%89-%D8%A8%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D9%85%D9%86-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%A7%D8%B3%D8%B1%D8%A7%D9%8A%D9%8A%D9%84%D9%8A"
+     }
+    ]
+   },
+   "n": 158
+  },
+  "159": {
+   "tone": "hard",
+   "url": "https://t.me/asharqnews/36049",
+   "created": 1790589332.780165,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: минздрав сообщил о более чем 74 тысячах погибших\n\nМинистерство здравоохранения сектора Газа сообщило, что число погибших с начала войны Израиля против сектора, начавшейся 7 октября 2023 года, выросло до 74 018 палестинцев, а число раненых достигло 175 079 человек. По данным ведомства, Израиль продолжает наносить удары по Газе, несмотря на соглашение о прекращении огня, заключённое в октябре.\n\n#Газа #Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 407,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 413,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 425,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 439,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/asharqnews/36049"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAOfaro5nH0AASZX--MXQ8HT68xp6lkDAALkI2sbNaLYSbmw7uodk7yaAQADAgADeAADPQQ"
+   },
+   "n": 159,
+   "published_at": 1790589332.780165
+  },
+  "160": {
+   "tone": "hard",
+   "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB-%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D0%B8%D1%86%D1%8B-%D0%BA%D0%B0%D0%BC%D0%B0%D0%BB%D1%8C-%D0%B0%D0%B4%D0%B2%D0%B0%D0%BD-%D0%B2-%D0%B3%D0%B0%D0%B7%D0%B5-%D0%BF%D0%BE%D0%BA%D0%B8%D0%BD%D1%83%D0%BB-%D0%BC%D0%B5%D0%B4%D1%83%D1%87%D1%80%D0%B5%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D1%80%D0%BE%D0%B4%D0%B2%D0%B8%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B8%D0%B7%D1%80%D0%B0%D0%B8%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D1%85-%D1%82%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2/4071397",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Газа: персонал покинул больницу «Камаль Адван» из-за наступления танков\n\nМедицинский персонал больницы «Камаль Адван» на севере сектора Газа был вынужден покинуть здание после того, как израильские танки начали продвижение к медучреждению в районе Машру-Бейт-Лахия, сообщает агентство «Анадолу» со ссылкой на местные источники. Ранее, в декабре 2024 года, во время рейда на больницу израильская армия задержала её директора Хусама Абу Сафию, который до сих пор не освобождён.\n\n#Газа #Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 482,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 488,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 500,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 514,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D0%BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB-%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D0%B8%D1%86%D1%8B-%D0%BA%D0%B0%D0%BC%D0%B0%D0%BB%D1%8C-%D0%B0%D0%B4%D0%B2%D0%B0%D0%BD-%D0%B2-%D0%B3%D0%B0%D0%B7%D0%B5-%D0%BF%D0%BE%D0%BA%D0%B8%D0%BD%D1%83%D0%BB-%D0%BC%D0%B5%D0%B4%D1%83%D1%87%D1%80%D0%B5%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D1%80%D0%BE%D0%B4%D0%B2%D0%B8%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B8%D0%B7%D1%80%D0%B0%D0%B8%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D1%85-%D1%82%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2/4071397"
+     }
+    ]
+   },
+   "n": 160
+  },
+  "161": {
+   "tone": "hard",
+   "url": "https://www.tbsnews.net/world/south-asia/clash-erupts-indias-ujjain-authorities-move-demolish-part-mosque-road-widening",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇳 Индия: столкновения в Уджайне из-за сноса части мечети\n\nВ городе Уджайн (штат Мадхья-Прадеш) вспыхнули столкновения после того, как власти начали снос части мечети Шахи для расширения дороги. Мусульмане, включая женщин, провели ночь внутри мечети в знак протеста; часть протестующих бросала камни, полиция применила слезоточивый газ. В район стянуто более 2000 полицейских. Ранее суд отклонил иски против решения муниципалитета, но общине мечети удалось добиться пересмотра дела в вышестоящей судебной инстанции.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 519,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 527,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 541,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.tbsnews.net/world/south-asia/clash-erupts-indias-ujjain-authorities-move-demolish-part-mosque-road-widening"
+     }
+    ]
+   },
+   "n": 161
+  },
+  "162": {
+   "tone": "hard",
+   "url": "https://ukranews.com/amp/news/1177436-vo-lvove-neizvestnyj-v-maske-narisoval-svastiku-na-mecheti-i-pytalsya-proniknut-vnutr",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": false,
+   "note": "текст недоступен, детали неясны",
+   "trusted": false,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇺🇦 Львов: на мечети нарисовали свастику, злоумышленник пытался проникнуть внутрь\n\nВо Львове неизвестный в маске нарисовал свастику на здании мечети и попытался проникнуть внутрь, сообщают украинские СМИ. Подробности инцидента и реакция правоохранительных органов пока не уточняются.\n\n#Украина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 77,
+      "type": "bold"
+     },
+     {
+      "offset": 286,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 296,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 310,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://ukranews.com/amp/news/1177436-vo-lvove-neizvestnyj-v-maske-narisoval-svastiku-na-mecheti-i-pytalsya-proniknut-vnutr"
+     }
+    ]
+   },
+   "n": 162
+  },
+  "163": {
+   "tone": "good",
+   "url": "https://rt-online.ru/news/v-kazani-gotoviat-ploshhadku-pod-mecet-v-cest-1100-letiia-priniatiia-islama-volzskoi-bulgariei-548573",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Казань: готовят площадку под мечеть к 1100-летию ислама в Поволжье\n\nВ Казани начали готовить площадку под строительство мечети в честь 1100-летия принятия ислама Волжской Булгарией. Об этом в послании Госсовету Татарстана сообщил глава республики Рустам Минниханов, отметив, что мусульманский комплекс с общественным пространством станет украшением столицы Татарстана.\n\n#Татарстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 373,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 385,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 399,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://rt-online.ru/news/v-kazani-gotoviat-ploshhadku-pod-mecet-v-cest-1100-letiia-priniatiia-islama-volzskoi-bulgariei-548573"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOjaro5q9yy0UQ9otRFAam_27lZUYYAAgcPaxv-LNRRt1WOPaBMcnoBAAMCAAN5AAM9BA"
+   },
+   "n": 163
+  },
+  "164": {
+   "tone": "good",
+   "url": "https://gtrkvainah.ru/v-chechne-167-vypusknikov-poluchili-pravo-prepodavat-chtenie-korana/",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Чечня: 167 выпускников получили право преподавать чтение Корана\n\nВ Чечне 167 выпускников курсов подготовки преподавателей получили сертификаты, дающие право обучать чтению Корана, сообщили в Духовном управлении мусульман республики. Слушатели прошли теоретическую и практическую подготовку, включая дисциплину «Акыда», по которой сдавали итоговый экзамен. Всего за время работы программы аттестацию прошли 1820 преподавателей.\n\n#Чечня\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 431,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 439,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 453,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://gtrkvainah.ru/v-chechne-167-vypusknikov-poluchili-pravo-prepodavat-chtenie-korana/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOkaro5rv_VraN3rXHRnTBhes6xL7wAApAPaxtRgNVR5KsU9yPSk2sBAAMCAAN5AAM9BA"
+   },
+   "n": 164
+  },
+  "165": {
+   "tone": "good",
+   "url": "http://www.sabanew.net/viewstory/153109",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная - решите сами",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: глава Президентского совета получил поздравление от президента Сирии\n\nГлава Президентского совета Йемена Рашад аль-Алими получил поздравительную телеграмму от президента Сирии Ахмеда аш-Шараа по случаю 64-й годовщины революции 26 сентября. Аш-Шараа пожелал йеменскому руководству здоровья и подтвердил стремление к укреплению двусторонних отношений между странами.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 75,
+      "type": "bold"
+     },
+     {
+      "offset": 378,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 386,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 400,
+      "length": 8,
+      "type": "text_link",
+      "url": "http://www.sabanew.net/viewstory/153109"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOlaro5sp4KXMaLaFkBTXPtgNblWe4AAq0OaxtlItVRyBF1WNTg8GgBAAMCAAN4AAM9BA"
+   },
+   "n": 165
+  },
+  "166": {
+   "tone": "hard",
+   "url": "https://www.yahoo.com/news/world/articles/islamophobia-bad-1980s-092251489.html",
+   "created": 1790589332.780165,
+   "status": "pending",
+   "safe": false,
+   "note": "оценка автора, один источник",
+   "trusted": false,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇬🇧 Британия: 40 лет со дня убийства школьника-мусульманина\n\nСестра 13-летнего Ахмеда Икбала Уллы, убитого сверстником в школе Манчестера в 1986 году, заявила Би-би-си, что исламофобия сегодня «так же сильна, как в 1980-х». Расследование того убийства признало расовый мотив ключевым фактором. Власти Великобритании заявили, что не терпят антимусульманской ненависти и выделяют 40 млн фунтов на защиту мусульманских общин, а также вводят нестатутное определение антимусульманской враждебности.\n\n#Британия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 496,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 507,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 521,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.yahoo.com/news/world/articles/islamophobia-bad-1980s-092251489.html"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOmaro5tR5BwNekSJ2lY-NukQSac54AAu8OaxuMnN1RsAlKFWo89g0BAAMCAAN5AAM9BA"
+   },
+   "n": 166
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790585734.349357,
+ "last_publish": 1790589332.780165,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -5791,7 +6168,8 @@
   "20260928-074953.json",
   "20260928-082256.json",
   "20260928-085329.json",
-  "20260928-092221.json"
+  "20260928-092221.json",
+  "20260928-095149.json"
  ],
  "settings": {
   "night": [
@@ -5803,6 +6181,8 @@
   "wm": true,
   "auto": true,
   "auto_hard": true,
+  "auto_top": false,
+  "per_hour": 3,
   "paused": false
  },
  "last_triage": 1790588129.9092493,
