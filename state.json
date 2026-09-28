@@ -2721,11 +2721,878 @@
     "file_id": "AgACAgQAAyEGAATuSoRvAANRarn5VW25qAb5cKOg1fzbBNUNX9wAAiQQaxtS38xRTpa-RRF7dNQBAAMCAAN5AAM9BA"
    },
    "n": 81
+  },
+  "82": {
+   "tone": "hard",
+   "url": "https://www.spa.gov.sa/N2687505",
+   "created": 1790576837.489496,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇰 Пакистан: Саудовская Аравия осудила теракт на блокпосту в Дераисмаилхане\n\nМИД Саудовской Аравии решительно осудил террористическую атаку на блокпост безопасности в районе Дераисмаилхан (провинция Хайбер-Пахтунхва, Пакистан), в результате которой погибли несколько человек. Королевство подтвердило солидарность с Пакистаном в борьбе с терроризмом и экстремизмом.\n\n#Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 72,
+      "type": "bold"
+     },
+     {
+      "offset": 368,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 379,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 393,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687505"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANSaroIxhXsFxZmgq7G3L87c8IxHEgAAkkOaxuWGNVR5rk-b5SrGIUBAAMCAAN3AAM9BA"
+   },
+   "n": 82
+  },
+  "83": {
+   "tone": "hard",
+   "url": "https://www.sabanew.net/story/ar/153108",
+   "created": 1790576837.489496,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 ОИС: израильские поселения на палестинских землях незаконны\n\nОрганизация исламского сотрудничества заявила, что израильские поселения на оккупированных палестинских территориях не имеют правовой основы и грубо нарушают международное гуманитарное право. ОИС сослалась на консультативные заключения Международного суда ООН 2004 и 2024 годов и резолюцию Совбеза №2334, призвав государства не признавать сложившуюся ситуацию. Организация вновь подтвердила поддержку прав палестинского народа на создание независимого государства со столицей в Восточном Иерусалиме.\n\n#Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 59,
+      "type": "bold"
+     },
+     {
+      "offset": 567,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 579,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 593,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sabanew.net/story/ar/153108"
+     }
+    ]
+   },
+   "n": 83
+  },
+  "84": {
+   "tone": "hard",
+   "url": "https://www.sabanew.net/story/ar/153106",
+   "created": 1790576837.489496,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 ЛАГ предупредила об эскалации Израиля у Аль-Аксы и на Западном берегу\n\nГенеральный секретариат Лиги арабских государств осудил эскалацию Израиля на оккупированных палестинских территориях, включая Восточный Иерусалим, и ужесточение ограничений для палестинцев в дни еврейских праздников. ЛАГ предостерегла от планов полиции Иерусалима впустить в мечеть Аль-Акса иудейские молитвенники, что может закрепить новые практики и изменить исторический статус святыни. Организация призвала Совбез ООН обязать Израиль прекратить нарушения.\n\n#АльАкса #Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 69,
+      "type": "bold"
+     },
+     {
+      "offset": 537,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 546,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 558,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 572,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sabanew.net/story/ar/153106"
+     }
+    ]
+   },
+   "n": 84
+  },
+  "85": {
+   "tone": "hard",
+   "url": "https://www.sabanew.net/story/ar/153103",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "цифры жертв, один источник",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇸 Газа: двое палестинцев погибли от израильского огня\n\nПо данным палестинских медицинских источников, в секторе Газа от огня израильских военных погибли двое палестинцев, ещё несколько человек получили ранения. 17-летний юноша погиб в центре Хан-Юниса; ещё один человек погиб и трое получили ранения в районе Тавам на северо-западе города Газа. Израильские танки вели плотный огонь у Американского университета и продвигались западнее Бейт-Лахии.\n\n#Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 51,
+      "type": "bold"
+     },
+     {
+      "offset": 451,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 458,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 472,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sabanew.net/story/ar/153103"
+     }
+    ]
+   },
+   "n": 85
+  },
+  "86": {
+   "tone": "hard",
+   "url": "https://www.muslimnetwork.tv/israeli-strikes-kill-palestinians-as-gaza-death-toll-surpasses-74000/",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "цифры жертв (минздрав Газы)",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: число жертв войны превысило 74 тысячи\n\nПо данным министерства здравоохранения Газы, число погибших палестинцев с начала войны достигло не менее 74 016 человек, ранены свыше 175 тысяч. Ведомство сообщило, что после вступления в силу перемирия в октябре 2025 года израильские силы убили 1417 и ранили 4953 палестинцев. Среди недавно погибших — восьмилетний мальчик, застреленный у палатки своей семьи под Рафахом.\n\n#Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 43,
+      "type": "bold"
+     },
+     {
+      "offset": 424,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 431,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 445,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.muslimnetwork.tv/israeli-strikes-kill-palestinians-as-gaza-death-toll-surpasses-74000/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANWaroI0VSFF5iYduks-Vm3VzzvTuoAArgOaxvn-NRRvAO9EOvqYHcBAAMCAAN5AAM9BA"
+   },
+   "n": 86
+  },
+  "87": {
+   "tone": "hard",
+   "url": "https://www.ghadnews.net/2026/09/28/%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA-%D8%AA%D8%AF%D9%8A%D9%86-%D8%A7%D9%82%D8%AA%D8%AD%D8%A7%D9%85-1500-%D9%85%D8%B3%D8%AA%D9%88%D8%B7%D9%86-%D9%84%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A3/",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Кувейт осудил проникновение полутора тысяч поселенцев в Аль-Аксу\n\nКувейт осудил вторжение около 1500 израильских поселенцев в мечеть Аль-Акса в Восточном Иерусалиме под защитой израильской полиции, назвав это грубым нарушением международного права. МИД Кувейта призвал Совбез ООН обязать Израиль прекратить нарушения и защитить палестинцев и святыни. Ранее департамент вакфов Иерусалима сообщил, что поселенцы совершили талмудические ритуалы в мечети на фоне ограничений для мусульман, желающих совершить намаз. Аналогичные заявления сделали Турция и палестинская администрация.\n\n#АльАкса\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 583,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 593,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 607,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.ghadnews.net/2026/09/28/%D8%A7%D9%84%D9%83%D9%88%D9%8A%D8%AA-%D8%AA%D8%AF%D9%8A%D9%86-%D8%A7%D9%82%D8%AA%D8%AD%D8%A7%D9%85-1500-%D9%85%D8%B3%D8%AA%D9%88%D8%B7%D9%86-%D9%84%D9%84%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D8%A3/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANXaroI1UAM4ZfIGq939ss_CZ4HQ-4AAmcOaxsmqtRRFWoBPMvIV6gBAAMCAAN4AAM9BA"
+   },
+   "n": 87
+  },
+  "88": {
+   "tone": "hard",
+   "url": "https://www.sabanew.net/story/ar/153107",
+   "created": 1790576837.489496,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇰🇿 Казахстан: после гибели 14 военных на учениях уволен министр обороны\n\nПрезидент Казахстана Касым-Жомарт Токаев отправил в отставку министра обороны Даурена Косанова после того, как во время морских учений в Каспийском море погибли 14 военнослужащих, ещё троих спасли. Новым министром обороны назначен Айдос Мирзахметов, для расследования инцидента сформирована комиссия по всесторонней проверке министерства обороны.\n\n#Казахстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 68,
+      "type": "bold"
+     },
+     {
+      "offset": 423,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 435,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 449,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sabanew.net/story/ar/153107"
+     }
+    ]
+   },
+   "n": 88
+  },
+  "89": {
+   "tone": "hard",
+   "url": "https://t.me/lebanondebate/280487",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "подтверждено: Al Arabiya, NBC",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇷 Иран: ракета попала в судно в Ормузском проливе, ранены морпехи США\n\nПо данным телеканала NBC News со ссылкой на американских официальных лиц, 14 сентября иранская крылатая ракета попала в судно в Ормузском проливе, в результате чего пострадали восемь морских пехотинцев США. Тогда инцидент не был обнародован публично. Ту же информацию со ссылкой на американский отчёт передал телеканал Al Arabiya.\n\n#Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 406,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 413,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 427,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/lebanondebate/280487"
+     }
+    ]
+   },
+   "n": 89
+  },
+  "90": {
+   "tone": "hard",
+   "url": "https://sabq.org/article/mfdrz39",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "заявление Ирана, не подтверждено",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇷 КСИР заявил о задержании второй подводной лодки-беспилотника США\n\nИранский Корпус стражей исламской революции заявил, что задержал в Ормузском проливе вторую американскую подводную лодку-беспилотник. Вашингтон эту информацию опроверг. Независимого подтверждения инцидента, помимо заявлений иранской стороны, нет.\n\n#Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 319,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 326,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 340,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sabq.org/article/mfdrz39"
+     }
+    ]
+   },
+   "n": 90
+  },
+  "91": {
+   "tone": "hard",
+   "url": "https://t.me/lebanondebate/280486",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, цифры жертв",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇩 Судан: при обстреле РСБ у Эль-Обейда погиб один человек\n\nПо данным источника в суданской армии, при обстреле силами «Быстрой поддержки» спортивной площадки к северо-западу от города Эль-Обейд погиб один человек, ещё десять получили ранения.\n\n#Судан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 55,
+      "type": "bold"
+     },
+     {
+      "offset": 247,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 255,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 269,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/lebanondebate/280486"
+     }
+    ]
+   },
+   "n": 91
+  },
+  "92": {
+   "tone": "hard",
+   "url": "https://www.bbc.com/audio/play/p0pcspqh",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "связь с Ираном не подтверждена",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇬🇧 Британия: пятеро задержаны по подозрению в подготовке атаки на авиабазу\n\nПолиция Великобритании задержала пятерых мужчин по подозрению в подготовке атаки на военно-воздушную базу Фэрфорд, которую с марта использует и авиация США для ударов по Ирану. По словам президента США Дональда Трампа, задержанные планировали нанести значительный ущерб. Полиция получила ночью сообщение о трёх подозрительных автомобилях у базы. Антитеррористическая полиция проверяет возможную причастность Ирана.\n\n#Британия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 494,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 505,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 519,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.bbc.com/audio/play/p0pcspqh"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANcaroJAxmio6MHi5vYwz2Zvlk4RgIAAoYPaxtZN9RRyz3ZY2qgonUBAAMCAAN5AAM9BA"
+   },
+   "n": 92
+  },
+  "93": {
+   "tone": "hard",
+   "url": "https://www.ndtv.com/india-news/protesters-cops-clash-as-part-of-mosque-set-to-be-demolished-in-ujjain-12107570",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "ситуация развивалась, уточняется",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🕌 Индия: снос части мечети в Уджайне вызвал столкновения и протесты\n\nВ индийском городе Уджайне частичный снос исторической мечети Шахи в рамках расширения дороги вызвал столкновения местных мусульман с полицией: применялся слезоточивый газ, в ответ летели камни. Массовые ночные бдения мусульманской общины на два дня приостановили снос. По сообщениям индийских СМИ, впоследствии стороны достигли договорённости, и напряжённость снизилась.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 65,
+      "type": "bold"
+     },
+     {
+      "offset": 443,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 451,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 465,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.ndtv.com/india-news/protesters-cops-clash-as-part-of-mosque-set-to-be-demolished-in-ujjain-12107570"
+     }
+    ]
+   },
+   "n": 93
+  },
+  "94": {
+   "tone": "hard",
+   "url": "http://www.kath.net/news/91372",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "источник — католич. издание",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇹 Италия: Мелони анонсировала запрет никаба и буркы в школах\n\nПремьер-министр Италии Джорджа Мелони объявила о планах запретить ношение буркы и никаба в школах, а также ограничить долю иностранных учеников в классах определённым процентом. Родителей учеников-иностранцев с трудностями в интеграции обяжут учить итальянский язык. Меры сначала представят кабинету министров. По данным прессы, схожее ограничение в 30% иностранных учеников формально действует в Италии с 2010 года, но на практике не соблюдается.\n\n#Италия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 58,
+      "type": "bold"
+     },
+     {
+      "offset": 514,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 523,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 537,
+      "length": 8,
+      "type": "text_link",
+      "url": "http://www.kath.net/news/91372"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANearoJCXpPNecIGE0dMI8IQWk6DjoAAn4Paxs12NRRYTiMr0P8H24BAAMCAAN5AAM9BA"
+   },
+   "n": 94
+  },
+  "95": {
+   "tone": "hard",
+   "url": "https://73online.ru/r/prozreniyu_ukazali_na_minaret-171819",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "локальный спор — решите сами",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Россия: властям Ульяновска предписали воссоздать минарет бывшей мечети\n\nУправление по охране объектов культурного наследия Ульяновской области обновило охранные обязательства для здания бывшей соборной мечети Симбирска XIX века, где сейчас работает частная глазная клиника: в документ внесено требование со временем воссоздать утраченные минарет и башенки. Мусульманская община региона давно добивается возвращения здания верующим; владелица заявила, что продлила аренду клинике почти на 20 лет и уезжать не планирует.\n\n#Россия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 70,
+      "type": "bold"
+     },
+     {
+      "offset": 523,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 532,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 546,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://73online.ru/r/prozreniyu_ukazali_na_minaret-171819"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANfaroJDOI5EoK0oniap6GsFQF-tbwAAjcOaxsSStVR8b0lS-zQqM8BAAMCAAN3AAM9BA"
+   },
+   "n": 95
+  },
+  "96": {
+   "tone": "good",
+   "url": "https://vestikavkaza.ru/news/pezeskian-nazval-mekkanskoe-soglasenie-vaznym-sagom-k-obedineniu-musulman.html",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "заявление Ирана, один источник",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇷 Иран назвал Мекканское соглашение шагом к единству мусульман\n\nПрезидент Ирана Масуд Пезешкиан заявил телеканалу Al Jazeera, что заключённое между Саудовской Аравией, Турцией и Пакистаном Мекканское соглашение — позитивный шаг к тому, чтобы мусульмане не воевали друг с другом, а искали единства. Он подчеркнул, что не считает соглашение направленным против Тегерана, и выразил надежду на урегулирование конфликтов в регионе.\n\n#Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 431,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 438,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 452,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://vestikavkaza.ru/news/pezeskian-nazval-mekkanskoe-soglasenie-vaznym-sagom-k-obedineniu-musulman.html"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAANgaroJFs3tvZsV2q22gRSJveNLQCIAAmknaxs1otBJ9KAsn8XaVCABAAMCAAN3AAM9BA"
+   },
+   "n": 96
+  },
+  "97": {
+   "tone": "good",
+   "url": "https://kazislam.kz/ru/2026/09/v-shymkente-proshel-seminar-po-etike-pyatnichnyh-uagyzov/",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Казахстан: в Шымкенте прошёл семинар по этике пятничных проповедей\n\nВ Шымкенте состоялся обучающий семинар «Этика произнесения проповеди», организованный в рамках программы Верховного муфтия Казахстана Наурызбая кажы Таганулы. Имамы местных мечетей и преподаватели-устазы региона обсудили вопросы социальной ответственности духовенства и современные подходы к просветительским встречам.\n\n#Казахстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 391,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 403,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 417,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://kazislam.kz/ru/2026/09/v-shymkente-proshel-seminar-po-etike-pyatnichnyh-uagyzov/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANharoJGX4e6RPhQovhUIyXrG3AXHQAAnkOaxvkNdRRurhNBSqX0fQBAAMCAAN5AAM9BA"
+   },
+   "n": 97
+  },
+  "98": {
+   "tone": "good",
+   "url": "https://en.antaranews.com/news/433188/igic-2026-produces-jakarta-understanding-on-imams-diplomatic-role",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇩 Индонезия: имамы 46 стран учредили в Джакарте международную ассамблею\n\nНа конференции высших имамов (IGIC 2026) в Джакарте представители 46 стран приняли «Джакартское взаимопонимание» о роли имамов в укреплении мира, защите прав человека и поддержке палестинского народа. Участники учредили Международную ассамблею имамов мечетей (IAMI) со штаб-квартирой в Джакарте и офисами в Куала-Лумпуре, Каире, Найроби, Лондоне, Нью-Йорке, Рио-де-Жанейро и Канберре. Главой избран министр по делам религии Индонезии Насаруддин Умар, также верховный имам мечети Истикляль.\n\n#Индонезия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 69,
+      "type": "bold"
+     },
+     {
+      "offset": 567,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 579,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 593,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://en.antaranews.com/news/433188/igic-2026-produces-jakarta-understanding-on-imams-diplomatic-role"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANiaroJHJwurBj99262pFInsAg3KuMAAh0Paxtvp9RRYr1Kn4pl3R4BAAMCAAN5AAM9BA"
+   },
+   "n": 98
+  },
+  "99": {
+   "tone": "good",
+   "url": "https://www.arabnews.com/saudi-arabia/saudi-team-wins-six-medals-at-junior-balkan-olympiad-in-informatics-3003480",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная — решите сами",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Саудовская Аравия выиграла шесть медалей юниорской Балканской олимпиады по информатике\n\nВсе шесть участников сборной Саудовской Аравии завоевали медали на 19-й юниорской Балканской олимпиаде по информатике в Сараево — четыре серебряные и две бронзовые. Это первое официальное участие Королевства в турнире, в котором соревновались около 90 участников из 13 стран.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 86,
+      "type": "bold"
+     },
+     {
+      "offset": 370,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 389,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 403,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.arabnews.com/saudi-arabia/saudi-team-wins-six-medals-at-junior-balkan-olympiad-in-informatics-3003480"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANjaroJHnDu5tUMHGRgilPPM60GYCAAAvoPaxvAis1RmcZ8BtswAAGhAQADAgADdwADPQQ"
+   },
+   "n": 99
+  },
+  "100": {
+   "tone": "hard",
+   "url": "https://jakartaglobe.id/news/indonesian-salon-owner-sentenced-to-20-months-for-desecrating-quran",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "необычный сюжет — решите сами",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇩 Индонезия: женщину осудили за принуждение наступить на Коран\n\nСуд в Рангкасбитунге (Бантен, Индонезия) приговорил владелицу салона красоты к 1 году 8 месяцам, а её сообщницу — к 1 году лишения свободы условно за принуждение другой женщины наступить на Коран во время бытового конфликта. Осуждённые должны публично извиниться в мечети, пройти религиозное наставничество и передать мечетям 70 экземпляров Корана.\n\n#Индонезия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 417,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 429,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 443,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://jakartaglobe.id/news/indonesian-salon-owner-sentenced-to-20-months-for-desecrating-quran"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANkaroJIsv1iteDLr62v12-Q0oNFN4AApUOaxtoGtxRvt9V2KLsSM4BAAMCAAN5AAM9BA"
+   },
+   "n": 100
+  },
+  "101": {
+   "tone": "good",
+   "url": "https://thepeninsulaqatar.com/article/28/09/2026/quran-and-human-knowledge-conference-to-explore-contemporary-challenges",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇶🇦 Катар проведёт конференцию «Коран и человеческое знание»\n\nМинистерство вакфов и по делам ислама Катара совместно с Университетом Катара завершили подготовку ко второй конференции «Коран и человеческое знание» и форуму «Книга уммы», которые пройдут 5–6 октября в Дохе. Мероприятия соберут исследователей из Катара и других стран для обсуждения роли Корана в языкознании, праве, политике и философии.\n\n#Катар\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 56,
+      "type": "bold"
+     },
+     {
+      "offset": 405,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 413,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 427,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://thepeninsulaqatar.com/article/28/09/2026/quran-and-human-knowledge-conference-to-explore-contemporary-challenges"
+     }
+    ]
+   },
+   "n": 101
+  },
+  "102": {
+   "tone": "good",
+   "url": "https://www.dawn.com/news/2033244/chinas-space-diplomacy-lifts-pakistani-astronaut-toward-orbit",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇰 Пакистан готовит первого космонавта для полёта на китайскую станцию\n\nДва пилота ВВС Пакистана проходят подготовку в Китае — учат мандаринский язык, тренируются в центрифуге и осваивают быт в невесомости — для полёта на китайскую орбитальную станцию «Тяньгун». Это будет первый космический полёт для Пакистана и часть более широкого сотрудничества с Пекином.\n\n#Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 364,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 375,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 389,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.dawn.com/news/2033244/chinas-space-diplomacy-lifts-pakistani-astronaut-toward-orbit"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANmaroJQw8B4AERiXUkexQtZzPGzrQAAkMOaxucS9RR7D_LA_On3FABAAMCAAN4AAM9BA"
+   },
+   "n": 102
+  },
+  "103": {
+   "tone": "hard",
+   "url": "https://dailytrust.com/niger-mosque-attacks-14-members-of-my-family-in-captivity-student/",
+   "created": 1790576837.489496,
+   "status": "pending",
+   "safe": false,
+   "note": "цифры жертв разнятся",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇳🇬 Нигерия: боевики удерживают сотни похищенных из мечетей в штате Нигер\n\n21 августа боевики напали на четыре мечети во время пятничной молитвы в районе Боргу штата Нигер и, по данным пострадавших общин, увезли более 500 человек, включая женщин и детей. Власти штата называют меньшую цифру — около 60 похищенных и до 30 погибших, общины — почти 550 похищенных и 39 погибших только в одной деревне. Родственники говорят, что дома сожжены, а судьба удерживаемых неизвестна.\n\n#Нигерия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 69,
+      "type": "bold"
+     },
+     {
+      "offset": 475,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 485,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 499,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://dailytrust.com/niger-mosque-attacks-14-members-of-my-family-in-captivity-student/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANnaroJRrBWuTR3h-ehIGZx0CgUHvYAAoAPaxt-KtVR7M0chsUPD7MBAAMCAAN5AAM9BA"
+   },
+   "n": 103
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790573184.9122791,
+ "last_publish": 1790576837.489496,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -2750,7 +3617,8 @@
   "20260928-034735.json",
   "20260928-041936.json",
   "20260928-044950.json",
-  "20260928-052106.json"
+  "20260928-052106.json",
+  "20260928-062703.json"
  ],
  "settings": {
   "night": [
