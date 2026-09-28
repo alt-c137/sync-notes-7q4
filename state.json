@@ -1910,7 +1910,7 @@
    "tone": "good",
    "url": "https://www.okaz.com.sa/local/na/2268192",
    "created": 1790564142.8445125,
-   "status": "queued",
+   "status": "published",
    "safe": true,
    "note": "",
    "media": true,
@@ -2065,45 +2065,6 @@
   }
  },
  "queue": {
-  "59": {
-   "tone": "good",
-   "approved_at": 1790564142.8445125,
-   "auto": true,
-   "msg": {
-    "kind": "photo",
-    "text": "🇸🇦 Саудовская Аравия выделила $6 млн Центру ООН по борьбе с терроризмом\n\nГлава МИД Королевства принц Фейсал бин Фархан объявил о выделении $6 млн на программы Центра ООН по борьбе с терроризмом — во время встречи с генсекретарём ООН Антониу Гутеррешем на полях недели высокого уровня 81-й сессии Генассамблеи в Нью-Йорке. Средства будут распределены по годам начиная с 2027 финансового года. Принц Фейсал также встретился с главами МИД Алжира и Мексики — Ахмедом Аттафом и Роберто Веласко Альваресом — для обсуждения региональных и международных вопросов.\n\n#СаудовскаяАравия #ООН\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 68,
-      "type": "bold"
-     },
-     {
-      "offset": 559,
-      "length": 17,
-      "type": "hashtag"
-     },
-     {
-      "offset": 577,
-      "length": 4,
-      "type": "hashtag"
-     },
-     {
-      "offset": 583,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 597,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://www.okaz.com.sa/local/na/2268192"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAM7arnXNdwTfFhqfuJMtPLnRy8KWjEAAv4OaxtaaNVRGuWc6S1SmUMBAAMCAAN5AAM9BA"
-   }
-  },
   "60": {
    "tone": "good",
    "approved_at": 1790564142.8445125,
@@ -2174,7 +2135,7 @@
   }
  },
  "wm": {},
- "last_publish": 1790564142.8445125,
+ "last_publish": 1790565037.3609102,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
