@@ -1,5 +1,5 @@
 {
- "offset": 498374811,
+ "offset": 498374812,
  "drafts": {
   "2": {
    "tone": "good",
@@ -2561,7 +2561,7 @@
    "tone": "good",
    "url": "https://en.antaranews.com/news/433169/ri-minister-appointed-as-international-assembly-of-mosque-imams-leader",
    "created": 1790571006.5994685,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "один источник",
    "trusted": false,
@@ -2605,7 +2605,7 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790571006.5994685,
+ "last_publish": 1790571865.5065637,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
