@@ -2094,7 +2094,7 @@
    23,
    7
   ],
-  "gap": 15,
+  "gap": 0,
   "night_gap": 60,
   "wm": true,
   "auto": true,
