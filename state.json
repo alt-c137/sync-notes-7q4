@@ -5120,11 +5120,411 @@
     ]
    },
    "n": 140
+  },
+  "141": {
+   "tone": "hard",
+   "url": "https://t.me/saudinews50/81505",
+   "created": 1790585734.349357,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇾🇪 Йемен: авиация ударила по хуситам в Таизе\n\nЙеменские военно-воздушные силы нанесли удары по позициям хуситов в районе Эр-Рабии, к западу от города Таиз.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 41,
+      "type": "bold"
+     },
+     {
+      "offset": 159,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 167,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 181,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/saudinews50/81505"
+     }
+    ]
+   },
+   "n": 141
+  },
+  "142": {
+   "tone": "hard",
+   "url": "https://t.me/saudinews50/81502",
+   "created": 1790585734.349357,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇵🇰 Саудовская Аравия осудила теракт в Пакистане\n\nМИД Королевства осудил террористическое нападение на пункт проверки безопасности в районе Дераисмаилхан в Пакистане, в результате которого погибли несколько человек. Саудовская Аравия подтвердила солидарность с Пакистаном.\n\n#Пакистан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 44,
+      "type": "bold"
+     },
+     {
+      "offset": 275,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 286,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 300,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/saudinews50/81502"
+     }
+    ]
+   },
+   "n": 142
+  },
+  "143": {
+   "tone": "good",
+   "url": "https://t.me/saudinews50/81501",
+   "created": 1790585734.349357,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Глава МИД Саудовской Аравии посетил Вашингтон\n\nМинистр иностранных дел Королевства прибыл в Вашингтон с официальным визитом и встретился с американским коллегой. Стороны обсудили двусторонние отношения и главные события в регионе и мире.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 45,
+      "type": "bold"
+     },
+     {
+      "offset": 244,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 263,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 277,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/saudinews50/81501"
+     }
+    ]
+   },
+   "n": 143
+  },
+  "144": {
+   "tone": "hard",
+   "url": "https://www.sadanews.ps/fr/news/338282.html",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Иерусалим: сотни поселенцев вновь ворвались в Аль-Аксу\n\nВ третий день еврейского праздника Суккот около 300 поселенцев вошли на территорию мечети Аль-Акса через ворота Магариба под усиленной охраной израильской полиции; среди них — министр обороны Исраэль Кац и министр нацбезопасности Итамар Бен-Гвир, которые подошли к Стене Плача с западной стороны мечети. Поселенцы совершили талмудические молитвы и ритуалы. По данным управления по делам Иерусалима, с начала года по конец августа 2026 года мечеть посетили 40 661 поселенец, а с начала года было вынесено около 800 решений о недопуске жителей Иерусалима к мечети.\n\n#Палестина #АльАкса\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 625,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 636,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 646,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 660,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sadanews.ps/fr/news/338282.html"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOQarorkpupq4XmAAGvVK-7XnL1iexfAAIJEGsbwgfVUb8slKjQyk2NAQADAgADeQADPQQ"
+   },
+   "n": 144
+  },
+  "145": {
+   "tone": "hard",
+   "url": "https://www.thehindu.com/news/national/madhya-pradesh/ujjain-madhya-pradesh-protests-mosque-demolition-road-widening-project/article71518811.ece",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": true,
+   "note": "",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇳 Индия: столкновения из-за сноса части мечети в Уджайне\n\nВ городе Уджайн (Мадхья-Прадеш) утром в понедельник произошли столкновения между полицией и частью мусульман при демонтаже небольшого участка 600-летней мечети Шахи — его сносят для расширения дороги перед фестивалем Симхастха Кумбх 2028 года. Митингующие закидали полицию камнями, применены слезоточивый газ и дубинки, задержаны около 10 человек, включая главу отделения партии AIMIM в штате. По словам администрации, комитет мечети сам согласился на снос после переговоров; суд 9 сентября отклонил иски против работ, отметив, что на дороге уже снесены части около 80 построек, включая 10 храмов и одну мечеть.\n\n#Индия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 674,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 682,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 696,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.thehindu.com/news/national/madhya-pradesh/ujjain-madhya-pradesh-protests-mosque-demolition-road-widening-project/article71518811.ece"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAORarorlXPC3xBPPiiZPe-VV3q_fEYAAp4OaxuopdVRWQn0wAY4agMBAAMCAAN5AAM9BA"
+   },
+   "n": 145
+  },
+  "146": {
+   "tone": "hard",
+   "url": "https://www.muslimnetwork.tv/israeli-army-kills-4-palestinians-in-new-gaza-truce-violations/",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, не подтверждено",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: сообщают о гибели четырёх палестинцев при ударах\n\nПо данным медицинских источников, в воскресенье при израильских ударах в секторе Газа погибли четверо палестинцев, ещё около десяти получили ранения — в частности, при ударах беспилотников в районах Ат-Тавам, Ас-Сина и Аль-Маваси и обстреле в Хан-Юнисе. Речь идёт об очередных нарушениях перемирия, действующего с октября 2025 года.\n\n#Газа\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 54,
+      "type": "bold"
+     },
+     {
+      "offset": 395,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 402,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 416,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.muslimnetwork.tv/israeli-army-kills-4-palestinians-in-new-gaza-truce-violations/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOSarormf81Xhk22aEt5G5fsjyPp_gAAgMPaxuP4tVRU6I2llddjB4BAAMCAAN3AAM9BA"
+   },
+   "n": 146
+  },
+  "147": {
+   "tone": "hard",
+   "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D1%81%D0%BC%D0%B8-8-%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D1%85-%D0%BF%D0%B5%D1%85%D0%BE%D1%82%D0%B8%D0%BD%D1%86%D0%B5%D0%B2-%D1%81%D1%88%D0%B0-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D0%BB%D0%B8-%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2-%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B5-%D0%B0%D1%82%D0%B0%D0%BA%D0%B8-%D0%B8%D1%80%D0%B0%D0%BD%D0%B0/4071299",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник (NBC/Анадолу)",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇷 СМИ: моряки США пострадали при ударе Ирана у Ормузского пролива\n\nПо данным телеканала NBC News со ссылкой на неназванных американских чиновников, 14 сентября Иран нанёс удар крылатой ракетой по судну США в Ормузском проливе. Ранения получили восемь находившихся на борту морских пехотинцев — лёгкие травмы и, предположительно, контузии; после этого военнослужащие вернулись к исполнению обязанностей.\n\n#Иран #Ормузскийпролив\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 407,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 413,
+      "length": 16,
+      "type": "hashtag"
+     },
+     {
+      "offset": 431,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 445,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.aa.com.tr/ru/%D0%BC%D0%B8%D1%80/%D1%81%D0%BC%D0%B8-8-%D0%BC%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D1%85-%D0%BF%D0%B5%D1%85%D0%BE%D1%82%D0%B8%D0%BD%D1%86%D0%B5%D0%B2-%D1%81%D1%88%D0%B0-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D0%BB%D0%B8-%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2-%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%B5-%D0%B0%D1%82%D0%B0%D0%BA%D0%B8-%D0%B8%D1%80%D0%B0%D0%BD%D0%B0/4071299"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOTarornJGbWspd68kKUUeuYMxwN2MAAlUPaxueKNVRPkDmFN-5FFQBAAMCAAN5AAM9BA"
+   },
+   "n": 147
+  },
+  "148": {
+   "tone": "hard",
+   "url": "https://ukranews.com/news/1177436-vo-lvove-neizvestnyj-v-maske-narisoval-svastiku-na-mecheti-i-pytalsya-proniknut-vnutr",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, не подтверждено",
+   "trusted": false,
+   "snap": {
+    "kind": "text",
+    "text": "🇺🇦 Львов: на мечети нарисовали свастику и пытались проникнуть внутрь\n\nНеизвестный в маске нарисовал свастику на стене мечети во Львове и попытался проникнуть внутрь здания.\n\n#Украина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 65,
+      "type": "bold"
+     },
+     {
+      "offset": 176,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 186,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 200,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://ukranews.com/news/1177436-vo-lvove-neizvestnyj-v-maske-narisoval-svastiku-na-mecheti-i-pytalsya-proniknut-vnutr"
+     }
+    ]
+   },
+   "n": 148
+  },
+  "149": {
+   "tone": "hard",
+   "url": "https://ahlmasrnews.com/news/local-news/13493404/%D9%88%D9%81%D8%A7%D8%A9-%D8%B4%D8%A7%D8%A8-%D8%A3%D8%AB%D9%86%D8%A7%D8%A1-%D8%B5%D9%84%D8%A7%D8%A9-%D8%A7%D9%84%D9%81%D8%AC%D8%B1-%D8%A8%D8%A7%D9%84%D8%A5%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84%D9%8A%D8%A9",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, местное издание",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇪🇬 Египет: мужчина скончался во время утреннего намаза в мечети\n\nВ посёлке Эс-Сувейдат провинции Исмаилия 37-летний мужчина скончался от внезапного сердечного приступа во время второго рак'ата утренней молитвы в мечети «Ар-Рахма». Ему пытались помочь находившиеся рядом молящиеся.\n\n#Египет\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 284,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 293,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 307,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://ahlmasrnews.com/news/local-news/13493404/%D9%88%D9%81%D8%A7%D8%A9-%D8%B4%D8%A7%D8%A8-%D8%A3%D8%AB%D9%86%D8%A7%D8%A1-%D8%B5%D9%84%D8%A7%D8%A9-%D8%A7%D9%84%D9%81%D8%AC%D8%B1-%D8%A8%D8%A7%D9%84%D8%A5%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84%D9%8A%D8%A9"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAOVaroro-TIEOBOY9lvPwywqdMBRqcAAtoOaxvy09VRAqmuCC90UEMBAAMCAAN4AAM9BA"
+   },
+   "n": 149
+  },
+  "150": {
+   "tone": "good",
+   "url": "https://www.aleqtsad.org/%d8%a8%d8%b1%d8%b9%d8%a7%d9%8a%d8%a9-%d8%a3%d9%85%d9%8a%d8%b1-%d9%85%d9%86%d8%b7%d9%82%d8%a9-%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%ac%d8%a7%d9%85%d8%b9%d8%a9-%d8%ac%d8%af/",
+   "created": 1790585734.349357,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная — решите сами",
+   "trusted": true,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Джидда: университет проведёт форум по экологической устойчивости\n\nУниверситет Джидды при покровительстве эмира региона Мекка принца Халеда бин Фейсала на следующей неделе проводит первый форум по экологической устойчивости, посвящённый королевским заповедникам. В программе — десять дискуссионных сессий с участием государственных, экологических, академических и научных организаций, а также выставка экологических проектов и подписание ряда меморандумов о взаимопонимании.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 480,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 499,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 513,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.aleqtsad.org/%d8%a8%d8%b1%d8%b9%d8%a7%d9%8a%d8%a9-%d8%a3%d9%85%d9%8a%d8%b1-%d9%85%d9%86%d8%b7%d9%82%d8%a9-%d9%85%d9%83%d8%a9-%d8%a7%d9%84%d9%85%d9%83%d8%b1%d9%85%d8%a9-%d8%ac%d8%a7%d9%85%d8%b9%d8%a9-%d8%ac%d8%af/"
+     }
+    ]
+   },
+   "n": 150
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790583936.3148334,
+ "last_publish": 1790585734.349357,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
@@ -5154,7 +5554,8 @@
   "20260928-064954.json",
   "20260928-072349.json",
   "20260928-074953.json",
-  "20260928-082256.json"
+  "20260928-082256.json",
+  "20260928-085329.json"
  ],
  "settings": {
   "night": [
