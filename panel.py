@@ -1,10 +1,11 @@
 """
-Панель редактора на своём компьютере: http://localhost:8765
+Бот и панель редактора на своём компьютере: http://localhost:8765
 
-Работает рядом с облаком и GitHub, ничего им не мешая:
-  - только готовит черновики (как облачный Claude) и кладёт их в ветку claude/inbox;
-  - кнопки, публикацию и группу модерации по-прежнему ведёт дежурный бот на GitHub;
-  - список уже взятых новостей общий, поэтому облако и панель не дублируют друг друга.
+⚡ Бот на ПК: пока панель открыта, бот работает прямо здесь — кнопки ✅ ❌ 🕒 и команды
+   срабатывают мгновенно. GitHub в это время видит отметку «работает ПК» и не вмешивается.
+   Закрыл панель — через 3 минуты всё снова берёт на себя GitHub.
+✍️ Редактор: смотреть свежие новости, делать черновики из выбранных, проверять новости.
+   Список уже взятых новостей общий с облачным редактором — дублей нет.
 
 Claude здесь — это Claude Code на этом компьютере (по твоей подписке).
 Запуск: «Запуск панели.bat».
@@ -26,7 +27,10 @@ PORT = 8765
 MODEL = "opus"   # самая сильная Opus, которую знает установленный Claude Code
 ENV = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"}
 
+import bot                    # сам бот: те же функции, что работают на GitHub
+
 log_lines = []                # что показывать в окне «Журнал»
+live = {"on": False, "status": "выключен", "since": 0}
 job = {"name": None, "started": 0}
 auto = {"on": False, "minutes": 30, "next": 0}
 lock = threading.Lock()
@@ -49,6 +53,89 @@ def read_json(path, default):
 
 def claude_exe():
     return shutil.which("claude") or os.path.expanduser("~/.local/bin/claude.exe")
+
+
+# ---------------------- бот на ПК ----------------------
+
+def git(*args):
+    return subprocess.run(["git", *args], capture_output=True, text=True, encoding="utf-8", errors="replace")
+
+
+def lease(beat):
+    """Отметка для GitHub «бот работает на ПК» (beat=0 — ПК отключился). Хранится в ветке pc-lease."""
+    body = json.dumps({"heartbeat": beat, "host": os.environ.get("COMPUTERNAME", "pc")})
+    blob = subprocess.run(["git", "hash-object", "-w", "--stdin"], input=body, capture_output=True,
+                          text=True).stdout.strip()
+    tree = subprocess.run(["git", "mktree", "-z"], input=f"100644 blob {blob}\tlease.json\0", capture_output=True,
+                          text=True).stdout.strip()   # -z: без переводов строк (Windows подставил бы \r)
+    commit = git("commit-tree", tree, "-m", "pc lease").stdout.strip()
+    ok = git("push", "-q", "-f", "origin", f"{commit}:refs/heads/{bot.LEASE_BRANCH}").returncode == 0
+    if not ok:
+        log("⚠️ Не получилось обновить отметку на GitHub (нет интернета?)")
+    return ok
+
+
+def push_state():
+    """Сохраняет состояние бота на GitHub, чтобы после выключения ПК GitHub продолжил с того же места."""
+    git("add", "state.json")
+    if git("diff", "--staged", "--quiet").returncode == 0:
+        return
+    git("commit", "-q", "-m", "Состояние (бот на ПК) [skip ci]")
+    if git("push", "-q").returncode != 0:
+        git("pull", "-q", "--rebase", "-X", "theirs")   # при споре оставляем версию с ПК
+        if git("push", "-q").returncode != 0:
+            log("⚠️ Состояние не отправилось на GitHub, попробую позже")
+
+
+def live_loop():
+    live.update(status="подключаюсь…")
+    log("⚡ Включаю бота на ПК…")
+    if not (bot.BOT_TOKEN and bot.CHANNEL_ID and bot.MOD_CHAT_ID):
+        live.update(on=False, status="нет файла .env с токеном")
+        return log("❌ Нет файла .env с BOT_TOKEN, CHANNEL_ID, MOD_CHAT_ID — бот на ПК не может работать.")
+    git("pull", "-q")
+    lease(time.time())
+    live.update(status="жду, пока GitHub закончит свой запуск (до 1 мин)…")
+    for _ in range(60):   # если GitHub как раз работал — даём ему закончить
+        if not live["on"]:
+            break
+        time.sleep(1)
+    git("pull", "-q")
+    state = bot.load_state()
+    live.update(status="работает — кнопки срабатывают сразу", since=time.time())
+    log("✅ Бот работает на ПК. GitHub на паузе, пока панель открыта.")
+    last_slow = last_beat = 0
+    while live["on"]:
+        try:
+            before = json.dumps(state, sort_keys=True)
+            bot.NOW = time.time()
+            bot.process_updates(state, wait=20)          # ждёт нажатий до 20 с — ответ мгновенный
+            bot.NOW = time.time()
+            if bot.NOW - last_slow > 30:                  # раз в 30 с: новые черновики, автопилот
+                bot.ingest_inbox(state)
+                bot.autopilot_and_cleanup(state)
+                last_slow = bot.NOW
+            bot.publish(state)
+            if json.dumps(state, sort_keys=True) != before:
+                bot.save_state(state)
+                push_state()
+            if time.time() - last_beat > 60:
+                lease(time.time())
+                last_beat = time.time()
+        except Exception as e:
+            log(f"⚠️ Ошибка в работе бота: {e!r}")
+            time.sleep(5)
+    bot.save_state(state)
+    push_state()
+    lease(0)
+    live.update(status="выключен")
+    log("⏹ Бот на ПК выключен — дальше работает GitHub.")
+
+
+def live_start():
+    if not live["on"]:
+        live["on"] = True
+        threading.Thread(target=live_loop, daemon=True).start()
 
 
 # ---------------------- задания ----------------------
@@ -200,6 +287,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/api/state":
             items = read_json("candidates.json", [])
             return self.send(200, {
+                "live": {**live, "for": int(time.time() - live["since"]) if live["since"] and live["on"] else 0},
                 "job": job["name"], "job_for": int(time.time() - job["started"]) if job["name"] else 0,
                 "auto": {**auto, "in": max(0, int(auto["next"] - time.time()))},
                 "log": log_lines[-300:], "has_custom": os.path.exists("custom.json"),
@@ -231,6 +319,13 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200, {"ok": True} if start("Проверка новости", lambda: do_check(text)) else busy)
         if self.path == "/api/send-custom":
             return self.send(200, {"ok": True} if start("Отправка в модерацию", do_send_custom) else busy)
+        if self.path == "/api/live":
+            if data.get("on"):
+                live_start()
+            else:
+                live["on"] = False
+                live.update(status="выключаюсь…")
+            return self.send(200, {"ok": True})
         if self.path == "/api/timer":
             auto["on"] = bool(data.get("on"))
             auto["minutes"] = max(15, int(data.get("minutes") or 30))
@@ -268,7 +363,7 @@ a{color:var(--accent)}.log{background:var(--bg);border:1px solid var(--line);bor
 .muted{color:var(--muted);font-size:13px}
 </style></head><body>
 <header><h1>🕌 Панель редактора @ilm4_info</h1><span id="status" class="pill">готов</span>
-<span class="muted">Черновики уходят в группу «Модер» через ~5 минут — публикует дежурный бот на GitHub.</span></header>
+<span class="muted">Пока панель открыта, бот работает здесь: кнопки в «Модер» срабатывают сразу.</span></header>
 <main>
 <section class="card">
   <div class="row">
@@ -285,7 +380,15 @@ a{color:var(--accent)}.log{background:var(--bg);border:1px solid var(--line);bor
 </section>
 <section>
   <div class="card">
-    <h2>⏱ Автоматически, пока компьютер включён</h2>
+    <h2>⚡ Бот на ПК</h2>
+    <div id="live" class="muted"></div>
+    <div class="row" style="margin-top:8px">
+      <button class="main" id="liveon" onclick="post('/api/live',{on:true})">Включить</button>
+      <button id="liveoff" onclick="post('/api/live',{on:false})">Выключить (перед закрытием)</button>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h2>⏱ Подбирать черновики на ПК</h2>
     <div class="row">
       <label><input type="checkbox" id="timer" onchange="setTimer()"> подбирать черновики каждые</label>
       <select id="minutes" onchange="setTimer()"><option>30</option><option>45</option><option>60</option></select> мин
@@ -328,8 +431,12 @@ async function refresh(){
   const st=document.getElementById('status'); st.textContent=s.job?('⏳ '+s.job+' · '+s.job_for+' с'):'готов'; st.className='pill'+(s.job?' busy':'');
   const lg=document.getElementById('log'), bottom=lg.scrollTop+lg.clientHeight>=lg.scrollHeight-20;
   lg.textContent=s.log.join('\n'); if(bottom)lg.scrollTop=lg.scrollHeight;
+  const L=document.getElementById('live');
+  L.innerHTML=(s.live.on?'🟢 ':'⚪ ')+esc(s.live.status)+(s.live.on&&s.live.for?(' · '+Math.floor(s.live.for/60)+' мин'):'')
+    +'<br>'+(s.live.on?'Кнопки ✅ ❌ 🕒 и команды срабатывают мгновенно. GitHub на паузе.':'Сейчас бота ведёт GitHub (просыпается каждые 5 минут).');
+  document.getElementById('liveon').disabled=s.live.on; document.getElementById('liveoff').disabled=!s.live.on;
   document.getElementById('timer').checked=s.auto.on; document.getElementById('minutes').value=s.auto.minutes;
-  document.getElementById('timerinfo').textContent=s.auto.on?('Следующий подбор через '+Math.ceil(s.auto.in/60)+' мин. Облачный редактор тоже работает — дублей не будет.'):'Выключено. Облачный редактор всё равно работает каждый час с 7 до 23.';
+  document.getElementById('timerinfo').textContent=s.auto.on?('Следующий подбор через '+Math.ceil(s.auto.in/60)+' мин. Облачный редактор тоже работает — дублей не будет.'):'Выключено — это нормально: облачный редактор и так подбирает новости каждые 30 минут круглосуточно.';
   document.getElementById('recent').innerHTML=s.recent.slice().reverse().map(t=>`<li>${esc(t)}</li>`).join('');
   document.getElementById('custom').innerHTML=s.has_custom?s.custom.map(c=>`<div class="custom"><b>${esc(c.emoji)} ${esc(c.title)}</b><p>${esc(c.body)}</p><div class="muted">${esc(c.check_note)} · <a href="${esc(c.link)}" target="_blank">источник</a></div>
      <div class="row" style="margin-top:8px"><button class="main" onclick="post('/api/send-custom')">📤 Отправить в модерацию</button></div></div>`).join(''):'';
@@ -343,7 +450,9 @@ refresh();setInterval(refresh,2000);
 
 
 if __name__ == "__main__":
+    bot.print = lambda *a, **k: log(" ".join(str(x) for x in a))   # сообщения бота — в журнал панели
     threading.Thread(target=auto_loop, daemon=True).start()
+    live_start()   # бот на ПК включается сразу при запуске панели
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     log("Панель запущена. Облако и GitHub продолжают работать как обычно.")
     print(f"Панель: http://localhost:{PORT}  (закрой это окно, чтобы остановить)")

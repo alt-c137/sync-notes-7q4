@@ -161,19 +161,20 @@ WATERMARK_TEXT = "@ilm4_info"             # текст водяного знак
 # Свой логотип вместо текста: файл watermark.png рядом (лучше с прозрачным фоном).
 # Свой шрифт: файл watermark.ttf рядом.
 
-MAX_DRAFTS_PER_COLLECT = 4   # сколько черновиков за один сбор
+MAX_DRAFTS_PER_COLLECT = 15  # сколько черновиков за один сбор (режим API)
 MAX_AGE_HOURS = 6            # новости старше этого не берём
 PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
+AUTO_MAX_AGE_HOURS = 3       # автопилот публикует только черновики не старше 3 часов
 TZ = timezone(timedelta(hours=5))   # часовой пояс канала (Ташкент)
 
 # Начальные значения — потом меняются командами в группе модерации
 DEFAULT_SETTINGS = {
     "night": [23, 7],   # ночь: модераторы спят. Обычная очередь ждёт утра,
                         # выходят только отложенные и (если /auto on) проверенные
-    "gap": 30,          # минимум минут между постами днём
+    "gap": 15,          # минимум минут между постами днём
     "night_gap": 60,    # и ночью
     "wm": True,         # водяной знак по умолчанию
-    "auto": False,      # автопилот: ночью публиковать то, что Claude пометил «можно без проверки»
+    "auto": True,       # автопилот: сразу публиковать то, что Claude пометил «нейтрально и проверено»
     "paused": False,    # пауза всех публикаций
 }
 
@@ -181,6 +182,8 @@ DEFAULT_SETTINGS = {
 MODEL = "claude-opus-5"      # дешевле: "claude-sonnet-5" или "claude-haiku-4-5"
 COLLECT_EVERY_MIN = 60
 
+LEASE_BRANCH = "pc-lease"       # ветка-отметка «бот сейчас работает на ПК»
+LEASE_SECONDS = 180             # ПК считается выключенным, если отметка старше 3 минут
 INBOX_BRANCH = "claude/inbox"   # ветка, куда облачный Claude кладёт черновики
 INBOX_DIR = "inbox-branch"      # её копия у редактора
 
@@ -264,6 +267,17 @@ def is_night(settings):
     return start <= h < end if start < end else (h >= start or h < end)
 
 
+def pc_is_running():
+    """Есть ли свежая отметка от бота на ПК."""
+    if git("fetch", "-q", "--depth=1", "origin", LEASE_BRANCH).returncode != 0:
+        return False
+    try:
+        beat = json.loads(git("show", "FETCH_HEAD:lease.json").stdout)["heartbeat"]
+    except Exception:
+        return False
+    return time.time() - beat < LEASE_SECONDS
+
+
 def git(*args, cwd=None):
     return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, encoding="utf-8")
 
@@ -341,7 +355,7 @@ def keyboard(d, status, wm=False, at=None):
         "queued": [[{"text": "⏳ В очереди на публикацию", "callback_data": "-"}],
                    [{"text": "🕒 Отложить", "callback_data": "later"},
                     {"text": "↩️ Отменить", "callback_data": "no"}]],
-        "auto": [[{"text": "🤖 Выйдет ночью автоматически", "callback_data": "-"}],
+        "auto": [[{"text": "🤖 Проверено — выйдет автоматически", "callback_data": "-"}],
                  [{"text": "↩️ Отменить", "callback_data": "no"}]],
         "scheduled": [[{"text": f"🕒 Выйдет {fmt(at) if at else ''}", "callback_data": "-"}],
                       [{"text": "🕒 Другое время", "callback_data": "later"},
@@ -398,8 +412,9 @@ def refresh(state, mid, status=None):
 
 # ---------------------- дежурный: модерация ----------------------
 
-def process_updates(state):
-    updates = tg("getUpdates", offset=state["offset"], timeout=0,
+def process_updates(state, wait=0):
+    """wait > 0 — ждать новых нажатий до wait секунд (бот на ПК отвечает мгновенно)."""
+    updates = tg("getUpdates", offset=state["offset"], timeout=wait,
                  allowed_updates=["callback_query", "message"]) or []
     for u in updates:
         state["offset"] = u["update_id"] + 1
@@ -448,6 +463,7 @@ def handle_button(state, cq):
     if d.get("status") == "published":
         return
 
+    print(f"Кнопка «{data}» под черновиком {mid}")
     if data == "ok":
         enqueue(state, mid, msg)
     elif data == "no":
@@ -549,7 +565,7 @@ def handle_edit(state, msg, orig):
 HELP = """<b>Команды бота</b>
 /status — очередь и настройки
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
-/auto on — ночью публиковать то, что Claude проверил как безопасное · /auto off
+/auto on — сразу публиковать то, что Claude проверил как нейтральное и достоверное · /auto off
 /gap 30 — минут между постами днём · /nightgap 60 — ночью
 /wm on · /wm off — водяной знак по умолчанию
 /pause · /resume — остановить / продолжить публикации
@@ -559,7 +575,7 @@ HELP = """<b>Команды бота</b>
 Исправить текст: ответь на черновик <code>/edit Новый текст…</code>
 Обычные сообщения и ответы бот не трогает — можно спокойно переписываться.
 
-Ночью обычная очередь ждёт утра; выходят только отложенные и (с /auto on) проверенные.
+Ночью очередь, одобренная вручную, ждёт утра; выходят отложенные и (с /auto on) проверенные Claude.
 Бот просыпается раз в ~30 минут, поэтому ответ приходит не сразу."""
 
 
@@ -606,7 +622,7 @@ def status_text(state):
     return (f"⚙️ <b>Настройки</b>\n"
             f"Публикации: {'⏸ на паузе' if s['paused'] else '▶️ идут'}\n"
             f"Ночь: {night}\n"
-            f"Автопилот ночью: {'🤖 вкл' if s['auto'] else 'выкл'}\n"
+            f"Автопилот (проверенные — сразу): {'🤖 вкл' if s['auto'] else 'выкл'}\n"
             f"Между постами: {s['gap']} мин днём, {s['night_gap']} ночью\n"
             f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n\n"
             f"📝 Ждут решения: {pending}\n"
@@ -624,7 +640,7 @@ def autopilot_and_cleanup(state):
             continue
         age_h = (NOW - d.get("created", NOW)) / 3600
         if d.get("status") == "pending":
-            if s["auto"] and is_night(s) and d.get("safe"):
+            if s["auto"] and d.get("safe") and age_h < AUTO_MAX_AGE_HOURS:   # только свежие
                 state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "auto": True,
                                        "msg": d.get("snap") or {"kind": "text", "text": "", "entities": []}}
                 d["status"] = "queued"
@@ -1362,6 +1378,8 @@ def main():
     # Без аргументов — дежурный
     if not DRY_RUN and not (BOT_TOKEN and CHANNEL_ID and MOD_CHAT_ID):
         raise SystemExit("Нужны BOT_TOKEN, CHANNEL_ID и MOD_CHAT_ID (секреты GitHub или файл .env)")
+    if not DRY_RUN and pc_is_running():
+        return print("Бот сейчас работает на ПК — GitHub в этот раз ничего не делает.")
     state = load_state()
     try:
         process_updates(state)
