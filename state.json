@@ -1,5 +1,5 @@
 {
- "offset": 498374820,
+ "offset": 498374821,
  "drafts": {
   "2": {
    "tone": "good",
@@ -3435,7 +3435,7 @@
    "tone": "hard",
    "url": "https://jakartaglobe.id/news/indonesian-salon-owner-sentenced-to-20-months-for-desecrating-quran",
    "created": 1790576837.489496,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "необычный сюжет — решите сами",
    "trusted": false,
@@ -3592,8 +3592,8 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790577354.9752944,
- "last_tone": "good",
+ "last_publish": 1790577376.5892718,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
