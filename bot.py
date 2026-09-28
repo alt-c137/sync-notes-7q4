@@ -41,7 +41,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))   # все файлы — �
 
 def gnews(query, lang):
     """RSS поиска Google News. lang: ru / en / ar / sa (арабский, Саудия)."""
-    loc = {"ru": ("ru", "RU", "RU:ru"), "en": ("en-US", "US", "US:en"),
+    loc = {"ru": ("ru", "RU", "RU:ru"), "en": ("en-US", "US", "US:en"), "gb": ("en-GB", "GB", "GB:en"),
+           "fr": ("fr", "FR", "FR:fr"), "de": ("de", "DE", "DE:de"),
            "ar": ("ar", "EG", "EG:ar"), "sa": ("ar", "SA", "SA:ar")}[lang]
     return (f"https://news.google.com/rss/search?q={quote(query + ' when:1d')}"
             f"&hl={loc[0]}&gl={loc[1]}&ceid={loc[2]}")
@@ -49,7 +50,24 @@ def gnews(query, lang):
 
 # Западные и англоязычные издания пишут обо всём — берём у них только то, что касается нашего региона и мусульман
 WEST_TOPIC = ("(Saudi OR Iran OR Syria OR Yemen OR Houthi OR Houthis OR Gaza OR Iraq OR Lebanon OR Muslim OR Muslims "
-              "OR Islam OR Islamic OR mosque OR Mecca OR Hajj OR Sudan OR Afghanistan OR Hormuz OR Uzbekistan OR Tajikistan)")
+              "OR Islam OR Islamic OR mosque OR Mecca OR Hajj OR Sudan OR Afghanistan OR Hormuz OR Uzbekistan OR Tajikistan "
+              "OR hijab OR niqab OR burqa)")
+
+# Мусульмане по всему миру: поиск Google News по всем изданиям на пяти языках (как у учителя).
+# Источником такой новости считается само издание, которое её написало.
+WORLD_SEARCH = "🌍 Поиск"
+WORLD = [
+    (f"{WORLD_SEARCH} (англ.)", gnews("(Muslims OR Muslim OR Islam OR mosque OR hijab OR niqab OR burqa OR Islamophobia "
+                                      "OR imam OR Quran OR halal OR madrasa)", "en")),
+    (f"{WORLD_SEARCH} (Британия)", gnews("(Muslims OR mosque OR hijab OR niqab OR Islamophobia OR imam OR Quran)", "gb")),
+    (f"{WORLD_SEARCH} (франц.)", gnews("(musulmans OR musulmane OR mosquée OR voile OR hijab OR niqab OR abaya "
+                                       "OR islam OR imam)", "fr")),
+    (f"{WORLD_SEARCH} (нем.)", gnews("(Muslime OR Moschee OR Kopftuch OR Islam OR Imam OR Burka)", "de")),
+    (f"{WORLD_SEARCH} (рус.)", gnews("(мусульмане OR мусульман OR мечеть OR хиджаб OR никаб OR ислам OR имам "
+                                     "OR Коран OR муфтий)", "ru")),
+    (f"{WORLD_SEARCH} (араб.)", gnews("(المسلمين OR مسجد OR الحجاب OR النقاب OR الإسلاموفوبيا OR \"الجالية المسلمة\")",
+                                      "ar")),
+]
 
 
 def west(site):
@@ -164,6 +182,7 @@ FEEDS = [
     ("The National (ОАЭ)", west("thenationalnews.com")),
     ("Al-Monitor", west("al-monitor.com")),
     ("Радио Свобода / RFE/RL", west("rferl.org")),
+    *WORLD,
 
     # НЕ берём (раскомментируй, если решите иначе):
     # ("Al Jazeera", ...)          — шейх: много лжи, антисаудовские
@@ -190,9 +209,13 @@ TRUSTED_SOURCES = {
 BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinhaagency",
            "islamtimes", "shiawaves", "almayadeen", "almanar", "alalam", "presstv", "almasirah",
            "arabi21", "noonpost", "middleeasteye", "alquds.co.uk", "palinfo", "felesteen", "shehabnews",
-           "tasnimnews", "shafaqna", "farsnews", "mehrnews", "irna.ir", "abna24", "alkawthartv"]
+           "tasnimnews", "shafaqna", "farsnews", "mehrnews", "irna.ir", "abna24", "alkawthartv",
+           "middleeastmonitor", "tehrantimes", "hispantv", "kayhan", "5pillarsuk", "english.almayadeen",
+           "qudsnen", "ajplus", "iqna",
+           # исламофобские и националистические сайты — о мусульманах пишут недостоверно
+           "resistancerepublicaine", "ripostelaique", "fdesouche", "organiser.org", "opindia", "breitbart"]
 PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
-PER_FEED_OVERRIDE = {"SaudiNews50": 20}   # главным источникам — больше
+PER_FEED_OVERRIDE = {"SaudiNews50": 20, **{n: 30 for n, _ in WORLD}}   # главным источникам и поиску — больше
 
 CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
 WATERMARK_TEXT = "@ilm4_info"             # текст водяного знака
@@ -985,6 +1008,9 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 и позиции (число не ограничено), остальное пропусти.
 - Темы канала: ислам и мусульмане, Харамайн, хадж и умра (цены, правила, даты), мечети, муфтии и учёные,
   положение мусульман (Палестина, Сирия, Йемен, Судан и др.), помощь КСА, решения исламских стран.
+- МУСУЛЬМАНЕ ПО ВСЕМУ МИРУ — тоже наша тема: Европа, Америка, Россия, Индия, Китай, Африка — запреты
+  никаба и хиджаба, мечети, нападения на мусульман, законы о мигрантах-мусульманах, суды, выборы мусульман,
+  халяль, Коран. Такие новости бери.
 - ТЯЖЁЛОЕ БЕРИ ОБЯЗАТЕЛЬНО: атаки хуситов и их перехват, Газа и Аль-Акса, удары и вторжения Израиля
   в Сирии и Ливане, Иран, КСИР и Ормуз, ИГИЛ и «Аль-Каида», аресты и суды над людьми Асада, взрывы,
   притеснение мусульман (запреты хиджаба, закрытие медресе). Сомнение — бери с label "verify".
@@ -1589,7 +1615,8 @@ def gather(seen_path, mark=True):
             if "news.google.com" in link:
                 title = re.sub(r"\s+-\s+[^-]+$", "", title)     # убираем « - Название сайта»
             summary = e["summary"]
-            items.append({**e, "time": None, "href": None, "source": name, "title": title, "id_link": link,
+            source = (e.get("source") or name) if name.startswith(WORLD_SEARCH) else name   # поиск: само издание
+            items.append({**e, "time": None, "href": None, "source": source, "title": title, "id_link": link,
                           "ago": int((datetime.now(timezone.utc) - e["time"]).total_seconds() // 60) if e["time"] else None,
                           "summary": "" if summary.startswith(title[:40]) else summary[:400]})
     seen["links"] = seen["links"][-8000:]
