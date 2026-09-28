@@ -47,6 +47,15 @@ def gnews(query, lang):
             f"&hl={loc[0]}&gl={loc[1]}&ceid={loc[2]}")
 
 
+# Западные и англоязычные издания пишут обо всём — берём у них только то, что касается нашего региона и мусульман
+WEST_TOPIC = ("(Saudi OR Iran OR Syria OR Yemen OR Houthi OR Houthis OR Gaza OR Iraq OR Lebanon OR Muslim OR Muslims "
+              "OR Islam OR Islamic OR mosque OR Mecca OR Hajj OR Sudan OR Afghanistan OR Hormuz OR Uzbekistan OR Tajikistan)")
+
+
+def west(site):
+    return gnews(f"site:{site} {WEST_TOPIC}", "en")
+
+
 # Источники: сайт (RSS или поиск Google News по сайту) + Telegram-канал, где он есть.
 # Формат: (название, RSS-ссылка), (название, "tg:имя_канала") или (название, "x:аккаунт_в_X").
 # Список собран по ссылкам «Источник» в @ilm4_info (22–25 сентября) и советам шейха.
@@ -135,6 +144,26 @@ FEEDS = [
     ("Euronews Arabic", "https://arabic.euronews.com/rss"),
     ("InfoMigrants", gnews("site:infomigrants.net", "sa")),
     ("Hormuz Report", "x:HormuzReport"),
+    # 🌐 Мировые агентства — первоисточник мировых новостей (самые достоверные)
+    ("Reuters", west("reuters.com")),
+    ("AP", west("apnews.com")),
+    ("AFP", west("afp.com")),
+    # 🇸🇦 Саудовские издания на английском
+    ("Arab News", west("arabnews.com")),
+    ("Saudi Gazette", west("saudigazette.com.sa")),
+    # 🇺🇸 🇬🇧 🇪🇺 Крупные западные издания (факты надёжные, но у некоторых свой взгляд на регион — решает модератор)
+    ("Axios", west("axios.com")),
+    ("BBC", west("bbc.com")),
+    ("The Guardian", west("theguardian.com")),
+    ("New York Times", west("nytimes.com")),
+    ("Wall Street Journal", west("wsj.com")),
+    ("Financial Times", west("ft.com")),
+    ("Bloomberg", west("bloomberg.com")),
+    ("France 24", west("france24.com")),
+    ("DW", west("dw.com")),
+    ("The National (ОАЭ)", west("thenationalnews.com")),
+    ("Al-Monitor", west("al-monitor.com")),
+    ("Радио Свобода / RFE/RL", west("rferl.org")),
 
     # НЕ берём (раскомментируй, если решите иначе):
     # ("Al Jazeera", ...)          — шейх: много лжи, антисаудовские
@@ -154,6 +183,7 @@ TRUSTED_SOURCES = {
     "Министерство исламских дел КСА", "Всемирная исламская лига", "Харамайн",
     "SANA (агентство Сирии)", "INA (агентство Ирака)", "Saba (правительство Йемена)", "Al-Masdar Online",
     "UzA (агентство Узбекистана)", "Ховар (агентство Таджикистана)",   # государственные агентства
+    "Reuters", "AP", "AFP", "Arab News", "Saudi Gazette",               # мировые агентства и саудовские на английском
 }
 
 # Домены, которые отбрасываются всегда (в том числе в общих поисках Google News)
@@ -968,6 +998,10 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - Слабые («ну и что?»): школьники едут на олимпиаду, замминистра рассказал в ООН об опыте, премия по туризму,
   мелкий протокол чиновников. Их тоже можно взять, но в why напиши «малоценная».
 - Повторы: одну историю бери один раз — лучше из источника с пометкой ✓.
+- Бери новость у ПЕРВОИСТОЧНИКА. Местные издания (Узбекистан, Таджикистан, Казахстан, Кыргызстан, Египет,
+  Ливан, Иордания и т. п.) — только для новостей своей страны и региона. Если такое издание пересказывает
+  мировую новость (США, Иран, Израиль, Газа, Саудия…) — НЕ бери её: она придёт от Reuters, AP, саудовских
+  или западных изданий.
 - label "clear" — только если источник помечен ✓ И факты однозначные (официальное сообщение).
   Заявления воюющих сторон, слухи, спорные цифры, острая политика — "verify".
 - tone: "good" — добрая или нейтральная, "hard" — тяжёлая.
