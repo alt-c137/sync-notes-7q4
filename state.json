@@ -1,5 +1,5 @@
 {
- "offset": 498374800,
+ "offset": 498374808,
  "drafts": {
   "2": {
    "tone": "good",
@@ -2235,7 +2235,7 @@
    "tone": "hard",
    "url": "https://www.jordanzad.com/index.php?page=article&id=763498",
    "created": 1790568944.9970882,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "один источник",
    "snap": {
@@ -2276,8 +2276,8 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790568944.9970882,
- "last_tone": "good",
+ "last_publish": 1790569682.8384051,
+ "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
   "20260925-180701.json",
@@ -2315,5 +2315,6 @@
  },
  "last_triage": 1790568944.9970882,
  "triage_ok": 1790568944.9970882,
- "sid": 30
+ "sid": 30,
+ "commands_v": 1
 }
