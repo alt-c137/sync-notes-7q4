@@ -1991,7 +1991,7 @@
    "tone": "good",
    "url": "https://www.okaz.com.sa/local/na/2268182",
    "created": 1790564142.8445125,
-   "status": "queued",
+   "status": "published",
    "safe": true,
    "note": "",
    "media": true,
@@ -2064,44 +2064,9 @@
    }
   }
  },
- "queue": {
-  "61": {
-   "tone": "good",
-   "approved_at": 1790564142.8445125,
-   "auto": true,
-   "msg": {
-    "kind": "photo",
-    "text": "🇸🇦 АльУла получила золото международной премии за ответственный туризм\n\nК Всемирному дню туризма Международный центр ответственного туризма присудил АльУле золото в категории «Ответственный туризм с положительным влиянием на природу». Более половины территории АльУлы (около 22 561 км²) отведено под природные заповедники: высажено свыше 500 000 местных деревьев, в дикую природу выпущено более 1500 животных, восстановлено свыше 74 000 га в заповеднике Шарран. В АльУле расположен Хегра — первый объект Саудовской Аравии в списке Всемирного наследия ЮНЕСКО.\n\n#АльУла\n\nПодписаться | Источник",
-    "entities": [
-     {
-      "offset": 5,
-      "length": 67,
-      "type": "bold"
-     },
-     {
-      "offset": 562,
-      "length": 7,
-      "type": "hashtag"
-     },
-     {
-      "offset": 571,
-      "length": 11,
-      "type": "text_link",
-      "url": "https://t.me/ilm4_info"
-     },
-     {
-      "offset": 585,
-      "length": 8,
-      "type": "text_link",
-      "url": "https://www.okaz.com.sa/local/na/2268182"
-     }
-    ],
-    "file_id": "AgACAgQAAyEGAATuSoRvAAM9arnXOvOZpUJ2-UfIuElHswFVZj4AAsUOaxvzvtVRTCr8PhvVDFgBAAMCAAN5AAM9BA"
-   }
-  }
- },
+ "queue": {},
  "wm": {},
- "last_publish": 1790565933.7638445,
+ "last_publish": 1790566841.4775298,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
