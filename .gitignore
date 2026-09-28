@@ -6,3 +6,11 @@ inbox-branch/
 recent.json
 custom.json
 panel.log
+# рабочие файлы бота — хранятся в ветке bot-state
+state.json
+triage_seen.json
+shortlist.json
+pool.json
+*.tmp
+*.broken
+.git-fresh/
