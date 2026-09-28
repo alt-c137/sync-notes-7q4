@@ -26,6 +26,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
@@ -286,7 +287,15 @@ NOW = time.time()
 
 # ---------------------- файлы и время ----------------------
 
+_io_lock = threading.RLock()   # панель читает и пишет файлы из разных потоков — по очереди
+
+
 def read_json(path, default):
+    with _io_lock:
+        return _read_json(path, default)
+
+
+def _read_json(path, default):
     if os.path.exists(path):
         try:
             with open(path, encoding="utf-8") as f:
@@ -301,12 +310,24 @@ def write_json(path, data):
     """Запись «всё или ничего»: сначала во временный файл, потом мгновенная замена.
     Если ПК выключат посередине — останется старый целый файл, а не обрывок."""
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=1)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, path)
+    with _io_lock:
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=1)
+            f.flush()
+            os.fsync(f.fileno())
+        for attempt in range(30):   # Windows: файл на миг занят (антивирус, поиск, другой поток) — ждём
+            try:
+                os.replace(tmp, path)
+                return
+            except PermissionError:
+                time.sleep(0.1)
+        with open(path, "w", encoding="utf-8") as f:   # за 3 с не освободился — пишем напрямую
+            json.dump(data, f, ensure_ascii=False, indent=1)
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
 
 
 # ---------- рабочие файлы бота — в отдельной ветке без истории ----------

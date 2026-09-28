@@ -149,10 +149,21 @@ def live_loop():
     log("⏹ Бот на ПК выключен — дальше работает GitHub.")
 
 
+def live_runner():
+    while live["on"]:
+        try:
+            return live_loop()
+        except Exception as e:
+            live.pop("state", None)
+            live.update(status="ошибка запуска — пробую снова через 15 с")
+            log(f"⚠️ Бот на ПК не запустился: {e!r}. Пробую снова через 15 с")
+            time.sleep(15)
+
+
 def live_start():
     if not live["on"]:
         live["on"] = True
-        threading.Thread(target=live_loop, daemon=True).start()
+        threading.Thread(target=live_runner, daemon=True).start()
 
 
 def bot_command(cmd):
@@ -169,12 +180,20 @@ def bot_command(cmd):
         bot.handle_command(state, cmd, quiet=True)
         bot.save_state(state)
         push_state()
+        _status_cache["t"] = 0
     log(f"Режим: {cmd}")
+
+
+_status_cache = {"t": 0, "state": None}
 
 
 def bot_status():
     bot.NOW = time.time()
-    state = live.get("state") or bot.load_state()
+    state = live.get("state")
+    if state is None:                    # бот на ПК не работает — читаем файл не чаще раза в 10 с
+        if time.time() - _status_cache["t"] > 10 or _status_cache["state"] is None:
+            _status_cache.update(t=time.time(), state=bot.load_state())
+        state = _status_cache["state"]
     return bot.status_data(state)
 
 
@@ -342,6 +361,13 @@ class Handler(BaseHTTPRequestHandler):
         self.send(404, {"error": "нет такой страницы"})
 
     def do_POST(self):
+        try:
+            return self.handle_post()
+        except Exception as e:
+            log(f"⚠️ Ошибка команды панели: {e!r}")
+            return self.send(200, {"ok": False, "error": f"Не получилось: {e}"})
+
+    def handle_post(self):
         length = int(self.headers.get("Content-Length") or 0)
         data = json.loads(self.rfile.read(length) or b"{}")
         busy = {"ok": False, "error": f"Сейчас идёт: {job['name']}. Подожди, пока закончится."}
@@ -390,13 +416,13 @@ PAGE = r"""<!doctype html>
 <title>Панель ilm4</title>
 <style>
 :root{
-  --bg:#f3f2ed;--card:#fff;--card2:#faf9f5;--text:#16201b;--muted:#6b7269;--line:#e3e1d8;
-  --accent:#0e6a4e;--accent-ink:#fff;--soft:#e2efe8;--gold:#a97c22;--gold-soft:#f6ecd6;--danger:#b1402d;--danger-soft:#f7e3de;
-  --shadow:0 1px 2px rgba(20,30,25,.05),0 8px 24px -12px rgba(20,30,25,.12);
+  --bg:#f5f3fa;--card:#fff;--card2:#faf9fd;--text:#1d1829;--muted:#6f6880;--line:#e7e2f1;
+  --accent:#7b5fc7;--accent-ink:#fff;--soft:#efeafb;--gold:#a97c22;--gold-soft:#f6ecd6;--danger:#b1402d;--danger-soft:#f7e3de;
+  --shadow:0 1px 2px rgba(40,20,80,.05),0 8px 24px -12px rgba(40,20,80,.14);
 }
 @media (prefers-color-scheme:dark){:root{
-  --bg:#0e1311;--card:#151c19;--card2:#111815;--text:#e5ebe7;--muted:#8f9c95;--line:#243029;
-  --accent:#3dbf8c;--accent-ink:#06120d;--soft:#16302a;--gold:#d8ae57;--gold-soft:#2c2513;--danger:#ef7a64;--danger-soft:#33201b;
+  --bg:#121018;--card:#1a1722;--card2:#16131d;--text:#ebe7f5;--muted:#9c94ad;--line:#2d2839;
+  --accent:#b9a3f3;--accent-ink:#1a1230;--soft:#2a2340;--gold:#d8ae57;--gold-soft:#2c2513;--danger:#ef7a64;--danger-soft:#33201b;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
 }}
 *{box-sizing:border-box}
@@ -424,6 +450,15 @@ button{font:inherit;display:inline-flex;align-items:center;gap:8px;border:1px so
   padding:8px 13px;border-radius:10px;cursor:pointer;transition:background .15s,border-color .15s,transform .05s}
 button:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}button:active{transform:translateY(1px)}
 button.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button:focus-visible,.mode:focus-visible,.tg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:active:not(:disabled),.mode:active,.tg:active{transform:scale(.97)}
+.pending{position:relative;pointer-events:none;animation:pend .8s ease-in-out infinite alternate}
+@keyframes pend{from{opacity:1}to{opacity:.45}}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;z-index:50;display:flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:12px;background:var(--text);color:var(--card);font-size:13.5px;font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);transition:opacity .2s,transform .2s;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.err{background:var(--danger);color:#fff}
+.toast svg{width:16px;height:16px}
 button:disabled{opacity:.45;cursor:default}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 input[type=search],select,textarea{font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);outline:none}
@@ -439,14 +474,18 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .mode:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
 .mode .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);color:var(--muted)}
 .mode b{display:block;font-size:13.5px}.mode span{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px}
-.mode.on{border-color:var(--accent);background:var(--soft)}
+.mode.on{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.mode{position:relative}.mode.on::after{content:"Включено";position:absolute;top:8px;right:10px;font-size:10.5px;font-weight:700;
+  color:var(--accent);letter-spacing:.3px;text-transform:uppercase}
+.mode.off.on::after{color:var(--danger)}
 .mode.on .ic{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .mode.off.on{border-color:var(--danger);background:var(--danger-soft)}.mode.off.on .ic{background:var(--danger);border-color:var(--danger)}
 .sub-block{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
 .label{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-bottom:8px}
 .seg{display:inline-flex;padding:3px;border-radius:11px;background:var(--card2);border:1px solid var(--line);gap:2px;flex-wrap:wrap}
 .seg button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:13px;color:var(--muted)}
-.seg button.on{background:var(--card);color:var(--text);font-weight:650;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:650;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.seg button:hover:not(.on){background:var(--soft);color:var(--text)}
 .toggles{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px}
 .tg{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:9px;min-width:0;white-space:nowrap;padding:10px 11px;border:1px solid var(--line);border-radius:11px;font-size:13px;background:var(--card2)}
 .tg .sw{margin-left:auto;width:32px;height:18px;border-radius:99px;background:var(--line);position:relative;transition:background .15s}
@@ -637,10 +676,22 @@ let S={items:[]}, B={settings:{}}, lastB='', itemsTime=0, checked=new Set();
 const $=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const icon=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
-async function post(url,body){const r=await fetch(url,{method:'POST',body:JSON.stringify(body||{})});const j=await r.json();if(!j.ok&&j.error)alert(j.error);refresh();}
-function mode(cmd){post('/api/mode',{cmd});}
+function toast(text,err){let t=$('toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t);}
+  t.className='toast'+(err?' err':'');t.innerHTML=icon(err?'x':'check')+esc(text);
+  requestAnimationFrame(()=>t.classList.add('show'));clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),err?5000:1800);}
+async function post(url,body,label){
+  const el=window.event&&window.event.currentTarget instanceof Element?window.event.currentTarget:null;   // что нажали
+  if(el)el.classList.add('pending');
+  try{
+    const r=await fetch(url,{method:'POST',body:JSON.stringify(body||{})});
+    const j=await r.json().catch(()=>({ok:false,error:'Панель ответила ошибкой — посмотрите чёрное окно панели'}));
+    if(j.ok===false)toast(j.error||'Не получилось',true); else toast(label||'Готово');
+  }catch(e){toast('Панель не отвечает — открыто ли чёрное окно панели?',true);}
+  finally{if(el)el.classList.remove('pending');lastB='';refresh();}
+}
+function mode(cmd){post('/api/mode',{cmd},'Сохранено');}
 function addUser(){const v=$('newuser').value.trim();if(!v)return;
-  if(!/^(@?[A-Za-z0-9_]{3,32}|\d{4,15})$/.test(v)){alert('Нужен числовой ID или @ник');return;}
+  if(!/^(@?[A-Za-z0-9_]{3,32}|\d{4,15})$/.test(v)){toast('Нужен числовой ID или @ник',true);return;}
   mode('/allow '+v);$('newuser').value='';}
 function makeSelected(){post('/api/make',{indexes:[...checked]});checked.clear();render();}
 function check(){post('/api/check',{text:$('checktext').value});}
