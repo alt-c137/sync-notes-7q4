@@ -363,7 +363,9 @@ class Handler(BaseHTTPRequestHandler):
             return self.send(200, {"ok": True} if start("Отправка в модерацию", do_send_custom) else busy)
         if self.path == "/api/mode":
             cmd = str(data.get("cmd", ""))
-            if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7))", cmd):
+            if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7)"
+                                r"|access (group|list)|private (on|off)|drafts (group|private)"
+                                r"|(allow|deny) (@?[A-Za-z0-9_]{3,32}|\d{4,15}))", cmd):
                 return self.send(200, {"ok": False, "error": "Неизвестная команда"})
             bot_command(cmd)
             return self.send(200, {"ok": True})
@@ -478,6 +480,14 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .recent{font-size:12.5px;color:var(--muted);max-height:18vh;overflow:auto;margin:0;padding-left:18px}
 .custom{border:1.5px dashed var(--accent);border-radius:12px;padding:12px;margin-top:12px}
 .custom p{margin:6px 0}
+.people{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.person{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card2);font-size:13px}
+.person .av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent)}
+.person .av svg{width:15px;height:15px}
+.person .role{margin-left:auto;font-size:11.5px;color:var(--muted)}
+.person button{margin-left:auto;padding:4px 8px;border-radius:8px}.person button svg{width:14px;height:14px}
+.add{display:flex;gap:8px}.add input{flex:1;min-width:0;font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--text);outline:none}
+.add input:focus{border-color:var(--accent)}
 </style></head><body>
 
 <svg width="0" height="0" style="position:absolute">
@@ -502,6 +512,12 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
  <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
  <symbol id="i-link" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></symbol>
  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+ <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+ <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M16 4.3a3.5 3.5 0 0 1 0 7.4M22 20a7 7 0 0 0-4.5-6.5"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+ <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 </svg>
 
 <header>
@@ -566,6 +582,23 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
   </div>
 
   <div class="card">
+    <h2><svg class="i"><use href="#i-lock"/></svg>Доступ<span class="sub">кто может управлять ботом</span></h2>
+    <div class="label"><svg class="i"><use href="#i-users"/></svg>Кого бот слушает в группе «Модер»</div>
+    <div class="seg" id="seg-access"></div>
+    <div class="people" id="people"></div>
+    <div class="add"><input id="newuser" placeholder="ID (123456789) или @ник" onkeydown="if(event.key==='Enter')addUser()">
+      <button class="main" onclick="addUser()"><svg class="i"><use href="#i-plus"/></svg>Добавить</button></div>
+    <div class="sub-block">
+      <div class="toggles">
+        <button class="tg" id="t-private" onclick="mode('/private '+(B.settings.private_on?'off':'on'))"><svg class="i"><use href="#i-chat"/></svg>Работа в личке<span class="sw"></span></button>
+      </div>
+      <div class="label" style="margin-top:12px"><svg class="i"><use href="#i-inbox"/></svg>Куда приходят новые черновики</div>
+      <div class="seg" id="seg-drafts"></div>
+      <div class="muted" style="margin-top:8px" id="privatehint"></div>
+    </div>
+  </div>
+
+  <div class="card">
     <h2><svg class="i"><use href="#i-bolt"/></svg>Бот на этом компьютере</h2>
     <div class="live"><span class="beacon" id="beacon"></span><div id="live" class="muted"></div></div>
     <div class="row" style="margin:12px 0 0">
@@ -600,12 +633,15 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 </main>
 
 <script>
-let S={items:[]}, B={settings:{}}, itemsTime=0, checked=new Set();
+let S={items:[]}, B={settings:{}}, lastB='', itemsTime=0, checked=new Set();
 const $=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const icon=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
 async function post(url,body){const r=await fetch(url,{method:'POST',body:JSON.stringify(body||{})});const j=await r.json();if(!j.ok&&j.error)alert(j.error);refresh();}
 function mode(cmd){post('/api/mode',{cmd});}
+function addUser(){const v=$('newuser').value.trim();if(!v)return;
+  if(!/^(@?[A-Za-z0-9_]{3,32}|\d{4,15})$/.test(v)){alert('Нужен числовой ID или @ник');return;}
+  mode('/allow '+v);$('newuser').value='';}
 function makeSelected(){post('/api/make',{indexes:[...checked]});checked.clear();render();}
 function check(){post('/api/check',{text:$('checktext').value});}
 function setTimer(){post('/api/timer',{on:$('timer').checked,minutes:+$('minutes').value});}
@@ -633,6 +669,16 @@ function renderMode(){
   $('t-pause').classList.toggle('on',!!s.paused); $('pausebanner').style.display=s.paused?'block':'none';
   $('t-wm').classList.toggle('on',!!s.wm); $('t-night').classList.toggle('on',!!s.night);
   $('st-pending').textContent=B.pending; $('st-queue').textContent=B.queue; $('st-hour').textContent=B.published_hour;
+  seg($('seg-access'),[['list','Только список'],['group','Все участники группы']],s.access||'list',v=>'/access '+v);
+  const person=(label,role,cmd)=>`<div class="person"><span class="av">${icon('user')}</span>${esc(label)}`+
+    (cmd?`<button title="Убрать" onclick="mode('${cmd}')">${icon('x')}</button>`:`<span class="role">${role}</span>`)+`</div>`;
+  $('people').innerHTML=(B.owners||[]).map(i=>person(String(i),'владелец',null)).join('')
+    +(s.allow_ids||[]).map(i=>person(String(i),'',`/deny ${i}`)).join('')
+    +(s.allow_names||[]).map(n=>person('@'+n,'',`/deny ${n}`)).join('');
+  $('t-private').classList.toggle('on',!!s.private_on);
+  const dto=(s.drafts_to==='private'&&s.private_on)?'private':'group';
+  seg($('seg-drafts'),[['group','В группу «Модер»'],['private','Мне в личку']],dto,v=>'/drafts '+v);
+  $('privatehint').textContent=s.private_on?'В личке бот слушает владельца и вписанных. Чтобы бот мог писать вам, один раз отправьте ему /start в личку.':'Личка выключена: в личке бот слушает только владельца.';
 }
 async function refresh(){
   const s=await (await fetch('/api/state')).json();
@@ -648,7 +694,7 @@ async function refresh(){
   $('recent').innerHTML=s.recent.slice().reverse().map(t=>`<li>${esc(t)}</li>`).join('');
   $('custom').innerHTML=s.has_custom?s.custom.map(c=>`<div class="custom"><b>${esc(c.title)}</b><p>${esc(c.body)}</p><div class="muted">${esc(c.check_note)} · <a href="${esc(c.link)}" target="_blank">источник</a></div>
      <div class="row" style="margin:10px 0 0"><button class="main" onclick="post('/api/send-custom')">${icon('send')}Отправить в модерацию</button></div></div>`).join(''):'';
-  if(s.bot){B=s.bot;renderMode();}
+  if(s.bot){const k=JSON.stringify(s.bot);if(k!==lastB){lastB=k;B=s.bot;renderMode();}}   // перерисовываем только при изменениях — иначе теряются клики
   if(s.items_time!==itemsTime){itemsTime=s.items_time;S.items=s.items;
     const sel=$('src'),cur=sel.value;
     sel.innerHTML='<option value="">Все источники</option>'+[...new Set(S.items.map(i=>i.source))].sort().map(x=>`<option ${x===cur?'selected':''}>${esc(x)}</option>`).join('');

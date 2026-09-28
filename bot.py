@@ -239,6 +239,13 @@ DEFAULT_SETTINGS = {
     "auto_hard": True,  # автопилот и для тяжёлых (False — тяжёлые всегда ждут ✅ модератора)
     "auto_top": False,  # режим «самое важное»: сам выпускает только важность 4–5, не больше per_hour в час
     "per_hour": 3,      # сколько самых важных в час в режиме «самое важное»
+    # Доступ: кто может управлять ботом. Владелец (ADMIN_IDS) может всегда.
+    "access": "list",   # "list" — только владелец и вписанные; "group" — все участники группы «Модер»
+    "allow_ids": [],    # вписанные по ID
+    "allow_names": [],  # вписанные по нику (без @, маленькими буквами)
+    "private_on": False,  # можно работать с ботом в личке (вписанные и владелец)
+    "drafts_to": "group",  # куда приходят черновики: "group" — в «Модер», "private" — владельцу в личку
+    "private_chat": None,  # чей личный чат получает черновики (по умолчанию — владелец)
     "paused": False,    # пауза всех публикаций
 }
 
@@ -396,8 +403,31 @@ def download(url, limit_mb):
         return None
 
 
+PRIVATE_BASE = 1_000_000     # черновик в личке: номер = 1 000 000 + номер сообщения (не путается с группой)
+CHAT = {"reply": None, "work": None}   # reply — откуда пришла команда; work — куда идут черновики
+
+
+def work_chat(state):
+    """Куда отправлять черновики и сообщения бота: группа «Модер» или личка владельца."""
+    s = state["settings"]
+    if s.get("drafts_to") == "private" and s.get("private_on"):
+        return s.get("private_chat") or (min(ADMIN_IDS) if ADMIN_IDS else MOD_CHAT_ID)
+    return MOD_CHAT_ID
+
+
+def key_of(chat_id, message_id):
+    """Номер черновика: в группе — номер сообщения, в личке — 1 000 000 + номер."""
+    return str(message_id) if str(chat_id) == str(MOD_CHAT_ID) else str(PRIVATE_BASE + int(message_id))
+
+
+def where(state, mid):
+    """(чат, номер сообщения) черновика."""
+    d = state["drafts"].get(mid, {})
+    return d.get("chat", MOD_CHAT_ID), d.get("msg_id", int(mid))
+
+
 def say(text, reply_to=None):
-    tg("sendMessage", chat_id=MOD_CHAT_ID, text=text, parse_mode="HTML",
+    tg("sendMessage", chat_id=CHAT["reply"] or CHAT["work"] or MOD_CHAT_ID, text=text, parse_mode="HTML",
        reply_parameters={"message_id": reply_to} if reply_to else None)
 
 
@@ -478,7 +508,8 @@ def refresh(state, mid, status=None):
     status = status or status_of(state, mid)
     wm = state["wm"].get(mid, state["settings"]["wm"])
     at = state["queue"].get(mid, {}).get("at")
-    tg("editMessageReplyMarkup", chat_id=MOD_CHAT_ID, message_id=int(mid),
+    chat, msg_id = where(state, mid)
+    tg("editMessageReplyMarkup", chat_id=chat, message_id=msg_id,
        reply_markup=keyboard(d, status, wm, at), quiet=True)
 
 
@@ -487,10 +518,13 @@ def refresh(state, mid, status=None):
 def process_updates(state, wait=0):
     """wait > 0 — ждать новых нажатий до wait секунд (бот на ПК отвечает мгновенно)."""
     register_commands(state)
+    CHAT["work"] = work_chat(state)
     updates = tg("getUpdates", offset=state["offset"], timeout=wait,
                  allowed_updates=["callback_query", "message"]) or []
     for u in updates:
         state["offset"] = u["update_id"] + 1
+        CHAT["reply"] = ((u.get("message") or (u.get("callback_query") or {}).get("message") or {})
+                         .get("chat", {}).get("id"))
         try:
             if "callback_query" in u:
                 handle_button(state, u["callback_query"])
@@ -498,21 +532,45 @@ def process_updates(state, wait=0):
                 handle_message(state, u["message"])
         except Exception as e:
             print("Не смог обработать обновление:", repr(e))
+        finally:
+            CHAT["reply"] = None
+            CHAT["work"] = work_chat(state)
 
 
-def allowed(chat, user, sender_chat=None):
+def listed(state, user):
+    """Владелец или вписанный (по ID или нику)."""
+    s = state["settings"]
+    name = (user.get("username") or "").lower()
+    return (user.get("id") in ADMIN_IDS or user.get("id") in s.get("allow_ids", [])
+            or bool(name and name in s.get("allow_names", [])))
+
+
+def allowed(state, chat, user, sender_chat=None):
+    """Кого бот слушает: в личке — вписанных (если личка включена), в группе — по режиму доступа."""
+    s = state["settings"]
+    if chat.get("type") == "private":   # владелец — всегда (чтобы мог включить личку), вписанные — если включена
+        return user.get("id") in ADMIN_IDS or (bool(s.get("private_on")) and listed(state, user))
     if str(chat.get("id")) != str(MOD_CHAT_ID):
         return False
     if sender_chat and str(sender_chat.get("id")) == str(MOD_CHAT_ID):
         return True   # анонимный админ группы пишет от имени группы
+    return not ADMIN_IDS or listed(state, user) or s.get("access") == "group"
+
+
+def is_owner(user, sender_chat=None):
+    """Доступом управляет только владелец (ADMIN_IDS) или анонимный админ группы."""
+    if sender_chat and str(sender_chat.get("id")) == str(MOD_CHAT_ID):
+        return True
     return not ADMIN_IDS or user.get("id") in ADMIN_IDS
 
 
 def ensure_draft(state, msg):
     """Запись о черновике (если бот её не знает — создаём по сообщению)."""
-    mid = str(msg["message_id"])
+    chat = msg.get("chat", {}).get("id", MOD_CHAT_ID)
+    mid = key_of(chat, msg["message_id"])
     if mid not in state["drafts"]:
-        state["drafts"][mid] = {"tone": "", "url": markup_url(msg), "created": NOW,
+        state["drafts"][mid] = {"tone": "", "url": markup_url(msg), "created": NOW, "chat": chat,
+                                "msg_id": msg["message_id"],
                                 "media": bool(msg.get("photo") or msg.get("video")), "status": "pending"}
     return mid
 
@@ -525,14 +583,14 @@ def enqueue(state, mid, msg, **extra):
 
 def handle_button(state, cq):
     msg = cq.get("message") or {}
-    if not allowed(msg.get("chat", {}), cq.get("from", {})):
+    if not allowed(state, msg.get("chat", {}), cq.get("from", {})):
         return
     tg("answerCallbackQuery", callback_query_id=cq["id"], quiet=True)   # старое нажатие — не страшно
     data = cq.get("data", "")
     if data == "-" or "message_id" not in msg:
         return
     if data.startswith("m:"):
-        return menu_button(state, msg, data[2:])
+        return menu_button(state, msg, data[2:], owner=is_owner(cq.get("from", {})))
     mid = ensure_draft(state, msg)
     d = state["drafts"][mid]
     if d.get("status") == "published":
@@ -580,16 +638,18 @@ def parse_at(args):
 def handle_message(state, msg):
     """Обычные сообщения и ответы в группе — просто разговор, бот их не трогает.
     Бот реагирует только на команды: /at и /edit (ответом на черновик) и /status, /night …"""
-    if not allowed(msg.get("chat", {}), msg.get("from", {}), msg.get("sender_chat")):
+    if not allowed(state, msg.get("chat", {}), msg.get("from", {}), msg.get("sender_chat")):
         return
+    CHAT["reply"] = msg["chat"]["id"]      # отвечаем туда, откуда написали (группа или личка)
     text = msg.get("text") or ""
-    if BOT_CALL.search(text):
-        return assistant(state, msg)
+    private = msg.get("chat", {}).get("type") == "private"
+    if BOT_CALL.search(text) or (private and text and not text.startswith("/")):
+        return assistant(state, msg)   # в личке любое обычное сообщение — помощнику
     if not text.startswith("/"):
         return
     first = text.split()[0].split("@")[0].lower()
     orig = msg.get("reply_to_message") or {}
-    mid = str(orig.get("message_id", ""))
+    mid = key_of(msg["chat"]["id"], orig["message_id"]) if orig.get("message_id") else ""
     is_draft = mid in state["drafts"] and status_of(state, mid) not in ("published",)
 
     if first in ("/at", "/edit"):
@@ -603,7 +663,8 @@ def handle_message(state, msg):
         enqueue(state, mid, orig, at=at)
         refresh(state, mid)
         return say(f"🕒 Выйдет {fmt(at)}", msg["message_id"])
-    handle_command(state, text)
+    handle_command(state, text, owner=is_owner(msg.get("from", {}), msg.get("sender_chat")),
+                   who=msg.get("from", {}), reply=orig)
 
 
 def utf16_len(text):
@@ -624,13 +685,13 @@ def handle_edit(state, msg, orig):
         if end > start and e.get("type") != "bot_command":
             entities.append({**e, "offset": start - shift, "length": end - start})
 
-    base = {"chat_id": MOD_CHAT_ID, "message_id": orig["message_id"],
+    base = {"chat_id": msg["chat"]["id"], "message_id": orig["message_id"],
             "reply_markup": orig.get("reply_markup")}   # без этого кнопки пропадут
     if orig.get("text") is not None:
         res = tg("editMessageText", text=body, entities=entities, **base)
     else:
         res = tg("editMessageCaption", caption=body, caption_entities=entities, **base)
-    mid = str(orig["message_id"])
+    mid = key_of(msg["chat"]["id"], orig["message_id"])
     if res and mid in state["queue"]:
         state["queue"][mid]["msg"] = snapshot(res)
     if res and mid in state["drafts"]:
@@ -654,6 +715,12 @@ HELP = """<b>Команды бота</b>
 /пачка 10 все — все черновики, что ждут решения, по одному раз в 10 мин
 /wm on · /wm off — водяной знак по умолчанию
 
+<b>Доступ</b> (меняет только владелец)
+/users — кто может управлять ботом
+/allow 123456789 · /allow @nickname · или ответом на сообщение человека — добавить
+/deny … — убрать · /access list — слушать только список · /access group — всю группу «Модер»
+/private on — работать с ботом в личке · /drafts private — черновики в личку · /drafts group — в группу
+
 <b>Под черновиком</b>: ✅ в очередь, ❌ отклонить, 🕒 отложить, 💧 водяной знак.
 Своё время: ответь на черновик <code>/at 21:30</code> или <code>/at 27.09 21:30</code>.
 Исправить текст: ответь на черновик <code>/edit Новый текст…</code>
@@ -664,11 +731,20 @@ HELP = """<b>Команды бота</b>
 Можно и словами: «Бот, выложи 53, 55 и 58 раз в 10 минут»."""
 
 
-def handle_command(state, text, quiet=False):
+def handle_command(state, text, quiet=False, owner=True, who=None, reply=None):
     parts = text.split()
     cmd, args = parts[0].split("@")[0].lower(), parts[1:]
     s = state["settings"]
     arg = args[0].lower() if args else ""
+
+    if cmd in ACCESS_COMMANDS:
+        if not owner:
+            return say("🔒 Доступом управляет только владелец бота.")
+        note = access_command(state, cmd, args, who or {}, reply or {})
+        CHAT["work"] = work_chat(state)
+        if not quiet or note.startswith("⚠️"):
+            say(note)
+        return
 
     if cmd in ("/start", "/help"):
         return say(HELP)
@@ -788,25 +864,32 @@ def menu_markup(state, ask=None):
           "callback_data": "m:/night " + ("off" if s.get("night") else "23 7")}],
         [{"text": "▶️ Продолжить публикации" if s["paused"] else "⏸ Пауза: остановить всё",
           "callback_data": "m:/resume" if s["paused"] else "m:/pause"}],
+        [{"text": "🔐 Кого слушать: " + ("вся группа" if s.get("access") == "group" else "только список"),
+          "callback_data": "m:/access " + ("list" if s.get("access") == "group" else "group")}],
+        [{"text": "💬 Личка: " + ("вкл" if s.get("private_on") else "выкл"),
+          "callback_data": "m:/private " + ("off" if s.get("private_on") else "on")},
+         {"text": "📥 Черновики: " + ("в личку" if s.get("drafts_to") == "private" and s.get("private_on") else "в группу"),
+          "callback_data": "m:/drafts " + ("group" if s.get("drafts_to") == "private" else "private")}],
         [{"text": "🔄 Обновить", "callback_data": "m:refresh"},
          {"text": "📖 Все команды", "callback_data": "m:/help"}],
     ]}
 
 
 def send_menu(state):
-    tg("sendMessage", chat_id=MOD_CHAT_ID, text=status_text(state), parse_mode="HTML",
-       reply_markup=menu_markup(state))
+    tg("sendMessage", chat_id=CHAT["reply"] or CHAT["work"] or MOD_CHAT_ID, text=status_text(state),
+       parse_mode="HTML", reply_markup=menu_markup(state))
 
 
-def menu_button(state, msg, data):
+def menu_button(state, msg, data, owner=True):
     """Нажатие на панели: выполняем команду и обновляем саму панель (без лишних сообщений)."""
     print(f"Панель: «{data}»")
+    chat = msg.get("chat", {}).get("id", MOD_CHAT_ID)
     if data.startswith("ask:"):
-        return tg("editMessageReplyMarkup", chat_id=MOD_CHAT_ID, message_id=msg["message_id"],
+        return tg("editMessageReplyMarkup", chat_id=chat, message_id=msg["message_id"],
                   reply_markup=menu_markup(state, ask=data[4:]), quiet=True)
     if data != "refresh":
-        handle_command(state, data, quiet=True)
-    tg("editMessageText", chat_id=MOD_CHAT_ID, message_id=msg["message_id"], text=status_text(state),
+        handle_command(state, data, quiet=True, owner=owner)
+    tg("editMessageText", chat_id=chat, message_id=msg["message_id"], text=status_text(state),
        parse_mode="HTML", reply_markup=menu_markup(state), quiet=True)
 
 
@@ -815,16 +898,84 @@ BOT_COMMANDS = [("menu", "Панель управления кнопками"), 
                 ("interval", "Интервал между постами, мин (0 — сразу)"),
                 ("batch", "Выпустить по одной: /batch 15 или /batch 10 all"),
                 ("pause", "Остановить все публикации"), ("resume", "Продолжить публикации"),
-                ("night", "Ночь: /night 23 7 или /night off"), ("wm", "Водяной знак: on / off")]
+                ("night", "Ночь: /night 23 7 или /night off"), ("wm", "Водяной знак: on / off"),
+                ("users", "Кто может управлять ботом"), ("allow", "Добавить: /allow 123 или @ник"),
+                ("deny", "Убрать: /deny 123 или @ник"), ("access", "Кого слушать: list / group"),
+                ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private")]
 
 
 def register_commands(state):
     """Список команд в меню «/» в группе модерации (один раз на версию)."""
-    if state.get("commands_v") == 1 or not MOD_CHAT_ID:
+    if state.get("commands_v") == 2 or not MOD_CHAT_ID:
         return
-    if tg("setMyCommands", commands=[{"command": c, "description": d} for c, d in BOT_COMMANDS],
-          scope={"type": "chat", "chat_id": MOD_CHAT_ID}) is not None:
-        state["commands_v"] = 1
+    cmds = [{"command": c, "description": d} for c, d in BOT_COMMANDS]
+    if tg("setMyCommands", commands=cmds, scope={"type": "chat", "chat_id": MOD_CHAT_ID}) is not None:
+        tg("setMyCommands", commands=cmds, scope={"type": "all_private_chats"})
+        state["commands_v"] = 2
+
+
+ACCESS_COMMANDS = ("/allow", "/deny", "/access", "/private", "/drafts", "/users")
+
+
+def access_command(state, cmd, args, who, reply):
+    """/allow и /deny (ID, @ник или ответом на сообщение человека), /access, /private, /drafts, /users."""
+    s = state["settings"]
+    arg = args[0].lower() if args else ""
+    if cmd in ("/allow", "/deny"):
+        target = (reply.get("from") or {}) if not args else {}
+        uid = target.get("id") if target else (int(arg) if arg.lstrip("-").isdigit() else None)
+        name = (target.get("username") or "").lower() if target else ("" if uid else arg.lstrip("@"))
+        if not uid and not re.fullmatch(r"[a-z0-9_]{3,32}", name or ""):
+            return ("⚠️ Пример: <code>/allow 123456789</code>, <code>/allow @nickname</code> "
+                    "или ответь на сообщение человека командой <code>/allow</code>")
+        ids, names = s.setdefault("allow_ids", []), s.setdefault("allow_names", [])
+        if cmd == "/allow":
+            if uid and uid not in ids:
+                ids.append(uid)
+            if name and name not in names:
+                names.append(name)
+            return f"✅ Добавлен: {uid or ''} {'@' + name if name else ''}".strip()
+        if uid in ids:
+            ids.remove(uid)
+        if name in names:
+            names.remove(name)
+        return f"🚫 Убран: {uid or ''} {'@' + name if name else ''}".strip()
+    if cmd == "/access":
+        if arg not in ("group", "list", "группа", "список"):
+            return "⚠️ <code>/access list</code> — только вписанные; <code>/access group</code> — вся группа «Модер»"
+        s["access"] = "group" if arg in ("group", "группа") else "list"
+        return "Доступ: " + ("вся группа «Модер»" if s["access"] == "group" else "только владелец и вписанные")
+    if cmd == "/private":
+        if arg not in ("on", "off"):
+            return "⚠️ <code>/private on</code> — работать с ботом в личке; <code>/private off</code>"
+        s["private_on"] = arg == "on"
+        if s["private_on"] and CHAT["reply"] and str(CHAT["reply"]) != str(MOD_CHAT_ID):
+            s["private_chat"] = CHAT["reply"]            # включили из лички — черновики сюда
+        if not s["private_on"]:
+            s["drafts_to"] = "group"
+        return ("Личка включена: напишите боту в личку /start и /menu." if s["private_on"]
+                else "Личка выключена, черновики — в группу «Модер».")
+    if cmd == "/drafts":
+        if arg not in ("group", "private"):
+            return "⚠️ <code>/drafts group</code> — черновики в «Модер»; <code>/drafts private</code> — в личку"
+        if arg == "private":
+            s["private_on"] = True
+            if CHAT["reply"] and str(CHAT["reply"]) != str(MOD_CHAT_ID):
+                s["private_chat"] = CHAT["reply"]
+        s["drafts_to"] = arg
+        return "Новые черновики будут приходить " + ("в личку." if arg == "private" else "в группу «Модер».")
+    return access_text(state)
+
+
+def access_text(state):
+    s = state["settings"]
+    people = [f"владелец {i}" for i in sorted(ADMIN_IDS)] + [str(i) for i in s.get("allow_ids", [])] + \
+        ["@" + n for n in s.get("allow_names", [])]
+    return ("🔐 <b>Доступ</b>\n"
+            f"Кого слушает в группе: {'всех участников «Модер»' if s.get('access') == 'group' else 'только список'}\n"
+            f"Список: {', '.join(people) or '—'}\n"
+            f"Работа в личке: {'вкл' if s.get('private_on') else 'выкл'}\n"
+            f"Черновики приходят: {'в личку' if s.get('drafts_to') == 'private' and s.get('private_on') else 'в группу «Модер»'}")
 
 
 def stop_auto(state):
@@ -857,7 +1008,8 @@ def status_data(state):
             "auto_queue": sum(bool(q.get("auto")) for q in state["queue"].values()),
             "published_hour": sum(d.get("status") == "published" and NOW - d.get("published_at", 0) < 3600
                                   for d in state["drafts"].values()),
-            "last_publish": state.get("last_publish", 0)}
+            "last_publish": state.get("last_publish", 0),
+            "owners": sorted(ADMIN_IDS)}
 
 
 def status_text(state):
@@ -880,7 +1032,8 @@ def status_text(state):
             f"🔴 {sum(x['tone'] == 'hard' for x in normal)})\n"
             f"🤖 Автопилот: {sum(bool(x.get('auto')) for x in q)}\n"
             f"🕒 Отложено: {len(sched)}" + (f" (ближайшая {fmt(sched[0])})" if sched else "") + "\n"
-            f"Последний пост: {fmt(state['last_publish']) if state['last_publish'] else '—'}")
+            f"Последний пост: {fmt(state['last_publish']) if state['last_publish'] else '—'}\n\n"
+            + access_text(state))
 
 
 def auto_allowed(s, d):
@@ -1229,8 +1382,9 @@ def assistant(state, msg):
                                      drafts="\n".join(lines[:60]) or "(нет)")
     text = msg.get("text") or ""
     orig = msg.get("reply_to_message") or {}
-    if str(orig.get("message_id")) in state["drafts"]:
-        text += f"\n(модератор ответил на черновик {orig['message_id']})"
+    okey = key_of(msg["chat"]["id"], orig["message_id"]) if orig.get("message_id") else ""
+    if okey in state["drafts"]:
+        text += f"\n(модератор ответил на черновик {okey})"
     history = state.setdefault("chat", [])[-8:]
     messages = [{"role": "system", "content": system}, *history, {"role": "user", "content": text}]
     try:
@@ -1251,7 +1405,7 @@ def assistant(state, msg):
     except GLMUnavailable as e:
         return say("⚠️ GLM сейчас недоступен, команды словами не работают. Пользуйся кнопками и /help.\n"
                    f"<i>{html.escape(str(e)[:200])}</i>", msg["message_id"])
-    tg("sendMessage", chat_id=MOD_CHAT_ID, text=answer[:4000], reply_parameters={"message_id": msg["message_id"]})
+    tg("sendMessage", chat_id=msg["chat"]["id"], text=answer[:4000], reply_parameters={"message_id": msg["message_id"]})
     state["chat"] = (history + [{"role": "user", "content": text}, {"role": "assistant", "content": answer}])[-10:]
 
 
@@ -1304,7 +1458,8 @@ def run_tool(state, name, a):
     elif name == "edit_text":
         mid, d = draft(a["id"])
         snap = d.get("snap") or {}
-        base = {"chat_id": MOD_CHAT_ID, "message_id": int(mid), "parse_mode": "HTML",
+        chat, msg_id = where(state, mid)
+        base = {"chat_id": chat, "message_id": msg_id, "parse_mode": "HTML",
                 "reply_markup": keyboard(d, status_of(state, mid), state["wm"].get(mid, state["settings"]["wm"]),
                                          (state["queue"].get(mid) or {}).get("at"))}
         if snap.get("kind", "text") == "text":
@@ -1423,8 +1578,9 @@ def publish_one(state, mid, item):
         if not res:
             print("Водяной знак не получился — публикую без него")
     if not res:
-        res = tg("copyMessage", chat_id=CHANNEL_ID, from_chat_id=MOD_CHAT_ID,
-                 message_id=int(mid), reply_markup={"inline_keyboard": []})
+        chat, msg_id = where(state, mid)
+        res = tg("copyMessage", chat_id=CHANNEL_ID, from_chat_id=chat,
+                 message_id=msg_id, reply_markup={"inline_keyboard": []})
     if not res:
         return
     del state["queue"][mid]
@@ -1445,7 +1601,8 @@ def send_draft(state, e):
         d.update(safe=bool(e["safe"]), note=(e.get("note") or "")[:40], trusted=bool(e.get("trusted")),
                  importance=e.get("importance", 3))
     wm = state["settings"]["wm"]
-    base = {"chat_id": MOD_CHAT_ID, "parse_mode": "HTML"}
+    chat = work_chat(state)          # группа «Модер» или личка — по настройке
+    base = {"chat_id": chat, "parse_mode": "HTML"}
     text, image, video, msg = e["text"], e.get("image"), e.get("video"), None
 
     if len(text) <= 1024:   # лимит подписи к фото/видео
@@ -1470,10 +1627,12 @@ def send_draft(state, e):
                  reply_markup=keyboard(d, "pending", wm), **base)
     if msg:
         d["snap"] = snapshot(msg) if not DRY_RUN else {"kind": "text", "text": text, "entities": []}
-        state["drafts"][str(msg["message_id"])] = d
-        if not DRY_RUN:   # номер черновика = номер сообщения, узнаём только после отправки
-            d["n"] = msg["message_id"]
-            refresh(state, str(msg["message_id"]), "pending")
+        key = key_of(chat, msg["message_id"])
+        d.update(chat=chat, msg_id=msg["message_id"])
+        state["drafts"][key] = d
+        if not DRY_RUN:   # номер черновика узнаём только после отправки
+            d["n"] = key
+            refresh(state, key, "pending")
     return msg
 
 
