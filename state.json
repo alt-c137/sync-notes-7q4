@@ -1,5 +1,5 @@
 {
- "offset": 498374817,
+ "offset": 498374818,
  "drafts": {
   "2": {
    "tone": "good",
@@ -3079,7 +3079,7 @@
    "tone": "hard",
    "url": "https://t.me/lebanondebate/280486",
    "created": 1790576837.489496,
-   "status": "pending",
+   "status": "published",
    "safe": false,
    "note": "один источник, цифры жертв",
    "trusted": false,
@@ -3592,7 +3592,7 @@
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790577206.4593365,
+ "last_publish": 1790577252.6925125,
  "last_tone": "hard",
  "last_collect": 0,
  "inbox_done": [
