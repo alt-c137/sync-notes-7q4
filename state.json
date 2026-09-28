@@ -2103,11 +2103,180 @@
      }
     ]
    }
+  },
+  "64": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687459",
+   "created": 1790568944.9970882,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇲🇷 Мавритания: Центр короля Салмана открыл проект операций на открытом сердце\n\nЦентр помощи и гуманитарных операций имени короля Салмана (KSrelief) запустил в городе Нуакшот (Мавритания) волонтёрский медицинский проект по операциям на открытом сердце.\n\n#Мавритания #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 74,
+      "type": "bold"
+     },
+     {
+      "offset": 255,
+      "length": 11,
+      "type": "hashtag"
+     },
+     {
+      "offset": 267,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 286,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 300,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687459"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANAarnsVQhyFumkfba2EDz2nHklZ0UAAlkOaxu5R9RR3CQKGZQzNc0BAAMCAAN5AAM9BA"
+   },
+   "n": 64
+  },
+  "65": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687454",
+   "created": 1790568944.9970882,
+   "status": "published",
+   "safe": true,
+   "note": "",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇵🇸 Газа: Центр короля Салмана поставил 500 тысяч литров воды\n\nЦентр помощи и гуманитарных операций имени короля Салмана (KSrelief) закачал 500 тысяч литров питьевой воды в сектор Газа в рамках гуманитарной помощи палестинцам.\n\n#Газа #СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 57,
+      "type": "bold"
+     },
+     {
+      "offset": 229,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 235,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 254,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 268,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687454"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANBarnsWQylbDpf8O_EkQZZ8aYBJBcAAoAOaxsGQNRRsMTBaSlxmzQBAAMCAAN5AAM9BA"
+   },
+   "n": 65
+  },
+  "66": {
+   "tone": "good",
+   "url": "https://www.spa.gov.sa/N2687382",
+   "created": 1790568944.9970882,
+   "status": "pending",
+   "safe": false,
+   "note": "малоценная — решите сами",
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Джазан: замэмира отметил Национальный день с сотрудниками эмирата\n\nЗаместитель эмира региона Джазан принял участие вместе с сотрудниками эмирата в праздновании Национального дня Саудовской Аравии.\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 65,
+      "type": "bold"
+     },
+     {
+      "offset": 203,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 222,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 236,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.spa.gov.sa/N2687382"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANCarnsW9GB9XB72NfLQgK8BsP19eEAAt8PaxtKa8xRGIMCKF78BgYBAAMCAAN5AAM9BA"
+   },
+   "n": 66
+  },
+  "67": {
+   "tone": "hard",
+   "url": "https://www.jordanzad.com/index.php?page=article&id=763498",
+   "created": 1790568944.9970882,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник",
+   "snap": {
+    "kind": "text",
+    "text": "🇯🇴 Иордания: король призвал к миру по формуле двух государств в речи в ООН\n\nКороль Иордании Абдалла II в речи на Генассамблее ООН заявил, что палестино-израильский конфликт не может быть постоянной данностью: справедливый мир требует решения по принципу «два государства» — с независимым Палестинским государством со столицей в Восточном Иерусалиме и соблюдением прав палестинцев. Король призвал защищать мирных жителей, обеспечить доставку гумпомощи, отказаться от насильственного переселения и уважать международное право без избирательности. Подчёркнута хашимитская опека над святынями Иерусалима.\n\nℹ️ По данным издания Jordan Zad (Иордания); в других источниках подтверждения не нашли.\n\n#Иордания #Палестина\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 71,
+      "type": "bold"
+     },
+     {
+      "offset": 693,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 703,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 715,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 729,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.jordanzad.com/index.php?page=article&id=763498"
+     }
+    ]
+   },
+   "n": 67
   }
  },
  "queue": {},
  "wm": {},
- "last_publish": 1790566841.4775298,
+ "last_publish": 1790568944.9970882,
  "last_tone": "good",
  "last_collect": 0,
  "inbox_done": [
@@ -2129,7 +2298,8 @@
   "20260927-182001.json",
   "20260928-022228.json",
   "20260928-025105.json",
-  "20260928-034735.json"
+  "20260928-034735.json",
+  "20260928-041936.json"
  ],
  "settings": {
   "night": [
@@ -2140,10 +2310,10 @@
   "night_gap": 0,
   "wm": true,
   "auto": true,
-  "paused": false,
-  "auto_hard": true
+  "auto_hard": true,
+  "paused": false
  },
- "last_triage": 1790567138.851538,
- "triage_ok": 1790567138.851538,
+ "last_triage": 1790568944.9970882,
+ "triage_ok": 1790568944.9970882,
  "sid": 30
 }
