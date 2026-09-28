@@ -2137,10 +2137,11 @@
    7
   ],
   "gap": 0,
-  "night_gap": 60,
+  "night_gap": 0,
   "wm": true,
   "auto": true,
-  "paused": false
+  "paused": false,
+  "auto_hard": true
  },
  "last_triage": 1790567138.851538,
  "triage_ok": 1790567138.851538,

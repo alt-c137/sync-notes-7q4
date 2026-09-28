@@ -182,6 +182,7 @@ DEFAULT_SETTINGS = {
     "night_gap": 0,     # и ночью
     "wm": True,         # водяной знак по умолчанию
     "auto": True,       # автопилот: сразу публиковать то, что Claude пометил «проверено, сомнений нет»
+    "auto_hard": True,  # автопилот и для тяжёлых (False — тяжёлые всегда ждут ✅ модератора)
     "paused": False,    # пауза всех публикаций
 }
 
@@ -577,14 +578,15 @@ def handle_edit(state, msg, orig):
 HELP = """<b>Команды бота</b>
 /status — очередь и настройки
 /night 23 7 — ночь с 23:00 до 7:00 (модераторы спят) · /night off
-/auto on — сразу публиковать то, что Claude проверил и в чём уверен · /auto off
+/auto on — проверенное Claude публикуется сразу (и добрые, и тяжёлые)
+/auto good — сразу только добрые, тяжёлые ждут твоей ✅ · /auto off — сам ничего не публикует
+/pause — остановить вообще все публикации (и очередь, и отложенные) · /resume
 /интервал 0 — всё проверенное и одобренное ✅ выходит сразу (по умолчанию)
 /интервал 15 — выходит по одной раз в 15 минут (тоже /gap 15)
 /пачка 15 — то, что уже ждёт в очереди, выпустить по одной: первую сразу, дальше каждые 15 мин
 /пачка 10 53 55 58 — эти черновики выпустить по одному раз в 10 мин (№ — на кнопке «🔗 Оригинал»)
 /пачка 10 все — все черновики, что ждут решения, по одному раз в 10 мин
 /wm on · /wm off — водяной знак по умолчанию
-/pause · /resume — остановить / продолжить публикации
 
 <b>Под черновиком</b>: ✅ в очередь, ❌ отклонить, 🕒 отложить, 💧 водяной знак.
 Своё время: ответь на черновик <code>/at 21:30</code> или <code>/at 27.09 21:30</code>.
@@ -624,7 +626,16 @@ def handle_command(state, text):
                        "<code>/пачка 10 53 55 58</code> — эти черновики раз в 10 мин (№ — на кнопке под черновиком);\n"
                        "<code>/пачка 10 все</code> — все черновики, что ждут решения")
         return say(spread(state, int(arg), args[1:]))
-    elif cmd in ("/wm", "/auto"):
+    elif cmd in ("/auto", "/автопилот"):
+        modes = {"on": (True, True), "вкл": (True, True), "off": (False, False), "выкл": (False, False),
+                 "good": (True, False), "добрые": (True, False)}
+        if arg not in modes:
+            return say("Пример: <code>/auto on</code> — все проверенные сразу; "
+                       "<code>/auto good</code> — сразу только добрые, тяжёлые ждут ✅; "
+                       "<code>/auto off</code> — ничего сам не публикует")
+        s["auto"], s["auto_hard"] = modes[arg]
+        say(stop_auto(state))
+    elif cmd == "/wm":
         if arg not in ("on", "off"):
             return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
         s[cmd[1:]] = arg == "on"
@@ -667,6 +678,18 @@ def spread(state, minutes, ids=()):
             (f"\n\nНе нашёл: {', '.join(skipped)}" if skipped else ""))
 
 
+def stop_auto(state):
+    """После выключения автопилота (или «только добрые») снимаем из очереди то, что он уже поставил."""
+    s, back = state["settings"], []
+    for mid, q in list(state["queue"].items()):
+        if q.get("auto") and (not s["auto"] or (q.get("tone") == "hard" and not s.get("auto_hard", True))):
+            state["queue"].pop(mid)
+            state["drafts"][mid]["status"] = "pending"
+            refresh(state, mid)
+            back.append(mid)
+    return f"↩️ Вернул на решение модератору: {len(back)}" if back else "Очередь автопилота в порядке."
+
+
 def status_text(state):
     s = state["settings"]
     q = state["queue"].values()
@@ -678,7 +701,8 @@ def status_text(state):
     return (f"⚙️ <b>Настройки</b>\n"
             f"Публикации: {'⏸ на паузе' if s['paused'] else '▶️ идут'}\n"
             f"Ночь: {night}\n"
-            f"Автопилот (проверенные — сразу): {'🤖 вкл' if s['auto'] else 'выкл'}\n"
+            f"Автопилот (проверенные — сразу): "
+            f"{('🤖 вкл, все' if s.get('auto_hard', True) else '🤖 вкл, только добрые') if s['auto'] else 'выкл'}\n"
             f"Между постами: {s['gap']} мин днём, {s['night_gap']} ночью\n"
             f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n\n"
             f"📝 Ждут решения: {pending}\n"
@@ -696,7 +720,8 @@ def autopilot_and_cleanup(state):
             continue
         age_h = (NOW - d.get("created", NOW)) / 3600
         if d.get("status") == "pending":
-            if s["auto"] and d.get("safe") and age_h < AUTO_MAX_AGE_HOURS:   # только свежие
+            if (s["auto"] and d.get("safe") and age_h < AUTO_MAX_AGE_HOURS        # только свежие
+                    and (s.get("auto_hard", True) or d.get("tone") != "hard")):
                 state["queue"][mid] = {"tone": d.get("tone", ""), "approved_at": NOW, "auto": True,
                                        "msg": d.get("snap") or {"kind": "text", "text": "", "entities": []}}
                 d["status"] = "queued"
@@ -969,6 +994,7 @@ ASSISTANT_TOOLS = [
          "night_gap": {"type": "integer", "description": "минут между постами ночью"},
          "night_start": {"type": "integer"}, "night_end": {"type": "integer"},
          "night_off": {"type": "boolean"}, "auto": {"type": "boolean", "description": "автопубликация проверенных"},
+         "auto_hard": {"type": "boolean", "description": "автопубликация и для тяжёлых новостей (false — тяжёлые ждут модератора)"},
          "watermark": {"type": "boolean"}, "paused": {"type": "boolean"}}}}},
 ]
 
@@ -982,6 +1008,8 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
   НЕ меняй смысл, цифры, имена и факты; сохраняй строку «Подписаться | Источник» со ссылками.
 - «Выложи 53, 55, 58 раз в 10 минут», «очередь по одной каждые 15 минут» — spread (разово для этих новостей).
 - «Теперь всегда публикуй раз в 30 минут» — settings gap=30; «публикуй сразу» — settings gap=0.
+- «Отключи автопубликацию» — settings auto=false; «тяжёлые сам не публикуй» — auto=true, auto_hard=false;
+  «включи всё обратно» — auto=true, auto_hard=true; «стоп, ничего не публикуй» — paused=true.
 - «Найди новости», «что нового» — find_news; покажи список как есть (номер Н, источник, заголовок, метка).
 - «Сделай черновики из Н2 и Н5», «переведи эти» — request_drafts. Перевод и перепроверку делает Claude,
   сам новости не переводи и не пиши — черновики придут в группу после ближайшего запуска Claude.
@@ -1125,8 +1153,8 @@ def run_tool(state, name, a):
         for k, v in a.items():
             if k in ("gap", "night_gap") and isinstance(v, int) and v >= 0:
                 s[k] = v
-            elif k == "auto":
-                s["auto"] = bool(v)
+            elif k in ("auto", "auto_hard"):
+                s[k] = bool(v)
             elif k == "watermark":
                 s["wm"] = bool(v)
             elif k == "paused":
@@ -1135,6 +1163,7 @@ def run_tool(state, name, a):
                 s["night"] = None
         if isinstance(a.get("night_start"), int) and isinstance(a.get("night_end"), int):
             s["night"] = [a["night_start"] % 24, a["night_end"] % 24]
+        out.append(stop_auto(state))
         out.append("настройки: " + json.dumps(s, ensure_ascii=False))
     else:
         return f"нет такого действия: {name}"
