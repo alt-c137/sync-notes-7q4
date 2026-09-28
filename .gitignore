@@ -3,3 +3,6 @@ candidates.json
 posts.json
 __pycache__/
 inbox-branch/
+recent.json
+custom.json
+panel.log

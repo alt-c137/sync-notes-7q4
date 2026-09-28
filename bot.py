@@ -127,6 +127,12 @@ FEEDS = [
     ("Dawn (Пакистан)", "https://www.dawn.com/feeds/home"),
     ("Antara (Индонезия)", "https://en.antaranews.com/rss/news.xml"),
     ("Bernama (Малайзия)", "https://www.bernama.com/en/rssfeed.php"),
+    # Ещё из источников учителя (надёжные)
+    ("Independent Arabia", gnews("site:independentarabia.com", "sa")),
+    ("Afghanistan International", gnews("site:afintl.com", "sa")),
+    ("Enab Baladi (Сирия)", gnews("site:enabbaladi.net", "sa")),
+    ("Al-Ahram", gnews("site:ahram.org.eg", "sa")),
+    ("Erem News", gnews("site:eremnews.com", "sa")),
     # 🌍 Международные (арабские службы)
     ("Monte Carlo Doualiya", gnews("site:mc-doualiya.com", "sa")),
     ("Euronews Arabic", "https://arabic.euronews.com/rss"),
@@ -145,7 +151,8 @@ FEEDS = [
 # Домены, которые отбрасываются всегда (в том числе в общих поисках Google News)
 BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinhaagency",
            "islamtimes", "shiawaves", "almayadeen", "almanar", "alalam", "presstv", "almasirah",
-           "arabi21", "noonpost", "middleeasteye", "alquds.co.uk", "palinfo", "felesteen", "shehabnews"]
+           "arabi21", "noonpost", "middleeasteye", "alquds.co.uk", "palinfo", "felesteen", "shehabnews",
+           "tasnimnews", "shafaqna", "farsnews", "mehrnews", "irna.ir", "abna24", "alkawthartv"]
 PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
 PER_FEED_OVERRIDE = {"SaudiNews50": 20}   # главным источникам — больше
 
@@ -974,8 +981,9 @@ def feed_entries(url):
     return out
 
 
-def gather(seen_path):
-    """Новые записи из всех лент (свежее MAX_AGE_HOURS). Отмечает их как увиденные."""
+def gather(seen_path, mark=True):
+    """Новые записи из всех лент (свежее MAX_AGE_HOURS).
+    mark=True — отмечает их как увиденные (облачный редактор), False — только посмотреть (панель)."""
     seen = read_json(seen_path, {"links": [], "titles": []})
     known = set(seen["links"])
     cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
@@ -1000,10 +1008,12 @@ def gather(seen_path):
             if "news.google.com" in link:
                 title = re.sub(r"\s+-\s+[^-]+$", "", title)     # убираем « - Название сайта»
             summary = e["summary"]
-            items.append({**e, "time": None, "href": None, "source": name, "title": title,
+            items.append({**e, "time": None, "href": None, "source": name, "title": title, "id_link": link,
+                          "ago": int((datetime.now(timezone.utc) - e["time"]).total_seconds() // 60) if e["time"] else None,
                           "summary": "" if summary.startswith(title[:40]) else summary[:400]})
     seen["links"] = seen["links"][-8000:]
-    write_json(seen_path, seen)
+    if mark:
+        write_json(seen_path, seen)
     items = items[:400]
     for i, it in enumerate(items):
         it["index"] = i
@@ -1165,16 +1175,34 @@ def cmd_article(indexes):
 def cmd_send(path):
     editor_store()
     items = read_json("candidates.json", [])
-    entries = []
+    entries, links = [], []
     for post in read_json(path, []):
         i = post.get("index", -1)
         if not (0 <= i < len(items)) or not post.get("title") or not post.get("body"):
             print("Пропускаю, нет нужных полей:", post)
             continue
         entries.append(make_entry(fetch_article(items[i]), post))
+        links.append(items[i].get("id_link") or items[i]["link"])
+    push_entries(entries, links)
+
+
+def cmd_send_custom(path):
+    """Свои новости (проверенные в панели): title, body, emoji, hashtags, link, tone, safe, check_note."""
+    editor_store()
+    entries = []
+    for post in read_json(path, []):
+        if not post.get("title") or not post.get("body") or not post.get("link"):
+            print("Пропускаю, нужны title, body и link:", post)
+            continue
+        item = fetch_article({"link": post["link"], "image": post.get("image"), "video": post.get("video")})
+        entries.append(make_entry(item, post))
+    push_entries(entries, [])
+
+
+def push_entries(entries, links):
+    """Кладёт черновики в ветку claude/inbox — дежурный пришлёт их в группу модерации."""
     if not entries:
         return print("Нечего отправлять.")
-
     folder = os.path.join(INBOX_DIR, "inbox")
     write_json(os.path.join(folder, datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S") + ".json"), entries)
     for name in os.listdir(folder):   # старые файлы (старше 3 дней) убираем
@@ -1182,10 +1210,51 @@ def cmd_send(path):
             os.remove(os.path.join(folder, name))
     seen_path = os.path.join(INBOX_DIR, "seen.json")
     seen = read_json(seen_path, {"links": [], "titles": []})
+    seen["links"] = (seen["links"] + links)[-8000:]
     seen["titles"] = (seen["titles"] + [e["text"].split("</b>")[0].split("<b>")[-1] for e in entries])[-60:]
     write_json(seen_path, seen)
     editor_push(f"Черновики: {len(entries)}")
-    print(f"Черновиков подготовлено: {len(entries)}. Дежурный пришлёт их в группу модерации в течение ~30 минут.")
+    print(f"Черновиков подготовлено: {len(entries)}. Дежурный пришлёт их в группу модерации в течение ~5 минут.")
+
+
+def translate_titles(items):
+    """Машинный перевод заголовков на русский (для панели). По источникам — в каждом один язык."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    def gtranslate(text):
+        r = requests.get("https://translate.googleapis.com/translate_a/single", timeout=20,
+                         params={"client": "gtx", "sl": "auto", "tl": "ru", "dt": "t", "q": text})
+        return "".join(seg[0] for seg in r.json()[0] if seg and seg[0])
+
+    groups = {}
+    for it in items:
+        if re.search(r"[а-яё]", it["title"], re.I):   # уже по-русски
+            it["title_ru"] = it["title"]
+        else:
+            groups.setdefault(it["source"], []).append(it)
+
+    def work(group):
+        for i in range(0, len(group), 20):
+            part = group[i:i + 20]
+            try:
+                out = gtranslate("\n".join(re.sub(r"\s+", " ", x["title"])[:230] for x in part)).split("\n")
+            except Exception:
+                out = []
+            for x, t in zip(part, out if len(out) == len(part) else [None] * len(part)):
+                x["title_ru"] = t or x["title"]
+
+    with ThreadPoolExecutor(8) as ex:
+        list(ex.map(work, groups.values()))
+
+
+def cmd_peek():
+    """Для панели: свежие новости с переводом заголовков, ничего не помечая как взятое."""
+    editor_store()
+    items, recent = gather(os.path.join(INBOX_DIR, "seen.json"), mark=False)
+    translate_titles(items)
+    write_json("candidates.json", items)
+    write_json("recent.json", recent)
+    print(f"Кандидатов: {len(items)}")
 
 
 # ---------------------- редактор через API ----------------------
@@ -1285,6 +1354,10 @@ def main():
         return cmd_article([int(a) for a in args[1:] if a.isdigit()])
     if args[:1] == ["send"]:
         return cmd_send(args[1] if len(args) > 1 else "posts.json")
+    if args[:1] == ["send-custom"]:
+        return cmd_send_custom(args[1] if len(args) > 1 else "custom.json")
+    if args[:1] == ["peek"]:
+        return cmd_peek()
 
     # Без аргументов — дежурный
     if not DRY_RUN and not (BOT_TOKEN and CHANNEL_ID and MOD_CHAT_ID):
