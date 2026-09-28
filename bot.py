@@ -104,7 +104,6 @@ FEEDS = [
     ("Madar News", "https://madar.news/rss"),
     ("El Djazair El Djadida", gnews("site:eldjazaireldjadida.dz", "sa")),
     # 🇺🇿 Узбекистан
-    ("Muslim.uz (Управление мусульман)", "tg:muslimuzportal"),
     ("Kun.uz", "tg:kunuzofficial"),
     ("Kun.uz", "https://kun.uz/news/rss"),
     ("Gazeta.uz", "tg:gazetauz"),
@@ -116,7 +115,6 @@ FEEDS = [
     ("Sputnik Таджикистан", "tg:sputniktj"),
     ("Ховар (агентство Таджикистана)", "https://khovar.tj/rus/feed/"),
     # 🇰🇿 🇰🇬 Казахстан, Кыргызстан
-    ("Муфтият Казахстана", "tg:muftyat_kz"),
     ("Tengrinews", "https://tengrinews.kz/news.rss"),
     ("24.kg", "https://24.kg/rss/"),
     ("Kaktus Media", "tg:kaktus_media"),
@@ -822,10 +820,21 @@ def glm_warn(state, reason):
         state["glm_warned"] = NOW
 
 
-def triage(state):
+def number_shortlist(state, short):
+    """У каждой отобранной новости — короткий номер (Н12), чтобы модератор мог на неё сослаться."""
+    for x in short:
+        if not x.get("sid"):
+            state["sid"] = state.get("sid", 0) + 1
+            x["sid"] = state["sid"]
+    return short
+
+
+def triage(state, force=False):
     """GLM раз в 30 минут читает все свежие новости и отбирает подходящие в shortlist.json.
     Облачный Claude потом берёт только их: переводит, а сомнительные — перепроверяет."""
-    if not (ZAI_KEY or OPENROUTER_KEY) or NOW - state.get("last_triage", 0) < TRIAGE_EVERY_MIN * 60 - 120:
+    if not (ZAI_KEY or OPENROUTER_KEY):
+        return
+    if not force and NOW - state.get("last_triage", 0) < TRIAGE_EVERY_MIN * 60 - 120:
         return
     state["last_triage"] = NOW
     items, _ = gather("triage_seen.json")
@@ -866,10 +875,12 @@ def triage(state):
         trusted = it["source"] in TRUSTED_SOURCES
         # «только перевод» разрешаем лишь надёжным источникам — это проверяет код, а не GLM
         label = "clear" if p.get("label") == "clear" and trusted else "verify"
-        short.append({**it, "label": label, "tone": p.get("tone", ""), "why": str(p.get("why", ""))[:200], "t": NOW})
+        state["sid"] = state.get("sid", 0) + 1
+        short.append({**it, "label": label, "tone": p.get("tone", ""), "why": str(p.get("why", ""))[:200], "t": NOW,
+                      "sid": state["sid"]})
         have.add(it["id_link"])
         added += 1
-    write_json("shortlist.json", short)
+    write_json("shortlist.json", number_shortlist(state, short))
     state["triage_ok"] = NOW
     print(f"GLM ({who}) отобрал {added} из {len(items)} свежих новостей")
 
@@ -889,6 +900,10 @@ ASSISTANT_TOOLS = [
      "parameters": {"type": "object", "properties": {"id": {"type": "integer"}, "when": {"type": "string", "description": "«21:30» или «27.09 21:30»"}}, "required": ["id", "when"]}}},
     {"type": "function", "function": {"name": "edit_text", "description": "Заменить текст черновика (HTML: <b>, <i>, <a href>). Смысл и факты не менять.",
      "parameters": {"type": "object", "properties": {"id": {"type": "integer"}, "text": {"type": "string"}}, "required": ["id", "text"]}}},
+    {"type": "function", "function": {"name": "find_news", "description": "Найти свежие новости сейчас (GLM отбирает, заголовки переводятся на русский) и показать список с номерами Н1, Н2…",
+     "parameters": {"type": "object", "properties": {"hours": {"type": "integer", "description": "за сколько последних часов показать (по умолчанию 3)"}}}}},
+    {"type": "function", "function": {"name": "request_drafts", "description": "Попросить Claude сделать черновики из найденных новостей (номера Н из find_news) — в первую очередь",
+     "parameters": {"type": "object", "properties": {"news": {"type": "array", "items": {"type": "integer"}}}, "required": ["news"]}}},
     {"type": "function", "function": {"name": "settings", "description": "Изменить настройки публикации",
      "parameters": {"type": "object", "properties": {
          "gap": {"type": "integer", "description": "минут между постами днём"},
@@ -907,6 +922,9 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
 - «Сделай оформление / поправь текст» — edit_text: меняй только форму (разметку, порядок, эмодзи, хэштеги),
   НЕ меняй смысл, цифры, имена и факты; сохраняй строку «Подписаться | Источник» со ссылками.
 - «Каждые 30 минут / час» — settings gap.
+- «Найди новости», «что нового» — find_news; покажи список как есть (номер Н, источник, заголовок, метка).
+- «Сделай черновики из Н2 и Н5», «переведи эти» — request_drafts. Перевод и перепроверку делает Claude,
+  сам новости не переводи и не пиши — черновики придут в группу после ближайшего запуска Claude.
 - Если непонятно, о каком черновике речь, — переспроси. Ничего не выдумывай.
 Сейчас в Ташкенте: {now}. Настройки: {settings}
 Черновики (номер · статус · тон · проверка · заголовок):
@@ -1018,6 +1036,28 @@ def run_tool(state, name, a):
         if mid in state["queue"]:
             state["queue"][mid]["msg"] = d["snap"]
         out.append(f"{a['id']}: текст изменён")
+    elif name == "find_news":
+        triage(state, force=True)
+        hours = a.get("hours") or 3
+        short = number_shortlist(state, read_json("shortlist.json", []))
+        write_json("shortlist.json", short)
+        items = [x for x in short if NOW - x["t"] < hours * 3600]
+        if not items:
+            return "свежих подходящих новостей не нашлось (или GLM недоступен)"
+        translate_titles(items)
+        return "\n".join(f"Н{x.get('sid', '?')} · {'✅' if x['label'] == 'clear' else '🔎'} · {x['source']} · "
+                         f"{x.get('title_ru') or x['title']}" + (" · ⭐ уже заказан" if x.get("priority") else "")
+                         for x in items[-40:])
+    elif name == "request_drafts":
+        want = {int(n) for n in a.get("news", [])}
+        short = read_json("shortlist.json", [])
+        hit = [x for x in short if x.get("sid") in want]
+        for x in hit:
+            x["priority"] = True
+        write_json("shortlist.json", short)
+        state["priority_since"] = NOW
+        return (f"заказано черновиков: {len(hit)} (Н{', Н'.join(str(x['sid']) for x in hit)}). "
+                "Claude возьмёт их первыми при ближайшем запуске (в :15 или :45)") if hit else "таких номеров нет"
     elif name == "settings":
         s = state["settings"]
         for k, v in a.items():
@@ -1465,9 +1505,14 @@ def cmd_fetch():
     triage_ok = read_json("state.json", {}).get("triage_ok", 0)
     if NOW - triage_ok < 90 * 60:   # GLM работает — берём только отобранное им
         seen = read_json(seen_path, {"links": [], "titles": []})
-        done = set(seen["links"])
-        items = [x for x in read_json("shortlist.json", []) if x["id_link"] not in done and NOW - x["t"] < 6 * 3600]
+        seen.setdefault("priority_done", [])
+        done, pdone = set(seen["links"]), set(seen["priority_done"])
+        short = read_json("shortlist.json", [])
+        wanted = [x for x in short if x.get("priority") and x["id_link"] not in pdone]
+        fresh = [x for x in short if x["id_link"] not in done and not x.get("priority") and NOW - x["t"] < 6 * 3600]
+        items = wanted + fresh
         seen["links"] = (seen["links"] + [x["id_link"] for x in items])[-8000:]
+        seen["priority_done"] = (seen["priority_done"] + [x["id_link"] for x in wanted])[-2000:]
         write_json(seen_path, seen)
         recent = seen["titles"][-40:]
         for i, it in enumerate(items):
@@ -1484,7 +1529,8 @@ def cmd_fetch():
         print("\nОтбор уже сделал GLM. Метки:\n"
               "  ✅ — надёжный источник, нейтрально: нужен только точный перевод и оформление;\n"
               "  🔎 — нужна перепроверка: найди подтверждение командой `python bot.py search слова`\n"
-              "       (ищет по всем свежим новостям всех источников). Нет подтверждения — пропусти или safe: false.")
+              "       (ищет по всем свежим новостям всех источников). Нет подтверждения — пропусти или safe: false.\n"
+              "  ⭐ — модератор сам попросил эту новость: сделай черновик обязательно (перевод и проверка — как обычно).")
     else:
         print("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
     print(f"\nНедавно уже брали ({len(recent)}):")
@@ -1492,7 +1538,7 @@ def cmd_fetch():
         print("-", t)
     print(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
     for it in items:
-        mark = {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
+        mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
         print(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
               + (f" — {it['summary'][:200]}" if it["summary"] else "")
               + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
