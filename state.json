@@ -2601,6 +2601,126 @@
     "file_id": "AgACAgQAAyEGAATuSoRvAANOarnyFaxb65lUbaR_bkKR6HoCZr4AAsAPaxsqv8xRWnREIGinNz0BAAMCAAN5AAM9BA"
    },
    "n": 78
+  },
+  "79": {
+   "tone": "hard",
+   "url": "https://www.sabanew.net/story/ar/153097",
+   "created": 1790572877.85503,
+   "status": "pending",
+   "safe": false,
+   "note": "один источник, риторика",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: 64-я годовщина революции 26 сентября\n\nЙемен отметил 64-ю годовщину революции 26 сентября 1962 года, положившей конец имамскому правлению и провозгласившей республику. По заявлению государственного информагентства Йемена Saba, нынешние власти считают борьбу с хуситским движением, которое называют поддерживаемым Ираном, продолжением защиты республиканского строя от возврата прежней системы. Агентство также заявило, что удары хуситов распространились на гражданские и важные объекты в Саудовской Аравии и, по его данным, включали попытки угрожать святыням Мекки и Медины.\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 43,
+      "type": "bold"
+     },
+     {
+      "offset": 586,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 594,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 608,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sabanew.net/story/ar/153097"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANParn5TnLpPMy1poFact6cU8dxAAHrAAJhDmsbLSHUUa8iS37GcDt2AQADAgADeAADPQQ"
+   },
+   "n": 79
+  },
+  "80": {
+   "tone": "hard",
+   "url": "https://t.me/almasdaronline/32711",
+   "created": 1790572877.85503,
+   "status": "pending",
+   "safe": false,
+   "note": "неск. источников, тема Израиль",
+   "trusted": true,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇦🇪 ОАЭ: Нетаньяху посетил Абу-Даби, встретился с Мухаммедом бин Заидом\n\nПремьер-министр Израиля Биньямин Нетаньяху в воскресенье посетил Абу-Даби и встретился с президентом ОАЭ шейхом Мухаммедом бин Заидом Аль Нахайяном — сообщил старший израильский чиновник, на которого ссылается Reuters. Это уже вторая подобная встреча, о которой стало известно за несколько месяцев. Офис Нетаньяху и МИД ОАЭ визит пока не прокомментировали. Дипломатические отношения между ОАЭ и Израилем установлены в 2020 году в рамках «Авраамовых соглашений».\n\n#ОАЭ\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 67,
+      "type": "bold"
+     },
+     {
+      "offset": 537,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 543,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 557,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/almasdaronline/32711"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAANQarn5Uj2xaIz1_v0LQDNFh92RLcYAAvsmaxs1otBJiFE_JIxgMy8BAAMCAAN4AAM9BA"
+   },
+   "n": 80
+  },
+  "81": {
+   "tone": "hard",
+   "url": "https://kun.uz/news/2026/09/28/tramp-eronga-zarbalarni-qayta-boshlash-ehtimolini-istisno-qilmadi",
+   "created": 1790572877.85503,
+   "status": "pending",
+   "safe": false,
+   "note": "подтв. Al Arabiya, тема Иран",
+   "trusted": false,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇮🇷 США и Иран: Трамп ждёт новых переговоров\n\nПрезидент США Дональд Трамп заявил в интервью Axios, что ожидает новых переговоров с Ираном на следующей неделе. По его словам, Иран хочет заключить сделку, но не на тех условиях, которые предлагает Вашингтон. На вопрос о возможности новых ударов по Ирану Трамп ответил, что «всегда об этом думает». По данным источников Axios, встреча катарских посредников с главой МИД Ирана Аббасом Аракчи и спецпредставителем США Стивом Уиткоффом может пройти уже 28 сентября. Иран настаивает на снятии морской блокады Ормузского пролива, США — на уступках по ядерной программе.\n\n#Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 40,
+      "type": "bold"
+     },
+     {
+      "offset": 614,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 621,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 635,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://kun.uz/news/2026/09/28/tramp-eronga-zarbalarni-qayta-boshlash-ehtimolini-istisno-qilmadi"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAANRarn5VW25qAb5cKOg1fzbBNUNX9wAAiQQaxtS38xRTpa-RRF7dNQBAAMCAAN5AAM9BA"
+   },
+   "n": 81
   }
  },
  "queue": {},
@@ -2629,7 +2749,8 @@
   "20260928-025105.json",
   "20260928-034735.json",
   "20260928-041936.json",
-  "20260928-044950.json"
+  "20260928-044950.json",
+  "20260928-052106.json"
  ],
  "settings": {
   "night": [
