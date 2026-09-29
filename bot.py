@@ -30,7 +30,7 @@ import threading
 import time
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import feedparser
 import requests
@@ -62,7 +62,7 @@ WORLD = [
     (f"{WORLD_SEARCH} (англ.)", gnews("(Muslims OR Muslim OR Islam OR mosque OR hijab OR niqab OR burqa OR Islamophobia "
                                       "OR imam OR Quran OR halal OR madrasa)", "en")),
     (f"{WORLD_SEARCH} (Британия)", gnews("(Muslims OR mosque OR hijab OR niqab OR Islamophobia OR imam OR Quran)", "gb")),
-    (f"{WORLD_SEARCH} (франц.)", gnews("(musulmans OR musulmane OR mosquée OR voile OR hijab OR niqab OR abaya "
+    (f"{WORLD_SEARCH} (франц.)", gnews("(musulmans OR musulmane OR mosquée OR \"voile islamique\" OR hijab OR niqab OR abaya "
                                        "OR islam OR imam)", "fr")),
     (f"{WORLD_SEARCH} (нем.)", gnews("(Muslime OR Moschee OR Kopftuch OR Islam OR Imam OR Burka)", "de")),
     (f"{WORLD_SEARCH} (рус.)", gnews("(мусульмане OR мусульман OR мечеть OR хиджаб OR никаб OR ислам OR имам "
@@ -104,6 +104,18 @@ FEEDS = [
     ("Al Khaleej", gnews("site:alkhaleej.ae", "sa")),
     ("Al Mashhad", gnews("site:almashhad.com", "sa")),
     ("Al Rai (Кувейт)", "https://alraimedia.com/rssFeed/1"),
+    # 🏛 Официальные агентства арабских стран — первоисточник заявлений своих властей
+    ("WAM (агентство ОАЭ)", gnews("site:wam.ae", "sa")),
+    ("KUNA (агентство Кувейта)", gnews("site:kuna.net.kw", "sa")),
+    ("QNA (агентство Катара)", gnews("site:qna.org.qa", "sa")),
+    ("BNA (агентство Бахрейна)", gnews("site:bna.bh", "sa")),
+    ("ONA (агентство Омана)", gnews("site:omannews.gov.om", "sa")),
+    ("Petra (агентство Иордании)", gnews("site:petra.gov.jo", "sa")),
+    ("MENA (агентство Египта)", gnews("site:mena.org.eg", "sa")),
+    ("NNA (агентство Ливана)", gnews("site:nna-leb.gov.lb", "sa")),
+    ("MAP (агентство Марокко)", gnews("site:mapnews.ma", "sa")),
+    ("SUNA (агентство Судана)", gnews("site:suna-sd.net", "sa")),
+    ("APS (агентство Алжира)", gnews("site:aps.dz", "sa")),
     # 🇸🇾 Сирия
     ("SANA (агентство Сирии)", "tg:Sana_gov"),
     ("SANA (агентство Сирии)", "https://sana.sy/feed/"),
@@ -141,14 +153,12 @@ FEEDS = [
     ("UzA (агентство Узбекистана)", "https://uza.uz/ru/rss"),
     # 🇹🇯 Таджикистан
     ("Азия-Плюс", "tg:asiaplustj"),
-    ("Sputnik Таджикистан", "tg:sputniktj"),
     ("Ховар (агентство Таджикистана)", "https://khovar.tj/rus/feed/"),
     # 🇰🇿 🇰🇬 Казахстан, Кыргызстан
     ("Tengrinews", "https://tengrinews.kz/news.rss"),
     ("24.kg", "https://24.kg/rss/"),
     ("Kaktus Media", "tg:kaktus_media"),
-    # 🇷🇺 🇹🇷 Мусульмане России, Турция
-    ("Ислам сегодня", "https://islam-today.ru/rss/"),
+    # 🇹🇷 Турция
     ("Анадолу", "https://www.aa.com.tr/ru/rss/default?cat=guncel"),
     # 🇵🇰 🇮🇩 🇲🇾 Пакистан, Индонезия, Малайзия
     ("Dawn (Пакистан)", "https://www.dawn.com/feeds/home"),
@@ -193,6 +203,7 @@ FEEDS = [
     # ("Ad-Diyar", ...)            — близок к «Хизбалле»
     # ("ANF", "JINHA", ...)        — СМИ РПК
     # ("dailyislamist", "tg:dailyislamist")  — турецкий исламистский канал (ихвановский уклон)
+    # ("Ислам сегодня", "Sputnik")  — нововведенцы; российские госСМИ (для СНГ берём местные надёжные)
 ]
 
 # Надёжные источники (по совету шейха: саудовские, официальные агентства Сирии, Ирака, Йемена,
@@ -204,6 +215,9 @@ TRUSTED_SOURCES = {
     "Министерство исламских дел КСА", "Всемирная исламская лига", "Харамайн",
     "SANA (агентство Сирии)", "INA (агентство Ирака)", "Saba (правительство Йемена)", "Al-Masdar Online",
     "UzA (агентство Узбекистана)", "Ховар (агентство Таджикистана)",   # государственные агентства
+    "WAM (агентство ОАЭ)", "KUNA (агентство Кувейта)", "QNA (агентство Катара)", "BNA (агентство Бахрейна)",
+    "ONA (агентство Омана)", "Petra (агентство Иордании)", "MENA (агентство Египта)", "NNA (агентство Ливана)",
+    "MAP (агентство Марокко)", "SUNA (агентство Судана)", "APS (агентство Алжира)",
     "Reuters", "AP", "AFP", "Arab News", "Saudi Gazette",               # мировые агентства и саудовские на английском
 }
 
@@ -215,9 +229,68 @@ BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinh
            "middleeastmonitor", "tehrantimes", "hispantv", "kayhan", "5pillarsuk", "english.almayadeen",
            "qudsnen", "ajplus", "iqna",
            # исламофобские и националистические сайты — о мусульманах пишут недостоверно
-           "resistancerepublicaine", "ripostelaique", "fdesouche", "organiser.org", "opindia", "breitbart"]
+           "resistancerepublicaine", "ripostelaique", "fdesouche", "organiser.org", "opindia", "breitbart",
+           # нововведенцы и ихвановский уклон
+           "islam-today.ru", "islamnews.ru",
+           # российские госСМИ (для новостей СНГ берём местные надёжные издания)
+           "//ria.ru", "//tass.ru", "//tass.com", "//rt.com", "//www.rt.com", "//russian.rt.com", "//arabic.rt.com",
+           "sputnik", "//lenta.ru", "//iz.ru", "//rg.ru", "//www.rg.ru", "//www.kp.ru", "//aif.ru", "//www.aif.ru",
+           "//www.vesti.ru", "//smotrim.ru", "//www.1tv.ru", "//www.ntv.ru", "tsargrad", "//regnum.ru",
+           "//ren.tv", "eadaily"]
+
+# Арабские издания не из доверенных. Переключатель «Арабский мир — только доверенные» (/sources arab on)
+# их не берёт: новости арабского мира тогда — только от саудовских, официальных агентств и других ✓.
+ARAB_OTHER = {"Sky News Arabia", "Al Khaleej", "Al Mashhad", "Al Rai (Кувейт)", "SOHR", "Annahar", "Lebanon Debate",
+              "Al Markazia", "Sawt Beirut", "Voice of Lebanon", "Youm7", "Shorouk", "El Balad", "Akhbar El Yom",
+              "El Aosboa", "Egypt Telegraph", "Jordan Zad", "Madar News", "El Djazair El Djadida", "Enab Baladi (Сирия)",
+              "Al-Ahram", "Erem News", "Monte Carlo Doualiya", "Euronews Arabic", "InfoMigrants", "Hormuz Report",
+              f"{WORLD_SEARCH} (араб.)"}
+
+# Авторитетные издания мира. Переключатель «Мир — только авторитетные» (/sources world on):
+# из общих поисков «🌍 Поиск» берём только их — без жёлтой прессы, блогов и незнакомых сайтов.
+REPUTABLE = {
+    # мировые агентства и англоязычные
+    "reuters.com", "apnews.com", "afp.com", "bbc.com", "bbc.co.uk", "theguardian.com", "nytimes.com",
+    "washingtonpost.com", "wsj.com", "ft.com", "bloomberg.com", "economist.com", "politico.com", "politico.eu",
+    "axios.com", "cnn.com", "nbcnews.com", "cbsnews.com", "abcnews.go.com", "npr.org", "pbs.org", "latimes.com",
+    "independent.co.uk", "telegraph.co.uk", "thetimes.co.uk", "thetimes.com", "news.sky.com", "itv.com",
+    "channel4.com", "irishtimes.com", "rte.ie", "cbc.ca", "theglobeandmail.com", "abc.net.au", "smh.com.au",
+    "rnz.co.nz", "euronews.com",
+    # Франция, Германия, Италия, Испания, Бенилюкс, Швейцария, Австрия, Скандинавия
+    "france24.com", "rfi.fr", "lemonde.fr", "lefigaro.fr", "liberation.fr", "francetvinfo.fr", "ouest-france.fr",
+    "leparisien.fr", "lexpress.fr", "lepoint.fr", "20minutes.fr", "bfmtv.com", "tf1info.fr", "la-croix.com",
+    "spiegel.de", "zeit.de", "faz.net", "sueddeutsche.de", "tagesschau.de", "zdf.de", "dw.com", "welt.de",
+    "n-tv.de", "stern.de", "br.de", "ndr.de", "wdr.de", "ansa.it", "corriere.it", "repubblica.it", "lastampa.it",
+    "rainews.it", "ilsole24ore.com", "elpais.com", "elmundo.es", "rtve.es", "lavanguardia.com", "nos.nl", "nrc.nl",
+    "volkskrant.nl", "rtbf.be", "lesoir.be", "vrt.be", "swissinfo.ch", "nzz.ch", "rts.ch", "srf.ch", "orf.at",
+    "derstandard.at", "svt.se", "dn.se", "dr.dk", "nrk.no", "yle.fi",
+    # арабские доверенные на английском, Турция
+    "arabnews.com", "saudigazette.com.sa", "spa.gov.sa", "aawsat.com", "english.aawsat.com", "alarabiya.net",
+    "thenationalnews.com", "gulfnews.com", "khaleejtimes.com", "aa.com.tr", "trtworld.com", "dailysabah.com",
+    "hurriyetdailynews.com",
+    # Азия и Африка
+    "dawn.com", "tribune.com.pk", "geo.tv", "thehindu.com", "indianexpress.com", "scroll.in", "ndtv.com",
+    "antaranews.com", "thejakartapost.com", "jakartaglobe.id", "kompas.com", "bernama.com", "thestar.com.my",
+    "malaymail.com", "nst.com.my", "straitstimes.com", "channelnewsasia.com", "scmp.com", "dailytrust.com",
+    "premiumtimesng.com", "punchng.com", "channelstv.com", "nation.africa", "news24.com",
+    # СНГ — местные надёжные (без российских госСМИ); «Радио Свобода» и её службы
+    "kun.uz", "gazeta.uz", "daryo.uz", "uza.uz", "podrobno.uz", "asiaplustj.info", "khovar.tj", "tengrinews.kz",
+    "informburo.kz", "inform.kz", "kursiv.media", "24.kg", "kaktus.media", "akipress.com", "azattyk.org",
+    "ozodi.org", "ozodlik.org", "azattyq.org", "rferl.org", "svoboda.org", "currenttime.tv", "kavkazr.com",
+    "idelreal.org", "trend.az", "apa.az", "report.az",
+}
+
+
+def reputable(href):
+    host = re.sub(r"^www\.", "", urlparse(href or "").netloc.lower())
+    return any(host == d or host.endswith("." + d) for d in REPUTABLE)
+
+
 PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
+PER_FEED_TRUSTED = 15        # доверенным — больше: их новости чаще в ленте
 PER_FEED_OVERRIDE = {"SaudiNews50": 20, **{n: 30 for n, _ in WORLD}}   # главным источникам и поиску — больше
+DUP_HOURS = 72               # повторы сверяем с тем, что брали за 3 дня
+ALT_HOLD_MIN = 20            # чередование: вторая тяжёлая подряд — не раньше чем через 20 мин (если нет добрых)
 
 CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
 WATERMARK_TEXT = "@ilm4_info"             # текст водяного знака
@@ -249,7 +322,14 @@ DEFAULT_SETTINGS = {
     "drafts_to": "group",  # куда приходят черновики: "group" — в «Модер», "private" — владельцу в личку
     "private_chat": None,  # чей личный чат получает черновики (по умолчанию — владелец)
     "paused": False,    # пауза всех публикаций
+    "flow": "all",      # что присылать на модерацию: "all" — всё; "normal" — без малоценных (важность 3–5);
+                        # "top" — только самое важное (важность 4–5)
+    "alternate": True,  # чередовать тяжёлые и добрые в канале (по журналу опубликованного)
+    "arab_trusted": True,     # арабский мир — только из доверенных (саудовские, официальные агентства)
+    "world_reputable": True,  # из общих поисков по миру — только авторитетные издания
 }
+FLOW_MIN = {"all": 1, "normal": 3, "top": 4}
+FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "top": "только самое важное"}
 
 # Только для режима API
 MODEL = "claude-opus-5"      # дешевле: "claude-sonnet-5" или "claude-haiku-4-5"
@@ -377,7 +457,7 @@ def load_state():
     state = read_json("state.json", {})
     for key, default in (("offset", 0), ("drafts", {}), ("queue", {}), ("wm", {}),
                          ("last_publish", 0), ("last_tone", ""), ("last_collect", 0),
-                         ("inbox_done", [])):
+                         ("inbox_done", []), ("published_log", []), ("dupes", []), ("held", [])):
         state.setdefault(key, default)
     state["settings"] = {**DEFAULT_SETTINGS, **state.get("settings", {})}
     return state
@@ -386,6 +466,8 @@ def load_state():
 def save_state(state):
     state["wm"] = dict(list(state["wm"].items())[-300:])
     state["inbox_done"] = state["inbox_done"][-500:]
+    for key in ("published_log", "dupes", "held"):   # журналы — за 3 дня
+        state[key] = [x for x in state[key] if NOW - x.get("t", 0) < DUP_HOURS * 3600][-500:]
     write_json("state.json", state)
 
 
@@ -790,6 +872,13 @@ HELP = """<b>Команды бота</b>
 /пачка 10 все — все черновики, что ждут решения, по одному раз в 10 мин
 /wm on · /wm off — водяной знак по умолчанию
 
+<b>Поток и источники</b>
+/flow all — присылать всё · /flow normal — без малоценных · /flow top — только самое важное (4–5 из 5)
+/alt on · /alt off — чередовать тяжёлые и добрые в канале (по журналу опубликованного)
+/sources arab on|off — арабский мир только из доверенных (саудовские, официальные агентства)
+/sources world on|off — по миру только авторитетные издания (без жёлтой прессы)
+Повторы за 3 дня бот отсеивает сам: не присылает и не публикует.
+
 <b>Доступ</b> (меняет только владелец)
 /users — кто может управлять ботом
 /allow 123456789 · /allow @nickname · или ответом на сообщение человека — добавить
@@ -860,6 +949,25 @@ def handle_command(state, text, quiet=False, owner=True, who=None, reply=None):
         note = stop_auto(state)
         if not quiet or note.startswith("↩️"):
             say(note)
+    elif cmd in ("/flow", "/поток"):
+        names = {"all": "all", "все": "all", "всё": "all", "normal": "normal", "обычный": "normal",
+                 "top": "top", "важное": "top", "важные": "top"}
+        if arg not in names:
+            return say("Что присылать на модерацию: <code>/flow all</code> — всё; <code>/flow normal</code> — "
+                       "без малоценных; <code>/flow top</code> — только самое важное (4–5 из 5)")
+        s["flow"] = names[arg]
+    elif cmd in ("/alt", "/чередование"):
+        if arg not in ("on", "off"):
+            return say("<code>/alt on</code> — чередовать тяжёлые и добрые в канале; <code>/alt off</code>")
+        s["alternate"] = arg == "on"
+    elif cmd in ("/sources", "/источники"):
+        key = {"arab": "arab_trusted", "араб": "arab_trusted", "world": "world_reputable", "мир": "world_reputable"}
+        val = args[1].lower() if len(args) > 1 else ""
+        if arg not in key or val not in ("on", "off"):
+            return say("<code>/sources arab on</code> — арабский мир только из доверенных (саудовские, "
+                       "официальные агентства); <code>/sources world on</code> — по миру только авторитетные "
+                       "издания; <code>off</code> — брать шире")
+        s[key[arg]] = val == "on"
     elif cmd == "/wm":
         if arg not in ("on", "off"):
             return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
@@ -928,6 +1036,15 @@ def menu_markup(state, ask=None):
         [{"text": mark(auto == "top", "Самое важное"), "callback_data": f"m:/auto top {per}"},
          {"text": mark(auto == "off", "Выкл"), "callback_data": "m:/auto off"}],
         *top_row,
+        [{"text": "📥 Что присылать на модерацию:", "callback_data": "-"}],
+        [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
+         for f, n in (("all", "Всё"), ("normal", "Без малоценных"), ("top", "Самое важное"))],
+        [{"text": "🔀 Чередовать тяжёлые и добрые: " + ("вкл" if s.get("alternate", True) else "выкл"),
+          "callback_data": "m:/alt " + ("off" if s.get("alternate", True) else "on")}],
+        [{"text": "🕌 Арабский мир: " + ("только доверенные" if s.get("arab_trusted") else "все издания"),
+          "callback_data": "m:/sources arab " + ("off" if s.get("arab_trusted") else "on")}],
+        [{"text": "🌍 Мир: " + ("только авторитетные" if s.get("world_reputable") else "все издания"),
+          "callback_data": "m:/sources world " + ("off" if s.get("world_reputable") else "on")}],
         [{"text": "⏱ Интервал между постами:", "callback_data": "-"}],
         [{"text": mark(s["gap"] == g, "сразу" if not g else f"{g} мин"), "callback_data": f"m:/gap {g}"}
          for g in (0, 15, 30, 60)],
@@ -976,17 +1093,19 @@ BOT_COMMANDS = [("menu", "Панель управления кнопками"), 
                 ("night", "Ночь: /night 23 7 или /night off"), ("wm", "Водяной знак: on / off"),
                 ("users", "Кто может управлять ботом"), ("allow", "Добавить: /allow 123 или @ник"),
                 ("deny", "Убрать: /deny 123 или @ник"), ("access", "Кого слушать: list / group"),
-                ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private")]
+                ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private"),
+                ("flow", "Что присылать: all / normal / top"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
+                ("sources", "Источники: arab on|off, world on|off")]
 
 
 def register_commands(state):
     """Список команд в меню «/» в группе модерации (один раз на версию)."""
-    if state.get("commands_v") == 2 or not MOD_CHAT_ID:
+    if state.get("commands_v") == 3 or not MOD_CHAT_ID:
         return
     cmds = [{"command": c, "description": d} for c, d in BOT_COMMANDS]
     if tg("setMyCommands", commands=cmds, scope={"type": "chat", "chat_id": MOD_CHAT_ID}) is not None:
         tg("setMyCommands", commands=cmds, scope={"type": "all_private_chats"})
-        state["commands_v"] = 2
+        state["commands_v"] = 3
 
 
 ACCESS_COMMANDS = ("/allow", "/deny", "/access", "/private", "/drafts", "/users")
@@ -1084,6 +1203,10 @@ def status_data(state):
             "published_hour": sum(d.get("status") == "published" and NOW - d.get("published_at", 0) < 3600
                                   for d in state["drafts"].values()),
             "last_publish": state.get("last_publish", 0),
+            "dupes_day": sum(NOW - x["t"] < 86400 for x in state.get("dupes", [])),
+            "held_day": sum(NOW - x["t"] < 86400 for x in state.get("held", [])),
+            "recent": [{"tone": x["tone"], "title": x["title"][:80], "t": x["t"]}
+                       for x in state.get("published_log", [])[-6:]][::-1],
             "owners": sorted(ADMIN_IDS)}
 
 
@@ -1101,7 +1224,14 @@ def status_text(state):
             f"Автопилот (проверенные — сразу): "
             f"{auto_mode_name(s)}\n"
             f"Между постами: {s['gap']} мин днём, {s['night_gap']} ночью\n"
-            f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n\n"
+            f"Водяной знак по умолчанию: {'да' if s['wm'] else 'нет'}\n"
+            f"На модерацию: {FLOW_NAMES.get(s.get('flow'), 'всё')}\n"
+            f"Чередование тяжёлых и добрых: {'вкл' if s.get('alternate', True) else 'выкл'}\n"
+            f"Арабский мир: {'только доверенные' if s.get('arab_trusted') else 'все издания'} · "
+            f"мир: {'только авторитетные' if s.get('world_reputable') else 'все издания'}\n"
+            f"Последние посты: {''.join('🔴' if x['tone'] == 'hard' else '🟢' for x in state.get('published_log', [])[-8:]) or '—'}\n"
+            f"За сутки отсеяно повторов: {sum(NOW - x['t'] < 86400 for x in state.get('dupes', []))}, "
+            f"не прислано малоценных: {sum(NOW - x['t'] < 86400 for x in state.get('held', []))}\n\n"
             f"📝 Ждут решения: {pending}\n"
             f"📋 В очереди: {len(normal)} (🟢 {sum(x['tone'] == 'good' for x in normal)}, "
             f"🔴 {sum(x['tone'] == 'hard' for x in normal)})\n"
@@ -1123,8 +1253,12 @@ def autopilot_and_cleanup(state):
     top = s["auto"] and s.get("auto_top")
     waiting = sum(bool(q.get("auto")) for q in state["queue"].values())
     # в режиме «самое важное» сначала самые важные, и в очереди держим не больше одного — остальные ждут слота
-    drafts = sorted(state["drafts"].items(), key=lambda kv: -kv[1].get("importance", 3)) if top \
-        else list(state["drafts"].items())
+    # чередование: новость другого тона, чем прошлая, получает +1 к важности (добрая 4 после тяжёлой = тяжёлая 5)
+    prev = last_tone(state) if s.get("alternate", True) else None
+    other = lambda d: prev is not None and (d.get("tone") == "hard") != (prev == "hard")
+    drafts = sorted(state["drafts"].items(),
+                    key=lambda kv: (-kv[1].get("importance", 3) - other(kv[1]), not other(kv[1]))) \
+        if top else list(state["drafts"].items())
     for mid, d in drafts:
         if mid in state["queue"]:
             continue
@@ -1249,7 +1383,7 @@ class GLMUnavailable(Exception):
     pass
 
 
-def glm(messages, tools=None, max_tokens=6000):
+def glm(messages, tools=None, max_tokens=6000, temperature=None):
     """Запрос к GLM. Возвращает (сообщение, кто ответил) или бросает GLMUnavailable."""
     errors = []
     for name, url, which, model in GLM_CHAIN:
@@ -1259,6 +1393,8 @@ def glm(messages, tools=None, max_tokens=6000):
         body = {"model": model, "messages": messages, "max_tokens": max_tokens}
         if tools:
             body["tools"] = tools
+        if temperature is not None:
+            body["temperature"] = temperature
         if which == "zai":
             body["thinking"] = {"type": "disabled"}
         try:
@@ -1298,6 +1434,8 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - Слабые («ну и что?»): школьники едут на олимпиаду, замминистра рассказал в ООН об опыте, премия по туризму,
   мелкий протокол чиновников. Их тоже можно взять, но в why напиши «малоценная».
 - Повторы: одну историю бери один раз — лучше из источника с пометкой ✓.
+- Источники с ✓ (саудовские, официальные агентства, мировые агентства) — в приоритете: их достойные новости
+  бери все. Арабский мир — у ✓; Запад и Европа — у их серьёзных изданий; СНГ — у местных надёжных.
 - Бери новость у ПЕРВОИСТОЧНИКА. Местные издания (Узбекистан, Таджикистан, Казахстан, Кыргызстан, Египет,
   Ливан, Иордания и т. п.) — только для новостей своей страны и региона. Если такое издание пересказывает
   мировую новость (США, Иран, Израиль, Газа, Саудия…) — НЕ бери её: она придёт от Reuters, AP, саудовских
@@ -1337,7 +1475,7 @@ def triage(state, force=False):
     if not force and NOW - state.get("last_triage", 0) < TRIAGE_EVERY_MIN * 60 - 120:
         return
     state["last_triage"] = NOW
-    items, _ = gather("triage_seen.json")
+    items, _ = gather("triage_seen.json", settings=state["settings"])
 
     pool = [x for x in read_json("pool.json", []) if NOW - x["t"] < 8 * 3600]   # для перепроверки
     pool += [{"title": it["title"], "source": it["source"], "link": it["link"], "t": NOW} for it in items]
@@ -1415,7 +1553,12 @@ ASSISTANT_TOOLS = [
          "auto_hard": {"type": "boolean", "description": "автопубликация и для тяжёлых новостей (false — тяжёлые ждут модератора)"},
          "auto_top": {"type": "boolean", "description": "режим «самое важное»: сам публикует только самые важные"},
          "per_hour": {"type": "integer", "description": "сколько самых важных в час в режиме auto_top"},
-         "watermark": {"type": "boolean"}, "paused": {"type": "boolean"}}}}},
+         "watermark": {"type": "boolean"}, "paused": {"type": "boolean"},
+         "flow": {"type": "string", "enum": ["all", "normal", "top"],
+                  "description": "что присылать на модерацию: всё / без малоценных / только самое важное"},
+         "alternate": {"type": "boolean", "description": "чередовать тяжёлые и добрые в канале"},
+         "arab_trusted": {"type": "boolean", "description": "арабский мир только из доверенных источников"},
+         "world_reputable": {"type": "boolean", "description": "по миру только авторитетные издания"}}}}},
 ]
 
 ASSISTANT_SYSTEM = """Ты — помощник модератора русскоязычного канала @ilm4_info (новости исламского мира,
@@ -1431,6 +1574,9 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
 - «Отключи автопубликацию» — settings auto=false; «тяжёлые сам не публикуй» — auto=true, auto_hard=false;
   «включи всё обратно» — auto=true, auto_hard=true, auto_top=false; «стоп, ничего не публикуй» — paused=true.
 - «Публикуй только самое важное, 2–3 в час» — auto=true, auto_hard=true, auto_top=true, per_hour=3.
+- «Присылай только важное» — flow="top"; «без мелочи» — flow="normal"; «присылай всё» — flow="all".
+- «Чередуй тяжёлые с добрыми» — alternate=true.
+- «Арабские только из доверенных» — arab_trusted=true; «по миру только серьёзные издания» — world_reputable=true.
 - «Найди новости», «что нового» — find_news; покажи список как есть (номер Н, источник, заголовок, метка).
 - «Сделай черновики из Н2 и Н5», «переведи эти» — request_drafts. Перевод и перепроверку делает Claude,
   сам новости не переводи и не пиши — черновики придут в группу после ближайшего запуска Claude.
@@ -1576,8 +1722,10 @@ def run_tool(state, name, a):
         for k, v in a.items():
             if k in ("gap", "night_gap") and isinstance(v, int) and v >= 0:
                 s[k] = v
-            elif k in ("auto", "auto_hard", "auto_top"):
+            elif k in ("auto", "auto_hard", "auto_top", "alternate", "arab_trusted", "world_reputable"):
                 s[k] = bool(v)
+            elif k == "flow" and v in FLOW_MIN:
+                s["flow"] = v
             elif k == "per_hour" and isinstance(v, int) and v > 0:
                 s["per_hour"] = min(12, v)
             elif k == "watermark":
@@ -1609,10 +1757,35 @@ def alternate(items, last_tone):
     return out
 
 
+def last_tone(state):
+    log = state.get("published_log") or []
+    return log[-1]["tone"] if log else state.get("last_tone", "")
+
+
+def tone_ok(state, item):
+    """Чередование: после тяжёлой следующая тяжёлая (от автопилота) ждёт ALT_HOLD_MIN минут,
+    если за это время не вышла добрая. Добрые — в любое время. Одобренное ✅ вручную — как решил модератор."""
+    if not state["settings"].get("alternate", True) or not item.get("auto") or item.get("tone") != "hard":
+        return True
+    log = state.get("published_log") or []
+    return not log or log[-1]["tone"] != "hard" or NOW - log[-1]["t"] >= ALT_HOLD_MIN * 60
+
+
+def return_stale_auto(state):
+    """Автопилот не выпустил вовремя (ждали чередования или слота) — старое возвращаем модератору."""
+    for mid, q in list(state["queue"].items()):
+        d = state["drafts"].get(mid, {})
+        if q.get("auto") and NOW - float(d.get("created", NOW)) > AUTO_MAX_AGE_HOURS * 3600:
+            state["queue"].pop(mid)
+            d["status"] = "pending"
+            refresh(state, mid)
+
+
 def publish(state):
     s = state["settings"]
     if s["paused"]:
         return
+    return_stale_auto(state)
     queue = sorted(state["queue"].items(), key=lambda kv: kv[1]["approved_at"])
 
     # 1) Отложенные — точно ко времени, в любое время суток (все, что подошли)
@@ -1629,13 +1802,16 @@ def publish(state):
         autos = [x for x in ready if x[1].get("auto")]
         ready = [x for x in ready if not x[1].get("auto")]
         slot = 3600 / max(1, s.get("per_hour", 3))
+        autos = [x for x in autos if tone_ok(state, x[1])]
         if autos and NOW - state.get("last_auto_publish", 0) >= slot - 90:
             mid, item = max(autos, key=lambda kv: kv[1].get("importance", 3))
             publish_one(state, mid, item)
             state["last_auto_publish"] = NOW
-    for mid, item in alternate(ready, state["last_tone"]):
+    for mid, item in alternate(ready, last_tone(state)):
         if gap and NOW - state["last_publish"] < gap * 60 - 90:
             break
+        if not tone_ok(state, item):
+            continue
         publish_one(state, mid, item)
         if gap:
             break
@@ -1662,6 +1838,8 @@ def publish_one(state, mid, item):
     state["drafts"].setdefault(mid, {}).update(status="published", published_at=NOW)
     state["last_publish"] = NOW
     state["last_tone"] = item["tone"]
+    state["published_log"].append({"t": NOW, "tone": item.get("tone", ""), "title": title_of(snap.get("text")),
+                                   "importance": item.get("importance", 3), "auto": bool(item.get("auto"))})
     refresh(state, mid, "published")
     print("Опубликовано:", snap["text"][:80])
 
@@ -1734,13 +1912,95 @@ def ingest_inbox(state):
     for name, drafts in inbox_files():
         if name in state["inbox_done"]:
             continue
-        for e in drafts:
+        for e in screen_drafts(state, drafts):
             if send_draft(state, e):
                 sent += 1
                 time.sleep(2)
         state["inbox_done"].append(name)
     if sent:
         print(f"Черновиков отправлено в модерацию: {sent}")
+
+
+# ---------- повторы: не присылать и не публиковать то, что уже было за 3 дня ----------
+
+DUP_STOP = set("и в во на по с со о об от до за из к у не что как для это его их при после под над без или "
+               "также года году тысяч более около свыше".split())
+
+
+def title_of(text):
+    """Заголовок из текста поста (первая строка, без разметки и эмодзи)."""
+    first = re.sub(r"<[^>]+>", "", (text or "").split("\n")[0])
+    return re.sub(r"^[^\w«\"]+", "", first).strip()
+
+
+def title_words(title):
+    t = re.sub(r"[^\w\s-]", " ", title.lower().replace("ё", "е"))
+    return {w[:5] for w in t.split() if len(w) > 2 and w not in DUP_STOP and not w.isdigit()} | \
+        set(re.findall(r"\d{2,}", t))
+
+
+def taken_titles(state, hours=DUP_HOURS):
+    """Всё, что брали за 3 дня: черновики (любой статус) и опубликованное."""
+    out = [(title_of((d.get("snap") or {}).get("text")), d.get("status", "")) for d in state["drafts"].values()
+           if NOW - float(d.get("created", 0)) < hours * 3600]
+    out += [(x["title"], "published") for x in state.get("published_log", []) if NOW - x["t"] < hours * 3600]
+    return [(t, st) for t, st in dict(out).items() if t]
+
+
+def similarity(a, b, idf):
+    A, B = title_words(a), title_words(b)
+    if len(A) < 2 or len(B) < 2:
+        return 0
+    return sum(idf(w) for w in A & B) / min(sum(idf(w) for w in A), sum(idf(w) for w in B))
+
+
+def make_idf(titles):
+    import math
+    df = {}
+    for t in titles:
+        for w in title_words(t):
+            df[w] = df.get(w, 0) + 1
+    n = len(titles) + 1
+    return lambda w: math.log(n / (1 + df.get(w, 0))) + 0.5
+
+
+DUP_SURE = 0.8               # так похожи — точно повтор (проверено на заголовках канала за 3 дня)
+
+
+def similar_taken(state, titles, low=0.45):
+    """Для каждого заголовка — похожие из взятого за 3 дня (и из этой же пачки): [(сходство, заголовок)]."""
+    taken = taken_titles(state)
+    idf = make_idf([t for t, _ in taken] + titles)
+    out = []
+    for i, t in enumerate(titles):
+        pool = taken + [(x, "draft") for x in titles[:i]]
+        near = sorted(((similarity(t, x, idf), x) for x, _ in pool), reverse=True)[:3]
+        out.append([(round(v, 2), x) for v, x in near if v >= low])
+    return out
+
+
+def find_repeats(state, titles):
+    """Страховка: почти одинаковое со взятым за 3 дня — {номер: похожий заголовок}.
+    Тонкие случаи (то же событие другими словами) отсеивает Claude-редактор командой check."""
+    return {i: near[0][1] for i, near in enumerate(similar_taken(state, titles)) if near and near[0][0] >= DUP_SURE}
+
+
+def screen_drafts(state, drafts):
+    """Перед отправкой в модерацию: поток (важность) и повторы. Заказанное модератором и свои — всегда."""
+    s, now_t = state["settings"], NOW
+    keep = []
+    for e in drafts:
+        if not e.get("manual") and "safe" in e and e.get("importance", 3) < FLOW_MIN.get(s.get("flow"), 1):
+            state["held"].append({"t": now_t, "title": title_of(e["text"]), "importance": e.get("importance", 3)})
+            continue
+        keep.append(e)
+    check = [e for e in keep if not e.get("manual")]
+    repeats = find_repeats(state, [title_of(e["text"]) for e in check]) if check else {}
+    for i, like in repeats.items():
+        state["dupes"].append({"t": now_t, "title": title_of(check[i]["text"]), "like": like})
+        print(f"Повтор, не присылаю: «{title_of(check[i]['text'])}» ≈ «{like}»")
+    drop = {id(check[i]) for i in repeats}
+    return [e for e in keep if id(e) not in drop]
 
 
 # ---------------------- редактор: сбор новостей ----------------------
@@ -1882,25 +2142,41 @@ def feed_entries(url):
     return out
 
 
-def gather(seen_path, mark=True):
+def source_settings():
+    """Переключатели источников (из state.json — их меняют кнопками)."""
+    return {**DEFAULT_SETTINGS, **read_json("state.json", {}).get("settings", {})}
+
+
+def gather(seen_path, mark=True, settings=None):
     """Новые записи из всех лент (свежее MAX_AGE_HOURS).
     mark=True — отмечает их как увиденные (облачный редактор), False — только посмотреть (панель)."""
+    s = settings or source_settings()
     seen = read_json(seen_path, {"links": [], "titles": []})
     known = set(seen["links"])
     cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
     items = []
     for name, url in FEEDS:
+        if s.get("arab_trusted") and name in ARAB_OTHER:
+            continue   # арабский мир — только из доверенных
         try:
             entries = feed_entries(url)
         except Exception as e:
             print("Лента недоступна:", name, e)
             continue
-        for e in entries[:PER_FEED_OVERRIDE.get(name, PER_FEED)]:
+        limit = PER_FEED_OVERRIDE.get(name, PER_FEED_TRUSTED if name in TRUSTED_SOURCES else PER_FEED)
+        only_reputable = name.startswith(WORLD_SEARCH) and s.get("world_reputable")
+        taken = 0
+        for e in entries if only_reputable else entries[:limit]:   # фильтр отсеивает многое — смотрим глубже
+            if taken >= limit:
+                break
             link = e["link"]
             if not link or link in known:
                 continue
             if any(b in (e.get("href") or "") + link for b in BLOCKED):
                 continue
+            if only_reputable and not reputable(e.get("href")):
+                continue   # из общих поисков — только авторитетные издания
+            taken += 1
             known.add(link)
             seen["links"].append(link)
             if e["time"] and e["time"] < cutoff:
@@ -2108,8 +2384,18 @@ def cmd_fetch():
               "  ⭐ — модератор сам попросил эту новость: сделай черновик обязательно (перевод и проверка — как обычно).")
     else:
         print("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
-    print(f"\nНедавно уже брали ({len(recent)}):")
+    st = load_state()
+    flow = st["settings"].get("flow", "all")
+    if flow != "all":
+        print(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
+              "не пиши — бот их всё равно не пришлёт.")
+    taken = [t for t, _ in taken_titles(st)][-150:]
     for t in recent:
+        if t not in taken:
+            taken.append(t)
+    print(f"\nУже брали за 3 дня ({len(taken)}) — ПОВТОРЫ НЕ БЕРИ (ту же историю другими словами тоже; "
+          "бери только если есть существенно новое):")
+    for t in taken:
         print("-", t)
     print(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
     for it in items:
@@ -2160,9 +2446,26 @@ def cmd_send(path):
         if not (0 <= i < len(items)) or not post.get("title") or not post.get("body"):
             print("Пропускаю, нет нужных полей:", post)
             continue
-        entries.append(make_entry(fetch_article(items[i]), post))
+        entries.append({**make_entry(fetch_article(items[i]), post), "manual": bool(items[i].get("priority"))})
         links.append(items[i].get("id_link") or items[i]["link"])
     push_entries(entries, links)
+
+
+def cmd_check(path):
+    """Перед send: для каждого поста — похожие заголовки из взятого за 3 дня. Повторы Claude убирает сам."""
+    state_pull()
+    posts = read_json(path, [])
+    near = similar_taken(load_state(), [p.get("title", "") for p in posts])
+    clean = True
+    for p, n in zip(posts, near):
+        if n:
+            clean = False
+            print(f"\n[{p.get('index')}] {p.get('title')}")
+            for v, t in n:
+                print(f"   {'ТОЧНО ПОВТОР — бот не пришлёт' if v >= DUP_SURE else 'похоже'} ({v}): {t}")
+    print("\nПохожих на уже взятое нет." if clean else
+          "\nЕсли это то же событие без существенно новых фактов — убери пост из posts.json. "
+          "Другое место, другой случай, заявление другой страны, новое развитие — оставь.")
 
 
 def cmd_send_custom(path):
@@ -2174,7 +2477,7 @@ def cmd_send_custom(path):
             print("Пропускаю, нужны title, body и link:", post)
             continue
         item = fetch_article({"link": post["link"], "image": post.get("image"), "video": post.get("video")})
-        entries.append(make_entry(item, post))
+        entries.append({**make_entry(item, post), "manual": True})   # своё — без фильтров
     push_entries(entries, [])
 
 
@@ -2333,6 +2636,8 @@ def main():
         return cmd_article([int(a) for a in args[1:] if a.isdigit()])
     if args[:1] == ["send"]:
         return cmd_send(args[1] if len(args) > 1 else "posts.json")
+    if args[:1] == ["check"]:
+        return cmd_check(args[1] if len(args) > 1 else "posts.json")
     if args[:1] == ["send-custom"]:
         return cmd_send_custom(args[1] if len(args) > 1 else "custom.json")
     if args[:1] == ["peek"]:

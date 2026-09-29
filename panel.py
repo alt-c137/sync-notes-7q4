@@ -391,6 +391,7 @@ class Handler(BaseHTTPRequestHandler):
             cmd = str(data.get("cmd", ""))
             if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7)"
                                 r"|access (group|list)|private (on|off)|drafts (group|private)"
+                                r"|flow (all|normal|top)|alt (on|off)|sources (arab|world) (on|off)"
                                 r"|(allow|deny) (@?[A-Za-z0-9_]{3,32}|\d{4,15}))", cmd):
                 return self.send(200, {"ok": False, "error": "Неизвестная команда"})
             bot_command(cmd)
@@ -520,6 +521,13 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .custom{border:1.5px dashed var(--accent);border-radius:12px;padding:12px;margin-top:12px}
 .custom p{margin:6px 0}
 .people{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.toggles.one{grid-template-columns:1fr}
+.feedlog{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.feedlog div{display:flex;align-items:center;gap:9px;font-size:12.5px;min-width:0}
+.feedlog div span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feedlog i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--good,#3aa876)}
+.feedlog i.hard{background:var(--danger)}
+.feedlog time{flex:none;color:var(--muted);font-variant-numeric:tabular-nums;font-size:11.5px}
 .person{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--card2);font-size:13px}
 .person .av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent)}
 .person .av svg{width:15px;height:15px}
@@ -557,6 +565,9 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+ <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+ <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+ <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol>
 </svg>
 
 <header>
@@ -617,6 +628,30 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
         <div class="stat"><b id="st-queue">–</b><span>в очереди</span></div>
         <div class="stat"><b id="st-hour">–</b><span>вышло за час</span></div>
       </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><svg class="i"><use href="#i-filter"/></svg>Поток и источники<span class="sub">что приходит и откуда</span></h2>
+    <div class="label"><svg class="i"><use href="#i-inbox"/></svg>Что присылать на модерацию</div>
+    <div class="seg" id="seg-flow"></div>
+    <div class="muted" style="margin-top:8px" id="flowhint"></div>
+    <div class="sub-block">
+      <div class="toggles one">
+        <button class="tg" id="t-alt" onclick="mode('/alt '+(B.settings.alternate===false?'on':'off'))"><svg class="i"><use href="#i-shuffle"/></svg>Чередовать тяжёлые и добрые<span class="sw"></span></button>
+        <button class="tg" id="t-arab" onclick="mode('/sources arab '+(B.settings.arab_trusted?'off':'on'))"><svg class="i"><use href="#i-shield"/></svg>Арабский мир — только доверенные<span class="sw"></span></button>
+        <button class="tg" id="t-world" onclick="mode('/sources world '+(B.settings.world_reputable?'off':'on'))"><svg class="i"><use href="#i-globe"/></svg>Мир и Запад — только авторитетные<span class="sw"></span></button>
+      </div>
+      <div class="muted" style="margin-top:8px">Доверенные: саудовские издания, официальные агентства арабских стран, Reuters, AP, AFP.
+        Повторы за 3 дня бот отсеивает сам.</div>
+      <div class="stats" style="grid-template-columns:repeat(2,1fr)">
+        <div class="stat"><b id="st-dupes">–</b><span>повторов отсеяно за сутки</span></div>
+        <div class="stat"><b id="st-held">–</b><span>не прислано по фильтру</span></div>
+      </div>
+    </div>
+    <div class="sub-block">
+      <div class="label"><svg class="i"><use href="#i-history"/></svg>Последние в канале (красный — тяжёлая, зелёный — добрая)</div>
+      <div class="feedlog" id="feedlog"></div>
     </div>
   </div>
 
@@ -720,6 +755,15 @@ function renderMode(){
   $('t-pause').classList.toggle('on',!!s.paused); $('pausebanner').style.display=s.paused?'block':'none';
   $('t-wm').classList.toggle('on',!!s.wm); $('t-night').classList.toggle('on',!!s.night);
   $('st-pending').textContent=B.pending; $('st-queue').textContent=B.queue; $('st-hour').textContent=B.published_hour;
+  const fl=s.flow||'all';
+  seg($('seg-flow'),[['all','Всё'],['normal','Без малоценных'],['top','Самое важное']],fl,v=>'/flow '+v);
+  $('flowhint').textContent={all:'Приходит всё, что нашёл Claude, и малоценное тоже (с пометкой).',
+    normal:'Малоценное (олимпиады, протокол, премии) не присылается.',
+    top:'Приходит только самое важное — 4–5 из 5. Остальное не присылается.'}[fl];
+  $('t-alt').classList.toggle('on',s.alternate!==false);
+  $('t-arab').classList.toggle('on',!!s.arab_trusted); $('t-world').classList.toggle('on',!!s.world_reputable);
+  $('st-dupes').textContent=B.dupes_day??0; $('st-held').textContent=B.held_day??0;
+  $('feedlog').innerHTML=(B.recent||[]).length?(B.recent||[]).map(x=>`<div><i class="${x.tone==='hard'?'hard':''}"></i><time>${new Date(x.t*1000).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</time><span>${esc(x.title)}</span></div>`).join(''):'<div class="muted">Журнал начнётся со следующего поста.</div>';
   seg($('seg-access'),[['list','Только список'],['group','Все участники группы']],s.access||'list',v=>'/access '+v);
   const person=(label,role,cmd)=>`<div class="person"><span class="av">${icon('user')}</span>${esc(label)}`+
     (cmd?`<button title="Убрать" onclick="mode('${cmd}')">${icon('x')}</button>`:`<span class="role">${role}</span>`)+`</div>`;
