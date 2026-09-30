@@ -323,13 +323,23 @@ DEFAULT_SETTINGS = {
     "private_chat": None,  # чей личный чат получает черновики (по умолчанию — владелец)
     "paused": False,    # пауза всех публикаций
     "flow": "all",      # что присылать на модерацию: "all" — всё; "normal" — без малоценных (важность 3–5);
-                        # "top" — только самое важное (важность 4–5)
+                        # "top" — только самое важное (важность 4–5);
+                        # "elite" — только самое-самое: главное для мусульман, политика, разбор фейков,
+                        # разоблачения сект и группировок от доверенных (важность 5 или пометка elite)
     "alternate": True,  # чередовать тяжёлые и добрые в канале (по журналу опубликованного)
     "arab_trusted": True,     # арабский мир — только из доверенных (саудовские, официальные агентства)
     "world_reputable": True,  # из общих поисков по миру — только авторитетные издания
 }
-FLOW_MIN = {"all": 1, "normal": 3, "top": 4}
-FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "top": "только самое важное"}
+FLOW_MIN = {"all": 1, "normal": 3, "top": 4, "elite": 5}
+FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "top": "только самое важное",
+              "elite": "только самое-самое важное"}
+
+
+def flow_pass(flow, e):
+    """Проходит ли черновик в модерацию при этом режиме потока."""
+    if flow == "elite":
+        return bool(e.get("elite")) or e.get("importance", 3) >= 5
+    return e.get("importance", 3) >= FLOW_MIN.get(flow, 1)
 
 # Только для режима API
 MODEL = "claude-opus-5"      # дешевле: "claude-sonnet-5" или "claude-haiku-4-5"
@@ -874,6 +884,7 @@ HELP = """<b>Команды бота</b>
 
 <b>Поток и источники</b>
 /flow all — присылать всё · /flow normal — без малоценных · /flow top — только самое важное (4–5 из 5)
+/flow elite — только самое-самое: главное для мусульман, большая политика, разбор фейков, разоблачения сект
 /alt on · /alt off — чередовать тяжёлые и добрые в канале (по журналу опубликованного)
 /sources arab on|off — арабский мир только из доверенных (саудовские, официальные агентства)
 /sources world on|off — по миру только авторитетные издания (без жёлтой прессы)
@@ -951,10 +962,13 @@ def handle_command(state, text, quiet=False, owner=True, who=None, reply=None):
             say(note)
     elif cmd in ("/flow", "/поток"):
         names = {"all": "all", "все": "all", "всё": "all", "normal": "normal", "обычный": "normal",
-                 "top": "top", "важное": "top", "важные": "top"}
+                 "top": "top", "важное": "top", "важные": "top",
+                 "elite": "elite", "главное": "elite", "самоесамое": "elite", "самое-самое": "elite"}
         if arg not in names:
             return say("Что присылать на модерацию: <code>/flow all</code> — всё; <code>/flow normal</code> — "
-                       "без малоценных; <code>/flow top</code> — только самое важное (4–5 из 5)")
+                       "без малоценных; <code>/flow top</code> — только самое важное (4–5 из 5); "
+                       "<code>/flow elite</code> — только самое-самое: главное для мусульман, большая политика, "
+                       "разбор фейков, разоблачения сект и группировок")
         s["flow"] = names[arg]
     elif cmd in ("/alt", "/чередование"):
         if arg not in ("on", "off"):
@@ -1038,7 +1052,9 @@ def menu_markup(state, ask=None):
         *top_row,
         [{"text": "📥 Что присылать на модерацию:", "callback_data": "-"}],
         [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
-         for f, n in (("all", "Всё"), ("normal", "Без малоценных"), ("top", "Самое важное"))],
+         for f, n in (("all", "Всё"), ("normal", "Без малоценных"))],
+        [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
+         for f, n in (("top", "Самое важное"), ("elite", "Самое-самое"))],
         [{"text": "🔀 Чередовать тяжёлые и добрые: " + ("вкл" if s.get("alternate", True) else "выкл"),
           "callback_data": "m:/alt " + ("off" if s.get("alternate", True) else "on")}],
         [{"text": "🕌 Арабский мир: " + ("только доверенные" if s.get("arab_trusted") else "все издания"),
@@ -1094,7 +1110,7 @@ BOT_COMMANDS = [("menu", "Панель управления кнопками"), 
                 ("users", "Кто может управлять ботом"), ("allow", "Добавить: /allow 123 или @ник"),
                 ("deny", "Убрать: /deny 123 или @ник"), ("access", "Кого слушать: list / group"),
                 ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private"),
-                ("flow", "Что присылать: all / normal / top"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
+                ("flow", "Что присылать: all / normal / top / elite"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
                 ("sources", "Источники: arab on|off, world on|off")]
 
 
@@ -1424,7 +1440,12 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - ТЯЖЁЛОЕ БЕРИ ОБЯЗАТЕЛЬНО: атаки хуситов и их перехват, Газа и Аль-Акса, удары и вторжения Израиля
   в Сирии и Ливане, Иран, КСИР и Ормуз, ИГИЛ и «Аль-Каида», аресты и суды над людьми Асада, взрывы,
   притеснение мусульман (запреты хиджаба, закрытие медресе). Сомнение — бери с label "verify".
-- НЕ бери: спорт, погоду (кроме Мекки и Медины), бизнес, туризм, развлечения, бытовой криминал,
+- ОБЯЗАТЕЛЬНО бери: разбор и опровержение фейков (власти, агентства или фактчекеры опровергли ложь
+  о Харамайне, КСА, мусульманах); разоблачения схем и деятельности ХАМАС, хуситов, «Хизбаллы», Ирана и КСИР,
+  ихвана, ИГИЛ, «Аль-Каиды», шиитских ополчений и других сект — финансирование, контрабанда, вербовка,
+  аресты ячеек, суды — из доверенных источников (✓).
+- НЕ бери: мелочи и курьёзы (животные, бытовые истории, «необычный случай»), спорт, погоду
+  (кроме Мекки и Медины), бизнес, туризм, развлечения, бытовой криминал,
   светскую политику без связи с мусульманскими странами и регионом.
 - Политику высшего уровня (король, наследный принц, главы государств, министры иностранных дел и обороны,
   верховные муфтии, имамы Харамайна: встречи, звонки, визиты, поздравления, осуждения) — бери.
@@ -1554,8 +1575,9 @@ ASSISTANT_TOOLS = [
          "auto_top": {"type": "boolean", "description": "режим «самое важное»: сам публикует только самые важные"},
          "per_hour": {"type": "integer", "description": "сколько самых важных в час в режиме auto_top"},
          "watermark": {"type": "boolean"}, "paused": {"type": "boolean"},
-         "flow": {"type": "string", "enum": ["all", "normal", "top"],
-                  "description": "что присылать на модерацию: всё / без малоценных / только самое важное"},
+         "flow": {"type": "string", "enum": ["all", "normal", "top", "elite"],
+                  "description": "что присылать на модерацию: всё / без малоценных / только самое важное / "
+                                 "только самое-самое (главное, большая политика, фейки, разоблачения)"},
          "alternate": {"type": "boolean", "description": "чередовать тяжёлые и добрые в канале"},
          "arab_trusted": {"type": "boolean", "description": "арабский мир только из доверенных источников"},
          "world_reputable": {"type": "boolean", "description": "по миру только авторитетные издания"}}}}},
@@ -1574,6 +1596,7 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
 - «Отключи автопубликацию» — settings auto=false; «тяжёлые сам не публикуй» — auto=true, auto_hard=false;
   «включи всё обратно» — auto=true, auto_hard=true, auto_top=false; «стоп, ничего не публикуй» — paused=true.
 - «Публикуй только самое важное, 2–3 в час» — auto=true, auto_hard=true, auto_top=true, per_hour=3.
+- «Только самое-самое», «только главное, без мелочей вообще» — flow="elite".
 - «Присылай только важное» — flow="top"; «без мелочи» — flow="normal"; «присылай всё» — flow="all".
 - «Чередуй тяжёлые с добрыми» — alternate=true.
 - «Арабские только из доверенных» — arab_trusted=true; «по миру только серьёзные издания» — world_reputable=true.
@@ -1990,7 +2013,7 @@ def screen_drafts(state, drafts):
     s, now_t = state["settings"], NOW
     keep = []
     for e in drafts:
-        if not e.get("manual") and "safe" in e and e.get("importance", 3) < FLOW_MIN.get(s.get("flow"), 1):
+        if not e.get("manual") and "safe" in e and not flow_pass(s.get("flow", "all"), e):
             state["held"].append({"t": now_t, "title": title_of(e["text"]), "importance": e.get("importance", 3)})
             continue
         keep.append(e)
@@ -2284,7 +2307,7 @@ def make_entry(item, post):
             "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
             "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
             "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES,
-            "importance": importance_of(post)}
+            "importance": importance_of(post), "elite": bool(post.get("elite"))}
 
 
 def importance_of(post):
@@ -2386,7 +2409,10 @@ def cmd_fetch():
         print("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
     st = load_state()
     flow = st["settings"].get("flow", "all")
-    if flow != "all":
+    if flow == "elite":
+        print("\nМодератор просит присылать ТОЛЬКО САМОЕ-САМОЕ ВАЖНОЕ (раздел «Самое-самое» в rules.md): "
+              "пиши только посты с importance 5 или elite: true — остальные бот всё равно не пришлёт.")
+    elif flow != "all":
         print(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
               "не пиши — бот их всё равно не пришлёт.")
     taken = [t for t, _ in taken_titles(st)][-150:]

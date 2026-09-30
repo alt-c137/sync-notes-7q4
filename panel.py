@@ -391,7 +391,7 @@ class Handler(BaseHTTPRequestHandler):
             cmd = str(data.get("cmd", ""))
             if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7)"
                                 r"|access (group|list)|private (on|off)|drafts (group|private)"
-                                r"|flow (all|normal|top)|alt (on|off)|sources (arab|world) (on|off)"
+                                r"|flow (all|normal|top|elite)|alt (on|off)|sources (arab|world) (on|off)"
                                 r"|(allow|deny) (@?[A-Za-z0-9_]{3,32}|\d{4,15}))", cmd):
                 return self.send(200, {"ok": False, "error": "Неизвестная команда"})
             bot_command(cmd)
@@ -756,10 +756,11 @@ function renderMode(){
   $('t-wm').classList.toggle('on',!!s.wm); $('t-night').classList.toggle('on',!!s.night);
   $('st-pending').textContent=B.pending; $('st-queue').textContent=B.queue; $('st-hour').textContent=B.published_hour;
   const fl=s.flow||'all';
-  seg($('seg-flow'),[['all','Всё'],['normal','Без малоценных'],['top','Самое важное']],fl,v=>'/flow '+v);
+  seg($('seg-flow'),[['all','Всё'],['normal','Без малоценных'],['top','Самое важное'],['elite','Самое-самое']],fl,v=>'/flow '+v);
   $('flowhint').textContent={all:'Приходит всё, что нашёл Claude, и малоценное тоже (с пометкой).',
     normal:'Малоценное (олимпиады, протокол, премии) не присылается.',
-    top:'Приходит только самое важное — 4–5 из 5. Остальное не присылается.'}[fl];
+    top:'Приходит только самое важное — 4–5 из 5. Остальное не присылается.',
+    elite:'Только самое-самое: главное для мусульман, большая политика, разбор фейков, разоблачения сект и группировок от доверенных.'}[fl];
   $('t-alt').classList.toggle('on',s.alternate!==false);
   $('t-arab').classList.toggle('on',!!s.arab_trusted); $('t-world').classList.toggle('on',!!s.world_reputable);
   $('st-dupes').textContent=B.dupes_day??0; $('st-held').textContent=B.held_day??0;
