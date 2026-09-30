@@ -342,7 +342,7 @@ def flow_pass(flow, e):
     return e.get("importance", 3) >= FLOW_MIN.get(flow, 1)
 
 # Только для режима API
-MODEL = "claude-opus-5"      # дешевле: "claude-sonnet-5" или "claude-haiku-4-5"
+MODEL = "claude-sonnet-5-5"  # Sonnet 5.5; мощнее: "claude-opus-5-5", дешевле: "claude-haiku-4-5"
 COLLECT_EVERY_MIN = 60
 
 LEASE_BRANCH = "pc-lease"       # ветка-отметка «бот сейчас работает на ПК»

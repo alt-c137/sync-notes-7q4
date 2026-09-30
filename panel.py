@@ -25,7 +25,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 PORT = 8765
-MODEL = "sonnet"   # Sonnet — дешевле Opus, переводит хорошо
+MODEL = "claude-sonnet-5-5"   # Sonnet 5.5 — дешевле Opus, переводит хорошо
 ENV = {**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"}
 
 import bot                    # сам бот: те же функции, что работают на GitHub
