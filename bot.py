@@ -360,8 +360,8 @@ DEFAULT_SETTINGS = {
     "arab_trusted": True,     # арабский мир — только из доверенных (саудовские, официальные агентства)
     "world_reputable": True,  # из общих поисков по миру — только авторитетные издания
 }
-FLOW_MIN = {"all": 1, "normal": 3, "top": 4, "elite": 5}
-FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "top": "только самое важное",
+FLOW_MIN = {"all": 1, "normal": 3, "live": 4, "top": 4, "elite": 5}
+FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "live": "живое и важное", "top": "только самое важное",
               "elite": "только самое-самое важное"}
 
 
@@ -369,6 +369,8 @@ def flow_pass(flow, e):
     """Проходит ли черновик в модерацию при этом режиме потока."""
     if flow == "elite":
         return bool(e.get("elite")) or e.get("importance", 3) >= 5
+    if flow == "live":   # живое (происшествия, кадры, истории, добрые) и всё важное
+        return bool(e.get("live")) or e.get("importance", 3) >= 4
     return e.get("importance", 3) >= FLOW_MIN.get(flow, 1)
 
 # Только для режима API
@@ -914,6 +916,7 @@ HELP = """<b>Команды бота</b>
 
 <b>Поток и источники</b>
 /flow all — присылать всё · /flow normal — без малоценных · /flow top — только самое важное (4–5 из 5)
+/flow live — живое и важное: происшествия, кадры и видео, вирусные истории, добрые новости + всё важное
 /flow elite — только самое-самое: главное для мусульман, большая политика, разбор фейков, разоблачения сект
 /alt on · /alt off — чередовать тяжёлые и добрые в канале (по журналу опубликованного)
 /sources arab on|off — арабский мир только из доверенных (саудовские, официальные агентства)
@@ -992,11 +995,12 @@ def handle_command(state, text, quiet=False, owner=True, who=None, reply=None):
             say(note)
     elif cmd in ("/flow", "/поток"):
         names = {"all": "all", "все": "all", "всё": "all", "normal": "normal", "обычный": "normal",
-                 "top": "top", "важное": "top", "важные": "top",
+                 "top": "top", "важное": "top", "важные": "top", "live": "live", "живое": "live",
                  "elite": "elite", "главное": "elite", "самоесамое": "elite", "самое-самое": "elite"}
         if arg not in names:
             return say("Что присылать на модерацию: <code>/flow all</code> — всё; <code>/flow normal</code> — "
-                       "без малоценных; <code>/flow top</code> — только самое важное (4–5 из 5); "
+                       "без малоценных; <code>/flow live</code> — живое (происшествия, кадры, истории, добрые) "
+                       "и важное; <code>/flow top</code> — только самое важное (4–5 из 5); "
                        "<code>/flow elite</code> — только самое-самое: главное для мусульман, большая политика, "
                        "разбор фейков, разоблачения сект и группировок")
         s["flow"] = names[arg]
@@ -1084,6 +1088,8 @@ def menu_markup(state, ask=None):
         [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
          for f, n in (("all", "Всё"), ("normal", "Без малоценных"))],
         [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
+         for f, n in (("live", "Живое и важное"),)],
+        [{"text": mark(s.get("flow") == f, n), "callback_data": f"m:/flow {f}"}
          for f, n in (("top", "Самое важное"), ("elite", "Самое-самое"))],
         [{"text": "🔀 Чередовать тяжёлые и добрые: " + ("вкл" if s.get("alternate", True) else "выкл"),
           "callback_data": "m:/alt " + ("off" if s.get("alternate", True) else "on")}],
@@ -1140,7 +1146,7 @@ BOT_COMMANDS = [("menu", "Панель управления кнопками"), 
                 ("users", "Кто может управлять ботом"), ("allow", "Добавить: /allow 123 или @ник"),
                 ("deny", "Убрать: /deny 123 или @ник"), ("access", "Кого слушать: list / group"),
                 ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private"),
-                ("flow", "Что присылать: all / normal / top / elite"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
+                ("flow", "Что присылать: all / normal / live / top / elite"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
                 ("sources", "Источники: arab on|off, world on|off")]
 
 
@@ -1470,6 +1476,10 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - ТЯЖЁЛОЕ БЕРИ ОБЯЗАТЕЛЬНО: атаки хуситов и их перехват, Газа и Аль-Акса, удары и вторжения Израиля
   в Сирии и Ливане, Иран, КСИР и Ормуз, ИГИЛ и «Аль-Каида», аресты и суды над людьми Асада, взрывы,
   притеснение мусульман (запреты хиджаба, закрытие медресе). Сомнение — бери с label "verify".
+- ЖИВОЕ — бери ОБЯЗАТЕЛЬНО, это самое ценное для читателя: кадры и видео (работа спецназа и ПВО, перехват
+  ракет, задержания, происшествия, Харамайн), истории людей (принял ислам, поступок, спасение, находка),
+  необычные случаи с мусульманами, практичное о хадже и умре, яркие добрые новости (открытие мечети, помощь,
+  достижения). Добрых и живых должно быть не меньше трети отобранного — канал чередует тяжёлое с добрым.
 - ПРОИСШЕСТВИЯ И РЕЗОНАНС — бери ОБЯЗАТЕЛЬНО (label "verify"): стрельба, нападение, поджог, драка, взрыв в мечети
   или у мечети в ЛЮБОЙ стране; убийство или арест имама; вирусные видео и слухи о Каабе, Харамайне, паломниках
   (и сами слухи, и их опровержения); скандалы вокруг мусульман. Источники из «🚨 Происшествия» — именно для этого.
@@ -1618,7 +1628,7 @@ ASSISTANT_TOOLS = [
          "auto_top": {"type": "boolean", "description": "режим «самое важное»: сам публикует только самые важные"},
          "per_hour": {"type": "integer", "description": "сколько самых важных в час в режиме auto_top"},
          "watermark": {"type": "boolean"}, "paused": {"type": "boolean"},
-         "flow": {"type": "string", "enum": ["all", "normal", "top", "elite"],
+         "flow": {"type": "string", "enum": ["all", "normal", "live", "top", "elite"],
                   "description": "что присылать на модерацию: всё / без малоценных / только самое важное / "
                                  "только самое-самое (главное, большая политика, фейки, разоблачения)"},
          "alternate": {"type": "boolean", "description": "чередовать тяжёлые и добрые в канале"},
@@ -1640,6 +1650,7 @@ ASSISTANT_SYSTEM = """Ты — помощник модератора русск�
   «включи всё обратно» — auto=true, auto_hard=true, auto_top=false; «стоп, ничего не публикуй» — paused=true.
 - «Публикуй только самое важное, 2–3 в час» — auto=true, auto_hard=true, auto_top=true, per_hour=3.
 - «Только самое-самое», «только главное, без мелочей вообще» — flow="elite".
+- «Присылай живое, интересное», «скучно, меньше политики» — flow="live".
 - «Присылай только важное» — flow="top"; «без мелочи» — flow="normal"; «присылай всё» — flow="all".
 - «Чередуй тяжёлые с добрыми» — alternate=true.
 - «Арабские только из доверенных» — arab_trusted=true; «по миру только серьёзные издания» — world_reputable=true.
@@ -2081,7 +2092,7 @@ def screen_drafts(state, drafts):
             continue
         topic = topic_of(e["text"])
         if auto_made and flow != "all" and topic and counts.get(topic, 0) >= TOPIC_CAP \
-                and e.get("importance", 3) < 5 and not e.get("elite"):
+                and e.get("importance", 3) < 5 and not e.get("elite") and not e.get("live"):
             state["held"].append({"t": now_t, "title": title_of(e["text"]), "importance": e.get("importance", 3),
                                   "why": f"тема «{topic}» переполнена"})
             print(f"Тема «{topic}» переполнена, не присылаю: «{title_of(e['text'])}»")
@@ -2095,7 +2106,17 @@ def screen_drafts(state, drafts):
         state["dupes"].append({"t": now_t, "title": title_of(check[i]["text"]), "like": like})
         print(f"Повтор, не присылаю: «{title_of(check[i]['text'])}» ≈ «{like}»")
     drop = {id(check[i]) for i in repeats}
-    return [e for e in keep if id(e) not in drop]
+    keep = [e for e in keep if id(e) not in drop]
+    # присылаем вперемешку: добрая — тяжёлая — добрая… (а не пять тяжёлых подряд)
+    good = [e for e in keep if e.get("tone") != "hard"]
+    hard = [e for e in keep if e.get("tone") == "hard"]
+    mixed = []
+    while good or hard:
+        if good:
+            mixed.append(good.pop(0))
+        if hard:
+            mixed.append(hard.pop(0))
+    return mixed
 
 
 # ---------------------- редактор: сбор новостей ----------------------
@@ -2404,7 +2425,7 @@ def make_entry(item, post):
             "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
             "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
             "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES,
-            "importance": importance_of(post), "elite": bool(post.get("elite"))}
+            "importance": importance_of(post), "elite": bool(post.get("elite")), "live": bool(post.get("live"))}
 
 
 def importance_of(post):
@@ -2501,6 +2522,10 @@ def cmd_fetch():
     if flow == "elite":
         show("\nМодератор просит присылать ТОЛЬКО САМОЕ-САМОЕ ВАЖНОЕ (раздел «Самое-самое» в rules.md): "
              "пиши только посты с importance 5 или elite: true — остальные бот всё равно не пришлёт.")
+    elif flow == "live":
+        show("\nМодератор просит ЖИВОЕ И ВАЖНОЕ (раздел «Живое» в rules.md): пиши посты с live: true "
+             "(происшествия, кадры 🎬, вирусные истории, люди, Харамайн, добрые) и с importance 4–5. "
+             "Сухую политику и сводки с importance 3 и ниже бот не пришлёт.")
     elif flow != "all":
         show(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
              "не пиши — бот их всё равно не пришлёт.")
@@ -2508,11 +2533,13 @@ def cmd_fetch():
     if full and flow != "all":
         show(f"\nТемы, по которым за {TOPIC_HOURS} часов уже много постов: "
              + ", ".join(f"{t} — {n}" for t, n in sorted(full.items(), key=lambda kv: -kv[1]))
-             + ".\nПо ним бери ТОЛЬКО главное (importance 5 или elite) — остальное бот не пришлёт. "
+             + ".\nПо ним бери ТОЛЬКО главное (importance 5 или elite) и живое (live: true) — остальное бот "
+               "не пришлёт. "
                "Ищи другое: происшествия 🚨, СНГ, Турция, Европа, Харамайн, учёные, добрые новости.")
     show(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
     for it in items:
-        mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
+        mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "") \
+            + ("🎬 " if it.get("video") else "")   # 🎬 — у новости есть видео
         show(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
              + (f" — {it['summary'][:200]}" if it["summary"] else "")
              + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
