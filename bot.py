@@ -1563,6 +1563,9 @@ def triage(state, force=False):
         print("GLM ответил не по формату:", e)
         return
 
+    # происшествия и СНГ идут к Claude напрямую: GLM их не отсеивает (решит Claude)
+    picks += [{"index": it["index"], "label": "verify", "tone": "", "why": "происшествия или СНГ — реши сам, нужно ли"}
+              for it in items if it.get("direct")]
     short = [x for x in read_json("shortlist.json", []) if NOW - x["t"] < 12 * 3600]
     have = {x["id_link"] for x in short}
     added = 0
@@ -2280,6 +2283,7 @@ def gather(seen_path, mark=True, settings=None):
             summary = e["summary"]
             source = (e.get("source") or name) if name.startswith((WORLD_SEARCH, INCIDENT)) else name   # поиск: само издание
             items.append({**e, "time": None, "href": None, "source": source, "title": title, "id_link": link,
+                          "direct": name.startswith(INCIDENT) or name == f"{WORLD_SEARCH} (СНГ)",
                           "ago": int((datetime.now(timezone.utc) - e["time"]).total_seconds() // 60) if e["time"] else None,
                           "summary": "" if summary.startswith(title[:40]) else summary[:400]})
     seen["links"] = seen["links"][-8000:]
