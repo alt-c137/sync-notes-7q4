@@ -2467,6 +2467,65 @@ def editor_push(message):
 
 def cmd_fetch():
     state_pull()
+    meta = read_json("fetch_meta.json", {})
+    again = os.path.exists("candidates.json") and NOW - meta.get("t", 0) < 15 * 60
+    if again:   # повторный запуск в той же сессии: показываем то же самое, а не «кандидатов нет»
+        items, recent, mode = read_json("candidates.json", []), meta.get("recent", []), meta.get("mode", "glm")
+    else:
+        items, recent, mode = fetch_candidates()
+        write_json("candidates.json", items)
+        write_json("fetch_meta.json", {"t": NOW, "recent": recent, "mode": mode})
+    out = []
+
+    def show(text=""):
+        print(text)
+        out.append(text)
+
+    show(f"\nСейчас в Ташкенте: {local_now():%d.%m %H:%M}")
+    show("Вывод длинный: сначала КАНДИДАТЫ, в конце — список «Уже брали». Не обрезай его (без head/tail): "
+         "весь вывод сохранён в fetch.txt, читай оттуда. Повторный fetch покажет то же самое.")
+    if mode == "glm":
+        show("\nОтбор уже сделал GLM. Метки:\n"
+             "  ✅ — надёжный источник, факты однозначные: нужен только точный перевод и оформление;\n"
+             "  🔎 — нужна перепроверка: найди подтверждение командой `python bot.py search слова`\n"
+             "       (ищет по всем свежим новостям всех источников). Нет подтверждения — пропусти или safe: false.\n"
+             "  ⭐ — модератор сам попросил эту новость: сделай черновик обязательно (перевод и проверка — как обычно).")
+    else:
+        show("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
+    st = load_state()
+    flow = st["settings"].get("flow", "all")
+    if flow == "elite":
+        show("\nМодератор просит присылать ТОЛЬКО САМОЕ-САМОЕ ВАЖНОЕ (раздел «Самое-самое» в rules.md): "
+             "пиши только посты с importance 5 или elite: true — остальные бот всё равно не пришлёт.")
+    elif flow != "all":
+        show(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
+             "не пиши — бот их всё равно не пришлёт.")
+    full = {t: n for t, n in topic_counts(st).items() if n >= TOPIC_CAP}
+    if full and flow != "all":
+        show(f"\nТемы, по которым за {TOPIC_HOURS} часов уже много постов: "
+             + ", ".join(f"{t} — {n}" for t, n in sorted(full.items(), key=lambda kv: -kv[1]))
+             + ".\nПо ним бери ТОЛЬКО главное (importance 5 или elite) — остальное бот не пришлёт. "
+               "Ищи другое: происшествия 🚨, СНГ, Турция, Европа, Харамайн, учёные, добрые новости.")
+    show(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
+    for it in items:
+        mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
+        show(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
+             + (f" — {it['summary'][:200]}" if it["summary"] else "")
+             + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
+    taken = [t for t, _ in taken_titles(st)][-250:]
+    for t in recent:
+        if t not in taken:
+            taken.append(t)
+    show(f"\nУже брали за 5 дней ({len(taken)}) — ПОВТОРЫ НЕ БЕРИ (ту же историю другими словами тоже; "
+         "бери только если есть существенно новое):")
+    for t in taken:
+        show("- " + t)
+    with open("fetch.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(out))
+
+
+def fetch_candidates():
+    """Новые кандидаты для редактора (и отметка, что он их видел): (записи, недавние заголовки, режим)."""
     editor_store()
     seen_path = os.path.join(INBOX_DIR, "seen.json")
     triage_ok = read_json("state.json", {}).get("triage_ok", 0)
@@ -2489,45 +2548,7 @@ def cmd_fetch():
         items, recent = gather(seen_path)
         mode = "self"
     editor_push("Отметил просмотренные новости")
-    write_json("candidates.json", items)
-    now = local_now()
-    print(f"\nСейчас в Ташкенте: {now:%d.%m %H:%M}")
-    if mode == "glm":
-        print("\nОтбор уже сделал GLM. Метки:\n"
-              "  ✅ — надёжный источник, факты однозначные: нужен только точный перевод и оформление;\n"
-              "  🔎 — нужна перепроверка: найди подтверждение командой `python bot.py search слова`\n"
-              "       (ищет по всем свежим новостям всех источников). Нет подтверждения — пропусти или safe: false.\n"
-              "  ⭐ — модератор сам попросил эту новость: сделай черновик обязательно (перевод и проверка — как обычно).")
-    else:
-        print("\n⚠️ GLM-отбор сейчас недоступен — выбери сам из полного списка по rules.md.")
-    st = load_state()
-    flow = st["settings"].get("flow", "all")
-    if flow == "elite":
-        print("\nМодератор просит присылать ТОЛЬКО САМОЕ-САМОЕ ВАЖНОЕ (раздел «Самое-самое» в rules.md): "
-              "пиши только посты с importance 5 или elite: true — остальные бот всё равно не пришлёт.")
-    elif flow != "all":
-        print(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
-              "не пиши — бот их всё равно не пришлёт.")
-    full = {t: n for t, n in topic_counts(st).items() if n >= TOPIC_CAP}
-    if full and flow != "all":
-        print(f"\nТемы, по которым за {TOPIC_HOURS} часов уже много постов: "
-              + ", ".join(f"{t} — {n}" for t, n in sorted(full.items(), key=lambda kv: -kv[1]))
-              + ".\nПо ним бери ТОЛЬКО главное (importance 5 или elite) — остальное бот не пришлёт. "
-                "Ищи другое: происшествия 🚨, СНГ, Турция, Европа, Харамайн, учёные, добрые новости.")
-    taken = [t for t, _ in taken_titles(st)][-250:]
-    for t in recent:
-        if t not in taken:
-            taken.append(t)
-    print(f"\nУже брали за 5 дней ({len(taken)}) — ПОВТОРЫ НЕ БЕРИ (ту же историю другими словами тоже; "
-          "бери только если есть существенно новое):")
-    for t in taken:
-        print("-", t)
-    print(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
-    for it in items:
-        mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "")
-        print(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
-              + (f" — {it['summary'][:200]}" if it["summary"] else "")
-              + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
+    return items, recent, mode
 
 
 def cmd_search(words):
