@@ -45,7 +45,7 @@ def gnews(query, lang):
     """RSS поиска Google News. lang: ru / en / ar / sa (арабский, Саудия)."""
     loc = {"ru": ("ru", "RU", "RU:ru"), "en": ("en-US", "US", "US:en"), "gb": ("en-GB", "GB", "GB:en"),
            "fr": ("fr", "FR", "FR:fr"), "de": ("de", "DE", "DE:de"),
-           "ar": ("ar", "EG", "EG:ar"), "sa": ("ar", "SA", "SA:ar")}[lang]
+           "ar": ("ar", "EG", "EG:ar"), "sa": ("ar", "SA", "SA:ar"), "tr": ("tr", "TR", "TR:tr")}[lang]
     return (f"https://news.google.com/rss/search?q={quote(query + ' when:1d')}"
             f"&hl={loc[0]}&gl={loc[1]}&ceid={loc[2]}")
 
@@ -69,6 +69,27 @@ WORLD = [
                                      "OR Коран OR муфтий)", "ru")),
     (f"{WORLD_SEARCH} (араб.)", gnews("(المسلمين OR مسجد OR الحجاب OR النقاب OR الإسلاموفوبيا OR \"الجالية المسلمة\")",
                                       "ar")),
+    (f"{WORLD_SEARCH} (СНГ)", gnews("(мечеть OR хиджаб OR муфтият OR имам OR хадж OR умра OR намаз OR ислам OR верующих) "
+                                    "(Узбекистан OR Таджикистан OR Казахстан OR Кыргызстан OR Азербайджан OR Туркменистан)",
+                                    "ru")),
+]
+
+# Происшествия и резонанс: стрельба и нападения в мечетях, вирусные видео и слухи о Харамайне.
+# Берём у любых изданий (кроме запрещённых) — такие новости всегда идут модератору на решение, сами не выходят.
+INCIDENT = "🚨 Происшествия"
+INCIDENTS = [
+    (f"{INCIDENT} (Харамайн)", gnews("(\"المسجد الحرام\" OR الكعبة OR \"المسجد النبوي\" OR \"الحرم المكي\") "
+                                     "(حادثة OR القبض OR ضبط OR فيديو OR متداول OR شائعة OR توضيح OR نفي)", "sa")),
+    (f"{INCIDENT} (мечети, араб.)", gnews("(مسجد OR جامع OR المصلين) "
+                                          "(\"إطلاق نار\" OR هجوم OR طعن OR انفجار OR اقتحام OR حريق OR اعتداء)", "ar")),
+    (f"{INCIDENT} (мечети, англ.)", gnews("(mosque OR worshippers OR imam) "
+                                          "(shooting OR gunman OR attack OR stabbing OR arson OR vandalised OR bomb)", "en")),
+    (f"{INCIDENT} (Харамайн, англ.)", gnews("(\"Grand Mosque\" OR Kaaba OR \"Prophet's Mosque\" OR Mecca OR Medina) "
+                                            "(viral OR video OR rumour OR rumor OR denies OR incident OR arrested)", "en")),
+    (f"{INCIDENT} (Турция)", gnews("(cami OR camii OR imam OR cemaat) "
+                                   "(saldırı OR silahlı OR \"ateş açtı\" OR bıçaklı OR kavga)", "tr")),
+    (f"{INCIDENT} (рус.)", gnews("(мечеть OR мечети OR имам OR мусульмане) "
+                                 "(стрельба OR нападение OR задержан OR запрет OR закрыли OR скандал)", "ru")),
 ]
 
 
@@ -153,12 +174,15 @@ FEEDS = [
     ("UzA (агентство Узбекистана)", "https://uza.uz/ru/rss"),
     # 🇹🇯 Таджикистан
     ("Азия-Плюс", "tg:asiaplustj"),
+    ("Азия-Плюс", "https://asiaplustj.info/ru/rss"),
     ("Ховар (агентство Таджикистана)", "https://khovar.tj/rus/feed/"),
     # 🇰🇿 🇰🇬 Казахстан, Кыргызстан
     ("Tengrinews", "https://tengrinews.kz/news.rss"),
     ("24.kg", "https://24.kg/rss/"),
-    ("Kaktus Media", "tg:kaktus_media"),
+    ("Kaktus Media", "https://kaktus.media/?rss"),
     # 🇹🇷 Турция
+    ("Hürriyet Daily News", west("hurriyetdailynews.com")),
+    ("Daily Sabah", west("dailysabah.com")),
     ("Анадолу", "https://www.aa.com.tr/ru/rss/default?cat=guncel"),
     # 🇵🇰 🇮🇩 🇲🇾 Пакистан, Индонезия, Малайзия
     ("Dawn (Пакистан)", "https://www.dawn.com/feeds/home"),
@@ -195,6 +219,7 @@ FEEDS = [
     ("Al-Monitor", west("al-monitor.com")),
     ("Радио Свобода / RFE/RL", west("rferl.org")),
     *WORLD,
+    *INCIDENTS,
 
     # НЕ берём (раскомментируй, если решите иначе):
     # ("Al Jazeera", ...)          — шейх: много лжи, антисаудовские
@@ -211,7 +236,7 @@ FEEDS = [
 # новость из остальных источников — сначала перепроверяет.
 TRUSTED_SOURCES = {
     "SaudiNews50", "SPA (агентство КСА)", "Sabq", "Twasul", "Okaz", "Al Riyadh", "Asharq Al-Awsat",
-    "Asharq News", "Al Arabiya", "Al-Eqtisad", "Independent Arabia",
+    "Asharq News", "Al-Eqtisad", "Independent Arabia",   # Al Arabiya — не здесь: учитель предостерегал, идёт модератору
     "Министерство исламских дел КСА", "Всемирная исламская лига", "Харамайн",
     "SANA (агентство Сирии)", "INA (агентство Ирака)", "Saba (правительство Йемена)", "Al-Masdar Online",
     "UzA (агентство Узбекистана)", "Ховар (агентство Таджикистана)",   # государственные агентства
@@ -228,6 +253,8 @@ BLOCKED = ["aljazeera", "alaraby.co.uk", "saba.ye", "addiyar", "anf-news", "jinh
            "tasnimnews", "shafaqna", "farsnews", "mehrnews", "irna.ir", "abna24", "alkawthartv",
            "middleeastmonitor", "tehrantimes", "hispantv", "kayhan", "5pillarsuk", "english.almayadeen",
            "qudsnen", "ajplus", "iqna",
+           # израильские издания — сторона конфликта, не источник
+           "jpost.com", "ynetnews", "ynet.co.il", "israelhayom", "i24news", "timesofisrael", "israelnationalnews",
            # исламофобские и националистические сайты — о мусульманах пишут недостоверно
            "resistancerepublicaine", "ripostelaique", "fdesouche", "organiser.org", "opindia", "breitbart",
            # нововведенцы и ихвановский уклон
@@ -288,8 +315,10 @@ def reputable(href):
 
 PER_FEED = 8                 # сколько самых свежих записей брать из одного источника
 PER_FEED_TRUSTED = 15        # доверенным — больше: их новости чаще в ленте
-PER_FEED_OVERRIDE = {"SaudiNews50": 20, **{n: 30 for n, _ in WORLD}}   # главным источникам и поиску — больше
-DUP_HOURS = 72               # повторы сверяем с тем, что брали за 3 дня
+PER_FEED_OVERRIDE = {"SaudiNews50": 20, **{n: 30 for n, _ in WORLD}, **{n: 15 for n, _ in INCIDENTS}}
+DUP_HOURS = 120              # повторы сверяем с тем, что брали за 5 дней
+TOPIC_CAP = 4                # одна тема (первый хэштег) — не больше 4 черновиков за 12 часов,
+TOPIC_HOURS = 12             # дальше по ней приходит только главное (важность 5 или elite)
 ALT_HOLD_MIN = 20            # чередование: вторая тяжёлая подряд — не раньше чем через 20 мин (если нет добрых)
 
 CHANNEL_LINK = "https://t.me/ilm4_info"   # ссылка «Подписаться» под постом
@@ -299,6 +328,7 @@ WATERMARK_TEXT = "@ilm4_info"             # текст водяного знак
 
 MAX_DRAFTS_PER_COLLECT = 15  # сколько черновиков за один сбор (режим API)
 MAX_AGE_HOURS = 6            # новости старше этого не берём
+SEARCH_MAX_AGE_HOURS = 18    # из поиска Google News — до 18 часов: он находит статьи с опозданием
 PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
 AUTO_MAX_AGE_HOURS = 3       # автопилот публикует только черновики не старше 3 часов
 TZ = timezone(timedelta(hours=5))   # часовой пояс канала (Ташкент)
@@ -476,7 +506,7 @@ def load_state():
 def save_state(state):
     state["wm"] = dict(list(state["wm"].items())[-300:])
     state["inbox_done"] = state["inbox_done"][-500:]
-    for key in ("published_log", "dupes", "held"):   # журналы — за 3 дня
+    for key in ("published_log", "dupes", "held"):   # журналы — за 5 дней (DUP_HOURS)
         state[key] = [x for x in state[key] if NOW - x.get("t", 0) < DUP_HOURS * 3600][-500:]
     write_json("state.json", state)
 
@@ -888,7 +918,7 @@ HELP = """<b>Команды бота</b>
 /alt on · /alt off — чередовать тяжёлые и добрые в канале (по журналу опубликованного)
 /sources arab on|off — арабский мир только из доверенных (саудовские, официальные агентства)
 /sources world on|off — по миру только авторитетные издания (без жёлтой прессы)
-Повторы за 3 дня бот отсеивает сам: не присылает и не публикует.
+Повторы за 5 дней бот отсеивает сам: не присылает и не публикует.
 
 <b>Доступ</b> (меняет только владелец)
 /users — кто может управлять ботом
@@ -1440,6 +1470,16 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - ТЯЖЁЛОЕ БЕРИ ОБЯЗАТЕЛЬНО: атаки хуситов и их перехват, Газа и Аль-Акса, удары и вторжения Израиля
   в Сирии и Ливане, Иран, КСИР и Ормуз, ИГИЛ и «Аль-Каида», аресты и суды над людьми Асада, взрывы,
   притеснение мусульман (запреты хиджаба, закрытие медресе). Сомнение — бери с label "verify".
+- ПРОИСШЕСТВИЯ И РЕЗОНАНС — бери ОБЯЗАТЕЛЬНО (label "verify"): стрельба, нападение, поджог, драка, взрыв в мечети
+  или у мечети в ЛЮБОЙ стране; убийство или арест имама; вирусные видео и слухи о Каабе, Харамайне, паломниках
+  (и сами слухи, и их опровержения); скандалы вокруг мусульман. Источники из «🚨 Происшествия» — именно для этого.
+- СНГ (Узбекистан, Таджикистан, Казахстан, Кыргызстан, Азербайджан) — бери: решения и заявления глав государств,
+  законы о религии, мечети, хадж и умра, хиджаб, задержания за религию, отношения с исламским миром,
+  крупные происшествия. Мелкое местное (лагеря, погода, соцуслуги района) — нет.
+- Турция, Пакистан, Индонезия, Европа — заметные события у мусульман тоже бери.
+- РУТИНА ВОЙНЫ — в меру: очередная сводка («армия заявила о N операциях», «удар по позициям», очередное
+  осуждение, очередная цифра погибших) — не больше 1–2 на тему за раз. Поворот (взят город, убит лидер,
+  большие жертвы, перемирие) — бери.
 - ОБЯЗАТЕЛЬНО бери: разбор и опровержение фейков (власти, агентства или фактчекеры опровергли ложь
   о Харамайне, КСА, мусульманах); разоблачения схем и деятельности ХАМАС, хуситов, «Хизбаллы», Ирана и КСИР,
   ихвана, ИГИЛ, «Аль-Каиды», шиитских ополчений и других сект — финансирование, контрабанда, вербовка,
@@ -1944,7 +1984,7 @@ def ingest_inbox(state):
         print(f"Черновиков отправлено в модерацию: {sent}")
 
 
-# ---------- повторы: не присылать и не публиковать то, что уже было за 3 дня ----------
+# ---------- повторы: не присылать и не публиковать то, что уже было за 5 дней ----------
 
 DUP_STOP = set("и в во на по с со о об от до за из к у не что как для это его их при после под над без или "
                "также года году тысяч более около свыше".split())
@@ -1963,7 +2003,7 @@ def title_words(title):
 
 
 def taken_titles(state, hours=DUP_HOURS):
-    """Всё, что брали за 3 дня: черновики (любой статус) и опубликованное."""
+    """Всё, что брали за 5 дней: черновики (любой статус) и опубликованное."""
     out = [(title_of((d.get("snap") or {}).get("text")), d.get("status", "")) for d in state["drafts"].values()
            if NOW - float(d.get("created", 0)) < hours * 3600]
     out += [(x["title"], "published") for x in state.get("published_log", []) if NOW - x["t"] < hours * 3600]
@@ -1987,11 +2027,11 @@ def make_idf(titles):
     return lambda w: math.log(n / (1 + df.get(w, 0))) + 0.5
 
 
-DUP_SURE = 0.8               # так похожи — точно повтор (проверено на заголовках канала за 3 дня)
+DUP_SURE = 0.8               # так похожи — точно повтор (проверено на заголовках канала за 5 дней)
 
 
 def similar_taken(state, titles, low=0.45):
-    """Для каждого заголовка — похожие из взятого за 3 дня (и из этой же пачки): [(сходство, заголовок)]."""
+    """Для каждого заголовка — похожие из взятого за 5 дней (и из этой же пачки): [(сходство, заголовок)]."""
     taken = taken_titles(state)
     idf = make_idf([t for t, _ in taken] + titles)
     out = []
@@ -2003,19 +2043,48 @@ def similar_taken(state, titles, low=0.45):
 
 
 def find_repeats(state, titles):
-    """Страховка: почти одинаковое со взятым за 3 дня — {номер: похожий заголовок}.
+    """Страховка: почти одинаковое со взятым за 5 дней — {номер: похожий заголовок}.
     Тонкие случаи (то же событие другими словами) отсеивает Claude-редактор командой check."""
     return {i: near[0][1] for i, near in enumerate(similar_taken(state, titles)) if near and near[0][0] >= DUP_SURE}
 
 
+def topic_of(text):
+    """Тема поста — первый хэштег (Йемен, Палестина, Иран…)."""
+    m = re.search(r"#(\w+)", text or "")
+    return m.group(1) if m else ""
+
+
+def topic_counts(state, hours=TOPIC_HOURS):
+    """Сколько черновиков по каждой теме пришло за последние часы."""
+    counts = {}
+    for d in state["drafts"].values():
+        if NOW - float(d.get("created", 0)) < hours * 3600:
+            t = topic_of((d.get("snap") or {}).get("text"))
+            if t:
+                counts[t] = counts.get(t, 0) + 1
+    return counts
+
+
 def screen_drafts(state, drafts):
-    """Перед отправкой в модерацию: поток (важность) и повторы. Заказанное модератором и свои — всегда."""
+    """Перед отправкой в модерацию: поток (важность), лимит на тему и повторы.
+    Заказанное модератором и свои — всегда."""
     s, now_t = state["settings"], NOW
-    keep = []
+    flow = s.get("flow", "all")
+    keep, counts = [], topic_counts(state)
     for e in drafts:
-        if not e.get("manual") and "safe" in e and not flow_pass(s.get("flow", "all"), e):
+        auto_made = not e.get("manual") and "safe" in e
+        if auto_made and not flow_pass(flow, e):
             state["held"].append({"t": now_t, "title": title_of(e["text"]), "importance": e.get("importance", 3)})
             continue
+        topic = topic_of(e["text"])
+        if auto_made and flow != "all" and topic and counts.get(topic, 0) >= TOPIC_CAP \
+                and e.get("importance", 3) < 5 and not e.get("elite"):
+            state["held"].append({"t": now_t, "title": title_of(e["text"]), "importance": e.get("importance", 3),
+                                  "why": f"тема «{topic}» переполнена"})
+            print(f"Тема «{topic}» переполнена, не присылаю: «{title_of(e['text'])}»")
+            continue
+        if topic:
+            counts[topic] = counts.get(topic, 0) + 1
         keep.append(e)
     check = [e for e in keep if not e.get("manual")]
     repeats = find_repeats(state, [title_of(e["text"]) for e in check]) if check else {}
@@ -2177,6 +2246,7 @@ def gather(seen_path, mark=True, settings=None):
     seen = read_json(seen_path, {"links": [], "titles": []})
     known = set(seen["links"])
     cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
+    search_cutoff = datetime.now(timezone.utc) - timedelta(hours=SEARCH_MAX_AGE_HOURS)
     items = []
     for name, url in FEEDS:
         if s.get("arab_trusted") and name in ARAB_OTHER:
@@ -2202,13 +2272,13 @@ def gather(seen_path, mark=True, settings=None):
             taken += 1
             known.add(link)
             seen["links"].append(link)
-            if e["time"] and e["time"] < cutoff:
+            if e["time"] and e["time"] < (search_cutoff if "news.google.com" in url else cutoff):
                 continue
             title = e["title"]
             if "news.google.com" in link:
                 title = re.sub(r"\s+-\s+[^-]+$", "", title)     # убираем « - Название сайта»
             summary = e["summary"]
-            source = (e.get("source") or name) if name.startswith(WORLD_SEARCH) else name   # поиск: само издание
+            source = (e.get("source") or name) if name.startswith((WORLD_SEARCH, INCIDENT)) else name   # поиск: само издание
             items.append({**e, "time": None, "href": None, "source": source, "title": title, "id_link": link,
                           "ago": int((datetime.now(timezone.utc) - e["time"]).total_seconds() // 60) if e["time"] else None,
                           "summary": "" if summary.startswith(title[:40]) else summary[:400]})
@@ -2226,6 +2296,27 @@ def real_link(link):
     """Google News прячет настоящую ссылку — раскодируем."""
     if "news.google.com" not in link:
         return link
+    try:
+        code = urlparse(link).path.split("/")[-1]
+        for page in (f"https://news.google.com/articles/{code}", f"https://news.google.com/rss/articles/{code}"):
+            text = requests.get(page, timeout=20).text
+            sg, ts = re.search(r'data-n-a-sg="([^"]+)"', text), re.search(r'data-n-a-ts="([^"]+)"', text)
+            if sg and ts:
+                break
+        else:
+            raise ValueError("нет подписи на странице Google News")
+        req = ["Fbv4je", '["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],'
+                         f'"X","X",1,[1,1,1],1,1,null,0,0,null,0],"{code}",{ts.group(1)},"{sg.group(1)}"]']
+        r = requests.post("https://news.google.com/_/DotsSplashUi/data/batchexecute", timeout=20,
+                          headers={"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                                   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                                                 "(KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"},
+                          data="f.req=" + quote(json.dumps([[req]])))
+        url = json.loads(json.loads(r.text.split("\n\n")[1])[:-2][0][2])[1]
+        if url.startswith("http"):
+            return url
+    except Exception as e:
+        print("Google News: свой разбор ссылки не удался, пробую библиотеку:", str(e)[:120])
     try:
         from googlenewsdecoder import gnewsdecoder
         for attempt in range(3):
@@ -2273,8 +2364,10 @@ def build_text(post, link):
     footer = f'<a href="{html.escape(link)}">Источник</a>'
     if CHANNEL_LINK:
         footer = f'<a href="{html.escape(CHANNEL_LINK)}">Подписаться</a> | ' + footer
+    basis = re.sub(r"\s+", " ", str(post.get("basis") or "")).strip()[:140]   # на чём основана новость — для читателя
     parts = [f"{post.get('emoji') or '🕌'} <b>{html.escape(post['title'])}</b>",
-             html.escape(post["body"]), " ".join("#" + t for t in tags if t), footer]
+             html.escape(post["body"]), f"<i>{html.escape(basis)}</i>" if basis else "",
+             " ".join("#" + t for t in tags if t), footer]
     return "\n\n".join(p for p in parts if p)
 
 
@@ -2415,11 +2508,17 @@ def cmd_fetch():
     elif flow != "all":
         print(f"\nМодератор просит присылать {FLOW_NAMES[flow]}: посты с importance ниже {FLOW_MIN[flow]} "
               "не пиши — бот их всё равно не пришлёт.")
-    taken = [t for t, _ in taken_titles(st)][-150:]
+    full = {t: n for t, n in topic_counts(st).items() if n >= TOPIC_CAP}
+    if full and flow != "all":
+        print(f"\nТемы, по которым за {TOPIC_HOURS} часов уже много постов: "
+              + ", ".join(f"{t} — {n}" for t, n in sorted(full.items(), key=lambda kv: -kv[1]))
+              + ".\nПо ним бери ТОЛЬКО главное (importance 5 или elite) — остальное бот не пришлёт. "
+                "Ищи другое: происшествия 🚨, СНГ, Турция, Европа, Харамайн, учёные, добрые новости.")
+    taken = [t for t, _ in taken_titles(st)][-250:]
     for t in recent:
         if t not in taken:
             taken.append(t)
-    print(f"\nУже брали за 3 дня ({len(taken)}) — ПОВТОРЫ НЕ БЕРИ (ту же историю другими словами тоже; "
+    print(f"\nУже брали за 5 дней ({len(taken)}) — ПОВТОРЫ НЕ БЕРИ (ту же историю другими словами тоже; "
           "бери только если есть существенно новое):")
     for t in taken:
         print("-", t)
@@ -2478,7 +2577,7 @@ def cmd_send(path):
 
 
 def cmd_check(path):
-    """Перед send: для каждого поста — похожие заголовки из взятого за 3 дня. Повторы Claude убирает сам."""
+    """Перед send: для каждого поста — похожие заголовки из взятого за 5 дней. Повторы Claude убирает сам."""
     state_pull()
     posts = read_json(path, [])
     near = similar_taken(load_state(), [p.get("title", "") for p in posts])

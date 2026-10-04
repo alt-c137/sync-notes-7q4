@@ -643,7 +643,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
         <button class="tg" id="t-world" onclick="mode('/sources world '+(B.settings.world_reputable?'off':'on'))"><svg class="i"><use href="#i-globe"/></svg>Мир и Запад — только авторитетные<span class="sw"></span></button>
       </div>
       <div class="muted" style="margin-top:8px">Доверенные: саудовские издания, официальные агентства арабских стран, Reuters, AP, AFP.
-        Повторы за 3 дня бот отсеивает сам.</div>
+        Повторы за 5 дней бот отсеивает сам.</div>
       <div class="stats" style="grid-template-columns:repeat(2,1fr)">
         <div class="stat"><b id="st-dupes">–</b><span>повторов отсеяно за сутки</span></div>
         <div class="stat"><b id="st-held">–</b><span>не прислано по фильтру</span></div>
