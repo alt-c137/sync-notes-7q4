@@ -1,8 +1,5 @@
 {
  "links": [
-  "https://news.google.com/rss/articles/CBMihgRBVV95cUxQM2xMeDlwc2pYQzgyMEw4dlh0VUwzWE1FQi1HNHJmY1NxRlZtdDBKaEtndVl6NlJpNHg2RE9LWUV4akNVVVcxQUJJR3JyUXBKc3pHaDlVZHJac3VXVFhUb2dhUmhpcUt6ZzNpN09mbVFLWmpQX1pTYWc2ZHhqUDRkVjMzMll6TEwyazl2MUZSMjNBRVdONUdwNWxFVDlINjVyOVZabGNLNlU3cjJLWlhGRW5SMGRPejlHRXp1dDlwRjBWNk1UX056c1B1MFcxTFpzREt0dnZvQnVPRGlOZ0gtcDJkYXZqRnJFSjR0UkI3d2hsR0FpWVNNUnllZFBkUGJ6OGVDRFF6NnVnLVlHNDIzVGhxbUtCRDltc1B4M1lQRDFhWndqeWJBTHVVU1hQUTZYOU44UDQ1QmJMRjFoRmpSZFRKZE5WNmtpN05ZMTRvOF9VWElFejFyZEpUbDdzaVBaZmFfZ3QtV1FLSVVMN3Y0aEo2SlNvSGROZnZsUXZKb0piRlp0MUI0YTg4WXFudVFLSEF0WnVRQjl3VUk2SkpBUUg4bC15eWJBZERMLUczSXd4ZjllMWJBQ1Z3UVFPNkhRSDkxMVBubEE3d3VkRTl4S0tqOUJ0VzhJVFhxTzJEeG9ZTmxCMUFwdGwwMnJMYmxyOVhnOEpxdFFzaDZtLXh0QTVmQlJWQQ?oc=5",
-  "https://t.me/saudinews50/81884",
-  "https://news.google.com/rss/articles/CBMiR0FVX3lxTE04UmFxOUZSRXFuMlVWb3VmVURjbXVuRXNLV0dwLTJrQ19ONVRsQ2xkTHQyYXFaWHV2bHZPaFo3NTFydDd2UWFZ?oc=5",
   "https://news.google.com/rss/articles/CBMiU0FVX3lxTFAyN3hUT1BxY2pmeHZaSmV6Uy1odTY0TmtjWkkzcjhBWkUzb3UtZ0RDU0hUX1N4SWVCQ3pPOE1GSHZaZWlyMERHUGEzVVJKaF9OUGpv?oc=5",
   "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5xTlVVYUs1WVN6MEd1SVB6ZjhFQ3ZfR0dQUkFmM2h1cEl4dU42ajVSMTFxVXFURzNyNTJLUkNMcUxmZkVkMnJNR0x0Nm1ZdnlKRzVj?oc=5",
   "https://news.google.com/rss/articles/CBMiR0FVX3lxTE1DNVRMdzhEcWNpNTVsdlVsSkppUFN5NE9NQjJhU0dsNzRScTBmSlB4ajJBZWVMa1FsVW1WREdmOXVKVGNHZF93?oc=5",
@@ -7999,12 +7996,12 @@
   "https://news.google.com/rss/articles/CBMivgFBVV95cUxNV2FtcmVQWkFwUHJvU3J0OENHZ3FCb2RUUzlfRXl5d0RRWlVtS0dPMzZCbVNUX1R6aEJhWk1sd1Y2REJQMk9UNGVTT2JVYUZvVnJla1c2cWtmekpDV1I0ODZTRXF4ZXRQZnFJdmNZQlNyVFQtbGZBcWVzWHAzQl9OSm5rS0RWeEJzYnFiRHpMTERIWFlFRUJfaHZjVk81c3lSaVNuT3FaSFBWSmdVd0FqQXZfZUt0VXc1V2FFcmlR0gHEAUFVX3lxTE1jM29WYU1lTTROa1VkY3JvY2hVNmp5UG5zZV9aSXV5alNfVGg0c2E1VFNSd0xTdkNDb0RGd0RXcmxzeWZkS1RiNEtCWXRaV0Z3R2FSNFdPd0cyQ1Q3MERfUXFrTU1LWUFqaE1BNXFLSHk1ZjdlY2JVYzR4QnlUUzFtRFRUa2d5ZThDYXpNUnA5bDF5Ulp4Zi03eGh1R2pfYmNycTA4ZFZUVllCUGtUNTZQR1ZqUEI0b1hVUWNyei03Vzd3dEo?oc=5",
   "https://news.google.com/rss/articles/CBMiRkFVX3lxTFB3d0lxX090c3V6YkNmRWRJaWdyLWFMbXMtd0VwZEhkU1dvWHRxeE1EZnhoX1h5Y0RnNF9oRjV2Nk0wLWcwMWc?oc=5",
   "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQczdXTjFMUS1HY2tHamgtaDlrd21WQm1rOUlndFZYYURwREhQVnhnSWM5MU5IR3E5bTdvVC1lbVhxZmdSVUhkeE9ENXAzZlJWckhvLU1VRzZ0MG9vbUpxY0VPZTByRzdfMWJHVmVjcUFCRnRYSERqdUFwVEVoMlgxZ3c5NzMtME8zN0E0MWNaVkRmTlZwQ0ZXV0ZQMUpiT3p4cTJ4bm1RcWV6MDhKMlBOUGdfZ0xtLTQwazU4SnVjaVp3OGRpMU56V9IByAFBVV95cUxQczdXTjFMUS1HY2tHamgtaDlrd21WQm1rOUlndFZYYURwREhQVnhnSWM5MU5IR3E5bTdvVC1lbVhxZmdSVUhkeE9ENXAzZlJWckhvLU1VRzZ0MG9vbUpxY0VPZTByRzdfMWJHVmVjcUFCRnRYSERqdUFwVEVoMlgxZ3c5NzMtME8zN0E0MWNaVkRmTlZwQ0ZXV0ZQMUpiT3p4cTJ4bm1RcWV6MDhKMlBOUGdfZ0xtLTQwazU4SnVjaVp3OGRpMU56Vw?oc=5",
-  "https://news.google.com/rss/articles/CBMixgFBVV95cUxQQWRKX1FwMFRaMzBZd1B1c0pHZWxHSTI0WVRQUC1ERDhHMngyenpkaG95LVR2VXpUem9mNFJYem5xU29xLUJrcmNHazhzUWZsTEFVcTBOakhhcDk4RDNYUThzRDVCSVNoWkt4QWFaR3lUMHAtbkJZaHRkODBxZGNSQmx3TG43ZzRvVjZEdWdGM3JIc2Rsc180VGoyd245N3JXUktXSGk5THM5M3dzbGZfeElLcUc2b2x3amhkdEJyQmNXbVFXenc?oc=5"
+  "https://news.google.com/rss/articles/CBMixgFBVV95cUxQQWRKX1FwMFRaMzBZd1B1c0pHZWxHSTI0WVRQUC1ERDhHMngyenpkaG95LVR2VXpUem9mNFJYem5xU29xLUJrcmNHazhzUWZsTEFVcTBOakhhcDk4RDNYUThzRDVCSVNoWkt4QWFaR3lUMHAtbkJZaHRkODBxZGNSQmx3TG43ZzRvVjZEdWdGM3JIc2Rsc180VGoyd245N3JXUktXSGk5THM5M3dzbGZfeElLcUc2b2x3amhkdEJyQmNXbVFXenc?oc=5",
+  "https://news.google.com/rss/articles/CBMiRkFVX3lxTFBKNXZzcXd5SzhkRzU3V0gyWU54cl9TQ0pjTEg3OFZDMldOV2YwbzRkSDY4SDIwbGlQSTZwTDZJX3RzbG44cUE?oc=5",
+  "https://sana.sy/international/2602465/",
+  "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBUUVlwbUJaWlRVQTRKZklodUN5U3J5UzNLanp0OVFvVVlDMTlqUGxjN3UxYTY2OEhnUjFWV0ZQb2lVaUtGc01xdW9jTjctVTduSmNn?oc=5"
  ],
  "titles": [
-  "Трамп об атаке хуситов на аэропорт Эр-Рияда: «Это нехорошо»",
-  "Имамы-хатибы Харамайна осудили атаки хуситов и напомнили о неприкосновенности Мекки и Медины",
-  "Султан Омана посетил Международный финансовый центр «Астана»",
   "КСА: йеменцы могут зарегистрироваться для исправления правового статуса по королевской милости",
   "Фон дер Ляйен: хуситы, связанные с Ираном, ответственны за атаки на гражданскую инфраструктуру КСА",
   "Сомали: банк крови в Могадишо при поддержке Центра короля Сальмана помог 401 человеку за сентябрь",
@@ -8061,7 +8058,10 @@
   "Йемен: хуситы закрыли мечеть в Хауте и запретили в ней пятничную молитву",
   "Йемен: «Врачи без границ» предупредили о положении тысяч беженцев из Таиза и Ходейды",
   "Малайзия: вице-премьер предложил расширить для хафизов путь к профессиям",
-  "Индия: NIA возбудила дело о нападении на капитана рейса flydubai"
+  "Индия: NIA возбудила дело о нападении на капитана рейса flydubai",
+  "Гости программы Хранителя двух святынь: покушение на безопасность Королевства и Харамайна — вопиющее нападение на ислам и мусульман",
+  "Газа: от огня беспилотника израильских оккупантов погибла восьмилетняя девочка",
+  "Индонезия: президент Египта ас-Сиси прибыл с официальным визитом"
  ],
  "priority_done": []
 }
