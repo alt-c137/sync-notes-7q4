@@ -1,0 +1,30 @@
+[
+ {
+  "text": "🇮🇶 <b>Ирак: лагерь иранских курдов под Эрбилем атакован двумя дронами</b>\n\nКонтртеррористическое управление Курдистана (Ирак) сообщило, что вечером в четверг лагерь перемещённых лиц из иранского Курдистана в районе Разкари округа Хабат провинции Эрбиль подвергся атаке двух беспилотников со взрывчаткой. По данным управления, пострадавших нет.\n\n<i>ℹ️ Заявление контртеррористического управления Курдистана, передано Asharq Al-Awsat</i>\n\n#Ирак\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://aawsat.com/node/5327559\">Источник</a>",
+  "link": "https://aawsat.com/node/5327559",
+  "image": "https://static.srpcdigital.com/styles/1200x600/public/2026-10/1818029.jpeg.webp?VersionId=8OuGkXHjZRcP2BX9Honpng6W2d2ocf4M",
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "один источник, виновный не назван",
+  "trusted": true,
+  "importance": 3,
+  "elite": false,
+  "live": false,
+  "manual": false
+ },
+ {
+  "text": "🇹🇷 <b>Стамбул: задержан подозреваемый в краже сумки с деньгами в мечети Бейоглу</b>\n\nПолиция Стамбула задержала 41-летнего подозреваемого в краже сумки в мечети квартала Коджатепе в районе Бейоглу 4 октября. Из сумки пропали 5 тысяч евро, 3 тысячи долларов США и 5 тысяч саудовских риялов. Подозреваемого вычислили по 620 минутам записей камер 24 заведений и задержали дома в Эсенлере. При обыске нашли часть денег и нелицензированный пистолет; суд арестовал подозреваемого, владельца оружия отпустили под судебным контролем.\n\n<i>ℹ️ Один источник: турецкое издание Ensondakika со ссылкой на полицию Стамбула</i>\n\n#Турция\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://www.ensondakika.com.tr/beyoglu-nda-camide-para-dolu-canta-caldigi-iddiasiyla-yakalanan-zanli-tutuklandi/715040/\">Источник</a>",
+  "link": "https://www.ensondakika.com.tr/beyoglu-nda-camide-para-dolu-canta-caldigi-iddiasiyla-yakalanan-zanli-tutuklandi/715040/",
+  "image": "https://www.ensondakika.com.tr/haber-gorsel/2026/10/beyoglu-nda-camide-para-dolu-canta-caldigi-iddiasiyla-yakalanan-zanli-tutuklandi-715040.webp",
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "один источник, не из доверенных",
+  "trusted": false,
+  "importance": 3,
+  "elite": false,
+  "live": true,
+  "manual": false
+ }
+]

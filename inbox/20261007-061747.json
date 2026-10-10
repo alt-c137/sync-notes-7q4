@@ -1,0 +1,58 @@
+[
+ {
+  "text": "🇸🇦 <b>Фактчекеры AFP: видео грозы в Мекке выдают за атаку хуситов</b>\n\nАгентство AFP сообщает, что видео грозы в Мекке было ложно распространено в соцсетях как якобы атака хуситов. Подробности проверки в источнике.\n\n<i>ℹ️ Проверка фактчекеров AFP; полный текст не открылся, заголовок подтверждён также Yahoo</i>\n\n#Харамайн #Фейк\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://factcheck.afp.com/doc.afp.com.D24U9ZQ\">Источник</a>",
+  "link": "https://factcheck.afp.com/doc.afp.com.D24U9ZQ",
+  "image": null,
+  "video": null,
+  "tone": "good",
+  "safe": false,
+  "note": "текст статьи недоступен, только заголовок",
+  "trusted": true,
+  "importance": 4,
+  "elite": false,
+  "live": true,
+  "manual": false
+ },
+ {
+  "text": "🇵🇰 <b>Пакистан: в Северном Вазиристане убиты 13 боевиков</b>\n\nСиловые структуры уничтожили 13 боевиков в ходе операции по данным разведки в Северном Вазиристане (провинция Хайбер-Пахтунхва), сообщили государственные СМИ со ссылкой на источники в силовых структурах. По сообщению Pakistan TV, операции против вооружённых групп продолжаются.\n\n<i>ℹ️ Государственные СМИ Пакистана со ссылкой на силовые структуры, независимого подтверждения нет</i>\n\n#Пакистан #Терроризм\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://www.dawn.com/news/2035365/security-forces-kill-13-terrorists-in-north-waziristan-ibo-state-media\">Источник</a>",
+  "link": "https://www.dawn.com/news/2035365/security-forces-kill-13-terrorists-in-north-waziristan-ibo-state-media",
+  "image": "https://i.dawn.com/large/2026/10/07104356f7ae1f2.webp",
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "цифры от силовых структур, один источник",
+  "trusted": false,
+  "importance": 3,
+  "elite": false,
+  "live": false,
+  "manual": false
+ },
+ {
+  "text": "🇰🇿 <b>Казахстан: граждане, завербованные для войны в составе армии РФ, просят помочь вернуться</b>\n\nПо сообщению Daryo, граждане Казахстана, оказавшиеся на войне на стороне России, обратились за помощью с возвращением на родину. В видео они говорят, что ехали в Россию на работу, но под угрозой тюрьмы их вынудили подписать контракт. МИД Казахстана отреагировал на обращение.\n\n<i>ℹ️ Один источник: Daryo, видео-обращение; МИД Казахстана отреагировал</i>\n\n#Казахстан\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://t.me/Daryo/137557\">Источник</a>",
+  "link": "https://t.me/Daryo/137557",
+  "image": "https://cdn4.telesco.pe/file/q-_Vgqaj5Vood186bjPmnp206iVXMKjWkkRiOynijoZsjn3LLBCdUy0N9IcozeY3VRY0Se3bZefBoDb3u4Zq-p1GwBMzr27DGhYQ_sUiuhsNPcyvTor6oxaA3iaEU6Cqju63BLxIgciH9_vPgpD4CKrksbVmBobLt1yBzhCeQ-tuexFLH3hqo3PYbD9D9IBNLNh7ZIabmwWgIehNSW2seOWe2EwlI7LV44u6Zo28WTiGHnkUytaSzwAxUXimbqxlgAMJUr1g8qRk3xc3LJ6cHfPQ3_RUFYtJaSUg6OoHVAUkmxeIh85pFYX6Tk34qdHG9niVT7cjVPwX-EvSMKSeTg.jpg",
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "один источник, видео; не про ислам напрямую",
+  "trusted": false,
+  "importance": 3,
+  "elite": false,
+  "live": false,
+  "manual": false
+ },
+ {
+  "text": "🇵🇸 <b>Газа: двое погибших при ударе израильских оккупантов</b>\n\nВ день годовщины 7 октября в результате воздушного удара израильских оккупантов по сектору Газа погибли двое человек, сообщают Twasul и Al Arabiya.\n\n<i>ℹ️ Сообщения СМИ Twasul и Al Arabiya, официальных данных нет</i>\n\n#Палестина\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://twaslnews1.twaslnews.com/5677199/\">Источник</a>",
+  "link": "https://twaslnews1.twaslnews.com/5677199/",
+  "image": null,
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "текст источника не открылся; рутина",
+  "trusted": true,
+  "importance": 2,
+  "elite": false,
+  "live": false,
+  "manual": false
+ }
+]
