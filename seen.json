@@ -1,7 +1,5 @@
 {
  "links": [
-  "http://www.bernama.com/en/news.php?id=2615737",
-  "http://www.bernama.com/en/news.php?id=2615721",
   "http://www.bernama.com/en/news.php?id=2615720",
   "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZmJWS3hfcm0yUXVXX1dQLW1MNjhkNkhPLXVHWjc1M1RhRXJKT2hRVGlWZjV0LWtQdGtIc0hxeGFCclRMNlEwczVHTndqR21iSENZOHJtem8zeDZXQXVBenBvYWYxcVVvQmx0ck8weTV3dU16OHVyV25nX0tQUlRvdmhPZWJKX0p2aVFBajJhcHE?oc=5",
   "https://news.google.com/rss/articles/CBMisAFBVV95cUxNVUhqZnB1b3ZsWEl5VDUyd0JaMTdCN2h2WVFCek9YaFN2QWFQTmtuS010TTF3UEpuWE5EODJ2LUVlMExndDdrdjQ1cjl2WlNteGFFLXJvNF8zUjBoeG9aNE8tck81TkJfWE9OdHRTVTlra3RMenhkZXlMVk1GdWVnT0U2VWpuZ0lHa3czT0NZWnBLVXB6M0lkY3FMckt6aW1FaWpSRFZUQWZHMzV3Z0JwSQ?oc=5",
@@ -7999,11 +7997,11 @@
   "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPUVdsT0dzbVNYRjA3b1JzV3pIQ0l2X2c5N2hVZ081VXFnLWc2SVhKQTlDeEpKNlFaZW14dWpUQ2tLSFpiZzBNRlRobTllYk02cUhOZmVNSEFaLUpvRy1faDIxaVhMWWZLN2dwbTNJTTJ4Y1NuUlVMdEZPRGRxRFpoVU9rX1Y4ejc5Mzd5SGpwbGxiMzJuZmdMcmxCWEZVWUZacFNUSGtaZEc3cXJ1REozeGVwM3p3WElvcUkw?oc=5",
   "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOVUN4dDd6QTFIYTFJNmpMbTlneTZaYWtSaGJZVEduYnhwQWJZN0lTaGJaS1dEUXlqd2RSZl90c0k1cnRTZy1LUVd1V29za3h4bzgyRVFmVTBFMEVJTF9ZQWFORWdZNlNxSW9LRXJpQzk3WHg0OS1mVWcwNlNPMHRUUjFzVXBaRVlQQ240UmRaWDR0ZUhxUFFTXzB0anloTC10U1RUUDg0akJYMWFYclRZSW9KaVBfeFV1QmdNSmRBVEdpc0dTTVk0ZFRiU2E1UGdDOGNWVlhINEhVcTJGaFR1TUFuZGprUQ?oc=5",
   "https://news.google.com/rss/articles/CBMiugFBVV95cUxQUmV4Ty1OZUhHMFY5dEhrSm5STGQ4R1VGYTIxcjN2MVcybmtlS3NBeDNXYnJxaUpHQzQ0VXFtT0hYWExpeDM2aEdGTjF4YmxxYVJlRUZDTWtRVnE2U3VHYzJQdXAta1ZhbldFcFhnbnB3cWVOMzlQQm9mcFp5YklzZjhyUTZQYmcyZHhVNlExQ0R0ZzU5dC1DWmlIWkg0ZVQwRWFhdU4xcVN6aWlkSnBHWXJVOFltOU1kdWc?oc=5",
-  "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTXluV25tMWMtWG16a3JQNlZBWTFVYkRxRzNBYlIxQV9HSmJfNXJYV2RmWENnUzNYeWpYUVBoZndHeWd0dzZyQXVhWFAtQUotVkdSN0ZVb2VaQkpxcnZTRjdqY3dPUkRaYklTVDdCWklBejZFTElOQ01YeUw2M2l0cGxObjRmZ28wV2hB0gGLAUFVX3lxTE9NeW5Xbm0xYy1YbXprclA2VkFZMVViRHFHM0FiUjFBX0dKYl81clhXZGZYQ2dTM1h5alhRUGhmd0d5Z3R3NnJBdWFYUC1BSi1WR1I3RlVvZVpCSnFydlNGN2pjd09SRFpiSVNUN0JaSUF6NkVMSU5DTVh5TDYzaXRwbE5uNGZnbzBXaEE?oc=5"
+  "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTXluV25tMWMtWG16a3JQNlZBWTFVYkRxRzNBYlIxQV9HSmJfNXJYV2RmWENnUzNYeWpYUVBoZndHeWd0dzZyQXVhWFAtQUotVkdSN0ZVb2VaQkpxcnZTRjdqY3dPUkRaYklTVDdCWklBejZFTElOQ01YeUw2M2l0cGxObjRmZ28wV2hB0gGLAUFVX3lxTE9NeW5Xbm0xYy1YbXprclA2VkFZMVViRHFHM0FiUjFBX0dKYl81clhXZGZYQ2dTM1h5alhRUGhmd0d5Z3R3NnJBdWFYUC1BSi1WR1I3RlVvZVpCSnFydlNGN2pjd09SRFpiSVNUN0JaSUF6NkVMSU5DTVh5TDYzaXRwbE5uNGZnbzBXaEE?oc=5",
+  "https://asharq.com/politics/199055/%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%8A%D8%B3%D9%84%D9%85-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%B1%D8%B3%D8%A7%D9%84%D8%A9-%D8%A8%D8%B4%D8%A3%D9%86-%D8%A7%D9%84%D9%87%D8%AC%D9%88%D9%85-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A-%D8%B9%D9%84%D9%89-%D9%85%D8%B7%D8%A7%D8%B1-%D8%B9%D8%AF%D9%86/",
+  "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQZ2Z5c1J1bWZYWHU1TGcwWm9MejJPOTIxbEJKdkxaMy1oMzJPMnl2TUVsSkNRR1V4WGxlOXpQdEdVMDZOYklkMWpCNHZ6YTdjMFBhbTY3WGtfQU45NjRfTlFHcEVDREQxQjFDc2tzbzRBcnZOTnE2eEJGQVh3QUd1dGFMc1RQUTlqU09TSXlmX0J6MmVZLTFQMnpxRF9rTlVraFAyb0RGM3JwdGPSAbABQVVfeXFMTW96bGI0RFhiaTVDWjlnOGRVRTJoUnp3eFBoV1RHOE9TN2E3WWk4UERSX2VYWVhrU18xVUxGZlk5N25CUnk0dVRGMFQ4cHFLVzUzZTVxXzBtdFd0SFExVmFCUXJ1WHFvRTBfUkxxcGYtZGJCQmlTN25HZU9uMlNXdnVzX19LeVZHZE9ONjJwLXlZU2lUWlo4RUJvNjE0dk9yZUE1MGhPeklUckRFanBSaDA?oc=5"
  ],
  "titles": [
-  "Турция: в Тарсусе проводили в умру группу паломников",
-  "Западный берег: поселенцы-оккупанты напали на свадебную процессию близ Вифлеема",
   "Узбекистан: Мирзиёев принял британского министра по торговле лорда Сарвара",
   "Королевство раздало 1000 продуктовых корзин в провинции Вадаи в Чаде",
   "Пакистан: в ходе операций безопасности убиты 9 боевиков",
@@ -8061,7 +8059,9 @@
   "Ливан передаёт Сирии осуждённых сирийцев; запросов на выдачу пока нет",
   "Всемирная исламская лига осудила нападение на нефтепровод «Восток — Запад» в КСА",
   "Йемен: в Тариме прошёл семинар о шрифте Брайля и работе с незрячими",
-  "Главы МИД Омана и Саудовской Аравии обсудили по телефону новые события в регионе"
+  "Главы МИД Омана и Саудовской Аравии обсудили по телефону новые события в регионе",
+  "Йемен направил в ООН и Совбез письмо об атаке хуситов на аэропорт Адена",
+  "Австрия: сотни людей вышли на акции против запрета хиджаба в школах"
  ],
  "priority_done": []
 }
