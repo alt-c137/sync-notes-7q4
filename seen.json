@@ -1,10 +1,5 @@
 {
  "links": [
-  "https://news.google.com/rss/articles/CBMivwFBVV95cUxOM3ZscnNvWkFHZGhJTlBrZWhCVjA3ODdoM3lzUGQ0eTBnNFdIZG40a0ZKWndIRVlkVGN0VGtKcWdfMElvUTR6ZVF2eWl3UUhNUllSdktDWmlWUDlCZ2UwQ25zWlotNk9qTHFsZUM5SDlubndPRDhXeWo2MFlvU25ScGdqa0dMNEdmOGRzcjVPMElpcUV3d1BxWDE5ZEkyTWhXT3dUOFZKNndqRVhaN0MyTGV4akFMbVh2VDJIVGJxcw?oc=5",
-  "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQa2sya2dwN3RNZ2lTenBYNXIycXZIdU5nR2FCNFdFMXQ2WkJHX1JzS0Y3eTctU3MzVEVjQTMtMGduYllrZjBXeEVqRlRMWGZLX0U4d3ZnQzRRZk9TamFTOFdwZjMzdU5hNzZnVVBIUUNveHpET0dtNFNxMkxsckpWMHR3NURzT1NxU1VtczhoTjJvVkNUQmlETUFSbVF6V3hVSVNsRE82VW0yY0VKZ2RtbWQ3RWJ0SnZFUThB?oc=5",
-  "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQSE85emQ1Zk5wTjNOcXFrVHI2bTRQTGJLcXlybzJBcG44N2NSbkZEeEVoaXcyaVlPTDBBZzk3TzgxWndUMFk5UDJ3U1ZuUnRGN21EREZxRm12YVQzeWdYWGxEUFpzeHMtT2h4UkptX0tZdDBLaFE2UDQ4WlpBT3A2T29JRGI2S1lORVNvUml6cVFRV2c4NVZ4VnE3OWxuYV9WWTBfT3VCWkhiSnF0dmxUd2tTd2VESzU4Y0loOEl5b0hoRWx0end2ZmxZTTh4Yy03M2JTbw?oc=5",
-  "https://news.google.com/rss/articles/CBMingFBVV95cUxNWnJqS1AxU1J5RGRyZUhiUmt1OHNfTWdNVVZVU21EbU9UT1VtLVZ1dXlLazE0UVFjR1NzWFY5b19PY3dlTld3SlQwTUpqSGp2Wi12eWVGMlc3dUhlNzZ2Rmd3RDRBa0NpYVctYVJIZmw0bG5vZjdjeF9vY3pMTjd6M3BwMExUUHFiU1pSbFJuRlJMOW14TlZoeHFCdWNXd9IBngFBVV95cUxNMm1SZUpJTHMxeXV0aExOOGQ0YXpzUk5WLVJFNUxfaHRPM2VqTHFmQnBTZlhXM2tTX0p2Sm9FTmd2UFRCRV95VTQ1TE8xcHlmVFhhUjJiaHFlaW9hVzRVMHU5WWZjcDZPeXF5dDFvNFhLX2xoTHVHQURJeTNiYTFybjdkYjFhbHZTWFczSWRaVnkyWnctVGlUUHNJOHNUZw?oc=5",
-  "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9ES3J2cTdYanc5cDhNajFhZXBKRVd6TUVvX1BzY1RpZUtyT3I3WW5LRXVQTk1VY3pkN045UWtHT2U2eXBBMTJfdTRR?oc=5",
   "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPaXUwcG1aeW5jZEU5WEU0eTd1ZDVVVG54c2FiSUoyTWJNRXlsVlNnQnVGV2pqNGtRRHhCbUk4T1dqNWtHSC15VnplUzd5V18yRjJrQk5Id1hUR1ZwWmYyTW5DTU9vckNZMUJabFJGSXpnOVdpd000d2V4YTJ3XzZreFZFcl9NbHBpU2ZmSWRvVzRMMFpNbS1ZZXZMMFpwcW1pQXh0QzNLVkxfWV9PTUQzRlcxOW9LbDlRc3duY19uYzgxci0zVDBLbl9fLVVpVVhmOEh2blBIeVJTYmlxX2dPSmw2a0N2dTl1d0p1RDlETG5MM2VrRzZoc0pVWWtmYkU?oc=5",
   "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9FT3dpQlJkSFZUVG9GSmE0OERYLVdfZGdUN25jVzdfV0NDNG5yTGg0ZGs5WmRXb0QxUnJMSGh5Wkx5cU9FWUpvYTIzLUNXZHAxU1VSelFrNG9kQmRYVFE?oc=5",
   "https://news.google.com/rss/articles/CBMitwFBVV95cUxNMmQwZUd3UFloSjR4S3FYUmRFZ2JWTnJ1ZTdoOTJIMW95Y3Z2ejA3TE1FMWF3amI4VjRTeEtBcmlvUzFlY0oyeUFWUHZwWU1hZXlua0NNVVNjelFFQXNyYzR5WFg4a0NjTTBic3RsR2U0amZyVUI1M01oRm5hX1EtRC1Sd2dENjAxZ1o0Q3BGX2ZSZ1hqV3VfelRIYnNpYmxCeDhETE5uOUZ2YWRkQy1XYWE5RlJ4eDQ?oc=5",
@@ -7999,14 +7994,14 @@
   "https://news.google.com/rss/articles/CBMib0FVX3lxTE50M0JXem1kUFFxUlZJVzFDTXRzV3hTcks1YVFRWnczREdBTlBocnQ4RHZUNjUxNDlyOFNKSUE5aDZ4UVBrZTh6VnFncEpxMnJEVG1aRHJiQmQ5ZnVXT0pRNXI0dXFkUTFnUGtheFJOcw?oc=5",
   "https://news.google.com/rss/articles/CBMihAFBVV95cUxQXzh3NDR3SVVNajBYc2VUNzhpTHUyMHRqQ0dSMU5uWFRPUkp5ZHExaWp4cHpGdXJLME1CQWhSODNKWlQ2U2MxZkFjdTdnQ3dfSVVldVlXMmRDZVlqelNUNXVsaFNtY3huRmVneVYxVVlfbjFfbFU0akN6Z0Z0MVVWT2pPRXg?oc=5",
   "https://news.google.com/rss/articles/CBMie0FVX3lxTE1palZYTWVFWDh3NHZ6YVVlNlBHei03MlBBcWZpRlRXRkktQVdYSy1lUFpjM2RiMk1PN0wwNEtrU21sMG9TTms2RkI3enRPNUQ3aFZZRHROdWpQOTNqT21YS01PYVdlelMxWnI4aHlNMTZLT1JHR29jdGdkOA?oc=5",
-  "https://news.google.com/rss/articles/CBMijwFBVV95cUxOYUdHNDVBcWNTX2NscXEzZWFQTkZsVnYtS0V4eFZpOHowU0k3Ykx5SC1QRHh2bkFNMXA5eVkxenV2ZDItX0J4VTNSMDk3VE1MS0NBQlRyQnNKcEEwOTZxQlBtZUZwdF9HVDZ4elRZRG1DdHRLLU9ucGF1QXJOYW1WMmN1N2hMYW4zYkxUYW1ucw?oc=5"
+  "https://news.google.com/rss/articles/CBMijwFBVV95cUxOYUdHNDVBcWNTX2NscXEzZWFQTkZsVnYtS0V4eFZpOHowU0k3Ykx5SC1QRHh2bkFNMXA5eVkxenV2ZDItX0J4VTNSMDk3VE1MS0NBQlRyQnNKcEEwOTZxQlBtZUZwdF9HVDZ4elRZRG1DdHRLLU9ucGF1QXJOYW1WMmN1N2hMYW4zYkxUYW1ucw?oc=5",
+  "https://t.me/asharqnews/37280",
+  "https://www.dawn.com/news/2037802/59-magnitude-earthquake-jolts-balochistans-khuzdar",
+  "https://www.okaz.com.sa/local/na/2271123",
+  "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5IUHRxRHR2T2psOGpYVFlTNklMWDI4dzB2U3A1YmRHcGtQNGJNakxrWEg5NjZrQm55UHV5b0dDTVlQeWNPMEN4VXRtWVBHd194MENn?oc=5",
+  "https://aawsat.com/node/5330468"
  ],
  "titles": [
-  "ОАЭ: благотворительное общество Шарджи потратило 177,7 млн дирхамов на ежемесячную помощь",
-  "Йемен: Центр короля Сальмана раздаёт помощь вынужденным переселенцам в Хадрамауте",
-  "Западный берег: поселенцы-оккупанты подожгли машины сборщиков оливок в Турмусайе",
-  "Reuters: Иран экспортировал ограниченные партии топлива в обход американской блокады",
-  "Шахбаз Шариф: Саудовская Аравия и Пакистан всегда стоят рядом",
   "Судан в Совбезе ООН: Великобритания и США призвали защитить мирных жителей и остановить поток оружия",
   "Турция: подозреваемый в убийстве имама в Кастамону арестован",
   "Заместитель муфтия Чечни: можно ли изображать загробную жизнь нейросетями",
@@ -8061,7 +8056,12 @@
   "Пакистан: атаки на энергетику Залива отсрочат восстановление экономики",
   "Западный берег: за день зафиксировано 34 нападения поселенцев-оккупантов на фермеров",
   "Трамп назвал противостояние с Ираном «не войной, а военным учением»",
-  "Рубио начинает поездку в Центральную Азию: в Самарканде пройдёт встреча C5+1"
+  "Рубио начинает поездку в Центральную Азию: в Самарканде пройдёт встреча C5+1",
+  "Йемен: при обстреле хуситов в Тайзе погибла женщина, пятеро ранены",
+  "Пакистан: землетрясение магнитудой 5,9 в районе Хуздара в Белуджистане",
+  "Мекка и соседние районы: до среды ожидаются сильные ливни с градом",
+  "Ливан: газета пишет, что Аун потребовал арестовать должностных лиц «Хизбаллы» из-за грузовика со взрывчаткой",
+  "Бангладеш борется с крупнейшей в мире вспышкой кори: умерли 1147 человек"
  ],
  "priority_done": []
 }
