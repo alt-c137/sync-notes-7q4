@@ -110,6 +110,7 @@ FEEDS = [
     ("Okaz", "https://okaz.com.sa/rssFeed/1"),
     ("Al Riyadh", gnews("site:alriyadh.com", "sa")),
     ("Asharq Al-Awsat", "https://aawsat.com/feed"),
+    ("Asharq Al-Awsat", "tg:AawsatNews"),        # много видео
     ("Asharq News", "https://asharq.com/rss.xml"),
     ("Asharq News", "tg:AsharqNews"),
     ("Al Arabiya", gnews("site:alarabiya.net", "sa")),
@@ -178,12 +179,15 @@ FEEDS = [
     ("Ховар (агентство Таджикистана)", "https://khovar.tj/rus/feed/"),
     # 🇰🇿 🇰🇬 Казахстан, Кыргызстан
     ("Tengrinews", "https://tengrinews.kz/news.rss"),
+    ("Tengrinews", "tg:tengrinews"),             # видео
+    ("AKIpress", "tg:Akipress"),                 # Кыргызстан, много видео
     ("24.kg", "https://24.kg/rss/"),
     ("Kaktus Media", "https://kaktus.media/?rss"),
     # 🇹🇷 Турция
     ("Hürriyet Daily News", west("hurriyetdailynews.com")),
     ("Daily Sabah", west("dailysabah.com")),
     ("Анадолу", "https://www.aa.com.tr/ru/rss/default?cat=guncel"),
+    ("Анадолу", "tg:aa_arabic"),                 # видео
     # 🇵🇰 🇮🇩 🇲🇾 Пакистан, Индонезия, Малайзия
     ("Dawn (Пакистан)", "https://www.dawn.com/feeds/home"),
     ("Antara (Индонезия)", "https://en.antaranews.com/rss/news.xml"),
@@ -1476,6 +1480,8 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
 - ТЯЖЁЛОЕ БЕРИ ОБЯЗАТЕЛЬНО: атаки хуситов и их перехват, Газа и Аль-Акса, удары и вторжения Израиля
   в Сирии и Ливане, Иран, КСИР и Ормуз, ИГИЛ и «Аль-Каида», аресты и суды над людьми Асада, взрывы,
   притеснение мусульман (запреты хиджаба, закрытие медресе). Сомнение — бери с label "verify".
+- 🎬 в строке — у новости есть ВИДЕО: такие бери в первую очередь, если тема не мелочь (удары по хуситам
+  и террористам, спецназ, ПВО, задержания, происшествия, Харамайн, необычные случаи).
 - ЖИВОЕ — бери ОБЯЗАТЕЛЬНО, это самое ценное для читателя: кадры и видео (работа спецназа и ПВО, перехват
   ракет, задержания, происшествия, Харамайн), истории людей (принял ислам, поступок, спасение, находка),
   необычные случаи с мусульманами, практичное о хадже и умре, яркие добрые новости (открытие мечети, помощь,
@@ -1561,7 +1567,9 @@ def triage(state, force=False):
         for start in range(0, len(items), 120):   # порциями, чтобы модель не запуталась
             part = items[start:start + 120]
             listing = "\n".join(f"[{it['index']}] ({it['source']}{' ✓' if it['source'] in TRUSTED_SOURCES else ''}) "
-                                 f"{it['title']}" + (f" — {it['summary'][:150]}" if it["summary"] else "") for it in part)
+                                 + ("🎬 " if it.get("video") or it.get("video_big") else "")
+                                 + f"{it['title']}" + (f" — {it['summary'][:150]}" if it["summary"] else "")
+                                 for it in part)
             msg, who = glm([{"role": "system", "content": rules},
                             {"role": "user", "content": TRIAGE_PROMPT.format(items=listing)}])
             picks += parse_json(msg.get("content")).get("picks", [])
@@ -1934,6 +1942,14 @@ def send_draft(state, e):
     chat = work_chat(state)          # группа «Модер» или личка — по настройке
     base = {"chat_id": chat, "parse_mode": "HTML"}
     text, image, video, msg = e["text"], e.get("image"), e.get("video"), None
+    blurred = None
+    if image and e.get("blur"):
+        data = None if DRY_RUN else download(image, 9)
+        try:
+            blurred = blur_regions(data, e["blur"]) if data else None
+        except Exception as err:
+            print("Не смог замазать фото:", err)
+        image = None     # оригинал без замазки не показываем — ни фото, ни превью ссылки
 
     if len(text) <= 1024:   # лимит подписи к фото/видео
         kb = keyboard({**d, "media": True}, "pending", wm)
@@ -1942,6 +1958,8 @@ def send_draft(state, e):
             if not msg and not DRY_RUN and (data := download(video, 49)):
                 msg = tg("sendVideo", files={"video": ("video.mp4", data)}, caption=text,
                          supports_streaming=True, reply_markup=kb, **base)
+        if not msg and blurred:
+            msg = tg("sendPhoto", files={"photo": ("photo.jpg", blurred)}, caption=text, reply_markup=kb, **base)
         if not msg and image:
             msg = tg("sendPhoto", photo=image, caption=text, reply_markup=kb, **base)
             if not msg and not DRY_RUN and (data := download(image, 9)):
@@ -1963,6 +1981,10 @@ def send_draft(state, e):
         if not DRY_RUN:   # номер черновика узнаём только после отправки
             d["n"] = key
             refresh(state, key, "pending")
+        if e.get("tech"):   # служебное — отдельным сообщением, чтобы не попало в канал
+            tg("sendMessage", chat_id=chat, disable_notification=True, quiet=True,
+               reply_parameters={"message_id": msg["message_id"]}, link_preview_options={"is_disabled": True},
+               text=f"🛑🛑 СЛУЖЕБНОЕ — НЕ ДЛЯ КАНАЛА 🛑🛑\n{e['tech']}"[:4000])
     return msg
 
 
@@ -2177,12 +2199,14 @@ def tg_channel(name, pages=2):
         if not pid or not text:
             continue
         when = re.search(r'<time[^>]+datetime="([^"]+)"', block)
-        photo = re.search(r"(?:message_photo_wrap|link_preview_right_image|link_preview_image)"
+        photo = re.search(r"(?:message_photo_wrap|link_preview_right_image|link_preview_image|message_video_thumb)"
                           r"[^>]+background-image:url\('([^']+)'\)", block)
         video = re.search(r'<video[^>]+src="([^"]+)"', block)
         body = clean(text.group(1))
         posts.append({"link": f"https://t.me/{pid.group(1)}", "title": re.sub(r"\s+", " ", body)[:220],
                       "text": body, "image": photo and photo.group(1), "video": video and video.group(1),
+                      # видео есть, но Telegram не отдаёт его (слишком большое) — модератор возьмёт вручную
+                      "video_big": "message_video_player" in block and not video,
                       "time": datetime.fromisoformat(when.group(1)) if when else None})
     return posts
 
@@ -2421,11 +2445,79 @@ def best_image(*urls):
 
 def make_entry(item, post):
     """Готовый черновик для дежурного."""
+    post, tech = split_tech(post)
+    image = None if post.get("photo") is False else best_image(item.get("page_image"), item.get("image"))
+    video = None if post.get("video") is False else item.get("video")
+    blur = [b for b in post.get("blur") or [] if isinstance(b, (list, tuple)) and len(b) == 4]
+    safe = bool(post.get("safe"))
+    if post.get("video") is False and item.get("video"):
+        tech.append(f"🫣 Видео не прикрепил (аурат). Оригинал: {item['link']}")
+    if item.get("video_big") and not item.get("video") and post.get("video") is not False:
+        tech.append(f"🎬 Есть видео, но Telegram не дал его скачать (слишком большое). Возьми вручную: {item['link']}")
+    if blur and image:
+        safe = False     # замазанное фото — только через модератора
+        tech.append(f"🫣 На фото замазано мест: {len(blur)} — посмотри, всё ли закрыто")
+    if post.get("check_note"):
+        tech.append("🔎 Проверка: " + str(post["check_note"]))
     return {"text": build_text(post, item["link"]), "link": item["link"],
-            "image": best_image(item.get("page_image"), item.get("image")), "video": item.get("video"),
-            "tone": post.get("tone", ""), "safe": bool(post.get("safe")),
+            "image": image, "video": video, "blur": blur if image else [],
+            "tone": post.get("tone", ""), "safe": safe,
             "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES,
-            "importance": importance_of(post), "elite": bool(post.get("elite")), "live": bool(post.get("live"))}
+            "importance": importance_of(post), "elite": bool(post.get("elite")), "live": bool(post.get("live")),
+            "tech": "\n".join(f"• {t}" for t in tech)}
+
+
+# служебные пометки («текст не загрузился», «по заголовку») — не для читателя
+TECH_PHRASE = re.compile(r"(текст\w*|стать\w*|страниц\w*|заголов\w*|анонс\w*|материал\w*)[^.!?;]{0,40}"
+                         r"не\s*(за|про|под)?(груз|откр)|по\s+(заголовк|анонс)\w*|только\s+заголов\w*", re.I)
+
+
+def split_tech(post):
+    """Убирает служебные пометки из basis и текста поста; возвращает (пост, список пометок)."""
+    tech = [str(post["tech"])] if post.get("tech") else []
+    post = dict(post)
+    basis = str(post.get("basis") or "")
+    if TECH_PHRASE.search(basis):
+        keep = []
+        for part in re.split(r"\s*;\s*", basis):
+            (tech if TECH_PHRASE.search(part) else keep).append(part)
+        post["basis"] = "; ".join(p for p in keep if p.strip())
+        if post["basis"] and not re.match(r"[✅ℹ⚠]", post["basis"]):
+            post["basis"] = re.match(r"\W*", basis).group(0) + post["basis"]   # эмодзи остаётся в начале
+    body = str(post.get("body") or "")
+    if TECH_PHRASE.search(body):
+        paras = []
+        for para in body.split("\n"):
+            sents = re.split(r"(?<=[.!?…])\s+", para)
+            tech += [s for s in sents if TECH_PHRASE.search(s)]
+            paras.append(" ".join(s for s in sents if not TECH_PHRASE.search(s)))
+        body = re.sub(r"\n{3,}", "\n\n", "\n".join(paras)).strip()
+        if body:
+            post["body"] = body
+    return post, [t.strip() for t in tech if t.strip()]
+
+
+def blur_regions(data, boxes):
+    """Замазывает области фото (доли ширины и высоты: x1, y1, x2, y2) — с запасом по краям."""
+    from PIL import Image, ImageFilter
+    img = Image.open(BytesIO(data)).convert("RGB")
+    W, H = img.size
+    for b in boxes:
+        try:
+            x1, y1, x2, y2 = (max(0.0, min(1.0, float(v))) for v in b)
+        except (TypeError, ValueError):
+            continue
+        if x2 <= x1 or y2 <= y1:
+            continue
+        px, py = (x2 - x1) * 0.12 + 0.02, (y2 - y1) * 0.12 + 0.02   # границы на глаз — берём шире
+        box = (int(max(0, x1 - px) * W), int(max(0, y1 - py) * H), int(min(1, x2 + px) * W), int(min(1, y2 + py) * H))
+        part = img.crop(box)
+        small = part.resize((max(1, part.width // 28), max(1, part.height // 28)), Image.BILINEAR)
+        part = small.resize(part.size, Image.NEAREST).filter(ImageFilter.GaussianBlur(max(part.size) // 25 + 6))
+        img.paste(part, box)
+    out = BytesIO()
+    img.save(out, "JPEG", quality=90)
+    return out.getvalue()
 
 
 def importance_of(post):
@@ -2539,7 +2631,7 @@ def cmd_fetch():
     show(f"\nКандидаты ({len(items)}), формат: [номер] (источник) заголовок — анонс")
     for it in items:
         mark = ("⭐ " if it.get("priority") else "") + {"clear": "✅ ", "verify": "🔎 "}.get(it.get("label"), "") \
-            + ("🎬 " if it.get("video") else "")   # 🎬 — у новости есть видео
+            + ("🎬 " if it.get("video") or it.get("video_big") else "")   # 🎬 — у новости есть видео
         show(f"[{it['index']}] {mark}({it['source']}) {it['title']}"
              + (f" — {it['summary'][:200]}" if it["summary"] else "")
              + (f"  [GLM: {it['why']}]" if it.get("why") else ""))
@@ -2607,11 +2699,54 @@ def cmd_article(indexes):
     for i in indexes:
         if 0 <= i < len(items):
             it = fetch_article(items[i])
+            photo_file, frames_file = media_preview(i, it)
             out.append({"index": i, "source": it["source"], "title": it["title"], "link": it["link"],
                         "summary": it["summary"], "text": (it.get("text") or "")[:6000],
-                        "has_photo": bool(it.get("image") or it.get("page_image")), "has_video": bool(it.get("video"))})
+                        "photo_file": photo_file, "video_frames_file": frames_file,
+                        "video_too_big": bool(it.get("video_big") and not it.get("video"))})
     write_json("candidates.json", items)   # запомнили раскодированные ссылки и картинки
     print(json.dumps(out, ensure_ascii=False, indent=1))
+    if any(o["photo_file"] or o["video_frames_file"] for o in out):
+        print("\nОТКРОЙ (Read) КАЖДЫЙ photo_file и video_frames_file и проверь аурат — раздел «Аурат на фото и видео» "
+              "в rules.md. Нашёл — заполни в посте blur / photo: false / video: false.")
+
+
+def media_preview(i, it):
+    """Картинка новости и 6 кадров видео — в папку media/, чтобы редактор посмотрел их глазами."""
+    from PIL import Image
+    os.makedirs("media", exist_ok=True)
+    photo_file = frames_file = None
+    url = best_image(it.get("page_image"), it.get("image"))
+    if url and (data := download(url, 9)):
+        try:
+            img = Image.open(BytesIO(data)).convert("RGB")
+            img.thumbnail((1280, 1280))
+            photo_file = f"media/{i}.jpg"
+            img.save(photo_file, "JPEG", quality=85)
+        except Exception as e:
+            print("Картинка не открылась:", e)
+    if it.get("video") and (data := download(it["video"], 49)):
+        frames_file = video_frames(data, f"media/{i}_video.jpg")
+    return photo_file, frames_file
+
+
+def video_frames(data, out_path, n=6):
+    """Лист из n кадров, равномерно по всему видео (3×2)."""
+    import imageio_ffmpeg
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    with tempfile.TemporaryDirectory() as tmp:
+        src = os.path.join(tmp, "v.mp4")
+        open(src, "wb").write(data)
+        info = subprocess.run([ffmpeg, "-i", src], capture_output=True, text=True, errors="ignore").stderr
+        m = re.search(r"Duration: (\d+):(\d+):([\d.]+)", info)
+        dur = int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3)) if m else 30.0
+        r = subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", src, "-vf",
+                            f"fps={n / max(dur, 1):.4f},scale=480:-2,tile=3x2", "-frames:v", "1", out_path],
+                           capture_output=True, text=True, errors="ignore")
+    if r.returncode != 0 or not os.path.exists(out_path):
+        print("Кадры видео не получились:", r.stderr[-200:])
+        return None
+    return out_path
 
 
 def cmd_send(path):
