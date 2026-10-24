@@ -1,0 +1,30 @@
+[
+ {
+  "text": "🇸🇦 <b>AFP: старые кадры выдают за переброску войск Пакистана и Турции в Саудовскую Аравию</b>\n\nСлужба проверки фактов AFP сообщает, что в соцсетях распространяются старые кадры, которые выдают за отправку пакистанских и турецких военных в Саудовскую Аравию. Текст проверки не загрузился, поэтому подробности не приводятся.\n\n<i>ℹ️ Проверка фактов AFP; по заголовку, полный текст недоступен</i>\n\n#Фейки #СаудовскаяАравия\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://factcheck.afp.com/doc.afp.com.D3FT7G8\">Источник</a>",
+  "link": "https://factcheck.afp.com/doc.afp.com.D3FT7G8",
+  "image": null,
+  "video": null,
+  "tone": "good",
+  "safe": false,
+  "note": "текст AFP не загрузился, только заголовок",
+  "trusted": true,
+  "importance": 4,
+  "elite": false,
+  "live": true,
+  "manual": false
+ },
+ {
+  "text": "🇹🇷 <b>Турция: в Шанлыурфе принято решение о сносе мечети 11 Нисан</b>\n\nВ центре Шанлыурфы принято решение о сносе мечети 11 Нисан. По данным местного издания, после землетрясения мечеть признана тяжело повреждённой. Перед сносом её опечатали из соображений безопасности. Точная дата сноса пока неизвестна.\n\n<i>ℹ️ Один источник: Şanlıurfa Gazetesi</i>\n\n#Турция #Мечети\n\n<a href=\"https://t.me/ilm4_info\">Подписаться</a> | <a href=\"https://www.sanliurfagazetesi.com/sanliurfada-11-nisan-camii-icin-yikim-karari\">Источник</a>",
+  "link": "https://www.sanliurfagazetesi.com/sanliurfada-11-nisan-camii-icin-yikim-karari",
+  "image": "https://sanliurfagazetesicom.teimg.com/crop/1280x720/sanliurfagazetesi-com/uploads/2026/10/ekran-goruntusu-2026-10-20-093235-1.jpg",
+  "video": null,
+  "tone": "hard",
+  "safe": false,
+  "note": "один местный источник",
+  "trusted": false,
+  "importance": 3,
+  "elite": false,
+  "live": false,
+  "manual": false
+ }
+]
