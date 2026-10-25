@@ -332,6 +332,7 @@ WATERMARK_TEXT = "@ilm4_info"             # текст водяного знак
 
 MAX_DRAFTS_PER_COLLECT = 15  # сколько черновиков за один сбор (режим API)
 MAX_AGE_HOURS = 6            # новости старше этого не берём
+EDITOR_WINDOW_HOURS = 14     # редактор бывает утром, в обед и вечером — ночью перерыв ~13 ч
 SEARCH_MAX_AGE_HOURS = 18    # из поиска Google News — до 18 часов: он находит статьи с опозданием
 PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
 AUTO_MAX_AGE_HOURS = 3       # автопилот публикует только черновики не старше 3 часов
@@ -1584,7 +1585,7 @@ def triage(state, force=False):
     # происшествия и СНГ идут к Claude напрямую: GLM их не отсеивает (решит Claude)
     picks += [{"index": it["index"], "label": "verify", "tone": "", "why": "происшествия или СНГ — реши сам, нужно ли"}
               for it in items if it.get("direct")]
-    short = [x for x in read_json("shortlist.json", []) if NOW - x["t"] < 12 * 3600]
+    short = [x for x in read_json("shortlist.json", []) if NOW - x["t"] < 16 * 3600]   # редактор бывает раз в 5–13 ч
     have = {x["id_link"] for x in short}
     added = 0
     for p in picks:
@@ -2445,7 +2446,8 @@ def best_image(*urls):
 
 def make_entry(item, post):
     """Готовый черновик для дежурного."""
-    post, tech = split_tech(post)
+    post, _ = split_tech(post)          # «текст не загрузился» и т. п. просто вырезаем — модератору не нужно
+    tech = [str(post["tech"]).strip()] if str(post.get("tech") or "").strip() else []
     image = None if post.get("photo") is False else best_image(item.get("page_image"), item.get("image"))
     video = None if post.get("video") is False else item.get("video")
     blur = [b for b in post.get("blur") or [] if isinstance(b, (list, tuple)) and len(b) == 4]
@@ -2457,7 +2459,7 @@ def make_entry(item, post):
     if blur and image:
         safe = False     # замазанное фото — только через модератора
         tech.append(f"🫣 На фото замазано мест: {len(blur)} — посмотри, всё ли закрыто")
-    if post.get("check_note"):
+    if not safe and len(str(post.get("check_note") or "")) > 40:   # на кнопке не уместилось
         tech.append("🔎 Проверка: " + str(post["check_note"]))
     return {"text": build_text(post, item["link"]), "link": item["link"],
             "image": image, "video": video, "blur": blur if image else [],
@@ -2474,7 +2476,7 @@ TECH_PHRASE = re.compile(r"(текст\w*|стать\w*|страниц\w*|заг
 
 def split_tech(post):
     """Убирает служебные пометки из basis и текста поста; возвращает (пост, список пометок)."""
-    tech = [str(post["tech"])] if post.get("tech") else []
+    tech = []
     post = dict(post)
     basis = str(post.get("basis") or "")
     if TECH_PHRASE.search(basis):
@@ -2658,7 +2660,7 @@ def fetch_candidates():
         done, pdone = set(seen["links"]), set(seen["priority_done"])
         short = read_json("shortlist.json", [])
         wanted = [x for x in short if x.get("priority") and x["id_link"] not in pdone]
-        fresh = [x for x in short if x["id_link"] not in done and not x.get("priority") and NOW - x["t"] < 6 * 3600]
+        fresh = [x for x in short if x["id_link"] not in done and not x.get("priority") and NOW - x["t"] < EDITOR_WINDOW_HOURS * 3600]
         items = wanted + fresh
         seen["links"] = (seen["links"] + [x["id_link"] for x in items])[-8000:]
         seen["priority_done"] = (seen["priority_done"] + [x["id_link"] for x in wanted])[-2000:]
