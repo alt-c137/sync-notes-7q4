@@ -1,0 +1,1924 @@
+{
+ "offset": 498374848,
+ "drafts": {
+  "3443": {
+   "tone": "good",
+   "url": "https://asiaplus.news/2026/11/14/v-kabule-vosstanavlivayut-drevnyuyu-krepost-bala-hissar-perezhivshuyu-vojny-i-razrusheniya/",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": false,
+   "note": "пересказ AP",
+   "trusted": false,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇦🇫 Кабул: реставрация крепости Бала-Хиссар открывает следы двухтысячелетней истории\n\nДревняя крепость Бала-Хиссар на южной окраине старого Кабула, много лет разрушавшаяся из-за войн, проходит масштабную реставрацию. Раскопки ведёт Фонд Ага-хана по культуре. В пяти траншеях обнаружили древние монеты, фрагменты буддийских статуй, глазурованную исламскую керамику, масляные лампы, остатки дворцов, монастырей и жилых построек. Фонд планирует превратить крепость в общественный археологический парк с садами и музеем.\n\nℹ️ «Азия-Плюс» со ссылкой на «Фергану» и Associated Press\n\n#Афганистан #Наследие\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 80,
+      "type": "bold"
+     },
+     {
+      "offset": 519,
+      "length": 57,
+      "type": "italic"
+     },
+     {
+      "offset": 578,
+      "length": 11,
+      "type": "hashtag"
+     },
+     {
+      "offset": 590,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 601,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 615,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://asiaplus.news/2026/11/14/v-kabule-vosstanavlivayut-drevnyuyu-krepost-bala-hissar-perezhivshuyu-vojny-i-razrusheniya/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINc2r4hsLdAAH0_CXi0WdlXykEHFU7LAAC9g9rG4H7xVNaM-3kdCOJmQEAAwIAA3gAAz0E"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3443,
+   "n": "3443"
+  },
+  "3444": {
+   "tone": "hard",
+   "url": "https://spa.gov.sa/N2726416",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Коалиция: над Эр-Риядом и югом Королевства перехвачены два дрона хуситов\n\nКоалиция по восстановлению законности в Йемене сообщила о перехвате и уничтожении двух беспилотников, которые хуситы запустили в направлении районов Эр-Рияд и Южного региона Королевства. Сообщение также передали Sabq, Al Arabiya и Anadolu.\n\n✅ Заявление коалиции, сообщение государственного агентства SPA\n\n#Йемен #Хуситы\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 72,
+      "type": "bold"
+     },
+     {
+      "offset": 320,
+      "length": 62,
+      "type": "italic"
+     },
+     {
+      "offset": 384,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 391,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 400,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 414,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://spa.gov.sa/N2726416"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINdGr4hsX2RsrrfIhXDHIWAVnnzd_fAAIyEGsbNNDFU87mNYZy6cujAQADAgADdwADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3444,
+   "n": "3444"
+  },
+  "3445": {
+   "tone": "good",
+   "url": "https://twaslnews1.twaslnews.com/7679979/",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": false,
+   "note": "один источник, подробностей нет",
+   "trusted": true,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇪🇬 Рами Имам прервал встречу в Каире из-за азана\n\nРами Имам остановил свою встречу в рамках Каирского кинофестиваля из-за азана, сообщает Twasul.\n\nℹ️ Один источник: Twasul\n\n#Египет\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 45,
+      "type": "bold"
+     },
+     {
+      "offset": 149,
+      "length": 24,
+      "type": "italic"
+     },
+     {
+      "offset": 175,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 184,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 198,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://twaslnews1.twaslnews.com/7679979/"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3445,
+   "n": "3445"
+  },
+  "3446": {
+   "tone": "hard",
+   "url": "https://www.reuters.com/world/middle-east/trump-tells-advisers-he-may-hold-off-iran-attacks-barring-new-provocations-2026-11-14/",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": false,
+   "note": "анонимные источники; острая политика",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇷 Reuters: Трамп может воздержаться от ударов по Ирану, если не будет новых провокаций\n\nКак сообщает Reuters со ссылкой на источники, президент США Дональд Трамп сказал советникам, что может не наносить новых ударов по Ирану, если не будет новых провокаций. По тем же данным, Израиль настаивает на возобновлении ударов по Ирану. Asharq Al-Awsat пишет, что Пентагон при этом направляет третий авианосец.\n\nℹ️ Reuters со ссылкой на анонимные источники; официальных заявлений нет\n\n#Иран #США\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 84,
+      "type": "bold"
+     },
+     {
+      "offset": 407,
+      "length": 71,
+      "type": "italic"
+     },
+     {
+      "offset": 480,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 486,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 492,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 506,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.reuters.com/world/middle-east/trump-tells-advisers-he-may-hold-off-iran-attacks-barring-new-provocations-2026-11-14/"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3446,
+   "n": "3446"
+  },
+  "3447": {
+   "tone": "hard",
+   "url": "https://t.me/Alarabiya/169778",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": false,
+   "note": "один источник",
+   "trusted": false,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇱🇾 Ливия: отравление дикими грибами — двое погибших, 31 пострадавший\n\nВ Ливии зафиксировано массовое отравление дикими грибами: два человека погибли, 31 получили отравление, среди пострадавших есть дети.\n\nℹ️ Один источник: Al Arabiya\n\n#Ливия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 65,
+      "type": "bold"
+     },
+     {
+      "offset": 207,
+      "length": 28,
+      "type": "italic"
+     },
+     {
+      "offset": 237,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 245,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 259,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/Alarabiya/169778"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAINd2r4htEmFLyhR9YmZuPDU5s_DE2GAAJkG2sbh4LJS0aKuaxYRdAlAQADAgADeAADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3447,
+   "n": "3447"
+  },
+  "3448": {
+   "tone": "hard",
+   "url": "https://t.me/asharqnews/39187",
+   "created": 1794672115.391094,
+   "status": "expired",
+   "safe": false,
+   "note": "один источник",
+   "trusted": true,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇶 Ирак: в Рамади простились с бывшим депутатом Ахмедом аль-Алвани\n\nВ Рамади в провинции Анбар прошли похороны бывшего депутата парламента Ирака Ахмеда аль-Алвани, тело которого доставили из Бейрута. Его нашли мёртвым в квартире в районе Тарик аль-Джадида в Бейруте. Следствие подозревает двух граждан Сирии; прокурор Ливана попросил власти Сирии задержать их и выдать ливанскому правосудию: по данным следствия, вскоре после убийства они уехали из Ливана в Сирию.\n\nℹ️ Кадры и сообщение Asharq News; расследование продолжается\n\n#Ирак\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 468,
+      "length": 60,
+      "type": "italic"
+     },
+     {
+      "offset": 530,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 537,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 551,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/asharqnews/39187"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3448,
+   "n": "3448"
+  },
+  "3450": {
+   "tone": "good",
+   "url": "https://newturkpost.com/news/135670-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2027-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%88%D8%B9%D8%AF-%D8%A7%D9%84%D8%B1%D8%B3%D9%85%D9%8A-%D9%84%D8%A3%D9%88%D9%84-%D8%B5%D9%8A%D8%A7%D9%85-%D9%88%D8%A3%D9%88%D9%84-%D8%AA%D8%B1%D8%A7%D9%88%D9%8A%D8%AD",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": false,
+   "note": "даты по календарю Диянета",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🕌 Диянет объявил даты Рамадана 2027 года\n\nУправление по делам религии Турции опубликовало календарь религиозных дней на 2027 год. Рамадан начнётся в понедельник, 8 февраля; первый сухур — в ночь с 7 на 8 февраля, первый таравих — после ночной молитвы вечером 7 февраля.\n\nЛейлят аль-Кадр придётся на пятницу, 5 марта. Ид аль-Фитр: первый день — 9 марта, второй — 10 марта, третий — 11 марта.\n\nℹ️ Официальный календарь Управления по делам религии Турции\n\n#Рамадан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 38,
+      "type": "bold"
+     },
+     {
+      "offset": 393,
+      "length": 59,
+      "type": "italic"
+     },
+     {
+      "offset": 454,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 464,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 478,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://newturkpost.com/news/135670-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2027-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%88%D8%B9%D8%AF-%D8%A7%D9%84%D8%B1%D8%B3%D9%85%D9%8A-%D9%84%D8%A3%D9%88%D9%84-%D8%B5%D9%8A%D8%A7%D9%85-%D9%88%D8%A3%D9%88%D9%84-%D8%AA%D8%B1%D8%A7%D9%88%D9%8A%D8%AD"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINemr5WlqREr-_fQ9b28ljDu_StDJ6AAIjEGsbE0bUUyBm5dAwgPe1AQADAgADeAADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3450,
+   "n": "3450"
+  },
+  "3451": {
+   "tone": "hard",
+   "url": "https://aawsat.com/node/5341290",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Коалиция: над Эр-Риядом перехвачены две баллистические ракеты хуситов, в Восточной провинции — три дрона\n\nОфициальный представитель коалиции по поддержке легитимности в Йемене генерал-майор Турки аль-Малики сообщил, что на рассвете в воскресенье силы ПВО перехватили и уничтожили две баллистические ракеты, выпущенные хуситами в направлении Эр-Рияда, а также три беспилотника в Восточной провинции.\n\nПеред этим Гражданская оборона Королевства через Национальную платформу раннего оповещения объявила тревогу в Эр-Рияде, а позднее сообщила, что опасность миновала. Жителей призвали следовать официальным инструкциям, не собираться и не снимать на видео.\n\n✅ Официальное заявление представителя коалиции и Гражданской обороны КСА\n\n#Йемен #Королевство\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 104,
+      "type": "bold"
+     },
+     {
+      "offset": 659,
+      "length": 72,
+      "type": "italic"
+     },
+     {
+      "offset": 733,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 740,
+      "length": 12,
+      "type": "hashtag"
+     },
+     {
+      "offset": 754,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 768,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://aawsat.com/node/5341290"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINe2r5Wly-d_X5rMGzvP01WlpmsNCDAAJgEGsbu37MU3VwWWTK6u7kAQADAgADeQADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3451,
+   "n": "3451"
+  },
+  "3452": {
+   "tone": "hard",
+   "url": "https://twaslnews1.twaslnews.com/7705344/",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": false,
+   "note": "подробности уточняются",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇧🇭 Бахрейн: объявлена тревога, ПВО уничтожила иранские беспилотники\n\nРано утром в воскресенье в Бахрейне сработали сирены. Министерство внутренних дел призвало граждан и жителей сохранять спокойствие и пройти в ближайшее безопасное место, предупредив о возможной угрозе.\n\nПо сообщениям СМИ, ПВО Бахрейна перехватила и уничтожила иранские беспилотники.\n\nℹ️ Заявление МВД Бахрейна; об иранских дронах сообщают СМИ, подробностей нет\n\n#Бахрейн #Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 64,
+      "type": "bold"
+     },
+     {
+      "offset": 355,
+      "length": 76,
+      "type": "italic"
+     },
+     {
+      "offset": 433,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 442,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 449,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 463,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://twaslnews1.twaslnews.com/7705344/"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3452,
+   "n": "3452"
+  },
+  "3453": {
+   "tone": "hard",
+   "url": "https://www.arabnews.com/middle-east/a-bomb-rips-through-a-damascus-suburb-killing-2-including-a-child-3011937",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇾 Сирия: при взрыве заминированного автомобиля в Джарамане погибли двое, в том числе ребёнок\n\nВ субботу вечером в Джарамане, южном пригороде Дамаска, взорвалось взрывное устройство, заложенное в автомобиль. По сообщениям государственного телевидения и Министерства внутренних дел, погибли двое, среди них ребёнок, есть раненые.\n\nСилы безопасности оцепили район и начали расследование. Взрыв произошёл возле завода по производству аккумуляторов.\n\n✅ Сообщение МВД Сирии и государственного телевидения, подтверждено несколькими изданиями\n\n#Сирия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 90,
+      "type": "bold"
+     },
+     {
+      "offset": 449,
+      "length": 88,
+      "type": "italic"
+     },
+     {
+      "offset": 539,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 547,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 561,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.arabnews.com/middle-east/a-bomb-rips-through-a-damascus-suburb-killing-2-including-a-child-3011937"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINfWr5WmJwtoBoCTTsKRrxN9itB_T1AAJ4EWsbTXLMU6EtN1CBo1jfAQADAgADeAADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3453,
+   "n": "3453"
+  },
+  "3454": {
+   "tone": "hard",
+   "url": "https://asharq.com/politics/203058/%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D8%A5%D8%B9%D9%81%D8%A7%D8%A1-9-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D9%8A%D9%86-%D8%A8%D8%B9%D8%AF-%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%81%D9%8A-%D8%AA%D9%87%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D9%86%D9%81%D8%B7-%D8%A8%D8%AC%D8%B1%D9%81-%D8%A7%D9%84%D9%86%D8%B5%D8%B1/",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇮🇶 Ирак: премьер-министр отстранил девять чиновников из-за контрабанды нефти в Джурф-ан-Наср\n\nПремьер-министр Ирака Али аз-Зайди отстранил от должностей девять чиновников, среди них командир полиции провинции Бабиль и командир «аль-Хашд аш-Шааби» в этой провинции. Он распорядился передать дела всех причастных к контрабанде нефти в районе Джурф-ан-Наср в суд.\n\nСледственная комиссия подтвердила данные разведки о контрабанде нефти и о существовании там нефтеперерабатывающих установок, а также выявила случаи манипуляций. По словам аз-Зайди, «не останется ни пяди земли в Ираке, где ведётся контрабанда, от Заху до Басры».\n\n✅ Официальное заявление канцелярии главнокомандующего, подтверждено несколькими изданиями\n\n#Ирак\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 89,
+      "type": "bold"
+     },
+     {
+      "offset": 627,
+      "length": 89,
+      "type": "italic"
+     },
+     {
+      "offset": 718,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 725,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 739,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://asharq.com/politics/203058/%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D8%A5%D8%B9%D9%81%D8%A7%D8%A1-9-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D9%8A%D9%86-%D8%A8%D8%B9%D8%AF-%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%81%D9%8A-%D8%AA%D9%87%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D9%86%D9%81%D8%B7-%D8%A8%D8%AC%D8%B1%D9%81-%D8%A7%D9%84%D9%86%D8%B5%D8%B1/"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3454,
+   "n": "3454"
+  },
+  "3455": {
+   "tone": "hard",
+   "url": "https://sana.sy/syria-and-the-world/2635401/",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇱🇧 Ливан: крупный пожар в лагере сирийских беженцев в Бар-Эльяс, сгорели 30 палаток\n\nВ субботу вечером в лагере сирийских беженцев в Бар-Эльяс в районе Захле на востоке Ливана вспыхнул сильный пожар. Сгорели 30 палаток и автомобиль, один человек с признаками удушья доставлен в больницу.\n\nПо сообщению Гражданской обороны Ливана, огонь удалось локализовать и потушить. Окончательный ущерб не подсчитан, данных о судьбе пострадавших семей нет.\n\n✅ Заявление Гражданской обороны Ливана, сообщение SANA\n\n#Ливан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 80,
+      "type": "bold"
+     },
+     {
+      "offset": 446,
+      "length": 54,
+      "type": "italic"
+     },
+     {
+      "offset": 502,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 510,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 524,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sana.sy/syria-and-the-world/2635401/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINf2r5WmeacK4E6pNeqPiCOVhh_DFpAAK4EWsbBR3NUyTHqhOO3xIMAQADAgADeQADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3455,
+   "n": "3455"
+  },
+  "3456": {
+   "tone": "hard",
+   "url": "https://t.me/almasdaronline/34163",
+   "created": 1794726319.1146767,
+   "status": "expired",
+   "safe": false,
+   "note": "заявление стороны, не подтверждено",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "video",
+    "text": "🇾🇪 Йемен: ПВО отразила атаку дронов хуситов на Мариб\n\nМедиацентр армии Йемена сообщил, что средства ПВО отразили атаку беспилотников, запущенных хуситами в направлении города Мариб, где проживают много мирных жителей и вынужденных переселенцев. Опубликованы кадры ночного неба с трассерами.\n\nℹ️ Заявление медиацентра армии Йемена, независимого подтверждения нет\n\n#Йемен\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 49,
+      "type": "bold"
+     },
+     {
+      "offset": 294,
+      "length": 69,
+      "type": "italic"
+     },
+     {
+      "offset": 365,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 373,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 387,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/almasdaronline/34163"
+     }
+    ],
+    "file_id": "BAACAgIAAyEGAATuSoRvAAINgGr5WmzTErdwhFqkEiEQMUleBwcWAAJNtgACh4LJS80ZQpOX5lDEPQQ",
+    "width": 480,
+    "height": 852
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3456,
+   "n": "3456"
+  },
+  "3457": {
+   "tone": "good",
+   "url": "https://spa.gov.sa/N2726771",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🕌 Мечеть Аль-Харам: сервис «Браслет безопасности» для детей, пожилых и людей с инвалидностью\n\nСервис «Браслет безопасности» повышает безопасность детей, пожилых людей и людей с ограниченными возможностями в мечети Аль-Харам, сообщило агентство SPA.\n\n✅ Сообщение государственного агентства SPA\n\n#Харамайн\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 90,
+      "type": "bold"
+     },
+     {
+      "offset": 251,
+      "length": 42,
+      "type": "italic"
+     },
+     {
+      "offset": 295,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 306,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 320,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://spa.gov.sa/N2726771"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3457,
+   "n": "3457"
+  },
+  "3458": {
+   "tone": "hard",
+   "url": "https://www.sarayanews.com/article/1120985/%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D9%86%D8%A7%D8%B1-%D9%81%D9%8A-%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D9%86%D9%88%D8%B1-%D8%A8%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%88%D8%B3",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "не подтверждено, один источник",
+   "trusted": false,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇺🇸 США: сообщается о стрельбе у мечети «ан-Нур» в Колумбусе, штат Огайо\n\nСвидетели сообщили иорданскому изданию «ас-Саусана», что вечером в субботу, 14 ноября, у мечети «ан-Нур» в районе Большого Колумбуса произошла стрельба. На место прибыли десятки полицейских машин. По первоначальным данным, есть погибший и раненые; независимо это не подтверждено. Официальных данных о числе пострадавших и обстоятельствах нет, не ясно также, стреляли внутри здания или рядом.\n\n⚠️ Не подтверждено: сообщения очевидцев, официальных заявлений нет\n\n#США #Мечети\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 68,
+      "type": "bold"
+     },
+     {
+      "offset": 468,
+      "length": 66,
+      "type": "italic"
+     },
+     {
+      "offset": 536,
+      "length": 4,
+      "type": "hashtag"
+     },
+     {
+      "offset": 541,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 550,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 564,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.sarayanews.com/article/1120985/%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D9%86%D8%A7%D8%B1-%D9%81%D9%8A-%D9%85%D8%B3%D8%AC%D8%AF-%D8%A7%D9%84%D9%86%D9%88%D8%B1-%D8%A8%D9%83%D9%88%D9%84%D9%88%D9%85%D8%A8%D9%88%D8%B3"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINgmr5xVu9KZ8QDTsjn6K2JJcJ9BsFAAIeEWsbJJjUU3aVrjH0F_rZAQADAgADeAADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3458,
+   "n": "3458"
+  },
+  "3460": {
+   "tone": "good",
+   "url": "https://www.yozgatmedya.com.tr/sehit-annesinin-gordugu-ruya-uzerine-baslayan-cami-insaatinda-sehit-babasi-ter-dokuyor",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "местное издание, один источник",
+   "trusted": false,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇹🇷 Турция: родители погибшего военного строят мечеть, о которой мать увидела сон\n\nВ районе Кырыкхан (Хатай) семья Учар строит мечеть имени своего сына, жандармского сержанта Сезера Учара, погибшего в 2020 году в Ване. Мать увидела во сне, что сын просит мечеть, и продала накопленное золото. Отец, строитель по профессии, работает на стройке вместе с рабочими. Мечеть строится на месте разрушенной землетрясением, рассчитана примерно на 500 человек; средства — личные накопления семьи и помощь благотворителей.\n\nℹ️ Один источник: Yozgat Medya\n\n#Турция #Мечети\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 77,
+      "type": "bold"
+     },
+     {
+      "offset": 514,
+      "length": 30,
+      "type": "italic"
+     },
+     {
+      "offset": 546,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 554,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 563,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 577,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.yozgatmedya.com.tr/sehit-annesinin-gordugu-ruya-uzerine-baslayan-cami-insaatinda-sehit-babasi-ter-dokuyor"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3460,
+   "n": "3460"
+  },
+  "3462": {
+   "tone": "hard",
+   "url": "https://www.business-gazeta.ru/article/715877",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "один источник, не подтверждено другими",
+   "trusted": false,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇰🇿 Казахстан: слова Токаева об арабизмах разошлись в сети в искажённом виде\n\nВыступая 10 ноября на курултае общества «Казахский язык», президент Касым-Жомарт Токаев заявил, что в религиозной сфере «вместо наших древних слов стало модным использовать арабскую лексику». В сети разошлась цитата, будто он призвал не говорить «иншааллах» и «альхамдулиллях»; по данным автора материала, в тексте на сайте президента и в полной видеозаписи выступления этих слов нет. Муфтият на следующий день рекомендовал верующим использовать в речи традиционные казахские выражения, например «Құдайға шүкір».\n\nℹ️ Один источник: «БИЗНЕС Online»; видео речи авторы издания просмотрели\n\n#Казахстан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 72,
+      "type": "bold"
+     },
+     {
+      "offset": 593,
+      "length": 72,
+      "type": "italic"
+     },
+     {
+      "offset": 667,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 679,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 693,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.business-gazeta.ru/article/715877"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAINhmr5xWct2CccEfNaAjz4We9gs0iDAAIOJGsb6BHQS3tPNYudl1BhAQADAgADeAADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3462,
+   "n": "3462"
+  },
+  "3464": {
+   "tone": "good",
+   "url": "https://www.afp.com/en/scattered-war-band-gave-voice-sudans-revolution-plays-again",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "текст не открылся, по заголовку; малоцен",
+   "trusted": true,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇩 Судан: группа, ставшая голосом революции, снова играет после войны\n\nМузыканты суданской группы, чьи песни стали голосом революции в стране, разъехавшиеся из-за войны, снова выступают вместе, сообщает AFP.\n\nℹ️ Один источник: AFP\n\n#Судан\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 211,
+      "length": 21,
+      "type": "italic"
+     },
+     {
+      "offset": 234,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 242,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 256,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.afp.com/en/scattered-war-band-gave-voice-sudans-revolution-plays-again"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3464,
+   "n": "3464"
+  },
+  "3466": {
+   "tone": "hard",
+   "url": "https://www.dw.com/en/fact-check-iranian-content-farms-reach-millions/a-79934190",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "западное издание, только факты; цифры IS",
+   "trusted": false,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🕌 DW: сеть «иранских» аккаунтов набрала миллионы просмотров, распространяя военный контент\n\nПроверка DW Fact Check выявила сеть аккаунтов с названиями вроде «Iran Military», которые копируют формат срочных новостей и публикуют сгенерированные ИИ видео об иранской войне. По данным ISD, десять таких аккаунтов набрали 353 млн просмотров и 12 588 публикаций; одному из них, «Iran Military Media», принадлежит более 290 тыс. подписчиков в X. NewsGuard выявил 165 ложных утверждений о войне, собравших сотни миллионов просмотров; большинство из них продвигало проиранскую повестку. ISD связей с государственными структурами не нашёл.\n\nℹ️ Расследование DW Fact Check со ссылкой на ISD и NewsGuard\n\n#Иран #Фейки\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 3,
+      "length": 88,
+      "type": "bold"
+     },
+     {
+      "offset": 632,
+      "length": 60,
+      "type": "italic"
+     },
+     {
+      "offset": 694,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 700,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 708,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 722,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.dw.com/en/fact-check-iranian-content-farms-reach-millions/a-79934190"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3466,
+   "n": "3466"
+  },
+  "3468": {
+   "tone": "good",
+   "url": "https://t.me/aa_arabic/173409",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "короткий пост без деталей; подтверждение",
+   "trusted": false,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇾🇪 Красный Крест: хуситы освободили 600 задержанных в связи с конфликтом\n\nМеждународный комитет Красного Креста сообщил, что хуситы в воскресенье в одностороннем порядке освободили 600 человек, задержанных в связи с конфликтом в Йемене.\n\nℹ️ Заявление МККК; сообщает AP\n\n#Йемен #Хуситы\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 69,
+      "type": "bold"
+     },
+     {
+      "offset": 240,
+      "length": 30,
+      "type": "italic"
+     },
+     {
+      "offset": 272,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 279,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 288,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 302,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://t.me/aa_arabic/173409"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3468,
+   "n": "3468"
+  },
+  "3470": {
+   "tone": "hard",
+   "url": "https://www.alriyadh.com/2215248",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Коалиция перехватила два беспилотника хуситов над районом Мекки\n\nКоалиция по поддержке законной власти в Йемене объявила о перехвате и уничтожении двух беспилотников, которые запустили хуситы в сторону района Мекки.\n\n✅ Официальное заявление коалиции; сообщают SaudiNews50, Sabq, Asharq News\n\n#Хуситы #Харамайн\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 222,
+      "length": 73,
+      "type": "italic"
+     },
+     {
+      "offset": 297,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 305,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 316,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 330,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.alriyadh.com/2215248"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3470,
+   "n": "3470"
+  },
+  "3471": {
+   "tone": "good",
+   "url": "https://aawsat.com/node/5341433",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇸🇦 Слепой саудовец дошёл до базового лагеря Эвереста\n\nСлепой саудовец Рашад Накиб дошёл до базового лагеря Эвереста в Непале на высоте 5364 метра. Вместе с исследователем Бадром аш-Шейбани он преодолел путь за девять дней по Гималаям; аш-Шейбани вёл его голосом. Считается, что это первый такой случай среди слепых саудовцев.\n\nГотовится документальный фильм, его выпустят в 2027 году.\n\nℹ️ Один источник: Asharq Al-Awsat, со слов участников\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 49,
+      "type": "bold"
+     },
+     {
+      "offset": 388,
+      "length": 53,
+      "type": "italic"
+     },
+     {
+      "offset": 443,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 462,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 476,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://aawsat.com/node/5341433"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINj2r5xZpf858WyoeG4wjmfemkGyWRAAJHEWsbxuvVUxR2U6K4U3jTAQADAgADeQADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3471,
+   "n": "3471"
+  },
+  "3472": {
+   "tone": "hard",
+   "url": "https://asharq.com/politics/203110/%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D9%86-%D8%AA%D8%B9%D9%84%D9%86-%D8%B5%D8%AF-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D9%88%D8%AA%D8%AD%D9%85%D9%84-%D8%B7%D9%87%D8%B1%D8%A7%D9%86-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D9%8A%D8%A9-%D8%AA%D8%A8%D8%B9%D8%A7%D8%AA%D9%87%D8%A7/",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "Иран: острая тема, заявление КСИР",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇧🇭 Бахрейн: ПВО уничтожила иранские беспилотники, Эр-Рияд, Доха и Лига арабских государств осудили атаку\n\nКомандование сил обороны Бахрейна заявило о перехвате и уничтожении иранских беспилотников в воскресенье «до достижения целей». МИД Бахрейна назвал это «вопиющей агрессией» и напомнил, что подобная атака была двумя днями ранее. Корпус стражей исламской революции заявил, что шестью дронами атаковал радар американской базы Эр-Рифа в Бахрейне.\n\nСаудовская Аравия, Катар и Лига арабских государств осудили нападения и заявили о солидарности с Бахрейном.\n\nℹ️ Заявления властей Бахрейна, МИД КСА и Катара; версия КСИР — его заявление\n\n#Бахрейн #Иран\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 101,
+      "type": "bold"
+     },
+     {
+      "offset": 561,
+      "length": 76,
+      "type": "italic"
+     },
+     {
+      "offset": 639,
+      "length": 8,
+      "type": "hashtag"
+     },
+     {
+      "offset": 648,
+      "length": 5,
+      "type": "hashtag"
+     },
+     {
+      "offset": 655,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 669,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://asharq.com/politics/203110/%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D9%86-%D8%AA%D8%B9%D9%84%D9%86-%D8%B5%D8%AF-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D9%88%D8%AA%D8%AD%D9%85%D9%84-%D8%B7%D9%87%D8%B1%D8%A7%D9%86-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D9%8A%D8%A9-%D8%AA%D8%A8%D8%B9%D8%A7%D8%AA%D9%87%D8%A7/"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3472,
+   "n": "3472"
+  },
+  "3473": {
+   "tone": "good",
+   "url": "https://petra.gov.jo/ar/news/%D9%85%D8%A7%D9%84%D9%8A%D8%B2%D9%8A%D8%A7-%D8%AA%D9%82%D8%AF%D9%85-300-%D8%A3%D9%84%D9%81-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%84%D8%AF%D8%B9%D9%85-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D9%86%D9%88%D8%B1-%D9%84%D8%B1%D8%B9%D8%A7%D9%8A%D8%A9-%D8%A3%D9%8A%D8%AA%D8%A7%D9%85-%D8%BA%D8%B2%D8%A9",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇲🇾 Малайзия выделила 300 тысяч долларов на опеку над сиротами Газы\n\nМалайзия передала 300 тысяч долларов фонду «Ат-Таавун» на программу «Нур» для сирот сектора Газа — это третий такой взнос. Средства выделены на опеку над 300 сиротами на год: питание, одежда, здравоохранение, образование и психологическая поддержка. Взнос вручил посол Малайзии в Иордании Дато Абдуррахман.\n\n✅ Сообщение государственного агентства Иордании Petra\n\n#Палестина #Малайзия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 63,
+      "type": "bold"
+     },
+     {
+      "offset": 378,
+      "length": 53,
+      "type": "italic"
+     },
+     {
+      "offset": 433,
+      "length": 10,
+      "type": "hashtag"
+     },
+     {
+      "offset": 444,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 455,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 469,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://petra.gov.jo/ar/news/%D9%85%D8%A7%D9%84%D9%8A%D8%B2%D9%8A%D8%A7-%D8%AA%D9%82%D8%AF%D9%85-300-%D8%A3%D9%84%D9%81-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%84%D8%AF%D8%B9%D9%85-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D9%86%D9%88%D8%B1-%D9%84%D8%B1%D8%B9%D8%A7%D9%8A%D8%A9-%D8%A3%D9%8A%D8%AA%D8%A7%D9%85-%D8%BA%D8%B2%D8%A9"
+     }
+    ],
+    "file_id": "AgACAgIAAyEGAATuSoRvAAINkWr5xaO5QvbYK53wAy2SRrePhfyvAAIQJGsb6BHQS6rMi8AydhgAAQEAAwIAA3cAAz0E"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3473,
+   "n": "3473"
+  },
+  "3475": {
+   "tone": "hard",
+   "url": "https://asharq.com/politics/203109/%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8%D9%8A%D8%A9-%D8%AA%D8%B9%D9%84%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%AA%D9%85%D9%88%D8%B6%D8%B9-%D9%84%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%B9%D8%AF%D9%86/",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "заявления сторон; Reuters: хуситы контро",
+   "trusted": true,
+   "importance": 4,
+   "media": true,
+   "snap": {
+    "kind": "photo",
+    "text": "🇾🇪 Йемен: южные силы вывели войска из Дхубаба и района Баб-эль-Мандеб\n\nВооружённые силы юга Йемена объявили о перемещении своих сил из района аэропорта Дхубаб и Баб-эль-Мандеб в сторону Таиза — «для защиты Адена и снятия осады с Таиза». Президентский совет назвал это «продуманным военным шагом», а представитель армии Маджид ан-Назили заявил, что освобождение Баб-эль-Мандеба и западного побережья остаётся правом вооружённых сил.\n\nℹ️ Заявления южных сил и властей Йемена; Asharq, Reuters\n\n#Йемен #Хуситы\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 66,
+      "type": "bold"
+     },
+     {
+      "offset": 435,
+      "length": 56,
+      "type": "italic"
+     },
+     {
+      "offset": 493,
+      "length": 6,
+      "type": "hashtag"
+     },
+     {
+      "offset": 500,
+      "length": 7,
+      "type": "hashtag"
+     },
+     {
+      "offset": 509,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 523,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://asharq.com/politics/203109/%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8%D9%8A%D8%A9-%D8%AA%D8%B9%D9%84%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%AA%D9%85%D9%88%D8%B6%D8%B9-%D9%84%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%B9%D8%AF%D9%86/"
+     }
+    ],
+    "file_id": "AgACAgQAAyEGAATuSoRvAAINk2r5xadAXjyjRFsEvLlXtoQHleDeAAKvEGsbEffMU7_CAkb1mtVXAQADAgADeQADPQQ"
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3475,
+   "n": "3475"
+  },
+  "3477": {
+   "tone": "good",
+   "url": "https://www.okaz.com.sa/local/na/2275602",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": true,
+   "note": "",
+   "trusted": true,
+   "importance": 3,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 На рассвете в понедельник в небе Саудовской Аравии сойдутся Юпитер и Марс\n\nНа рассвете 16 ноября в небе Саудовской Аравии и арабского мира можно будет увидеть соединение Юпитера и Марса в направлении созвездия Льва — невооружённым глазом. По словам главы Астрономического общества Джидды Маджида Абу Захры, наименьшее видимое расстояние — 1°11′ — будет в 5:04 по времени Мекки. Юпитер виден ярко-белым, Марс — красновато-оранжевым, рядом — звезда Регул.\n\nℹ️ Один источник: Okaz, со слов главы Астрономического общества Джидды\n\n#СаудовскаяАравия\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 73,
+      "type": "bold"
+     },
+     {
+      "offset": 460,
+      "length": 70,
+      "type": "italic"
+     },
+     {
+      "offset": 532,
+      "length": 17,
+      "type": "hashtag"
+     },
+     {
+      "offset": 551,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 565,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://www.okaz.com.sa/local/na/2275602"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3477,
+   "n": "3477"
+  },
+  "3478": {
+   "tone": "hard",
+   "url": "https://sabq.org/article/hvazehw",
+   "created": 1794753700.2875004,
+   "status": "expired",
+   "safe": false,
+   "note": "один источник, текст не открылся",
+   "trusted": true,
+   "importance": 4,
+   "snap": {
+    "kind": "text",
+    "text": "🇸🇦 Мекка: объявлена красная тревога из-за ливней, селей и града\n\nВ Мекке объявлен красный уровень тревоги из-за сильных дождей, селевых потоков и града.\n\nℹ️ Один источник: Sabq\n\n#Харамайн\n\nПодписаться | Источник",
+    "entities": [
+     {
+      "offset": 5,
+      "length": 60,
+      "type": "bold"
+     },
+     {
+      "offset": 156,
+      "length": 22,
+      "type": "italic"
+     },
+     {
+      "offset": 180,
+      "length": 9,
+      "type": "hashtag"
+     },
+     {
+      "offset": 191,
+      "length": 11,
+      "type": "text_link",
+      "url": "https://t.me/ilm4_info"
+     },
+     {
+      "offset": 205,
+      "length": 8,
+      "type": "text_link",
+      "url": "https://sabq.org/article/hvazehw"
+     }
+    ]
+   },
+   "chat": "-1003997860975",
+   "msg_id": 3478,
+   "n": "3478"
+  }
+ },
+ "queue": {},
+ "wm": {},
+ "last_publish": 1790683265.179111,
+ "last_tone": "hard",
+ "last_collect": 0,
+ "inbox_done": [
+  "20261011-084701.json",
+  "20261011-091822.json",
+  "20261011-094731.json",
+  "20261011-104747.json",
+  "20261011-111729.json",
+  "20261011-114840.json",
+  "20261011-121800.json",
+  "20261011-124753.json",
+  "20261011-131736.json",
+  "20261011-134721.json",
+  "20261011-141758.json",
+  "20261011-144727.json",
+  "20261011-152519.json",
+  "20261011-154738.json",
+  "20261011-164752.json",
+  "20261011-171709.json",
+  "20261011-174659.json",
+  "20261011-181807.json",
+  "20261011-184649.json",
+  "20261011-191721.json",
+  "20261011-194722.json",
+  "20261011-202336.json",
+  "20261011-204726.json",
+  "20261012-005526.json",
+  "20261012-012803.json",
+  "20261012-015056.json",
+  "20261012-021704.json",
+  "20261012-055011.json",
+  "20261012-061826.json",
+  "20261012-065022.json",
+  "20261012-072227.json",
+  "20261012-074824.json",
+  "20261012-081758.json",
+  "20261012-085328.json",
+  "20261012-091946.json",
+  "20261012-094757.json",
+  "20261012-101825.json",
+  "20261012-112214.json",
+  "20261012-114922.json",
+  "20261012-121830.json",
+  "20261012-155217.json",
+  "20261012-205626.json",
+  "20261012-211829.json",
+  "20261012-214756.json",
+  "20261012-221755.json",
+  "20261012-224803.json",
+  "20261012-231802.json",
+  "20261012-234801.json",
+  "20261013-001910.json",
+  "20261013-004815.json",
+  "20261013-011804.json",
+  "20261013-015254.json",
+  "20261013-022039.json",
+  "20261013-024751.json",
+  "20261013-031809.json",
+  "20261013-034750.json",
+  "20261013-044828.json",
+  "20261013-051830.json",
+  "20261013-054851.json",
+  "20261013-061819.json",
+  "20261013-064802.json",
+  "20261013-071817.json",
+  "20261013-074732.json",
+  "20261013-081822.json",
+  "20261013-084824.json",
+  "20261013-091824.json",
+  "20261013-094813.json",
+  "20261013-104823.json",
+  "20261013-111815.json",
+  "20261013-114844.json",
+  "20261013-124919.json",
+  "20261013-131831.json",
+  "20261013-134822.json",
+  "20261013-141924.json",
+  "20261013-144851.json",
+  "20261013-154841.json",
+  "20261013-161814.json",
+  "20261013-164808.json",
+  "20261013-171832.json",
+  "20261013-174813.json",
+  "20261013-181828.json",
+  "20261013-184753.json",
+  "20261013-191745.json",
+  "20261013-194735.json",
+  "20261013-201907.json",
+  "20261013-204724.json",
+  "20261013-211839.json",
+  "20261013-214830.json",
+  "20261013-221741.json",
+  "20261013-224724.json",
+  "20261013-231824.json",
+  "20261013-234802.json",
+  "20261014-001736.json",
+  "20261014-012512.json",
+  "20261014-014707.json",
+  "20261014-021721.json",
+  "20261014-024717.json",
+  "20261014-031645.json",
+  "20261014-034802.json",
+  "20261014-041723.json",
+  "20261014-044804.json",
+  "20261014-051739.json",
+  "20261014-061754.json",
+  "20261014-064822.json",
+  "20261014-074830.json",
+  "20261014-081814.json",
+  "20261015-152342.json",
+  "20261015-154819.json",
+  "20261015-161734.json",
+  "20261015-164735.json",
+  "20261015-171723.json",
+  "20261015-174721.json",
+  "20261015-191718.json",
+  "20261015-194800.json",
+  "20261015-201726.json",
+  "20261015-204843.json",
+  "20261015-211801.json",
+  "20261015-214758.json",
+  "20261015-224744.json",
+  "20261015-231746.json",
+  "20261015-234738.json",
+  "20261016-001724.json",
+  "20261016-011721.json",
+  "20261016-014745.json",
+  "20261016-021802.json",
+  "20261016-024710.json",
+  "20261016-031729.json",
+  "20261016-034746.json",
+  "20261016-041757.json",
+  "20261016-044747.json",
+  "20261016-051714.json",
+  "20261016-054830.json",
+  "20261016-061841.json",
+  "20261016-064738.json",
+  "20261016-071916.json",
+  "20261016-074807.json",
+  "20261016-081823.json",
+  "20261016-084812.json",
+  "20261016-091655.json",
+  "20261016-094836.json",
+  "20261016-101800.json",
+  "20261016-104823.json",
+  "20261016-112039.json",
+  "20261016-114857.json",
+  "20261016-122424.json",
+  "20261016-124953.json",
+  "20261016-132559.json",
+  "20261016-134941.json",
+  "20261016-142215.json",
+  "20261016-144903.json",
+  "20261016-152022.json",
+  "20261016-154859.json",
+  "20261016-161750.json",
+  "20261016-164844.json",
+  "20261016-171751.json",
+  "20261016-174924.json",
+  "20261016-181838.json",
+  "20261016-184801.json",
+  "20261016-191757.json",
+  "20261016-211948.json",
+  "20261016-221740.json",
+  "20261016-224735.json",
+  "20261017-021852.json",
+  "20261017-024719.json",
+  "20261017-031734.json",
+  "20261017-071847.json",
+  "20261017-074835.json",
+  "20261017-084734.json",
+  "20261017-091724.json",
+  "20261017-122000.json",
+  "20261017-124828.json",
+  "20261017-131851.json",
+  "20261017-172133.json",
+  "20261017-174739.json",
+  "20261017-181734.json",
+  "20261017-232059.json",
+  "20261017-234730.json",
+  "20261018-001738.json",
+  "20261018-011623.json",
+  "20261018-014801.json",
+  "20261018-021701.json",
+  "20261018-041813.json",
+  "20261018-051708.json",
+  "20261018-054722.json",
+  "20261018-061729.json",
+  "20261018-091923.json",
+  "20261018-094735.json",
+  "20261018-101919.json",
+  "20261018-104755.json",
+  "20261018-111813.json",
+  "20261018-114811.json",
+  "20261018-121829.json",
+  "20261018-124804.json",
+  "20261018-134920.json",
+  "20261018-142058.json",
+  "20261018-144749.json",
+  "20261018-152012.json",
+  "20261018-154758.json",
+  "20261018-161721.json",
+  "20261018-164717.json",
+  "20261018-171757.json",
+  "20261018-181800.json",
+  "20261018-184845.json",
+  "20261018-191740.json",
+  "20261018-194751.json",
+  "20261018-201746.json",
+  "20261018-204723.json",
+  "20261018-211729.json",
+  "20261018-214805.json",
+  "20261018-221714.json",
+  "20261018-224723.json",
+  "20261018-231702.json",
+  "20261018-234850.json",
+  "20261019-004656.json",
+  "20261019-011911.json",
+  "20261019-014800.json",
+  "20261019-021726.json",
+  "20261019-024952.json",
+  "20261019-031756.json",
+  "20261019-034724.json",
+  "20261019-041715.json",
+  "20261019-044742.json",
+  "20261019-051701.json",
+  "20261019-054910.json",
+  "20261019-061751.json",
+  "20261019-065017.json",
+  "20261019-072502.json",
+  "20261019-075427.json",
+  "20261019-081703.json",
+  "20261019-084749.json",
+  "20261019-091748.json",
+  "20261019-094759.json",
+  "20261019-101745.json",
+  "20261019-104900.json",
+  "20261019-111950.json",
+  "20261019-114844.json",
+  "20261019-122414.json",
+  "20261019-124834.json",
+  "20261019-131900.json",
+  "20261019-142255.json",
+  "20261019-144816.json",
+  "20261019-151953.json",
+  "20261019-154928.json",
+  "20261019-161757.json",
+  "20261019-164834.json",
+  "20261019-172222.json",
+  "20261019-181743.json",
+  "20261019-184755.json",
+  "20261019-194903.json",
+  "20261019-201901.json",
+  "20261019-204902.json",
+  "20261019-211840.json",
+  "20261019-214856.json",
+  "20261019-221811.json",
+  "20261019-224832.json",
+  "20261019-231818.json",
+  "20261020-001711.json",
+  "20261020-004820.json",
+  "20261020-011844.json",
+  "20261020-014833.json",
+  "20261020-021718.json",
+  "20261020-024721.json",
+  "20261020-031734.json",
+  "20261020-041754.json",
+  "20261020-044823.json",
+  "20261020-051831.json",
+  "20261020-054816.json",
+  "20261020-061959.json",
+  "20261020-065006.json",
+  "20261020-071912.json",
+  "20261020-074700.json",
+  "20261020-081927.json",
+  "20261020-084805.json",
+  "20261020-091829.json",
+  "20261020-094907.json",
+  "20261020-101944.json",
+  "20261020-104857.json",
+  "20261020-122331.json",
+  "20261020-124934.json",
+  "20261020-132315.json",
+  "20261020-142300.json",
+  "20261020-144910.json",
+  "20261020-152154.json",
+  "20261020-154739.json",
+  "20261020-162500.json",
+  "20261020-164927.json",
+  "20261020-172236.json",
+  "20261020-174948.json",
+  "20261020-181922.json",
+  "20261020-184814.json",
+  "20261020-191910.json",
+  "20261020-195123.json",
+  "20261020-201919.json",
+  "20261020-204905.json",
+  "20261020-211811.json",
+  "20261020-214852.json",
+  "20261020-221843.json",
+  "20261020-224827.json",
+  "20261020-231833.json",
+  "20261020-234745.json",
+  "20261021-001721.json",
+  "20261021-004805.json",
+  "20261021-011736.json",
+  "20261021-014734.json",
+  "20261021-024719.json",
+  "20261021-031838.json",
+  "20261021-034729.json",
+  "20261021-041732.json",
+  "20261021-044818.json",
+  "20261021-054840.json",
+  "20261021-062045.json",
+  "20261021-064957.json",
+  "20261021-072029.json",
+  "20261021-081955.json",
+  "20261021-084918.json",
+  "20261021-091806.json",
+  "20261021-094852.json",
+  "20261021-101848.json",
+  "20261021-104906.json",
+  "20261021-112254.json",
+  "20261021-114926.json",
+  "20261021-122540.json",
+  "20261021-125116.json",
+  "20261021-132614.json",
+  "20261021-134928.json",
+  "20261021-142103.json",
+  "20261021-144822.json",
+  "20261021-151954.json",
+  "20261021-161920.json",
+  "20261021-164920.json",
+  "20261021-171754.json",
+  "20261021-174922.json",
+  "20261021-181900.json",
+  "20261021-191752.json",
+  "20261021-194959.json",
+  "20261021-201959.json",
+  "20261021-204851.json",
+  "20261021-211923.json",
+  "20261021-214915.json",
+  "20261021-224734.json",
+  "20261021-231810.json",
+  "20261021-234823.json",
+  "20261022-001830.json",
+  "20261022-004736.json",
+  "20261022-014736.json",
+  "20261022-021739.json",
+  "20261022-024735.json",
+  "20261022-031828.json",
+  "20261022-034733.json",
+  "20261022-041754.json",
+  "20261022-044820.json",
+  "20261022-051708.json",
+  "20261022-054855.json",
+  "20261022-062000.json",
+  "20261022-064943.json",
+  "20261022-072226.json",
+  "20261022-074943.json",
+  "20261022-081820.json",
+  "20261022-084824.json",
+  "20261022-091905.json",
+  "20261022-094821.json",
+  "20261022-101929.json",
+  "20261022-105006.json",
+  "20261022-112706.json",
+  "20261022-115019.json",
+  "20261022-123108.json",
+  "20261022-125047.json",
+  "20261022-133121.json",
+  "20261022-134930.json",
+  "20261022-142229.json",
+  "20261022-145106.json",
+  "20261022-152829.json",
+  "20261022-155018.json",
+  "20261022-162308.json",
+  "20261022-164955.json",
+  "20261022-171858.json",
+  "20261022-174853.json",
+  "20261022-181816.json",
+  "20261022-184801.json",
+  "20261022-194954.json",
+  "20261022-202039.json",
+  "20261022-204947.json",
+  "20261022-211748.json",
+  "20261022-214825.json",
+  "20261022-224951.json",
+  "20261022-231802.json",
+  "20261022-234802.json",
+  "20261023-001747.json",
+  "20261023-004755.json",
+  "20261023-011845.json",
+  "20261023-014800.json",
+  "20261023-021759.json",
+  "20261023-024840.json",
+  "20261023-031800.json",
+  "20261023-034753.json",
+  "20261023-042043.json",
+  "20261023-044827.json",
+  "20261023-051835.json",
+  "20261023-054902.json",
+  "20261023-062201.json",
+  "20261023-064918.json",
+  "20261023-072046.json",
+  "20261023-074917.json",
+  "20261023-081827.json",
+  "20261023-084844.json",
+  "20261023-091742.json",
+  "20261023-094958.json",
+  "20261023-104947.json",
+  "20261023-112304.json",
+  "20261023-125057.json",
+  "20261023-132425.json",
+  "20261023-135204.json",
+  "20261023-142258.json",
+  "20261023-145247.json",
+  "20261023-152220.json",
+  "20261023-155337.json",
+  "20261024-232109.json",
+  "20261025-001753.json",
+  "20261025-011846.json",
+  "20261025-014906.json",
+  "20261025-021732.json",
+  "20261025-024719.json",
+  "20261025-031832.json",
+  "20261025-041815.json",
+  "20261025-044819.json",
+  "20261025-051827.json",
+  "20261025-054756.json",
+  "20261025-061736.json",
+  "20261025-064741.json",
+  "20261025-071800.json",
+  "20261025-074846.json",
+  "20261025-081818.json",
+  "20261025-084751.json",
+  "20261025-091927.json",
+  "20261025-094811.json",
+  "20261025-101808.json",
+  "20261025-104818.json",
+  "20261025-111721.json",
+  "20261025-141050.json",
+  "20261026-031735.json",
+  "20261026-080843.json",
+  "20261026-141543.json",
+  "20261027-031144.json",
+  "20261027-080917.json",
+  "20261027-143014.json",
+  "20261028-031310.json",
+  "20261028-081351.json",
+  "20261028-141639.json",
+  "20261029-031500.json",
+  "20261029-081016.json",
+  "20261029-142104.json",
+  "20261030-030626.json",
+  "20261030-081219.json",
+  "20261030-141157.json",
+  "20261031-030901.json",
+  "20261031-080808.json",
+  "20261031-140728.json",
+  "20261101-030941.json",
+  "20261101-080815.json",
+  "20261101-141009.json",
+  "20261102-030917.json",
+  "20261102-081155.json",
+  "20261102-145242.json",
+  "20261103-030817.json",
+  "20261103-080841.json",
+  "20261103-140858.json",
+  "20261104-030904.json",
+  "20261104-081023.json",
+  "20261104-141012.json",
+  "20261105-031031.json",
+  "20261105-080710.json",
+  "20261105-141338.json",
+  "20261106-080942.json",
+  "20261106-141053.json",
+  "20261107-030735.json",
+  "20261107-080831.json",
+  "20261107-140830.json",
+  "20261108-030852.json",
+  "20261108-080759.json",
+  "20261108-140645.json",
+  "20261109-030627.json",
+  "20261109-081307.json",
+  "20261109-141049.json",
+  "20261110-031400.json",
+  "20261110-080926.json",
+  "20261110-141813.json",
+  "20261111-031351.json",
+  "20261111-080824.json",
+  "20261111-141159.json",
+  "20261112-030716.json",
+  "20261112-080936.json",
+  "20261112-142257.json",
+  "20261113-030903.json",
+  "20261113-080840.json",
+  "20261114-031036.json",
+  "20261114-080834.json",
+  "20261114-141020.json",
+  "20261115-030900.json",
+  "20261115-080651.json",
+  "20261115-140909.json"
+ ],
+ "settings": {
+  "night": [
+   23,
+   7
+  ],
+  "gap": 0,
+  "night_gap": 0,
+  "wm": false,
+  "auto": false,
+  "auto_hard": false,
+  "auto_top": false,
+  "per_hour": 3,
+  "access": "list",
+  "allow_ids": [],
+  "allow_names": [
+   "pismojizni"
+  ],
+  "private_on": false,
+  "drafts_to": "group",
+  "private_chat": null,
+  "paused": false,
+  "flow": "live",
+  "alternate": true,
+  "arab_trusted": true,
+  "world_reputable": true
+ },
+ "last_triage": 1795261217.8565664,
+ "triage_ok": 1795261217.8565664,
+ "sid": 45851,
+ "commands_v": 3,
+ "chat": [
+  {
+   "role": "user",
+   "content": "Бот, ты слышишь меня ?"
+  },
+  {
+   "role": "assistant",
+   "content": "Да, я вас слышу. Чем могу помочь?"
+  },
+  {
+   "role": "user",
+   "content": "Привет"
+  },
+  {
+   "role": "assistant",
+   "content": "Привет! Что нужно сделать с черновиками или новостями?"
+  },
+  {
+   "role": "user",
+   "content": "А мне сейчас кто отвечает глм или Клауд?"
+  },
+  {
+   "role": "assistant",
+   "content": "Я — GLM (большая языковая модель), управляю ботом по вашим командам. Claude используется только для создания черновиков из новостей по вашему запросу."
+  },
+  {
+   "role": "user",
+   "content": "/help@isa_news_bot"
+  },
+  {
+   "role": "assistant",
+   "content": "Я вижу, что вы обратились к другому боту. Я — GLM, который помогает управлять черновиками для вашего канала @ilm4_info.\n\nЕсли вам нужна помощь с публикациями, настройками или новостями, я готов помочь. Например:\n- \"опубликуй 807, 808, 809\" — сразу в канал\n- \"в очередь 810, 811, 812\" — по очереди\n- \"найди новости\" — свежие новости\n- \"сделай черновики из Н1, Н2, Н3\" — из найденных новостей\n\nЧто нужно сделать?"
+  },
+  {
+   "role": "user",
+   "content": "/auto@isa_news_bot"
+  },
+  {
+   "role": "assistant",
+   "content": "Я вижу, что вы обращаетесь к другому боту (@isa_news_bot). Я — GLM, который помогает управлять черновиками для канала @ilm4_info.\n\nЕсли вы хотите включить/отключить автопубликацию для этого канала, я могу помочь с настройками. Например:\n- \"включи автопубликацию\" — settings auto=true\n- \"отключи автопубликацию\" — settings auto=false\n- \"тяжёлые новости не публикуй сам\" — settings auto=true, auto_hard=false\n\nЧто именно нужно настроить?"
+  }
+ ],
+ "last_auto_publish": 1790683265.179111,
+ "published_log": [],
+ "dupes": [],
+ "held": [],
+ "glm_warned": 1790753269.4430883
+}
