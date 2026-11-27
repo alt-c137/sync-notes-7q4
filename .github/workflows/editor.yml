@@ -1,0 +1,45 @@
+name: Backup editor
+
+# Запасной ИИ-редактор (autoeditor.py): через 45 минут после облачного Claude (08:00, 13:00, 19:00 по Ташкенту).
+# Режим /editor auto — работает, только если Claude в этот раз не пришёл (кончилась подписка, лимиты);
+# /editor backup — всегда; /editor claude — никогда.
+on:
+  schedule:
+    - cron: "45 3,8,14 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Сделать черновики, даже если Claude уже работал"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: news-bot
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      MOD_CHAT_ID: ${{ secrets.MOD_CHAT_ID }}
+      ADMIN_IDS: ${{ secrets.ADMIN_IDS }}
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      COMMANDCODE_API_KEY: ${{ secrets.COMMANDCODE_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Запасной редактор
+        run: python bot.py autoeditor ${{ inputs.force && '--force' || '' }}
+      - name: Прислать черновики в группу
+        run: python bot.py

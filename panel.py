@@ -234,11 +234,13 @@ def run_claude(name, prompt, tools):
     cmd = [claude_exe(), "-p", prompt, "--model", MODEL, "--output-format", "stream-json", "--verbose",
            "--permission-mode", "acceptEdits", "--allowedTools", *tools]
     log(f"▶ {name}: Claude начал работу…")
+    ok = False
     try:
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                                 encoding="utf-8", errors="replace", env=ENV)
     except FileNotFoundError:
-        return log("❌ Не нашёл Claude Code (команда claude). Установи его или открой приложение Claude.")
+        log("❌ Не нашёл Claude Code (команда claude). Установи его или открой приложение Claude.")
+        return False
     for line in proc.stdout:
         try:
             ev = json.loads(line)
@@ -260,7 +262,21 @@ def run_claude(name, prompt, tools):
                     "войди в свой аккаунт Claude и запусти панель снова.")
             log(("✅ Готово" if not ev.get("is_error") else f"⚠️ Ошибка: {ev.get('result', '')}")
                 + f" ({int(ev.get('duration_ms', 0) / 1000)} с)")
+            ok = not ev.get("is_error")
     proc.wait()
+    return ok
+
+
+def editor_mode():
+    try:
+        return bot.source_settings().get("editor", "auto")
+    except Exception:
+        return "auto"
+
+
+def run_backup(name, args):
+    """Запасной ИИ-редактор (DeepSeek и др. по API) — когда Claude недоступен или так выбрано."""
+    run_cmd(name, ["autoeditor", *args])
 
 
 def run_cmd(name, args):
@@ -296,12 +312,79 @@ def do_peek():
 
 
 def do_auto():
-    run_claude("Подобрать и сделать черновики", PROMPT_AUTO, EDITOR_TOOLS)
+    if editor_mode() == "backup" or not run_claude("Подобрать и сделать черновики", PROMPT_AUTO, EDITOR_TOOLS):
+        if editor_mode() != "claude":
+            run_backup("Запасной ИИ подбирает и пишет черновики (несколько минут)…", ["--force"])
 
 
 def do_make(indexes):
     idx = " ".join(str(i) for i in indexes)
-    run_claude(f"Черновики из выбранных ({idx})", PROMPT_MAKE.format(idx=idx), EDITOR_TOOLS)
+    if editor_mode() == "backup" or not run_claude(f"Черновики из выбранных ({idx})", PROMPT_MAKE.format(idx=idx),
+                                                   EDITOR_TOOLS):
+        if editor_mode() != "claude":
+            run_backup(f"Запасной ИИ пишет черновики из выбранных ({idx})…", ["--make", *map(str, indexes)])
+
+
+KEY_NAMES = {"commandcode": "COMMANDCODE_API_KEY", "openrouter": "OPENROUTER_API_KEY"}
+
+
+def save_keys(keys):
+    """Ключи ИИ: в файл .env (для бота на ПК) и в секреты GitHub (для бота в облаке)."""
+    lines = open(".env", encoding="utf-8").read().splitlines() if os.path.exists(".env") else []
+    done = []
+    for name, value in keys.items():
+        env, value = KEY_NAMES.get(name), (value or "").strip()
+        if not env or not value:
+            continue
+        lines = [l for l in lines if not l.startswith(env + "=")] + [f"{env}={value}"]
+        os.environ[env] = ENV[env] = value
+        done.append(env)
+        log(f"🔑 {env} сохранён в .env" + ("; GitHub: " + github_secret(env, value)))
+    if done:
+        with open(".env", "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+    return done
+
+
+def github_secret(name, value):
+    """Записывает секрет репозитория на GitHub (ключ доступа — тот же, что у git на этом ПК)."""
+    try:
+        import base64
+        import requests
+        try:
+            from nacl import encoding, public
+        except ImportError:
+            subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pynacl"], capture_output=True)
+            from nacl import encoding, public
+        cred = subprocess.run(["git", "credential", "fill"], input="protocol=https\nhost=github.com\n\n",
+                              capture_output=True, text=True).stdout
+        token = next((l.split("=", 1)[1] for l in cred.splitlines() if l.startswith("password=")), "")
+        url = git("remote", "get-url", "origin").stdout.strip()
+        repo = re.search(r"github\.com[/:]([^/]+/[^/.]+)", url).group(1)
+        h = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"}
+        k = requests.get(f"https://api.github.com/repos/{repo}/actions/secrets/public-key", headers=h, timeout=30).json()
+        box = public.SealedBox(public.PublicKey(k["key"].encode(), encoding.Base64Encoder()))
+        enc = base64.b64encode(box.encrypt(value.encode())).decode()
+        r = requests.put(f"https://api.github.com/repos/{repo}/actions/secrets/{name}", headers=h, timeout=30,
+                         json={"encrypted_value": enc, "key_id": k["key_id"]})
+        return "записан" if r.status_code in (201, 204) else f"не записан ({r.status_code})"
+    except Exception as e:
+        return f"не записан ({str(e)[:80]}) — добавь вручную: Settings → Secrets → Actions"
+
+
+def ai_info():
+    try:
+        import autoeditor
+        s = bot.source_settings()
+        runs = bot.editor_runs() if os.path.isdir(bot.INBOX_DIR) else []
+        return {"models": [{"spec": m, "label": l, "price": f"{a}/{b}", "vision": v}
+                           for m, (l, a, b, v) in autoeditor.MODELS.items()],
+                "current": s.get("ai_model") or autoeditor.DEFAULT_CHAIN[0], "editor": s.get("editor", "auto"),
+                "vision": autoeditor.model_label(autoeditor.VISION_CHAIN[0]),
+                "keys": {n: bool(os.environ.get(e)) for n, e in KEY_NAMES.items()},
+                "runs": runs[-6:]}
+    except Exception as e:
+        return {"error": str(e)}
 
 
 def do_check(text):
@@ -357,6 +440,7 @@ class Handler(BaseHTTPRequestHandler):
                 "items": [{k: it.get(k) for k in ("index", "source", "title", "title_ru", "ago", "link", "image")}
                           for it in items],
                 "items_time": int(os.path.getmtime("candidates.json")) if os.path.exists("candidates.json") else 0,
+                "ai": ai_info(),
             })
         self.send(404, {"error": "нет такой страницы"})
 
@@ -392,10 +476,17 @@ class Handler(BaseHTTPRequestHandler):
             if not re.fullmatch(r"/(auto (on|off|good|top( \d{1,2})?)|gap \d{1,3}|pause|resume|wm (on|off)|night (off|23 7)"
                                 r"|access (group|list)|private (on|off)|drafts (group|private)"
                                 r"|flow (all|normal|live|top|elite)|alt (on|off)|sources (arab|world) (on|off)"
+                                r"|editor (auto|claude|backup)|model [A-Za-z0-9_./:-]{2,80}"
                                 r"|(allow|deny) (@?[A-Za-z0-9_]{3,32}|\d{4,15}))", cmd):
                 return self.send(200, {"ok": False, "error": "Неизвестная команда"})
             bot_command(cmd)
             return self.send(200, {"ok": True})
+        if self.path == "/api/keys":
+            done = save_keys({k: data.get(k) for k in KEY_NAMES})
+            return self.send(200, {"ok": bool(done), "error": "Вставь хотя бы один ключ."} if not done else {"ok": True})
+        if self.path == "/api/autoeditor":
+            return self.send(200, {"ok": True} if start("Запасной ИИ-редактор", lambda: run_backup(
+                "Запасной ИИ подбирает и пишет черновики (несколько минут)…", ["--force"])) else busy)
         if self.path == "/api/live":
             if data.get("on"):
                 live_start()
@@ -673,6 +764,28 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
   </div>
 
   <div class="card">
+    <h2><svg class="i"><use href="#i-spark"/></svg>ИИ-редактор<span class="sub">кто пишет черновики</span></h2>
+    <div class="seg" id="seg-editor"></div>
+    <div class="muted" style="margin-top:8px" id="editorhint"></div>
+    <div class="sub-block">
+      <div class="label"><svg class="i"><use href="#i-sliders"/></svg>Модель запасного редактора ($ за 1 млн токенов, вход/выход)</div>
+      <select id="aimodel" onchange="mode('/model '+this.value.split(':').slice(1).join(':'))" style="width:100%"></select>
+      <div class="muted" style="margin-top:6px" id="aivision"></div>
+    </div>
+    <div class="sub-block">
+      <div class="label"><svg class="i"><use href="#i-lock"/></svg>Ключи (сохраняются на ПК и в GitHub)</div>
+      <div class="add"><input id="k-commandcode" type="password" placeholder="Command Code — user_…" autocomplete="off"></div>
+      <div class="add" style="margin-top:6px"><input id="k-openrouter" type="password" placeholder="OpenRouter — sk-or-… (запасной)" autocomplete="off"></div>
+      <div class="row" style="margin:8px 0 0"><button class="main" onclick="saveKeys()">Сохранить ключи</button>
+        <span class="muted" id="keystate"></span></div>
+    </div>
+    <div class="sub-block">
+      <div class="row" style="margin:0"><button onclick="post('/api/autoeditor')"><svg class="i"><use href="#i-spark"/></svg>Запустить запасной редактор сейчас</button></div>
+      <div class="muted" style="margin-top:8px" id="airuns"></div>
+    </div>
+  </div>
+
+  <div class="card">
     <h2><svg class="i"><use href="#i-bolt"/></svg>Бот на этом компьютере</h2>
     <div class="live"><span class="beacon" id="beacon"></span><div id="live" class="muted"></div></div>
     <div class="row" style="margin:12px 0 0">
@@ -730,6 +843,19 @@ function addUser(){const v=$('newuser').value.trim();if(!v)return;
   mode('/allow '+v);$('newuser').value='';}
 function makeSelected(){post('/api/make',{indexes:[...checked]});checked.clear();render();}
 function check(){post('/api/check',{text:$('checktext').value});}
+function saveKeys(){const b={commandcode:$('k-commandcode').value.trim(),openrouter:$('k-openrouter').value.trim()};
+  post('/api/keys',b,'Ключи сохранены');$('k-commandcode').value='';$('k-openrouter').value='';}
+let lastAI='';
+function renderAI(a){
+  if(!a||a.error)return; const k=JSON.stringify(a); if(k===lastAI)return; lastAI=k;
+  seg($('seg-editor'),[['auto','Авто'],['claude','Только Claude'],['backup','Запасной ИИ']],a.editor,v=>'/editor '+v);
+  $('editorhint').textContent={auto:'Пишет Claude. Если он не пришёл (кончилась подписка или лимиты) — через 45 минут черновики сделает запасной ИИ, сам.',
+    claude:'Только Claude. Запасной ИИ не включается.',backup:'Всегда пишет запасной ИИ (в 08:45, 13:45 и 19:45 по Ташкенту и по кнопкам панели).'}[a.editor]||'';
+  $('aimodel').innerHTML=a.models.map(m=>`<option value="${esc(m.spec)}" ${m.spec===a.current?'selected':''}>${esc(m.label)} — ${m.price}${m.vision?' 👁':''}</option>`).join('');
+  $('aivision').textContent='Фото и видео на аурат смотрит: '+a.vision+'. Под черновиком запасного ИИ в служебном сообщении написано, какая модель его писала.';
+  $('keystate').textContent='Command Code: '+(a.keys.commandcode?'есть':'нет')+' · OpenRouter: '+(a.keys.openrouter?'есть':'нет');
+  $('airuns').textContent=(a.runs||[]).length?'Последние запуски: '+a.runs.slice().reverse().map(r=>new Date(r.t*1000).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' — '+(r.who==='backup'?'запасной ИИ':'Claude')).join(', '):'';
+}
 function setTimer(){post('/api/timer',{on:$('timer').checked,minutes:+$('minutes').value});}
 function ago(m){if(m==null)return'';if(m<60)return m+' мин назад';return Math.floor(m/60)+' ч '+(m%60)+' мин назад';}
 function render(){
@@ -791,6 +917,7 @@ async function refresh(){
   $('recent').innerHTML=s.recent.slice().reverse().map(t=>`<li>${esc(t)}</li>`).join('');
   $('custom').innerHTML=s.has_custom?s.custom.map(c=>`<div class="custom"><b>${esc(c.title)}</b><p>${esc(c.body)}</p><div class="muted">${esc(c.check_note)} · <a href="${esc(c.link)}" target="_blank">источник</a></div>
      <div class="row" style="margin:10px 0 0"><button class="main" onclick="post('/api/send-custom')">${icon('send')}Отправить в модерацию</button></div></div>`).join(''):'';
+  renderAI(s.ai);
   if(s.bot){const k=JSON.stringify(s.bot);if(k!==lastB){lastB=k;B=s.bot;renderMode();}}   // перерисовываем только при изменениях — иначе теряются клики
   if(s.items_time!==itemsTime){itemsTime=s.items_time;S.items=s.items;
     const sel=$('src'),cur=sel.value;

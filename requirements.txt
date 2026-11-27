@@ -6,3 +6,4 @@ googlenewsdecoder
 pillow
 imageio-ffmpeg
 anthropic
+pynacl

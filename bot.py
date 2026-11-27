@@ -69,6 +69,9 @@ WORLD = [
                                      "OR Коран OR муфтий)", "ru")),
     (f"{WORLD_SEARCH} (араб.)", gnews("(المسلمين OR مسجد OR الحجاب OR النقاب OR الإسلاموفوبيا OR \"الجالية المسلمة\")",
                                       "ar")),
+    # Интересное в мире (не только про мусульман): кадры, спасения, рекорды, громкие случаи — у авторитетных изданий
+    (f"{WORLD_SEARCH} (кадры)", gnews("(footage OR \"caught on camera\" OR \"video shows\" OR viral OR rescued OR "
+                                      "\"world record\" OR \"first ever\" OR discovered)", "en")),
     (f"{WORLD_SEARCH} (СНГ)", gnews("(мечеть OR хиджаб OR муфтият OR имам OR хадж OR умра OR намаз OR ислам OR верующих) "
                                     "(Узбекистан OR Таджикистан OR Казахстан OR Кыргызстан OR Азербайджан OR Туркменистан)",
                                     "ru")),
@@ -88,6 +91,11 @@ INCIDENTS = [
                                             "(viral OR video OR rumour OR rumor OR denies OR incident OR arrested)", "en")),
     (f"{INCIDENT} (Турция)", gnews("(cami OR camii OR imam OR cemaat) "
                                    "(saldırı OR silahlı OR \"ateş açtı\" OR bıçaklı OR kavga)", "tr")),
+    # Опровержения слухов и фейков (власти, агентства, фактчекеры)
+    (f"{INCIDENT} (опровержения)", gnews("(شائعة OR \"لا صحة\" OR \"حقيقة الفيديو\" OR مضلل OR مفبرك OR \"تنفي\") "
+                                         "(السعودية OR الحرم OR المسلمين OR مكة OR المدينة)", "sa")),
+    (f"{INCIDENT} (фактчек)", gnews("(\"fact check\" OR debunked OR \"false claim\" OR \"fake video\" OR misleading) "
+                                    "(Saudi OR Muslims OR Mecca OR Islam OR mosque OR Gaza OR Syria)", "en")),
     (f"{INCIDENT} (рус.)", gnews("(мечеть OR мечети OR имам OR мусульмане) "
                                  "(стрельба OR нападение OR задержан OR запрет OR закрыли OR скандал)", "ru")),
 ]
@@ -222,6 +230,8 @@ FEEDS = [
     ("The National (ОАЭ)", west("thenationalnews.com")),
     ("Al-Monitor", west("al-monitor.com")),
     ("Радио Свобода / RFE/RL", west("rferl.org")),
+    # 🎥 Русскоязычные каналы с кадрами мировых событий (интересное в мире)
+    ("BBC News Русская служба", "tg:bbcrussian"),
     *WORLD,
     *INCIDENTS,
 
@@ -333,6 +343,7 @@ WATERMARK_TEXT = "@ilm4_info"             # текст водяного знак
 MAX_DRAFTS_PER_COLLECT = 15  # сколько черновиков за один сбор (режим API)
 MAX_AGE_HOURS = 6            # новости старше этого не берём
 EDITOR_WINDOW_HOURS = 14     # редактор бывает утром, в обед и вечером — ночью перерыв ~13 ч
+MAX_ITEMS = 600              # больше записей за раз не берём (из каждой ленты — поровну, самые свежие)
 SEARCH_MAX_AGE_HOURS = 18    # из поиска Google News — до 18 часов: он находит статьи с опозданием
 PENDING_TTL_HOURS = 48       # черновик без решения дольше этого — снимается
 AUTO_MAX_AGE_HOURS = 3       # автопилот публикует только черновики не старше 3 часов
@@ -364,6 +375,11 @@ DEFAULT_SETTINGS = {
     "alternate": True,  # чередовать тяжёлые и добрые в канале (по журналу опубликованного)
     "arab_trusted": True,     # арабский мир — только из доверенных (саудовские, официальные агентства)
     "world_reputable": True,  # из общих поисков по миру — только авторитетные издания
+    # ИИ-редактор (кто пишет черновики): "auto" — Claude, а если он не пришёл (кончилась подписка, лимиты) —
+    # запасной ИИ сам; "claude" — только Claude; "backup" — всегда запасной ИИ (autoeditor.py)
+    "editor": "auto",
+    "ai_model": "",           # главная модель запасного редактора ("" — по умолчанию, см. autoeditor.py)
+    "backup_auto": False,     # черновики запасного ИИ автопилот сам не публикует — только через модератора
 }
 FLOW_MIN = {"all": 1, "normal": 3, "live": 4, "top": 4, "elite": 5}
 FLOW_NAMES = {"all": "всё", "normal": "без малоценных", "live": "живое и важное", "top": "только самое важное",
@@ -928,6 +944,11 @@ HELP = """<b>Команды бота</b>
 /sources world on|off — по миру только авторитетные издания (без жёлтой прессы)
 Повторы за 5 дней бот отсеивает сам: не присылает и не публикует.
 
+<b>ИИ-редактор</b> (кто пишет черновики)
+/editor auto — Claude, а если он не пришёл (кончилась подписка, лимиты) — запасной ИИ сам
+/editor claude — только Claude · /editor backup — всегда запасной ИИ
+/model — список моделей запасного редактора · /model deepseek — выбрать
+
 <b>Доступ</b> (меняет только владелец)
 /users — кто может управлять ботом
 /allow 123456789 · /allow @nickname · или ответом на сообщение человека — добавить
@@ -1021,6 +1042,25 @@ def handle_command(state, text, quiet=False, owner=True, who=None, reply=None):
                        "официальные агентства); <code>/sources world on</code> — по миру только авторитетные "
                        "издания; <code>off</code> — брать шире")
         s[key[arg]] = val == "on"
+    elif cmd in ("/editor", "/редактор"):
+        names = {"auto": "auto", "авто": "auto", "claude": "claude", "клод": "claude",
+                 "backup": "backup", "запасной": "backup"}
+        if arg not in names:
+            return say("Кто пишет черновики: <code>/editor auto</code> — Claude, а если он не пришёл — запасной ИИ "
+                       "сам; <code>/editor claude</code> — только Claude; <code>/editor backup</code> — всегда "
+                       "запасной ИИ. Модель: <code>/model</code>")
+        s["editor"] = names[arg]
+    elif cmd in ("/model", "/модель"):
+        import autoeditor
+        if not arg or arg == "list":
+            return say(autoeditor.models_text(s))
+        spec = autoeditor.find_model(args[0])
+        if not spec:
+            return say("Не знаю такую модель. Список: <code>/model</code>")
+        s["ai_model"] = "" if spec == "default" else spec
+        if not quiet:
+            return say("🧠 Запасной редактор: " + autoeditor.model_label(s.get("ai_model") or autoeditor.DEFAULT_CHAIN[0]))
+        return
     elif cmd == "/wm":
         if arg not in ("on", "off"):
             return say(f"Пример: <code>{cmd} on</code> или <code>{cmd} off</code>")
@@ -1102,6 +1142,9 @@ def menu_markup(state, ask=None):
           "callback_data": "m:/sources arab " + ("off" if s.get("arab_trusted") else "on")}],
         [{"text": "🌍 Мир: " + ("только авторитетные" if s.get("world_reputable") else "все издания"),
           "callback_data": "m:/sources world " + ("off" if s.get("world_reputable") else "on")}],
+        [{"text": "🧠 Кто пишет черновики:", "callback_data": "-"}],
+        [{"text": mark(s.get("editor", "auto") == f, n), "callback_data": f"m:/editor {f}"}
+         for f, n in (("auto", "Авто"), ("claude", "Claude"), ("backup", "Запасной ИИ"))],
         [{"text": "⏱ Интервал между постами:", "callback_data": "-"}],
         [{"text": mark(s["gap"] == g, "сразу" if not g else f"{g} мин"), "callback_data": f"m:/gap {g}"}
          for g in (0, 15, 30, 60)],
@@ -1152,17 +1195,18 @@ BOT_COMMANDS = [("menu", "Панель управления кнопками"), 
                 ("deny", "Убрать: /deny 123 или @ник"), ("access", "Кого слушать: list / group"),
                 ("private", "Работа в личке: on / off"), ("drafts", "Куда черновики: group / private"),
                 ("flow", "Что присылать: all / normal / live / top / elite"), ("alt", "Чередовать тяжёлые и добрые: on / off"),
-                ("sources", "Источники: arab on|off, world on|off")]
+                ("sources", "Источники: arab on|off, world on|off"),
+                ("editor", "Кто пишет черновики: auto / claude / backup"), ("model", "Модель запасного ИИ")]
 
 
 def register_commands(state):
     """Список команд в меню «/» в группе модерации (один раз на версию)."""
-    if state.get("commands_v") == 3 or not MOD_CHAT_ID:
+    if state.get("commands_v") == 4 or not MOD_CHAT_ID:
         return
     cmds = [{"command": c, "description": d} for c, d in BOT_COMMANDS]
     if tg("setMyCommands", commands=cmds, scope={"type": "chat", "chat_id": MOD_CHAT_ID}) is not None:
         tg("setMyCommands", commands=cmds, scope={"type": "all_private_chats"})
-        state["commands_v"] = 3
+        state["commands_v"] = 4
 
 
 ACCESS_COMMANDS = ("/allow", "/deny", "/access", "/private", "/drafts", "/users")
@@ -1286,6 +1330,7 @@ def status_text(state):
             f"Чередование тяжёлых и добрых: {'вкл' if s.get('alternate', True) else 'выкл'}\n"
             f"Арабский мир: {'только доверенные' if s.get('arab_trusted') else 'все издания'} · "
             f"мир: {'только авторитетные' if s.get('world_reputable') else 'все издания'}\n"
+            f"ИИ-редактор: {editor_name(s)}\n"
             f"Последние посты: {''.join('🔴' if x['tone'] == 'hard' else '🟢' for x in state.get('published_log', [])[-8:]) or '—'}\n"
             f"За сутки отсеяно повторов: {sum(NOW - x['t'] < 86400 for x in state.get('dupes', []))}, "
             f"не прислано малоценных: {sum(NOW - x['t'] < 86400 for x in state.get('held', []))}\n\n"
@@ -1296,6 +1341,17 @@ def status_text(state):
             f"🕒 Отложено: {len(sched)}" + (f" (ближайшая {fmt(sched[0])})" if sched else "") + "\n"
             f"Последний пост: {fmt(state['last_publish']) if state['last_publish'] else '—'}\n\n"
             + access_text(state))
+
+
+def editor_name(s):
+    mode = s.get("editor", "auto")
+    try:
+        import autoeditor
+        model = autoeditor.model_label(s.get("ai_model") or autoeditor.DEFAULT_CHAIN[0])
+    except Exception:
+        model = s.get("ai_model") or "по умолчанию"
+    return {"auto": f"Claude, запасной — {model}", "claude": "только Claude",
+            "backup": f"запасной ИИ — {model}"}.get(mode, mode)
 
 
 def auto_allowed(s, d):
@@ -1501,9 +1557,13 @@ TRIAGE_PROMPT = """Ты отбираешь новости для канала @i
   о Харамайне, КСА, мусульманах); разоблачения схем и деятельности ХАМАС, хуситов, «Хизбаллы», Ирана и КСИР,
   ихвана, ИГИЛ, «Аль-Каиды», шиитских ополчений и других сект — финансирование, контрабанда, вербовка,
   аресты ячеек, суды — из доверенных источников (✓).
-- НЕ бери: мелочи и курьёзы (животные, бытовые истории, «необычный случай»), спорт, погоду
-  (кроме Мекки и Медины), бизнес, туризм, развлечения, бытовой криминал,
-  светскую политику без связи с мусульманскими странами и регионом.
+- ИНТЕРЕСНОЕ В МИРЕ — бери 3–6 за раз, даже если не про мусульман: громкое событие, о котором говорят все
+  (катастрофа, извержение, крупная авария, спасение людей, необычный поступок человека, открытие, рекорд,
+  громкое задержание, разоблачение), особенно С КАДРАМИ 🎬 — у серьёзных изданий. label "verify".
+- ОПРОВЕРЖЕНИЯ — бери все: власти, агентства, фактчекеры опровергли слух, фейковое видео или ложь.
+- НЕ бери: мелкие курьёзы (милые животные, бытовые ссоры), спорт, музыку, кино, шоу-бизнес и знаменитостей,
+  моду, погоду (кроме Мекки, Медины и стихийных бедствий), рекламу, бизнес и биржи, бытовой криминал,
+  внутреннюю политику чужих стран без громкого события.
 - Политику высшего уровня (король, наследный принц, главы государств, министры иностранных дел и обороны,
   верховные муфтии, имамы Харамайна: встречи, звонки, визиты, поздравления, осуждения) — бери.
 - Сильные примеры: король Марокко осудил атаки хуситов на КСА; в Сирии задержан генерал прежнего режима,
@@ -1952,7 +2012,7 @@ def send_draft(state, e):
             print("Не смог замазать фото:", err)
         image = None     # оригинал без замазки не показываем — ни фото, ни превью ссылки
 
-    if len(text) <= 1024:   # лимит подписи к фото/видео
+    if visible_len(text) <= 1024:   # лимит подписи к фото/видео
         kb = keyboard({**d, "media": True}, "pending", wm)
         if video:
             msg = tg("sendVideo", video=video, caption=text, supports_streaming=True, reply_markup=kb, **base)
@@ -1982,6 +2042,14 @@ def send_draft(state, e):
         if not DRY_RUN:   # номер черновика узнаём только после отправки
             d["n"] = key
             refresh(state, key, "pending")
+        if (ml := e.get("media_link")) and ml.get("url"):   # медиа, которое бот не скачал, — ссылкой сразу под новостью
+            tg("sendMessage", chat_id=chat, disable_notification=True, quiet=True,
+               reply_parameters={"message_id": msg["message_id"]},
+               link_preview_options={"url": ml["url"], "prefer_large_media": True} if ml.get("preview")
+               else {"is_disabled": True},
+               text=f"🎬 {ml.get('what', 'видео').capitalize()} к новости — бот не смог скачать сам. "
+                    f"Открой, сохрани и вставь:\n{ml['url']}"
+                    + ("" if ml.get("preview") else "\n⚠️ Там аурат — превью не показываю, проверь перед вставкой."))
         if e.get("tech"):   # служебное — отдельным сообщением, чтобы не попало в канал
             tg("sendMessage", chat_id=chat, disable_notification=True, quiet=True,
                reply_parameters={"message_id": msg["message_id"]}, link_preview_options={"is_disabled": True},
@@ -2335,7 +2403,12 @@ def gather(seen_path, mark=True, settings=None):
     seen["links"] = seen["links"][-8000:]
     if mark:
         write_json(seen_path, seen)
-    items = items[:400]
+    if len(items) > MAX_ITEMS:   # много — берём из каждой ленты по очереди самое свежее, чтобы не терять последние
+        rank, per = [], {}
+        for it in items:
+            per[it["source"]] = per.get(it["source"], 0) + 1
+            rank.append(per[it["source"]])
+        items = [it for _, _, it in sorted(zip(rank, range(len(items)), items), key=lambda r: r[:2])][:MAX_ITEMS]
     for i, it in enumerate(items):
         it["index"] = i
     print(f"Новых записей в лентах: {len(items)}")
@@ -2410,15 +2483,41 @@ def fetch_article(item):
 
 
 def build_text(post, link):
+    """Заголовок, коротко главное (lead), подробности — в разворачиваемой цитате, пометка, хэштеги, подвал.
+    Без lead — по-старому: заголовок и текст."""
     tags = [re.sub(r"[^\w]", "", t) for t in post.get("hashtags", [])]
     footer = f'<a href="{html.escape(link)}">Источник</a>'
     if CHANNEL_LINK:
         footer = f'<a href="{html.escape(CHANNEL_LINK)}">Подписаться</a> | ' + footer
     basis = re.sub(r"\s+", " ", str(post.get("basis") or "")).strip()[:140]   # на чём основана новость — для читателя
+    lead = re.sub(r"[ \t]+", " ", str(post.get("lead") or "")).strip()
+    body = str(post.get("body") or "").strip()
+    if lead and body and body != lead:
+        main = [html.escape(lead), f"<blockquote expandable>{html.escape(body)}</blockquote>"]
+    else:
+        main = [html.escape(lead or body)]
     parts = [f"{post.get('emoji') or '🕌'} <b>{html.escape(post['title'])}</b>",
-             html.escape(post["body"]), f"<i>{html.escape(basis)}</i>" if basis else "",
+             *main, f"<i>{html.escape(basis)}</i>" if basis else "",
              " ".join("#" + t for t in tags if t), footer]
     return "\n\n".join(p for p in parts if p)
+
+
+def visible_len(text):
+    """Длина текста так, как её считает Telegram (без HTML-разметки), в UTF-16."""
+    return utf16_len(html.unescape(re.sub(r"<[^>]+>", "", text or "")))
+
+
+def fit_text(post, link, limit=1024):
+    """Текст поста не длиннее limit (подпись к фото/видео): если длинно — укорачиваем подробности по фразам."""
+    text = build_text(post, link)
+    body = str(post.get("body") or "")
+    while visible_len(text) > limit and body:
+        sents = re.split(r"(?<=[.!?…])\s+", body)
+        if len(sents) < 2:
+            break
+        body = " ".join(sents[:-1])
+        text = build_text({**post, "body": body}, link)
+    return text
 
 
 BAD_IMAGE = re.compile(r"news\.google|gstatic|googleusercontent|logo|placeholder|default|favicon|"
@@ -2454,14 +2553,19 @@ def make_entry(item, post):
     safe = bool(post.get("safe"))
     if post.get("video") is False and item.get("video"):
         tech.append(f"🫣 Видео не прикрепил (аурат). Оригинал: {item['link']}")
+    media_link = None   # видео/фото из Telegram, которое бот не смог взять сам — пришлём ссылку под черновиком
+    awrah = bool(blur) or post.get("photo") is False or post.get("video") is False
     if item.get("video_big") and not item.get("video") and post.get("video") is not False:
-        tech.append(f"🎬 Есть видео, но Telegram не дал его скачать (слишком большое). Возьми вручную: {item['link']}")
+        media_link = {"url": item["link"], "what": "видео", "preview": not awrah}
+    elif item.get("tg") and item.get("image") and not image and not video and post.get("photo") is not False:
+        media_link = {"url": item["link"], "what": "фото", "preview": not awrah}
     if blur and image:
         safe = False     # замазанное фото — только через модератора
         tech.append(f"🫣 На фото замазано мест: {len(blur)} — посмотри, всё ли закрыто")
     if not safe and len(str(post.get("check_note") or "")) > 40:   # на кнопке не уместилось
         tech.append("🔎 Проверка: " + str(post["check_note"]))
-    return {"text": build_text(post, item["link"]), "link": item["link"],
+    text = fit_text(post, item["link"]) if (image or video) else build_text(post, item["link"])
+    return {"text": text, "link": item["link"], "media_link": media_link,
             "image": image, "video": video, "blur": blur if image else [],
             "tone": post.get("tone", ""), "safe": safe,
             "note": post.get("check_note", ""), "trusted": item.get("source") in TRUSTED_SOURCES,
@@ -2486,16 +2590,17 @@ def split_tech(post):
         post["basis"] = "; ".join(p for p in keep if p.strip())
         if post["basis"] and not re.match(r"[✅ℹ⚠]", post["basis"]):
             post["basis"] = re.match(r"\W*", basis).group(0) + post["basis"]   # эмодзи остаётся в начале
-    body = str(post.get("body") or "")
-    if TECH_PHRASE.search(body):
-        paras = []
-        for para in body.split("\n"):
-            sents = re.split(r"(?<=[.!?…])\s+", para)
-            tech += [s for s in sents if TECH_PHRASE.search(s)]
-            paras.append(" ".join(s for s in sents if not TECH_PHRASE.search(s)))
-        body = re.sub(r"\n{3,}", "\n\n", "\n".join(paras)).strip()
-        if body:
-            post["body"] = body
+    for field in ("lead", "body"):
+        body = str(post.get(field) or "")
+        if TECH_PHRASE.search(body):
+            paras = []
+            for para in body.split("\n"):
+                sents = re.split(r"(?<=[.!?…])\s+", para)
+                tech += [s for s in sents if TECH_PHRASE.search(s)]
+                paras.append(" ".join(s for s in sents if not TECH_PHRASE.search(s)))
+            body = re.sub(r"\n{3,}", "\n\n", "\n".join(paras)).strip()
+            if body:
+                post[field] = body
     return post, [t.strip() for t in tech if t.strip()]
 
 
@@ -2551,6 +2656,9 @@ def editor_store():
         git("init", "-q", cwd=INBOX_DIR)
         git("remote", "add", "origin", url, cwd=INBOX_DIR)
         git("checkout", "-q", "-b", INBOX_BRANCH, cwd=INBOX_DIR)
+    hdr = git("config", "--get", "http.https://github.com/.extraheader").stdout.strip()
+    if hdr:   # GitHub Actions: тот же доступ, что у основного репозитория, чтобы push прошёл
+        git("config", "http.https://github.com/.extraheader", hdr, cwd=INBOX_DIR)
 
 
 def editor_push(message):
@@ -2591,13 +2699,20 @@ def cmd_fetch():
     if again:   # повторный запуск в той же сессии: показываем то же самое, а не «кандидатов нет»
         items, recent, mode = read_json("candidates.json", []), meta.get("recent", []), meta.get("mode", "glm")
     else:
-        items, recent, mode = fetch_candidates()
+        items, recent, mode = fetch_candidates("claude")
         write_json("candidates.json", items)
         write_json("fetch_meta.json", {"t": NOW, "recent": recent, "mode": mode})
+    text = fetch_report(items, recent, mode)
+    print(text)
+    with open("fetch.txt", "w", encoding="utf-8") as f:
+        f.write(text)
+
+
+def fetch_report(items, recent, mode):
+    """Текст для редактора: метки, просьбы модератора, кандидаты и список «Уже брали»."""
     out = []
 
     def show(text=""):
-        print(text)
         out.append(text)
 
     show(f"\nСейчас в Ташкенте: {local_now():%d.%m %H:%M}")
@@ -2645,11 +2760,15 @@ def cmd_fetch():
          "бери только если есть существенно новое):")
     for t in taken:
         show("- " + t)
-    with open("fetch.txt", "w", encoding="utf-8") as f:
-        f.write("\n".join(out))
+    return "\n".join(out)
 
 
-def fetch_candidates():
+def editor_runs():
+    """Когда и кто (claude / backup) последний раз брал кандидатов: [{"t", "who"}]."""
+    return read_json(os.path.join(INBOX_DIR, "seen.json"), {}).get("editor_runs", [])
+
+
+def fetch_candidates(who="claude"):
     """Новые кандидаты для редактора (и отметка, что он их видел): (записи, недавние заголовки, режим)."""
     editor_store()
     seen_path = os.path.join(INBOX_DIR, "seen.json")
@@ -2672,13 +2791,24 @@ def fetch_candidates():
     else:
         items, recent = gather(seen_path)
         mode = "self"
+    seen = read_json(seen_path, {"links": [], "titles": []})
+    seen["editor_runs"] = (seen.get("editor_runs", []) + [{"t": NOW, "who": who, "n": len(items)}])[-30:]
+    write_json(seen_path, seen)
     editor_push("Отметил просмотренные новости")
     return items, recent, mode
 
 
 def cmd_search(words):
-    state_pull()
     """Поиск подтверждения: та же новость в других источниках за последние часы."""
+    state_pull()
+    hits = search_hits(words)
+    for x in hits:
+        print(f"({x['source']}{' ✓' if x['source'] in TRUSTED_SOURCES else ''}) {x['title']}  {x['link']}")
+    if not hits:
+        print("Ничего похожего не нашлось.")
+
+
+def search_hits(words, limit=25):
     words = [w.lower() for w in words if len(w) > 2]
     pool = read_json("pool.json", []) + read_json("candidates.json", [])
     hits, seen = [], set()
@@ -2689,10 +2819,7 @@ def cmd_search(words):
             seen.add(x["link"])
             hits.append((score, x))
     hits.sort(key=lambda h: -h[0])
-    for score, x in hits[:25]:
-        print(f"({x['source']}{' ✓' if x['source'] in TRUSTED_SOURCES else ''}) {x['title']}  {x['link']}")
-    if not hits:
-        print("Ничего похожего не нашлось.")
+    return [x for _, x in hits[:limit]]
 
 
 def cmd_article(indexes):
@@ -2757,7 +2884,7 @@ def cmd_send(path):
     entries, links = [], []
     for post in read_json(path, []):
         i = post.get("index", -1)
-        if not (0 <= i < len(items)) or not post.get("title") or not post.get("body"):
+        if not (0 <= i < len(items)) or not post.get("title") or not (post.get("body") or post.get("lead")):
             print("Пропускаю, нет нужных полей:", post)
             continue
         entries.append({**make_entry(fetch_article(items[i]), post), "manual": bool(items[i].get("priority"))})
@@ -2787,7 +2914,7 @@ def cmd_send_custom(path):
     editor_store()
     entries = []
     for post in read_json(path, []):
-        if not post.get("title") or not post.get("body") or not post.get("link"):
+        if not post.get("title") or not (post.get("body") or post.get("lead")) or not post.get("link"):
             print("Пропускаю, нужны title, body и link:", post)
             continue
         item = fetch_article({"link": post["link"], "image": post.get("image"), "video": post.get("video")})
@@ -2958,6 +3085,9 @@ def main():
         return cmd_peek()
     if args[:1] == ["search"]:
         return cmd_search(args[1:])
+    if args[:1] == ["autoeditor"]:      # запасной ИИ-редактор (когда нет Claude)
+        import autoeditor
+        return autoeditor.main(args[1:])
 
     # Без аргументов — дежурный
     if not DRY_RUN and not (BOT_TOKEN and CHANNEL_ID and MOD_CHAT_ID):
